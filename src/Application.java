@@ -8,10 +8,10 @@ public class Application {
         System.out.println("Hola");
         System.out.println("ktal");
 
-        try (
+        try {
+            
             FileReader reader = new FileReader("filename.txt");
-            BufferedReader br = new BufferedReader(reader)
-        ) {
+            BufferedReader br = new BufferedReader(reader);
 
             // read line by line
             String line;
@@ -23,6 +23,5 @@ public class Application {
             System.err.format("IOException: %s%n", e);
         }
     }
-
 
 }

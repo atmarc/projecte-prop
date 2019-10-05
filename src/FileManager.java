@@ -5,23 +5,28 @@ import java.io.IOException;
 
 public class FileManager {
 
-    public static String readFile(String filename) {
+    public static String readFile(String filePath) throws IOException {
+        StringBuffer outString = new StringBuffer(); // Parece que String no tiene la funcion append y siempre cuando concatenas crea otro estring, por esto lo he cambiado por un StringBuffer. Pero despues retorna un string.
         try {
-            FileReader reader = new FileReader(filename);
-            BufferedReader br = new BufferedReader(reader);
+            FileReader reader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
 
-            // read line by line
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
+//            Posibles problemas con \n \r porque readLine devuelve el string hasta estos caracteres sin incluirlos
+//            String line;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                outString.append(line + '\n');
+//            }
+
+            int readByte;
+            while ((readByte = bufferedReader.read()) != -1) {
+                outString.append((char)readByte);
             }
-            br.close();
+            bufferedReader.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        catch (IOException e) {
-            System.err.format("IOException: %s%n", e);
-        }
-    
-    }
+        return outString.toString();
 
     public static String readFolder(String foldername) {
         

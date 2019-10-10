@@ -1,4 +1,5 @@
 import FileManager.FileManager;
+import JPEG.JpegAlgorithm;
 
 import java.util.ArrayList;
 
@@ -7,11 +8,9 @@ public class Application {
     {
         System.out.println("Hola");
         System.out.println("ktal");
-        ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
+        ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
 
-        for (String e: paths) {
-            System.out.println(e);
-        }
+        JpegAlgorithm.compress(FileManager.readFile(paths.get(0)));
 
     }
 

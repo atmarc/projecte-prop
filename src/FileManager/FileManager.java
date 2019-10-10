@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class FileManager {
 
-    public static String readFile(String filePath, Path folderpath) throws IOException {
+    public static String readFile(String filePath) throws IOException {
         StringBuffer outString = new StringBuffer(); // Parece que String no tiene la funcion append y siempre cuando concatenas crea otro estring, por esto lo he cambiado por un StringBuffer. Pero despues retorna un string.
         try {
             FileReader reader = new FileReader(filePath);

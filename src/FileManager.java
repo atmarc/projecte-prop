@@ -1,11 +1,13 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class FileManager {
 
-    public static String readFile(String filePath) throws IOException {
+    public static String readFile(String filePath, Path folderpath) throws IOException {
         StringBuffer outString = new StringBuffer(); // Parece que String no tiene la funcion append y siempre cuando concatenas crea otro estring, por esto lo he cambiado por un StringBuffer. Pero despues retorna un string.
         try {
             FileReader reader = new FileReader(filePath);
@@ -13,7 +15,7 @@ public class FileManager {
 
             int readByte;
             while ((readByte = bufferedReader.read()) != -1) {
-                outString.append((char)readByte);
+                outString.append((char) readByte);
             }
             bufferedReader.close();
 
@@ -22,22 +24,16 @@ public class FileManager {
         }
         return outString.toString();
 
-    public static String readFolder(String foldername) {
-        
-    
+
     }
-
+    // Retorna un ArrayList amb els paths dels arxius de tipus type de la carpeta
+    public static ArrayList <String> readFolder(String folderpath, String type) throws Exception {
+        ArrayList <String> paths = new ArrayList<>();
+        DirectoryStream <Path> p = Files.newDirectoryStream(Paths.get(folderpath),
+                path -> path.toString().endsWith(type));
+        for (Object o: p) {
+            paths.add(o.toString());
+        }
+        return paths;
+    }
 }
-
-// public void listFilesForFolder(final File folder) {
-//     for (final File fileEntry : folder.listFiles()) {
-//         if (fileEntry.isDirectory()) {
-//             listFilesForFolder(fileEntry);
-//         } else {
-//             System.out.println(fileEntry.getName());
-//         }
-//     }
-// }
-
-//final File folder = new File("/home/you/Desktop");
-//listFilesForFolder(folder);

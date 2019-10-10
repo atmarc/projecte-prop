@@ -11,12 +11,6 @@ public class FileManager {
             FileReader reader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(reader);
 
-//            Posibles problemas con \n \r porque readLine devuelve el string hasta estos caracteres sin incluirlos
-//            String line;
-//            while ((line = bufferedReader.readLine()) != null) {
-//                outString.append(line + '\n');
-//            }
-
             int readByte;
             while ((readByte = bufferedReader.read()) != -1) {
                 outString.append((char)readByte);

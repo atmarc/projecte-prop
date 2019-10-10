@@ -1,12 +1,18 @@
-import java.io.File;
+import FileManager.FileManager;
+
+import java.util.ArrayList;
 
 public class Application {
     public static void main(String [] args) throws Exception
     {
         System.out.println("Hola");
         System.out.println("ktal");
-        FileManager.readFolder("testing_files");
-    
+        ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
+
+        for (String e: paths) {
+            System.out.println(e);
+        }
+
     }
 
 }

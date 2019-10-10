@@ -1,3 +1,5 @@
+package FileManager;
+
 import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -23,14 +25,13 @@ public class FileManager {
             e.printStackTrace();
         }
         return outString.toString();
-
-
     }
+
     // Retorna un ArrayList amb els paths dels arxius de tipus type de la carpeta
-    public static ArrayList <String> readFolder(String folderpath, String type) throws Exception {
+    public static ArrayList<String> readFolder(String folderpath, String fileType) throws Exception {
         ArrayList <String> paths = new ArrayList<>();
-        DirectoryStream <Path> p = Files.newDirectoryStream(Paths.get(folderpath),
-                path -> path.toString().endsWith(type));
+        DirectoryStream<Path> p = Files.newDirectoryStream(Paths.get(folderpath),
+                path -> path.toString().endsWith(fileType));
         for (Object o: p) {
             paths.add(o.toString());
         }

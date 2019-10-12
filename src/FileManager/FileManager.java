@@ -1,6 +1,7 @@
 package FileManager;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +26,28 @@ public class FileManager {
             e.printStackTrace();
         }
         return outString.toString();
+    }
+
+    public static byte[] readFile_Byte(String filePath) throws IOException {
+        byte[] file = new byte[0];
+        try {
+            FileReader reader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            ByteBuffer B = ByteBuffer.allocate(4);
+            int readByte;
+            while ((readByte = bufferedReader.read()) != -1) {
+                B.putInt(readByte);
+            }
+            bufferedReader.close();
+
+            file = B.array();
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
     // Retorna un ArrayList amb els paths dels arxius de tipus type de la carpeta

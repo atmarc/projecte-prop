@@ -27,29 +27,28 @@ public class FileManager {
         }
         return outString.toString();
     }
-
-    public static byte[] readFile_Byte(String filePath) throws IOException {
-        byte[] file = new byte[0];
+/*
+    // No es fiable
+    public static String readFile_Byte(String filePath) throws IOException {
+        StringBuilder outString = new StringBuilder();
         try {
             FileReader reader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(reader);
 
-            ByteBuffer B = ByteBuffer.allocate(4);
             int readByte;
             while ((readByte = bufferedReader.read()) != -1) {
-                B.putInt(readByte);
+                outString.append((byte) readByte%256);
+                outString.append((byte) readByte/256);
             }
             bufferedReader.close();
-
-            file = B.array();
 
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return file;
+        return outString.toString();
     }
-
+*/
     // Retorna un ArrayList amb els paths dels arxius de tipus type de la carpeta
     public static ArrayList<String> readFolder(String folderpath, String fileType) throws Exception {
         ArrayList <String> paths = new ArrayList<>();

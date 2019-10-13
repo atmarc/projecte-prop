@@ -16,6 +16,10 @@ public class Triplet <E, T, A> {
         this.thirdElement = thirdElement;
     }
 
+    public void print() {
+        System.out.println(firstElement.toString() + ' ' + secondElement.toString() + ' ' + thirdElement.toString());
+    }
+
     public E getFirstElement() {
         return firstElement;
     }

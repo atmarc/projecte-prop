@@ -1,7 +1,6 @@
 package JPEG;
 
 import java.util.ArrayList;
-
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
@@ -11,6 +10,9 @@ public class JpegAlgorithm {
 
 
     public static void compress(String s) {
+
+        int compressFactor = 2;
+
         // Filtro per linies
         String l[] = s.split("\n");
         ArrayList <String> file = new ArrayList<>();
@@ -27,23 +29,27 @@ public class JpegAlgorithm {
         int HEIGHT = parseInt(file.get(2));
         float MAX_VAL_COLOR = parseInt(file.get(3));
 
-        ArrayList <Triplet> Row = new ArrayList<>();
-        ArrayList < ArrayList <Triplet> > Pixels = new ArrayList<>();
+        Triplet<Integer, Integer, Integer> [][] Pixels = new Triplet[HEIGHT][WIDTH];
 
         // Llegim els pixels i ja els passem a YCbCr
+        int f = 0;
+        int c = 0;
         for (int i = 4; i < file.size(); i += 3) {
             float element1 = parseFloat(file.get(i)) / MAX_VAL_COLOR;
             float element2 = parseFloat(file.get(i + 1)) / MAX_VAL_COLOR;
             float element3 = parseFloat(file.get(i + 2)) / MAX_VAL_COLOR;
+
             Triplet <Float, Float, Float> aux = new Triplet<>(element1, element2, element3);
-            Row.add(RGBtoYCbCr(aux));
-            if (Row.size() % WIDTH == 0) { // Si s'ha acabat la linia l'afegim a la matriu
-                Pixels.add(Row);
-                Row = new ArrayList<>();
+            Pixels[f][c] = RGBtoYCbCr(aux);
+            ++c;
+
+            if (c == WIDTH) { // Si s'ha acabat la linia
+                c = 0;
+                ++f;
             }
         }
 
-
+        
     }
 
     /*
@@ -63,10 +69,10 @@ public class JpegAlgorithm {
         return new Triplet<>(Y, Cb, Cr);
     }
 
-    private static void  printPixels(ArrayList < ArrayList <Triplet> > Pixels) {
-        for (int i = 0; i < Pixels.size(); ++i) {
-            for (int j = 0; j < Pixels.get(0).size(); ++j) {
-                Pixels.get(i).get(j).print();
+    private static void printPixels(Triplet<Integer, Integer, Integer> [][] Pixels ) {
+        for (int i = 0; i < Pixels.length; ++i) {
+            for (int j = 0; j < Pixels[0].length; ++j) {
+                Pixels[i][j].print();
             }
             System.out.println('\n');
         }

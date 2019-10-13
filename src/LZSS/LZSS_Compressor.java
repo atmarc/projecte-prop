@@ -58,7 +58,7 @@ public class LZSS_Compressor {
 
 
         for (int h = 0; h < myarray.size(); h++) {
-            System.out.println(myarray.get(h).getFirstElement().toString() + ", "  + myarray.get(h).getSecondElement().toString() + ", " + myarray.get(h).getThirdElement().toString());
+            System.out.println(myarray.get(h).getFirst().toString() + ", "  + myarray.get(h).getSecond().toString() + ", " + myarray.get(h).getThird().toString());
 
         }
 

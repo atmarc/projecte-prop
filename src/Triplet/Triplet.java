@@ -2,45 +2,45 @@ package Triplet;
 
 public class Triplet <E, T, A> {
 
-    private E firstElement;
-    private T secondElement;
-    private A thirdElement;
+    private E first;
+    private T second;
+    private A third;
 
     public Triplet() {
 
     }
 
-    public Triplet(E firstElement, T secondElement, A thirdElement) {
-        this.firstElement = firstElement;
-        this.secondElement = secondElement;
-        this.thirdElement = thirdElement;
+    public Triplet(E first, T secondElement, A thirdElement) {
+        this.first = first;
+        this.second = secondElement;
+        this.third = thirdElement;
     }
 
     public void print() {
-        System.out.println(firstElement.toString() + ' ' + secondElement.toString() + ' ' + thirdElement.toString());
+        System.out.println(first.toString() + ' ' + second.toString() + ' ' + third.toString());
     }
 
-    public E getFirstElement() {
-        return firstElement;
+    public E getFirst() {
+        return first;
     }
 
-    public void setFirstElement(E firstElement) {
-        this.firstElement = firstElement;
+    public void setFirst(E first) {
+        this.first = first;
     }
 
-    public T getSecondElement() {
-        return secondElement;
+    public T getSecond() {
+        return second;
     }
 
-    public void setSecondElement(T secondElement) {
-        this.secondElement = secondElement;
+    public void setSecond(T second) {
+        this.second = second;
     }
 
-    public A getThirdElement() {
-        return thirdElement;
+    public A getThird() {
+        return third;
     }
 
-    public void setThirdElement(A thirdElement) {
-        this.thirdElement = thirdElement;
+    public void setThird(A third) {
+        this.third = third;
     }
 }

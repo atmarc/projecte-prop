@@ -43,7 +43,7 @@ public class JpegAlgorithm {
             }
         }
 
-        
+
     }
 
     /*
@@ -53,12 +53,12 @@ public class JpegAlgorithm {
         Cr = 128 + 112 R - 93.786 G - 18.214 B
     */
     private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (Triplet<Float, Float, Float> pixel) {
-        int Y = (int) (65.481 * pixel.getFirstElement() + 128.553 * pixel.getSecondElement()
-                + 24.966 * pixel.getThirdElement() + 16);
-        int Cb = (int) (-37.797 * pixel.getFirstElement() - 74.203 * pixel.getSecondElement()
-                + 112 * pixel.getThirdElement() + 128);
-        int Cr = (int) (112 * pixel.getFirstElement() - 93.786 * pixel.getSecondElement()
-                - 18.214 * pixel.getThirdElement() + 128);
+        int Y = (int) (65.481 * pixel.getFirst() + 128.553 * pixel.getSecond()
+                + 24.966 * pixel.getThird() + 16);
+        int Cb = (int) (-37.797 * pixel.getFirst() - 74.203 * pixel.getSecond()
+                + 112 * pixel.getThird() + 128);
+        int Cr = (int) (112 * pixel.getFirst() - 93.786 * pixel.getSecond()
+                - 18.214 * pixel.getThird() + 128);
 
         return new Triplet<>(Y, Cb, Cr);
     }

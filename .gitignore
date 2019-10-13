@@ -1,4 +1,5 @@
-.idea
-prop.iml
+*.idea
+*.iml
 .vscode/launch.json
 /testing_files/pelicula.txt
+out

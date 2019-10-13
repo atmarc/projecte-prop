@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class FileManager {
 
     public static String readFile(String filePath) throws IOException {
-        StringBuffer outString = new StringBuffer(); // Parece que String no tiene la funcion append y siempre cuando concatenas crea otro estring, por esto lo he cambiado por un StringBuffer. Pero despues retorna un string.
+        StringBuffer outString = new StringBuffer();
         try {
             FileReader reader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -27,6 +27,39 @@ public class FileManager {
         }
         return outString.toString();
     }
+
+    public static ArrayList<Integer> readFileBytes(String filePath) throws IOException {
+        ArrayList outString = new ArrayList();
+        try {
+            FileReader reader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            int readByte;
+            while ((readByte = bufferedReader.read()) != -1) {
+                outString.add(readByte);
+            }
+            bufferedReader.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return outString;
+    }
+
+    public static void createFile(String data, String path) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        writer.write(data);
+        writer.close();
+
+        // Mejoras https://howtodoinjava.com/java/io/java-write-to-file/
+    }
+
+    public static void createFile(ArrayList<Integer> data, String path) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        for (Integer i : data) writer.write(i);
+        writer.close();
+    }
+
 /*
     // No es fiable
     public static String readFile_Byte(String filePath) throws IOException {

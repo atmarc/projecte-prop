@@ -32,11 +32,11 @@ public class Application {
         FileManager.createFile(decompressedData, "testing_files/decompress.txt");
         */
 
-        /*
-        String path = FileManager.readFile("testing_files/petit.txt");
+
+        String path = FileManager.readFile("testing_files/filename.txt");
         LZSS_Compressor LZSS = new LZSS_Compressor();
         LZSS.Compress(path);
-         */
+
 
     }
 

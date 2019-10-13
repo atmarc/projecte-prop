@@ -35,7 +35,7 @@ public class LZSS_Compressor {
                     j++;
                     int recent = 1;
 
-                    for (; j < searchBuffer.size() - recent; j++, i++) { //recent augmenta cada cop que s'insereix un nou caràcter a searcBuffer per evitar que es trobin coincidencies amb ells mateixos
+                    for (; j < searchBuffer.size() - recent && (i+1) < item.length(); j++, i++) { //recent augmenta cada cop que s'insereix un nou caràcter a searcBuffer per evitar que es trobin coincidencies amb ells mateixos
                         if (item.charAt(i + 1) == searchBuffer.get(j)) {
                             despl++;
                             searchBuffer.add(item.charAt(i + 1));

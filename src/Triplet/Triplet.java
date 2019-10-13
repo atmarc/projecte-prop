@@ -10,10 +10,10 @@ public class Triplet <E, T, A> {
 
     }
 
-    public Triplet(E first, T secondElement, A thirdElement) {
+    public Triplet(E first, T second, A third) {
         this.first = first;
-        this.second = secondElement;
-        this.third = thirdElement;
+        this.second = second;
+        this.third = third;
     }
 
     public void print() {

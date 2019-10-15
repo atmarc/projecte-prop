@@ -28,22 +28,22 @@ public class FileManager {
         return outString.toString();
     }
 
-    public static ArrayList<Integer> readFileBytes(String filePath) throws IOException {
-        ArrayList outString = new ArrayList();
+    public static ArrayList<Byte> readFileBytes(String filePath) throws IOException {
+        ArrayList<Byte> outArray = new ArrayList<Byte>();
         try {
             FileReader reader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(reader);
 
             int readByte;
             while ((readByte = bufferedReader.read()) != -1) {
-                outString.add(readByte);
+                outArray.add((byte) readByte);
             }
             bufferedReader.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return outString;
+        return outArray;
     }
 
     public static void createFile(String data, String path) throws IOException {

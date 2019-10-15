@@ -68,9 +68,30 @@ public class LZ78_Compressor {
 
         System.out.println("Tamano de la salida = " + comp_file.size() + "\n");
 
+        prepare_writing(calculoBaseIndice());
+
+
     }
 
-    int calculoBaseIndice(int s) {
+    private void prepare_writing(int bytes) {
+
+
+        if (bytes == 1) {
+
+
+
+        } else if (bytes == 2) {
+
+
+        } else {
+
+
+
+        }
+    }
+
+    private int calculoBaseIndice() {
+        int s = comp_file.size();
         if (s < 128) return 1;
         if (s < 32767) return 2;
         return 4;

@@ -17,7 +17,7 @@ public class SearchTree {
         return -1;
     }
 
-    public int find(ArrayList<Byte> B, int digit) {
+    public int find(ArrayList<Byte> B, int digit, int next_index) {
         return this.find(B.get(digit));
     }
 

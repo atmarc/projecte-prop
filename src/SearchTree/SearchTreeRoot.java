@@ -7,29 +7,38 @@ public class SearchTreeRoot {
 
     private HashMap<Byte,Node> Tree;
 
+
     // LZ78 acceleration
-    private ArrayList<Byte> previous_word;
     private SearchTree previous_tree;
+    private int last_index;
 
     public SearchTreeRoot() {
         Tree = new HashMap<Byte, Node>();
     }
 
-    public int find(ArrayList<Byte> pre_word, byte B) {
+    // Este codigo no vale para nada, necesito informacion de los otros algoritmos para saber hacia donde escribir.
+    public int find_insert_word(ArrayList<Byte> word, int next_index) {
+
+        Node aux;
+
+        aux = Tree.putIfAbsent(word.get(0), new Node(next_index, new SearchTree()));
+
+
+        if (aux == null) return 0;
+        if (word.size() > 1) return aux.sons.find(word, 1, next_index);
+        return 0;
+    }
+
+    public int find_LZ78(byte B, int next_index) {
 
         /*
-        * Pre: Todos los prefijos de word han sido previamente buscados. Lo comprobamos
-        * Post:
-        *   - Si la cadena word no estaba
+        * Este find es especial para el algoritmo LZ78. Evita busquedas recurrentes al mismo conjunto de palabras.
+        * Si antes he buscado ABCD, en vez de buscar ABCDE, buscare a partir del ultimo arbol visitado el byte E.
+        *
         * */
-
-        if (pre_word.equals(previous_word))
-            previous_tree.find(B);
-
-
-
-
-        return -1;
+        ArrayList<Byte> word = new ArrayList<Byte>(1);
+        word.add(B);
+        return previous_tree.find(word, next_index, 0);
     }
 
 }

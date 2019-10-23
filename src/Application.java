@@ -11,16 +11,12 @@ public class Application {
     public static void main(String [] args) throws Exception {
         System.out.println("Testing output:\n");
 
-
-
-
-
-        if (false) { // JPEG
+        if (true) { // JPEG
             ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JpegAlgorithm.compress(FileManager.readFile(paths.get(0)));
         }
 
-        if (true) { // LZ78
+        if (false) { // LZ78
             //ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
             LZ78_Compressor LZ78 = new LZ78_Compressor();
             //LZ78.compress(FileManager.readFile(paths.get(0)));

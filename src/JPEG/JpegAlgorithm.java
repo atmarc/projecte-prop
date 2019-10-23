@@ -29,18 +29,17 @@ public class JpegAlgorithm {
         int HEIGHT = parseInt(file.get(2));
         float MAX_VAL_COLOR = parseInt(file.get(3));
 
-        Triplet<Integer, Integer, Integer> [][] Pixels = new Triplet[HEIGHT][WIDTH];
+        Triplet<Integer, Integer, Integer> Pixels [][] = new Triplet[HEIGHT][WIDTH];
 
         // Llegim els pixels i ja els passem a YCbCr
         int f = 0;
         int c = 0;
         for (int i = 4; i < file.size(); i += 3) {
-            float element1 = parseFloat(file.get(i)) / MAX_VAL_COLOR;
-            float element2 = parseFloat(file.get(i + 1)) / MAX_VAL_COLOR;
-            float element3 = parseFloat(file.get(i + 2)) / MAX_VAL_COLOR;
+            float R = parseFloat(file.get(i));
+            float G = parseFloat(file.get(i + 1));
+            float B = parseFloat(file.get(i + 2));
 
-            Triplet <Float, Float, Float> aux = new Triplet<>(element1, element2, element3);
-            Pixels[f][c] = RGBtoYCbCr(aux);
+            Pixels[f][c] = RGBtoYCbCr(R, G, B);
             ++c;
 
             if (c == WIDTH) { // Si s'ha acabat la linia
@@ -49,27 +48,52 @@ public class JpegAlgorithm {
             }
         }
 
-        
+        // Downsampling
+
+        // Block splitting
+
+        // Tenim en compte si el nombre de pixels és múltiple de 8
+        int nBlocksX = (WIDTH % 8 == 0) ? WIDTH/8 : WIDTH/8 + 1;
+        int nBlocksY = (HEIGHT % 8 == 0) ? HEIGHT/8 : HEIGHT/8 + 1;
+
+        int BlocksArrayY [][] = new int[nBlocksY][nBlocksX];
+
+        // int BlocksMat [][][][] = new int [nBlocksY][nBlocksX][8][8];
+
+        int numOfBlocks = nBlocksX * nBlocksY;
+
+        for (int x = 0; x < numOfBlocks; ++x) {
+            int BlockYChannel [][] = new int [8][8];
+
+            int incrementX = (x * 8 <= WIDTH) ? x * 8 : 0;
+            int incrementY = x / nBlocksX;
+            incrementY *= 8;
+
+            for (int i = 0; i < 8; ++i) {
+                for (int j = 0; j < 8; ++j) {
+                    BlockYChannel[i][j] = Pixels[i + incrementY][j + incrementX].getFirst();
+                }
+            }
+
+        }
+
+        printPixels(Pixels);
     }
 
     /*
     RGB --> YCbCr
-        Y = 16 +  65.481 R + 128.553 G + 24.966 B
-        Cb = 128 - 37.797 R - 74.203 G + 112 B
-        Cr = 128 + 112 R - 93.786 G - 18.214 B
+        Y = 0.299 R + 0.587 G + 0.114 B
+        Cb = - 0.1687 R - 0.3313 G + 0.5 B + 128
+        Cr = 0.5 R - 0.4187 G - 0.0813 B + 128
     */
-    private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (Triplet<Float, Float, Float> pixel) {
-        int Y = (int) (65.481 * pixel.getFirst() + 128.553 * pixel.getSecond()
-                + 24.966 * pixel.getThird() + 16);
-        int Cb = (int) (-37.797 * pixel.getFirst() - 74.203 * pixel.getSecond()
-                + 112 * pixel.getThird() + 128);
-        int Cr = (int) (112 * pixel.getFirst() - 93.786 * pixel.getSecond()
-                - 18.214 * pixel.getThird() + 128);
-
+    private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (float R, float G, float B) {
+        int Y = (int) (0.299 * R + 0.587 * G + 0.114 * B);
+        int Cb = (int) (-0.1687 * R - 0.3313 * G + 0.5 * B + 128);
+        int Cr = (int) (0.5 * R - 0.4187 * G - 0.0813 * B + 128);
         return new Triplet<>(Y, Cb, Cr);
     }
 
-    private static void printPixels(Triplet<Integer, Integer, Integer> [][] Pixels ) {
+    private static void printPixels(Triplet<Integer, Integer, Integer> Pixels [][]) {
         for (int i = 0; i < Pixels.length; ++i) {
             for (int j = 0; j < Pixels[0].length; ++j) {
                 Pixels[i][j].print();

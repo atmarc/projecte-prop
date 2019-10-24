@@ -76,6 +76,8 @@ public class JpegAlgorithm {
         int nBlocksY = (HEIGHT % 8 == 0) ? HEIGHT/8 : HEIGHT/8 + 1;
 
         Block BlocksArrayY [][] = new Block[nBlocksY][nBlocksX];
+        Block BlocksArrayCb [][] = new Block[nBlocksY][nBlocksX];
+        Block BlocksArrayCr [][] = new Block[nBlocksY][nBlocksX];
 
         int numOfBlocks = nBlocksX * nBlocksY;
 
@@ -84,15 +86,26 @@ public class JpegAlgorithm {
 
                 int marginX = x * 8;
                 int marginY = y * 8;
-                Block block = new Block(8, 8);
+                Block blockY = new Block(8, 8);
+                Block blockCb = new Block(8, 8);
+                Block blockCr = new Block(8, 8);
 
                 for (int i = 0; i < 8 && i + marginY < HEIGHT; ++i) {
                     for (int j = 0; j < 8 && j + marginX < WIDTH; ++j) {
-                        int value = Pixels[i + marginY][j + marginX].getFirst();
-                        block.setValue(i, j, value);
+                        // Aprofitem i centrem els valors a 0
+                        int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
+                        blockY.setValue(i, j, value);
+
+                        value = Pixels[i + marginY][j + marginX].getSecond() - 128;
+                        blockCb.setValue(i, j, value);
+
+                        value = Pixels[i + marginY][j + marginX].getThird() - 128;
+                        blockCr.setValue(i, j, value);
                     }
                 }
-                BlocksArrayY[y][x] = block;
+                BlocksArrayY[y][x] = blockY;
+                BlocksArrayCb[y][x] = blockCb;
+                BlocksArrayCr[y][x] = blockCr;
             }
         }
 

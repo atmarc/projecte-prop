@@ -1,9 +1,5 @@
 package JPEG;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
@@ -12,50 +8,42 @@ import Triplet.Triplet;
 
 public class JpegAlgorithm {
 
-    public static void compressP6 (ArrayList<Byte> s) throws IOException {
-        File file;
-        byte[] fileB = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
-        int c;
-        for (int i = 0; i < s.size() && i < fileB.length; ++i) {
-            c = s.get(i).intValue();
-            if (c < 0) c += 256;
-            System.out.println(c.toString());
-        }
-    }
-
-    public static void compress(String s) {
+    public static void compress(byte s[]) {
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
-        final String inputMode = "P" + s.charAt(1);
+        final String inputMode = "P" + (char)s[1];
         final int WIDTH = headers.getFirst();
         final int HEIGHT = headers.getSecond();
         final float MAX_VAL_COLOR = headers.getThird();
 
-
         ArrayList <Integer> data = new ArrayList<>();
+
+        // Posem index al principi de la data
+        int index = 0;
+        int line = 0;
+        while (line < 3 && index < s.length) {
+            if (s[index] == '\n') ++line;
+            ++index;
+        }
 
         // El fitxer t'ho passa en ASCII
         if (inputMode.equals("P3")) {
-            // Filtro per linies
-            String l[] = s.split("\n");
-            for (int i = 3; i < l.length; ++i) {
-                String aux[] = l[i].split(" ");
-                for (int j = 0; j < aux.length; ++j) {
-                    if (!aux[j].equals("")) {
-                        data.add(parseInt(aux[j]));
-                    }
+            String num = "";
+            while (index < s.length) {
+                if (s[index] != ' ' && s[index] != '\r' && s[index] != '\n') {
+                    num += (char)s[index];
+                } else if (!num.equals("")) {
+                    data.add(parseInt(num));
+                    num = "";
                 }
-            }
-        } else if (inputMode.equals("P6")) {
-            int index = 0;
-            int line = 0;
-            // Posem index al principi de la data
-            while (line < 3 && index < s.length()) {
-                if (s.charAt(index) == '\n') ++line;
                 ++index;
             }
-            for (; index < s.length(); ++index) {
-                int valor = s.charAt(index);
+        }
+        else if (inputMode.equals("P6")) {
+            // Posem a data tots els valors
+            for (; index < s.length; ++index) {
+                int valor = s[index];
+                if (valor < 0) valor += 256;
                 data.add(valor);
             }
         }
@@ -87,35 +75,35 @@ public class JpegAlgorithm {
         int nBlocksX = (WIDTH % 8 == 0) ? WIDTH/8 : WIDTH/8 + 1;
         int nBlocksY = (HEIGHT % 8 == 0) ? HEIGHT/8 : HEIGHT/8 + 1;
 
-        int BlocksArrayY [][] = new int[nBlocksY][nBlocksX];
-
-        // int BlocksMat [][][][] = new int [nBlocksY][nBlocksX][8][8];
+        Block BlocksArrayY [][] = new Block[nBlocksY][nBlocksX];
 
         int numOfBlocks = nBlocksX * nBlocksY;
 
-        for (int x = 0; x < numOfBlocks; ++x) {
-            int BlockYChannel [][] = new int [8][8];
+        for (int y = 0; y < nBlocksY; ++y) {
+            for (int x = 0; x < nBlocksX; ++x) {
 
-            int incrementX = (x * 8 <= WIDTH) ? x * 8 : 0;
-            int incrementY = x / nBlocksX;
-            incrementY *= 8;
+                int marginX = x * 8;
+                int marginY = y * 8;
+                Block block = new Block(8, 8);
 
-            for (int i = 0; i < 8; ++i) {
-                for (int j = 0; j < 8; ++j) {
-                    BlockYChannel[i][j] = Pixels[i + incrementY][j + incrementX].getFirst();
+                for (int i = 0; i < 8 && i + marginY < HEIGHT; ++i) {
+                    for (int j = 0; j < 8 && j + marginX < WIDTH; ++j) {
+                        int value = Pixels[i + marginY][j + marginX].getFirst();
+                        block.setValue(i, j, value);
+                    }
                 }
+                BlocksArrayY[y][x] = block;
             }
-
         }
 
         printPixels(Pixels);
     }
 
-    private static Triplet<Integer, Integer, Float> readHeaders(String s) {
+    private static Triplet<Integer, Integer, Float> readHeaders(byte s[]) {
         Triplet<Integer, Integer, Float> retorn = new Triplet<Integer, Integer, Float>();
         // Saltem la primera linia
         int index = 0;
-        while (s.charAt(index) != '\n') {
+        while (s[index] != '\n') {
             ++index;
         }
         ++index;
@@ -123,8 +111,8 @@ public class JpegAlgorithm {
         String linia = new String();
 
         // Segona linia
-        while (s.charAt(index) != '\n' && s.charAt(index) != '\r') {
-            linia += s.charAt(index);
+        while (s[index] != '\n' && s[index] != '\r') {
+            linia += (char)s[index];
             ++index;
         }
         String values[] = linia.split(" ");
@@ -132,10 +120,10 @@ public class JpegAlgorithm {
         retorn.setSecond(parseInt(values[1]));
 
         // Tercera linia
-        index = (s.charAt(index) == '\r') ? index + 2 : ++index;
+        index = (s[index] == '\r') ? index + 2 : ++index;
         linia = new String();
-        while (s.charAt(index) != '\n' && s.charAt(index) != '\r') {
-            linia += s.charAt(index);
+        while (s[index] != '\n' && s[index] != '\r') {
+            linia += (char)s[index];
             ++index;
         }
         retorn.setThird(parseFloat(linia));
@@ -148,6 +136,7 @@ public class JpegAlgorithm {
         Cb = - 0.1687 R - 0.3313 G + 0.5 B + 128
         Cr = 0.5 R - 0.4187 G - 0.0813 B + 128
     */
+
     private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (float R, float G, float B) {
         int Y = (int) (0.299 * R + 0.587 * G + 0.114 * B);
         int Cb = (int) (-0.1687 * R - 0.3313 * G + 0.5 * B + 128);

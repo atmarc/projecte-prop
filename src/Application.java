@@ -5,6 +5,8 @@ import LZSS.LZSS_Compressor;
 import LZW.*;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Application {
@@ -13,7 +15,8 @@ public class Application {
 
         if (true) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-            JpegAlgorithm.compressP6(FileManager.readFileBytes("testing_files/boxes_1.ppm"));
+            byte file [] = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
+            JpegAlgorithm.compress(file);
         }
 
         if (false) { // LZ78

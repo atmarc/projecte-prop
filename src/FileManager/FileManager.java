@@ -29,6 +29,12 @@ public class FileManager {
     }
 
     public static ArrayList<Byte> readFileBytes(String filePath) throws IOException {
+        /*
+        No funciona bé, amb File si que va bé:
+
+        byte fileB [] = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
+        */
+
         ArrayList<Byte> outArray = new ArrayList<Byte>();
         try {
             FileReader reader = new FileReader(filePath);

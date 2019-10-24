@@ -1,5 +1,9 @@
 package JPEG;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
@@ -8,71 +12,63 @@ import Triplet.Triplet;
 
 public class JpegAlgorithm {
 
+    public static void compressP6 (ArrayList<Byte> s) throws IOException {
+        File file;
+        byte[] fileB = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
+        int c;
+        for (int i = 0; i < s.size() && i < fileB.length; ++i) {
+            c = s.get(i).intValue();
+            if (c < 0) c += 256;
+            System.out.println(c.toString());
+        }
+    }
 
     public static void compress(String s) {
 
-        int compressFactor = 2;
-
-        ArrayList <String> file = new ArrayList<>();
-
+        Triplet<Integer, Integer, Float> headers = readHeaders(s);
         final String inputMode = "P" + s.charAt(1);
-        final int WIDTH;
-        final int HEIGHT;
-        final float MAX_VAL_COLOR;
+        final int WIDTH = headers.getFirst();
+        final int HEIGHT = headers.getSecond();
+        final float MAX_VAL_COLOR = headers.getThird();
 
-        int index = 0;
-        // Saltem la primera linia
-        while (s.charAt(index) != '\n') {
-            ++index;
-        }
-        ++index;
 
-        String linia = new String();
-
-        // Segona linia
-        while (s.charAt(index) != '\n') {
-            linia += s.charAt(index);
-            ++index;
-        }
-        String values[] = linia.split(" ");
-        WIDTH = parseInt(values[0]);
-        HEIGHT = parseInt(values[1]);
-
-        // Tercera linia
-        ++index;
-        linia = new String();
-        while (s.charAt(index) != '\n') {
-            linia += s.charAt(index);
-            ++index;
-        }
-        MAX_VAL_COLOR = parseInt(linia);
+        ArrayList <Integer> data = new ArrayList<>();
 
         // El fitxer t'ho passa en ASCII
-        if (s.charAt(1) == '3') {
+        if (inputMode.equals("P3")) {
             // Filtro per linies
             String l[] = s.split("\n");
-            for (int i = 0; i < l.length;++i) {
+            for (int i = 3; i < l.length; ++i) {
                 String aux[] = l[i].split(" ");
                 for (int j = 0; j < aux.length; ++j) {
                     if (!aux[j].equals("")) {
-                        file.add(aux[j]);
+                        data.add(parseInt(aux[j]));
                     }
                 }
             }
-        } else if (s.charAt(1) == '6') {
-
+        } else if (inputMode.equals("P6")) {
+            int index = 0;
+            int line = 0;
+            // Posem index al principi de la data
+            while (line < 3 && index < s.length()) {
+                if (s.charAt(index) == '\n') ++line;
+                ++index;
+            }
+            for (; index < s.length(); ++index) {
+                int valor = s.charAt(index);
+                data.add(valor);
+            }
         }
-
 
         Triplet<Integer, Integer, Integer> Pixels [][] = new Triplet[HEIGHT][WIDTH];
 
         // Llegim els pixels i ja els passem a YCbCr
         int f = 0;
         int c = 0;
-        for (int i = 4; i < file.size(); i += 3) {
-            float R = parseFloat(file.get(i));
-            float G = parseFloat(file.get(i + 1));
-            float B = parseFloat(file.get(i + 2));
+        for (int i = 0; i < data.size(); i += 3) {
+            float R = data.get(i);
+            float G = data.get(i + 1);
+            float B = data.get(i + 2);
 
             Pixels[f][c] = RGBtoYCbCr(R, G, B);
             ++c;
@@ -113,6 +109,37 @@ public class JpegAlgorithm {
         }
 
         printPixels(Pixels);
+    }
+
+    private static Triplet<Integer, Integer, Float> readHeaders(String s) {
+        Triplet<Integer, Integer, Float> retorn = new Triplet<Integer, Integer, Float>();
+        // Saltem la primera linia
+        int index = 0;
+        while (s.charAt(index) != '\n') {
+            ++index;
+        }
+        ++index;
+
+        String linia = new String();
+
+        // Segona linia
+        while (s.charAt(index) != '\n' && s.charAt(index) != '\r') {
+            linia += s.charAt(index);
+            ++index;
+        }
+        String values[] = linia.split(" ");
+        retorn.setFirst(parseInt(values[0]));
+        retorn.setSecond(parseInt(values[1]));
+
+        // Tercera linia
+        index = (s.charAt(index) == '\r') ? index + 2 : ++index;
+        linia = new String();
+        while (s.charAt(index) != '\n' && s.charAt(index) != '\r') {
+            linia += s.charAt(index);
+            ++index;
+        }
+        retorn.setThird(parseFloat(linia));
+        return retorn;
     }
 
     /*

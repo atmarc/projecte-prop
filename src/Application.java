@@ -12,8 +12,8 @@ public class Application {
         System.out.println("Testing output:\n");
 
         if (true) { // JPEG
-            ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-            JpegAlgorithm.compress(FileManager.readFile(paths.get(0)));
+            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
+            JpegAlgorithm.compressP6(FileManager.readFileBytes("testing_files/boxes_1.ppm"));
         }
 
         if (false) { // LZ78

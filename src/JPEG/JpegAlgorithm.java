@@ -13,21 +13,56 @@ public class JpegAlgorithm {
 
         int compressFactor = 2;
 
-        // Filtro per linies
-        String l[] = s.split("\n");
         ArrayList <String> file = new ArrayList<>();
-        for (int i = 0; i < l.length;++i) {
-            String aux[] = l[i].split(" ");
-            for (int j = 0; j < aux.length; ++j) {
-                if (!aux[j].equals("")) {
-                    file.add(aux[j]);
+
+        final String inputMode = "P" + s.charAt(1);
+        final int WIDTH;
+        final int HEIGHT;
+        final float MAX_VAL_COLOR;
+
+        int index = 0;
+        // Saltem la primera linia
+        while (s.charAt(index) != '\n') {
+            ++index;
+        }
+        ++index;
+
+        String linia = new String();
+
+        // Segona linia
+        while (s.charAt(index) != '\n') {
+            linia += s.charAt(index);
+            ++index;
+        }
+        String values[] = linia.split(" ");
+        WIDTH = parseInt(values[0]);
+        HEIGHT = parseInt(values[1]);
+
+        // Tercera linia
+        ++index;
+        linia = new String();
+        while (s.charAt(index) != '\n') {
+            linia += s.charAt(index);
+            ++index;
+        }
+        MAX_VAL_COLOR = parseInt(linia);
+
+        // El fitxer t'ho passa en ASCII
+        if (s.charAt(1) == '3') {
+            // Filtro per linies
+            String l[] = s.split("\n");
+            for (int i = 0; i < l.length;++i) {
+                String aux[] = l[i].split(" ");
+                for (int j = 0; j < aux.length; ++j) {
+                    if (!aux[j].equals("")) {
+                        file.add(aux[j]);
+                    }
                 }
             }
+        } else if (s.charAt(1) == '6') {
+
         }
-        // Valors de config
-        int WIDTH = parseInt(file.get(1));
-        int HEIGHT = parseInt(file.get(2));
-        float MAX_VAL_COLOR = parseInt(file.get(3));
+
 
         Triplet<Integer, Integer, Integer> Pixels [][] = new Triplet[HEIGHT][WIDTH];
 

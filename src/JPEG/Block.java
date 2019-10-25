@@ -56,6 +56,25 @@ public class Block {
                 DCTvalors[i][j] = endValue;
             }
         }
+    }
 
+
+    public void print (int i) {
+        for (int x = 0; x < height; ++x) {
+            String aux = "";
+            for (int y = 0; y < width; ++y) {
+                if (i == 0) aux += valors[x][y] + " ";
+                if (i == 1) aux += DCTvalors[x][y] + " ";
+            }
+            System.out.println(aux);
+        }
+    }
+
+    public void printBlock () {
+        print(0);
+    }
+
+    public void printBlockDCT () {
+        print(1);
     }
 }

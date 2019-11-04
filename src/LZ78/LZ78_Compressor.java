@@ -1,5 +1,11 @@
 package LZ78;
 
+import FileManager.FileManager;
+import SearchTree.Tree;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,84 +14,64 @@ import java.util.HashMap;
 public class LZ78_Compressor {
 
     private ArrayList<Pair> comp_file;
-    private HashMap<String, Integer> Mapa;
+    private int previous_index;
 
     public LZ78_Compressor() {
-
+        comp_file = new ArrayList<>();
     }
 
-    private int look_for(String word) {
-        /*
-            Mapa de prueba temporal, hasta que hagamos el arbol.
-            Cuando no lo encuentra, guarda esa palabra con el ultimo indice utilizado en el arbol de patrones. Se puede
-            Post-Condicion:
-             - Si la palabra buscada existe; retorna el indice donde esta situada la palabra en el comp_file.
-             - Si la palabra buscada no existe, retorna -1, y esta es anadida al arbol con indice = comp_file.size()
-         */
-        if (!Mapa.containsKey(word)) {
-            Mapa.put(word, comp_file.size());
-            return -1; // no estaba, y ha sido anadido
-        }
-        return Mapa.get(word);
-    }
+    public void TXcompressor(String filePath) {
 
-    public void compress (String regular_item){
+        try {
+            Tree tree = new Tree();
+            FileInputStream in = new FileInputStream(filePath);
+            byte[] buffer = new byte[1024];
 
-        //System.out.println("Texto original:" + regular_item);
+            previous_index = 0;
+            while (in.read(buffer) != -1) compress(buffer, tree);
+            in.close();
 
-        Mapa = new HashMap<String, Integer>();
-
-        int size = regular_item.length();
-        comp_file = new ArrayList<Pair>();
-        comp_file.add(new Pair(-1, (byte) 0));
-
-        int it = 0;
-        int index;
-        int previous_index = 0;
-
-        StringBuilder word = new StringBuilder();
-        while (it < size) {
-            word.append(regular_item.charAt(it));
-            index = look_for(word.toString());
-            if (index < 0) {
-                comp_file.add(new Pair(previous_index, (byte) regular_item.charAt(it)));
-                previous_index = 0;
-                word = new StringBuilder();
+            if (previous_index > 0) {
+                // Acabar insercion final.
             }
-            else previous_index = index;
 
-            ++it;
+            write_compressed_file("./testing_files/lz78.bin");
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        System.out.println("Texto comprimido:\n");
+    private void compress(byte[] word, Tree tree) {
 
-        if (false) comp_file.forEach(pair -> {
-            System.out.print(pair.index);
-            System.out.print("\t");
-            System.out.printf("%x" ,pair.offset);
-            System.out.print("\n");
-        });
+        // Retorna el estado en el que se encuentra.
+        // = 0 -> todo ha quedado insertado
+        // > 0 -> hay que continuar llamando a busquedas
 
-        System.out.println("Tamano de la salida = " + comp_file.size() + "\n");
+        // comp_file.add(new Pair(-1, (byte) 0)); // lo tiene que hacer la controladora
 
-        prepare_writing(calculoBaseIndice());
+        int index = tree.find(word, 0);
 
-
+        for (int i = 1; i < word.length; i++) {
+            if (index == comp_file.size()) {
+                comp_file.add(new Pair(previous_index, word[i]));
+                previous_index = 0;
+                index = tree.find(word, ++i);
+            }
+            else {
+                previous_index = index;
+                index = tree.findNextByte(word[i]);
+            }
+        }
     }
 
     private void prepare_writing(int bytes) {
 
-
         if (bytes == 1) {
-
-
 
         } else if (bytes == 2) {
 
-
         } else {
-
-
 
         }
     }
@@ -95,6 +81,17 @@ public class LZ78_Compressor {
         if (s < 128) return 1;
         if (s < 32767) return 2;
         return 4;
+    }
+
+    private void write_compressed_file(String path) throws IOException {
+
+        FileOutputStream file = new FileOutputStream(path);
+
+        for (Pair entry : comp_file) {
+            file.write(entry.index);
+            file.write(entry.offset);
+        }
+
     }
 
 }

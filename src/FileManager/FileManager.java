@@ -37,14 +37,14 @@ public class FileManager {
 
         ArrayList<Byte> outArray = new ArrayList<Byte>();
         try {
-            FileReader reader = new FileReader(filePath);
-            BufferedReader bufferedReader = new BufferedReader(reader);
+            FileInputStream in = new FileInputStream(filePath);
+            byte[] buffer = new byte[1024];
+            int size;
 
-            int readByte;
-            while ((readByte = bufferedReader.read()) != -1) {
-                outArray.add((byte) readByte);
+            while ((size = in.read(buffer)) != -1) {
+                for (int i = 0; i < size; i++) outArray.add(buffer[i]);
             }
-            bufferedReader.close();
+            in.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 import FileManager.FileManager;
 import JPEG.JpegAlgorithm;
 import LZ78.LZ78_Compressor;
+import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
 import LZW.*;
 
@@ -13,17 +14,20 @@ public class Application {
     public static void main(String [] args) throws Exception {
         System.out.println("Testing output:\n");
 
-        if (true) { // JPEG
+        if (false) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             byte file [] = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
             JpegAlgorithm.compress(file);
         }
 
-        if (false) { // LZ78
+        if (true) { // LZ78
             //ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
             LZ78_Compressor LZ78 = new LZ78_Compressor();
             //LZ78.compress(FileManager.readFile(paths.get(0)));
-            LZ78.compress(FileManager.readFile("./testing_files/petit.txt"));
+            LZ78.TXcompressor("./testing_files/petit.txt");
+
+            LZ78_Decompressor decomp = new LZ78_Decompressor();
+            decomp.TXdecompressor("./testing_files/salida.outout");
             //LZ78.compress(FileManager.readFile_Byte(paths.get(0)));
         }
 

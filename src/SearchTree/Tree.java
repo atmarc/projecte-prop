@@ -1,59 +1,34 @@
 package SearchTree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Tree{
-    enum type {
-        LZ78,
-        LZW,
-        LZSS
-    };
 
     private List<Node> sons;
-
-    // LZ78 acceleration
-    private Tree previous_tree;
+    private Node previous_node;
     private int last_index;
 
+    // Constructors
     public Tree() {
+        previous_node = null;
         sons = new ArrayList<Node>();
     }
 
-    // Constructors
-    public Tree(type Alg) {
-        // Creadora comun. Cada uno en su funcion void puede inicializar el arbol a su gusto.
-        switch (Alg) {
-            case LZW:
-                LZW_Tree();
-                break;
-            case LZSS:
-                LZSS_Tree();
-                break;
-            case LZ78:
-                LZ78_Tree();
-        }
+    public int getLast_index() {
+        return last_index;
     }
 
-    public void LZ78_Tree() {
+    public void putSon(byte b, int data) {
 
+        // Pre: El byte b NO esta presente en el arbol.
+        // Post: Se ha insertado un nuevo nodo hijo a la raiz con id = b y data = data;
 
+        sons.add(new Node(b, data, new Tree()));
     }
 
-    public void LZSS_Tree() {
 
-
-    }
-
-    public void LZW_Tree() {
-
-
-    }
-
-    // Consultants
-
-    private Node getSon(byte id) {
+    private Node getNode(byte id) {
         for (Node son : sons) {
             if (son.areYou(id)) return son;
         }
@@ -63,12 +38,46 @@ public class Tree{
     }
 
     public int find(byte[] word, int digit) {
-        Node aux = getSon(word[digit]);
+        Node aux = getNode(word[digit]);
         if (digit == word.length - 1) {
+            previous_node = aux;
             return aux.getData();
         }
         if (aux.getData() != -1) return aux.getSons().find(word, digit + 1);
         return -1;
     }
 
+
+    public int findNextByte(byte b) {
+
+        // Pre: Previamente se ha buscado un byte 'a'.
+        // Post: Retorna la 'data' del nodo con identificador = b, el cual es hijo del nodo 'a' (previamente buscado).
+        //       Si este no estaba presente en el arbol, este queda insertado con el ultimo indice.
+        if (previous_node == null) previous_node = getNode(b);
+
+        previous_node = previous_node.getSons().getNode(b);
+        return previous_node.getData();
+    }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

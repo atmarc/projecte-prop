@@ -3,9 +3,7 @@ package LZ78;
 import FileManager.FileManager;
 import SearchTree.Tree;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,56 +11,81 @@ import java.util.HashMap;
 
 public class LZ78_Compressor {
 
-    private ArrayList<Pair> comp_file;
+    final static int BUFF_SIZE = 1024; // 16KB
+    private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
+    private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
     private int previous_index;
 
     public LZ78_Compressor() {
-        comp_file = new ArrayList<>();
+        files = new ArrayList<>();
+        add_comp_file();
+    }
+
+    private void add_comp_file() {
+        files.add(new ArrayList<>());
+        comp_file = files.get(files.size() - 1);
+        comp_file.add(new Pair(0, (byte) 0x00));
     }
 
     public void TXcompressor(String filePath) {
 
         try {
-            Tree tree = new Tree();
-            FileInputStream in = new FileInputStream(filePath);
-            byte[] buffer = new byte[1024];
 
+            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(filePath));
+
+            int B;
+            Tree tree = new Tree(1);
             previous_index = 0;
-            while (in.read(buffer) != -1) compress(buffer, tree);
-            in.close();
+            boolean new_searching = true;
 
-            if (previous_index > 0) {
-                // Acabar insercion final.
+            while ((B = reader.read()) > 0) {
+                new_searching = compress((byte) (B & 0xFF), tree, new_searching);
+            }
+            reader.close();
+
+            if (!new_searching) compress((byte) 0x00, tree, false);
+
+            /* ---------------------------------------------- TESTING ---------------------------------------------- */
+            System.out.println("Texto comprimido:\n");
+            if (false) {
+                for (int i = 1; i < comp_file.size(); i++) {
+                    Pair pair = comp_file.get(i);
+
+                    System.out.print(i);
+                    System.out.print(" ->\t");
+                    System.out.print(pair.index);
+                    System.out.print("\t");
+                    System.out.printf("%x", pair.offset);
+                    System.out.print("\n");
+                }
             }
 
-            write_compressed_file("./testing_files/lz78.bin");
+            System.out.println("Tamano de la salida = " + comp_file.size() + "\n");
+            /* ----------------------------------------------------------------------------------------------------- */
+
+            write_compressed_file("./testing_files/lz78.out");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void compress(byte[] word, Tree tree) {
+    private boolean compress(byte B, Tree tree, boolean new_searching) {
 
         // Retorna el estado en el que se encuentra.
-        // = 0 -> todo ha quedado insertado
-        // > 0 -> hay que continuar llamando a busquedas
+        //  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
+        //  - false -> El mote buscado existe. Se solicita otro caracter.
 
-        // comp_file.add(new Pair(-1, (byte) 0)); // lo tiene que hacer la controladora
+        int index = tree.progressive_find(B, new_searching);
 
-        int index = tree.find(word, 0);
-
-        for (int i = 1; i < word.length; i++) {
-            if (index == comp_file.size()) {
-                comp_file.add(new Pair(previous_index, word[i]));
-                previous_index = 0;
-                index = tree.find(word, ++i);
-            }
-            else {
-                previous_index = index;
-                index = tree.findNextByte(word[i]);
-            }
+        if (index == comp_file.size()) {
+            comp_file.add(new Pair(previous_index, B));
+            previous_index = 0;
+            return true;
         }
+
+        previous_index = index;
+        return false;
     }
 
     private void prepare_writing(int bytes) {
@@ -85,13 +108,13 @@ public class LZ78_Compressor {
 
     private void write_compressed_file(String path) throws IOException {
 
-        FileOutputStream file = new FileOutputStream(path);
+        BufferedOutputStream file = new BufferedOutputStream(new FileOutputStream(path));
 
         for (Pair entry : comp_file) {
             file.write(entry.index);
             file.write(entry.offset);
         }
-
+        file.close();
     }
 
 }

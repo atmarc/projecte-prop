@@ -24,7 +24,7 @@ public class Application {
             //ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
             LZ78_Compressor LZ78 = new LZ78_Compressor();
             //LZ78.compress(FileManager.readFile(paths.get(0)));
-            LZ78.TXcompressor("./testing_files/petit.txt");
+            LZ78.TXcompressor("./testing_files/big.txt");
 
             LZ78_Decompressor decomp = new LZ78_Decompressor();
             decomp.TXdecompressor("./testing_files/salida.outout");

@@ -6,29 +6,31 @@ import java.util.List;
 public class Tree{
 
     private List<Node> sons;
-    private Node previous_node;
-    private int last_index;
+    private static Node previous_node;
+    private static int last_index;
+
 
     // Constructors
     public Tree() {
-        previous_node = null;
-        sons = new ArrayList<Node>();
+        sons = new ArrayList<>();
+    }
+    public Tree(int last_index) {
+        sons = new ArrayList<>();
+        Tree.last_index = last_index;
     }
 
-    public int getLast_index() {
-        return last_index;
+    public int progressive_find(byte B, boolean restart) {
+
+        Node aux;
+        if (!restart) aux = findNextByte(B);
+        else aux = putNodeIfAbsent(B);
+
+        int data = aux.getData();
+        if (data == last_index) ++last_index;   // El nodo no exisitia, y ha sido insertado
+        else previous_node = aux;               // El nodo  estaba presente y debemos seguir buscando
+        return data;
     }
-
-    public void putSon(byte b, int data) {
-
-        // Pre: El byte b NO esta presente en el arbol.
-        // Post: Se ha insertado un nuevo nodo hijo a la raiz con id = b y data = data;
-
-        sons.add(new Node(b, data, new Tree()));
-    }
-
-
-    private Node getNode(byte id) {
+    private Node putNodeIfAbsent(byte id) {
         for (Node son : sons) {
             if (son.areYou(id)) return son;
         }
@@ -36,27 +38,14 @@ public class Tree{
         sons.add(son);
         return son;
     }
-
-    public int find(byte[] word, int digit) {
-        Node aux = getNode(word[digit]);
-        if (digit == word.length - 1) {
-            previous_node = aux;
-            return aux.getData();
-        }
-        if (aux.getData() != -1) return aux.getSons().find(word, digit + 1);
-        return -1;
-    }
-
-
-    public int findNextByte(byte b) {
+    private Node findNextByte(byte B) {
 
         // Pre: Previamente se ha buscado un byte 'a'.
         // Post: Retorna la 'data' del nodo con identificador = b, el cual es hijo del nodo 'a' (previamente buscado).
         //       Si este no estaba presente en el arbol, este queda insertado con el ultimo indice.
-        if (previous_node == null) previous_node = getNode(b);
 
-        previous_node = previous_node.getSons().getNode(b);
-        return previous_node.getData();
+        previous_node = previous_node.getSons().putNodeIfAbsent(B);
+        return previous_node;
     }
 
 

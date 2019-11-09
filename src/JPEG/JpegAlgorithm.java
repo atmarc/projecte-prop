@@ -8,7 +8,7 @@ import Triplet.Triplet;
 
 public class JpegAlgorithm {
 
-    public static void compress(byte s[]) {
+    public static String compress(byte s[]) {
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
         final String inputMode = "P" + (char)s[1];
@@ -86,9 +86,9 @@ public class JpegAlgorithm {
 
                 int marginX = x * 8;
                 int marginY = y * 8;
-                Block blockY = new Block(8, 8);
-                Block blockCb = new Block(8, 8);
-                Block blockCr = new Block(8, 8);
+                Block blockY = new Block(8, 8, "Y");
+                Block blockCb = new Block(8, 8, "Cb");
+                Block blockCr = new Block(8, 8, "Cr");
 
                 for (int i = 0; i < 8 && i + marginY < HEIGHT; ++i) {
                     for (int j = 0; j < 8 && j + marginX < WIDTH; ++j) {
@@ -103,16 +103,44 @@ public class JpegAlgorithm {
                         blockCr.setValue(i, j, value);
                     }
                 }
+                blockY.DCT();
                 BlocksArrayY[y][x] = blockY;
+                blockCb.DCT();
                 BlocksArrayCb[y][x] = blockCb;
+                blockCr.DCT();
                 BlocksArrayCr[y][x] = blockCr;
             }
         }
 
-        // Quantization
+        String file = "";
+        for (int y = 0; y < nBlocksY; ++y) {
+            for (int x = 0; x < nBlocksX; ++x) {
+                file += BlocksArrayY[y][x].zigzag();
+                file += BlocksArrayCb[y][x].zigzag();
+                file += BlocksArrayCr[y][x].zigzag();
+            }
+        }
+
+        //file = Huffman.encode(file);
+        return file;
+    }
+
+    public static String decompress(byte s[]) {
+        return "";
+    }
 
 
-
+    /*
+    RGB --> YCbCr
+        Y = 0.299 R + 0.587 G + 0.114 B
+        Cb = - 0.1687 R - 0.3313 G + 0.5 B + 128
+        Cr = 0.5 R - 0.4187 G - 0.0813 B + 128
+    */
+    private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (float R, float G, float B) {
+        int Y = (int) (0.299 * R + 0.587 * G + 0.114 * B);
+        int Cb = (int) (-0.1687 * R - 0.3313 * G + 0.5 * B + 128);
+        int Cr = (int) (0.5 * R - 0.4187 * G - 0.0813 * B + 128);
+        return new Triplet<>(Y, Cb, Cr);
     }
 
     private static Triplet<Integer, Integer, Float> readHeaders(byte s[]) {
@@ -144,20 +172,6 @@ public class JpegAlgorithm {
         }
         retorn.setThird(parseFloat(linia));
         return retorn;
-    }
-
-    /*
-    RGB --> YCbCr
-        Y = 0.299 R + 0.587 G + 0.114 B
-        Cb = - 0.1687 R - 0.3313 G + 0.5 B + 128
-        Cr = 0.5 R - 0.4187 G - 0.0813 B + 128
-    */
-
-    private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (float R, float G, float B) {
-        int Y = (int) (0.299 * R + 0.587 * G + 0.114 * B);
-        int Cb = (int) (-0.1687 * R - 0.3313 * G + 0.5 * B + 128);
-        int Cr = (int) (0.5 * R - 0.4187 * G - 0.0813 * B + 128);
-        return new Triplet<>(Y, Cb, Cr);
     }
 
     private static void printPixels(Triplet<Integer, Integer, Integer> Pixels [][]) {

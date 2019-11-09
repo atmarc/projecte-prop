@@ -8,12 +8,13 @@ public class Block {
     private int DCTvalors[][];
     private int width;
     private int height;
+    private String type;
 
     final double PI = Math.PI;
     final double sqrt2 = sqrt(2);
 
-    // Quantization table
-    final int[][] QT = new int[][] {
+    // Quantization table Luminance
+    final int[][] QTY = new int[][] {
         {16, 11, 10, 16, 24, 40, 51, 61},
         {12, 12, 14, 19, 26, 58, 60, 55},
         {14, 13, 16, 24, 40, 57, 69, 56},
@@ -24,14 +25,27 @@ public class Block {
         {72, 92, 95, 98, 112, 100, 103, 99}
     };
 
+    // Quantization table Chrominance
+    final int[][] QTCr = new int [][] {
+            {17, 18, 24, 47, 99, 99, 99, 99},
+            {18, 21, 26, 66, 99, 99, 99, 99},
+            {24, 26, 56, 99, 99, 99, 99, 99},
+            {47, 66, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99}
+    };
+
     public Block() {
     }
 
-    public Block(int width, int height) {
+    public Block(int width, int height, String type) {
         this.valors = new int[width][height];
         this.DCTvalors = new int[width][height];
         this.height = height;
         this.width = width;
+        this.type = type;
     }
 
     public int getValue(int i, int j) {
@@ -65,9 +79,116 @@ public class Block {
                 if (j == 0) endValue *= 1/sqrt2;
 
                 // Quantization
-                DCTvalors[i][j] = (int) round(endValue / QT[i][j]);
+                if (type.equals("Y")) {
+                    DCTvalors[i][j] = (int) round(endValue / QTY[i][j]);
+                }
+                else {
+                    DCTvalors[i][j] = (int) round(endValue / QTCr[i][j]);
+                }
             }
         }
+    }
+
+    public String zigzag() {
+        int row = 0, col = 0;
+        boolean row_inc = false;
+        int m = height;
+        int n = width;
+
+        int mn = Math.min(m, n);
+
+        String retorn = "";
+
+        for (int len = 1; len <= mn; ++len) {
+            for (int i = 0; i < len; ++i) {
+
+                retorn += DCTvalors[row][col] + ",";
+
+                if (i + 1 == len)
+                    break;
+
+                if (row_inc) {
+                    ++row;
+                    --col;
+                } else {
+                    --row;
+                    ++col;
+                }
+            }
+
+            if (len == mn)
+                break;
+
+            if (row_inc) {
+                ++row;
+                row_inc = false;
+            } else {
+                ++col;
+                row_inc = true;
+            }
+        }
+
+        if (row == 0) {
+            if (col == m - 1)
+                ++row;
+            else
+                ++col;
+            row_inc = true;
+        } else {
+            if (row == n - 1)
+                ++col;
+            else
+                ++row;
+            row_inc = false;
+        }
+
+        int MAX = Math.max(m, n) - 1;
+        for (int len, diag = MAX; diag > 0; --diag) {
+
+            if (diag > mn)
+                len = mn;
+            else
+                len = diag;
+
+            for (int i = 0; i < len; ++i) {
+                retorn += DCTvalors[row][col] + ",";
+
+                if (i + 1 == len)
+                    break;
+
+                if (row_inc) {
+                    ++row;
+                    --col;
+                } else {
+                    ++col;
+                    --row;
+                }
+            }
+
+            if (row == 0 || col == m - 1) {
+                if (col == m - 1)
+                    ++row;
+                else
+                    ++col;
+
+                row_inc = true;
+            }
+
+            else if (col == 0 || row == n - 1) {
+                if (row == n - 1)
+                    ++col;
+                else
+                    ++row;
+
+                row_inc = false;
+            }
+        }
+
+        if (retorn.charAt(retorn.length() - 1) == ',') {
+            retorn = retorn.substring(0, retorn.length() - 1);
+        }
+
+        return retorn;
     }
 
     public void print (int i) {

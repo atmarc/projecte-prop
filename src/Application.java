@@ -119,7 +119,7 @@ public class Application {
 
         block.DCT();
 
-        block.printBlock();
+        block.printBlockDCT();
 
 
     }

@@ -109,7 +109,10 @@ public class JpegAlgorithm {
             }
         }
 
-        printPixels(Pixels);
+        // Quantization
+
+
+
     }
 
     private static Triplet<Integer, Integer, Float> readHeaders(byte s[]) {

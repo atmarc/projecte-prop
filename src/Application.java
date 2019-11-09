@@ -14,10 +14,10 @@ public class Application {
     public static void main(String [] args) throws Exception {
         System.out.println("Testing output:\n");
 
-        if (false) { // JPEG
+        if (true) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-            byte file [] = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
-            JpegAlgorithm.compress(file);
+            byte file [] = Files.readAllBytes(Paths.get("testing_files/image.ppm"));
+            System.out.println(JpegAlgorithm.compress(file));
         }
 
         if (false) { // LZ78
@@ -44,7 +44,8 @@ public class Application {
             LZSS.Compress(path);
         }
 
-        Block block = new Block(8,8);
+        /*
+        Block block = new Block(8,8, "Y");
         block.setValue(0,0,-76);
         block.setValue(0,1,-73);
         block.setValue(0,2,-67);
@@ -121,7 +122,9 @@ public class Application {
 
         block.printBlockDCT();
 
+        System.out.println(block.zigzag());
 
+        FileManager.createFile(block.zigzag(), "testing_files/provacreateFile.txt");*/
     }
 
 }

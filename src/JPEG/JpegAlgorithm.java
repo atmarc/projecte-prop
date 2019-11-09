@@ -30,7 +30,7 @@ public class JpegAlgorithm {
         if (inputMode.equals("P3")) {
             String num = "";
             while (index < s.length) {
-                if (s[index] != ' ' && s[index] != '\r' && s[index] != '\n') {
+                if (s[index] != ' ' && s[index] != '\r' && s[index] != '\n' && s[index] != '\t') {
                     num += (char)s[index];
                 } else if (!num.equals("")) {
                     data.add(parseInt(num));
@@ -126,6 +126,12 @@ public class JpegAlgorithm {
     }
 
     public static String decompress(byte s[]) {
+
+        // file = huffman.decode(s);
+
+        String file = "-14,-4,-4,-2,3,-4,13,0,2,-1,0,1,0,-2,-9,3,3,-1,0,0,-2,2,1,0,0,1,-1,-6,-1,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,2,1,0,0,1,1,0,0,-1,-1,0,0,0,0,1,0,0,0,1,-1,0,-1-1,-7,1,1,-2,-2,-5,2,-1,0,0,0,0,0,0,-1,0,0,0,0,0,0,-1,0,0,0,0,4,3,1,0,0,0,1,1,0,0,-1,0,0,0,1,-2,-1,0,0,-1,0,0,0,1,0,0,0,0,1,0,0,0,-2,-2,2,-1,1-7,7,0,0,3,6,3,-2,1,0,0,0,-1,-1,2,3,1,0,0,0,0,0,1,0,0,0,1,3,0,0,0,0,0,-1,-1,0,0,1,-1,0,0,0,-1,-1,0,0,1,1,0,0,-1,1,0,0,0,0,-1,0,0,0,-1,2,0,1   ";
+
+
         return "";
     }
 

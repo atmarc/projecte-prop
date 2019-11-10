@@ -21,14 +21,18 @@ public class Application {
         }
 
         if (true) { // LZ78
-            //ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
-            LZ78_Compressor LZ78 = new LZ78_Compressor();
-            //LZ78.compress(FileManager.readFile(paths.get(0)));
-            LZ78.TXcompressor("./testing_files/big.txt");
 
-            LZ78_Decompressor decomp = new LZ78_Decompressor();
-            decomp.TXdecompressor("./testing_files/salida.outout");
-            //LZ78.compress(FileManager.readFile_Byte(paths.get(0)));
+            String input_comp = "./testing_files/big.txt";
+            String output_comp = "./testing_files/LZ78_testing/comp.txt";
+/*
+            LZ78_Compressor LZ78 = new LZ78_Compressor();
+            LZ78.TXcompressor(input_comp, output_comp);
+*/
+            String input_decomp = output_comp;
+            String output_decomp = "./testing_files/LZ78_testing/decomp.txt";
+
+            LZ78_Decompressor decompressor = new LZ78_Decompressor();
+            decompressor.TXdecompressor(input_decomp, output_decomp);
         }
 
 

@@ -3,56 +3,76 @@ package LZ78;
 import SearchTree.Tree;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class LZ78_Decompressor {
 
-    private ArrayList<ArrayList<Byte>> dictionary;
+    private ArrayList<byte[]> dictionary;
+    private int length;
 
-    public LZ78_Decompressor() {
-        dictionary = new ArrayList<>();
-    }
+    public LZ78_Decompressor() {}
 
-    public void TXdecompressor(String filePath) {
+    public void TXdecompressor(String inputPath, String outputPath) {
 
         try {
-            FileInputStream in = new FileInputStream(filePath);
+            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputPath));
+            BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(outputPath));
 
-            byte[] buffer = new byte[5];
+            byte[] offset = new byte[1], index = new byte[4];
+            if (reader.read(index) < 0) throw new Exception();
 
-            while (in.read(buffer) != -1)
-                dictionary.add(decompress(buffer));
+            int i = 1;
+            length = new BigInteger(index).intValue();
 
-            in.close();
+            dictionary = new ArrayList<>(length);
+            dictionary.add(null); // para empezar desde la posicion 1
 
-            write_decompressed_file("./testing_files/lz78.out");
+            // 1 + 1 Byte
+            index = new byte[1];
+            for (; i < 128 && reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
+                writer.write(decompress(index, offset[0]));
+            // 2 + 1 Byte
+            index = new byte[2];
+            for (; i < 32768 && reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
+                writer.write(decompress(index, offset[0]));
+            // 3 + 1 Byte
+            index = new byte[3];
+            for (; i < 8388608 && reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
+                writer.write(decompress(index, offset[0]));
+            // 4 + 1 Byte
+            index = new byte[4];
+            for (; reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
+                writer.write(decompress(index, offset[0]));
 
-        } catch (IOException e) {
+
+            reader.close();
+            writer.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private ArrayList<Byte> decompress(byte[] buffer) {
+    private byte[] decompress(byte[] indexB, byte offset) {
 
-        int index = (buffer[0] & 0xff000000) | (buffer[1] & 0x00ff0000) | (buffer[2] & 0x0000ff00) | (buffer[3] & 0x000000ff);
-        byte data = buffer[5];
+        int index = new BigInteger(indexB).intValue();
 
-        ArrayList<Byte> subword = new ArrayList<>();
+        byte[] word;
 
-        if (index != 0)
-            subword = dictionary.get(index);
+        if (index == 0) {
+            word = new byte[1];
+            word[0] = offset;
+        } else {
+            byte[] prefix = dictionary.get(index);
+            word = new byte[prefix.length + 1];
+            System.arraycopy(prefix, 0, word, 0, prefix.length);
+            if (dictionary.size() < length - 1)
+                word[prefix.length] = offset;
+        }
 
-        subword.add(data);
-        return subword;
+        dictionary.add(word);
+        return word;
     }
 
-    private void write_decompressed_file(String path) throws IOException {
-        FileOutputStream file = new FileOutputStream(path);
-
-        for (ArrayList<Byte> subword : dictionary)
-            for (Byte character : subword)
-                file.write(character);
-
-        file.close();
-    }
 }

@@ -52,7 +52,7 @@ public class Block {
         return valors[i][j];
     }
 
-    public int getCDTValue(int i, int j) {
+    public int getDCTValue(int i, int j) {
         return DCTvalors[i][j];
     }
 
@@ -97,7 +97,33 @@ public class Block {
         }
     }
 
+    public void inverseDCT() {
+        int auxArray[][] = new int [height][width];
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
 
+                double sumatori = 0;
+                for (int i = 0; i < height; ++i) {
+                    for (int j = 0; j < width; ++j) {
+                        double aux = 1.0;
+                        if (i == 0) aux *= 1/sqrt2;
+                        if (j == 0) aux *= 1/sqrt2;
+                        aux *= DCTvalors[i][j];
+                        aux *= cos(((2 * x + 1) * j * PI)/ (2.0*width)) * cos((2 * y + 1) * i * PI/ (2.0*height));
+
+                        sumatori += aux;
+                    }
+                }
+                // Tornem a sumar els 128 que haviem restat per centrar a 0 els valors
+                auxArray[y][x] = (int) round(0.25 * sumatori + 128);
+
+                // Vigilem que cap valor faci overflow
+                if (auxArray[y][x] < 0) auxArray[y][x] = 0;
+                else if (auxArray[y][x] > 255) auxArray[y][x] = 255;
+            }
+        }
+        DCTvalors = auxArray;
+    }
 
     public String zigzag() {
         int row = 0, col = 0;
@@ -218,5 +244,21 @@ public class Block {
 
     public void printBlockDCT () {
         print(1);
+    }
+
+    public void inverseQuantizationY() {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                DCTvalors[y][x] *= QTY[y][x];
+            }
+        }
+    }
+
+    public void inverseQuantizationC() {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                DCTvalors[y][x] *= QTCr[y][x];
+            }
+        }
     }
 }

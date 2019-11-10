@@ -182,12 +182,16 @@ public class JpegAlgorithm {
         // Tornar a sumar diferència
         for (int i = 0; i < nBlocksY; ++i) {
             for (int j = 0; j < nBlocksX; ++j) {
-                if (i != 0 || j != 0) {
-                   // int value =
-                   //x arrayOfBlocksY[i][j].setDCTValue(0,0, value);
-                }
+                sumDC(arrayOfBlocksY, j, i);
+                arrayOfBlocksY[i][j].inverseQuantizationY();
+                arrayOfBlocksY[i][j].inverseDCT();
+
+                sumDC(arrayOfBlocksCb, j, i);
+                sumDC(arrayOfBlocksCr, j, i);
             }
         }
+
+
 
         return "";
     }
@@ -270,14 +274,25 @@ public class JpegAlgorithm {
     private static int getDiff (Block [][] arrayBlock, int x, int y) {
         int diff;
         if (x > 0) {
-            diff = arrayBlock[y][x - 1].getCDTValue(0,0) - arrayBlock[y][x].getCDTValue(0,0);
+            diff = arrayBlock[y][x - 1].getDCTValue(0,0) - arrayBlock[y][x].getDCTValue(0,0);
         } else if (y > 0) {
-            diff = arrayBlock[y - 1][arrayBlock[0].length - 1].getCDTValue(0,0) - arrayBlock[y][x].getCDTValue(0,0);
+            diff = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) - arrayBlock[y][x].getDCTValue(0,0);
         }
         else {
-            diff = arrayBlock[y][x].getCDTValue(0,0);
+            diff = arrayBlock[y][x].getDCTValue(0,0);
         }
         return diff;
     }
 
+    private static void sumDC (Block [][] arrayBlock, int x, int y) {
+        int value;
+        if (x > 0) {
+            value = arrayBlock[y][x - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
+            arrayBlock[x][y].setDCTValue(0,0, value);
+        }
+        else if (y > 0) {
+            value = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
+            arrayBlock[x][y].setDCTValue(0,0, value);
+        }
+    }
 }

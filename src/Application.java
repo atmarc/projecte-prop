@@ -2,6 +2,7 @@ import FileManager.FileManager;
 import JPEG.Block;
 import JPEG.JpegAlgorithm;
 import LZ78.LZ78_Compressor;
+import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
 import LZW.*;
 
@@ -14,7 +15,7 @@ public class Application {
     public static void main(String [] args) throws Exception {
         System.out.println("Testing output:\n");
 
-        if (true) { // JPEG
+        if (false) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             byte file [] = Files.readAllBytes(Paths.get("testing_files/image.ppm"));
             String compimit = JpegAlgorithm.compress(file);
@@ -24,12 +25,19 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (false) { // LZ78
-            //ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
+        if (true) { // LZ78
+
+            String input_comp = "./testing_files/big.txt";
+            String output_comp = "./testing_files/LZ78_testing/comp.txt";
+/*
             LZ78_Compressor LZ78 = new LZ78_Compressor();
-            //LZ78.compress(FileManager.readFile(paths.get(0)));
-            LZ78.compress(FileManager.readFile("./testing_files/petit.txt"));
-            //LZ78.compress(FileManager.readFile_Byte(paths.get(0)));
+            LZ78.TXcompressor(input_comp, output_comp);
+*/
+            String input_decomp = output_comp;
+            String output_decomp = "./testing_files/LZ78_testing/decomp.txt";
+
+            LZ78_Decompressor decompressor = new LZ78_Decompressor();
+            decompressor.TXdecompressor(input_decomp, output_decomp);
         }
 
 

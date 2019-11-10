@@ -52,8 +52,16 @@ public class Block {
         return valors[i][j];
     }
 
+    public int getCDTValue(int i, int j) {
+        return DCTvalors[i][j];
+    }
+
     public void setValue(int i, int j, int value) {
         valors[i][j] = value;
+    }
+
+    public void setDCTValue(int i, int j, int value) {
+        DCTvalors[i][j] = value;
     }
 
     public int getWidth() {
@@ -71,7 +79,7 @@ public class Block {
                 double sumatori = 0;
                 for (int x = 0; x < width; ++x) {
                     for (int y = 0; y < height; ++y) {
-                        sumatori += valors[y][x] * cos((2 * x + 1) * j * PI/ 16) * cos((2 * y + 1) * i * PI/ 16);
+                        sumatori += valors[y][x] * cos((2 * x + 1) * j * PI/ (2.0*width)) * cos((2 * y + 1) * i * PI/ (2.0*height));
                     }
                 }
                 double endValue = 0.25 * sumatori;
@@ -88,6 +96,8 @@ public class Block {
             }
         }
     }
+
+
 
     public String zigzag() {
         int row = 0, col = 0;

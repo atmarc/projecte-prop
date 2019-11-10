@@ -8,6 +8,7 @@ import Triplet.Triplet;
 
 public class JpegAlgorithm {
 
+    //TODO: Fixar-se amb fitxers no multiples de 8
     public static String compress(byte s[]) {
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
@@ -90,29 +91,48 @@ public class JpegAlgorithm {
                 Block blockCb = new Block(8, 8, "Cb");
                 Block blockCr = new Block(8, 8, "Cr");
 
-                for (int i = 0; i < 8 && i + marginY < HEIGHT; ++i) {
+                for (int i = 0; i < 8; ++i) {
                     for (int j = 0; j < 8 && j + marginX < WIDTH; ++j) {
-                        // Aprofitem i centrem els valors a 0
-                        int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
-                        blockY.setValue(i, j, value);
+                        if (i + marginY >= HEIGHT || j + marginX >= WIDTH) {
+                            // Quan la foto no és múltiple de 8
+                            blockY.setValue(i, j, -128);
+                            blockCb.setValue(i, j, -128);
+                            blockCr.setValue(i, j, -128);
+                        }
+                        else {
+                            // Aprofitem i centrem els valors a 0
+                            int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
+                            blockY.setValue(i, j, value);
 
-                        value = Pixels[i + marginY][j + marginX].getSecond() - 128;
-                        blockCb.setValue(i, j, value);
+                            value = Pixels[i + marginY][j + marginX].getSecond() - 128;
+                            blockCb.setValue(i, j, value);
 
-                        value = Pixels[i + marginY][j + marginX].getThird() - 128;
-                        blockCr.setValue(i, j, value);
+                            value = Pixels[i + marginY][j + marginX].getThird() - 128;
+                            blockCr.setValue(i, j, value);
+                        }
                     }
                 }
-                blockY.DCT();
+
+                blockY.DCT(); // Apliquem DCT a cada bloc
                 BlocksArrayY[y][x] = blockY;
+                int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
+                BlocksArrayY[y][x].setDCTValue(0,0, diff);
+
                 blockCb.DCT();
                 BlocksArrayCb[y][x] = blockCb;
+                diff = getDiff(BlocksArrayCb, x, y);
+                BlocksArrayCb[y][x].setDCTValue(0,0, diff);
+
                 blockCr.DCT();
                 BlocksArrayCr[y][x] = blockCr;
+                diff = getDiff(BlocksArrayCr, x, y);
+                BlocksArrayCr[y][x].setDCTValue(0,0, diff);
             }
         }
 
-        String file = "";
+        int nivellCompressio = 0;
+
+        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + ",";
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
                 file += BlocksArrayY[y][x].zigzag();
@@ -126,11 +146,48 @@ public class JpegAlgorithm {
     }
 
     public static String decompress(byte s[]) {
+        String file = "";
 
-        // file = huffman.decode(s);
+        for (int i = 0; i < s.length; ++i) {
+            file += (char) s[i];
+        }
+        String[] data = file.split(",");
+        // file = huffman.decode(file);
 
-        String file = "-14,-4,-4,-2,3,-4,13,0,2,-1,0,1,0,-2,-9,3,3,-1,0,0,-2,2,1,0,0,1,-1,-6,-1,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,2,1,0,0,1,1,0,0,-1,-1,0,0,0,0,1,0,0,0,1,-1,0,-1-1,-7,1,1,-2,-2,-5,2,-1,0,0,0,0,0,0,-1,0,0,0,0,0,0,-1,0,0,0,0,4,3,1,0,0,0,1,1,0,0,-1,0,0,0,1,-2,-1,0,0,-1,0,0,0,1,0,0,0,0,1,0,0,0,-2,-2,2,-1,1-7,7,0,0,3,6,3,-2,1,0,0,0,-1,-1,2,3,1,0,0,0,0,0,1,0,0,0,1,3,0,0,0,0,0,-1,-1,0,0,1,-1,0,0,0,-1,-1,0,0,1,1,0,0,-1,1,0,0,0,0,-1,0,0,0,-1,2,0,1   ";
+        final int nivellCompressio = parseInt(data[0]);
+        final int nBlocksX = parseInt(data[1]);
+        final int nBlocksY = parseInt(data[2]);
 
+        Block[][] arrayOfBlocksY = new Block[nBlocksX][nBlocksY];
+        Block[][] arrayOfBlocksCb = new Block[nBlocksX][nBlocksY];
+        Block[][] arrayOfBlocksCr = new Block[nBlocksX][nBlocksY];
+
+        int index = 3;
+        int bi = 0, bj = 0;
+        while (index < data.length) {
+            // TODO: Mirar si entren 0 no s'ha de sumar 64
+            arrayOfBlocksY[bi][bj] = readBlock(data, index);
+            index += 64;
+
+            arrayOfBlocksCb[bi][bj] = readBlock(data, index);
+            index += 64;
+
+            arrayOfBlocksCr[bi][bj] = readBlock(data, index);
+            index += 64;
+
+            ++bj;
+            if (bj >= 8 && bi < 7) ++bi;
+        }
+
+        // Tornar a sumar diferència
+        for (int i = 0; i < nBlocksY; ++i) {
+            for (int j = 0; j < nBlocksX; ++j) {
+                if (i != 0 || j != 0) {
+                   // int value =
+                   //x arrayOfBlocksY[i][j].setDCTValue(0,0, value);
+                }
+            }
+        }
 
         return "";
     }
@@ -188,4 +245,39 @@ public class JpegAlgorithm {
             System.out.println('\n');
         }
     }
+
+    // TODO: Pensar com posar que comencen els 0s
+    private static Block readBlock(String data[], int i) {
+        Block blockY = new Block(8,8, "Y");
+        boolean zero = false;
+        for (int x = 0; x < 8 && x < data.length; ++x) {
+            for (int y = 0; y < 8 && y < data.length; ++y) {
+                int value;
+                if (!zero) {
+                    value = parseInt(data[i]);
+                    if (value == 0) zero = true;
+                    blockY.setDCTValue(x, y, parseInt(data[i]));
+                    ++i;
+                }
+                else {
+                    blockY.setDCTValue(x, y, 0);
+                }
+            }
+        }
+        return blockY;
+    }
+
+    private static int getDiff (Block [][] arrayBlock, int x, int y) {
+        int diff;
+        if (x > 0) {
+            diff = arrayBlock[y][x - 1].getCDTValue(0,0) - arrayBlock[y][x].getCDTValue(0,0);
+        } else if (y > 0) {
+            diff = arrayBlock[y - 1][arrayBlock[0].length - 1].getCDTValue(0,0) - arrayBlock[y][x].getCDTValue(0,0);
+        }
+        else {
+            diff = arrayBlock[y][x].getCDTValue(0,0);
+        }
+        return diff;
+    }
+
 }

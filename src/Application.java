@@ -17,7 +17,11 @@ public class Application {
         if (true) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             byte file [] = Files.readAllBytes(Paths.get("testing_files/image.ppm"));
-            System.out.println(JpegAlgorithm.compress(file));
+            String compimit = JpegAlgorithm.compress(file);
+            //System.out.println(compimit);
+            //FileManager.createFile(compimit, "testing_files/image.comp");
+            //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));
+            //JpegAlgorithm.decompress(file);
         }
 
         if (false) { // LZ78
@@ -121,10 +125,15 @@ public class Application {
         block.DCT();
 
         block.printBlockDCT();
+        block.inverseQuantizationY();
+        block.printBlockDCT();
+        block.inverseDCT();
+        block.printBlockDCT();
 
-        System.out.println(block.zigzag());
+        //System.out.println(block.zigzag());
 
-        FileManager.createFile(block.zigzag(), "testing_files/provacreateFile.txt");*/
+        FileManager.createFile(block.zigzag(), "testing_files/provacreateFile.txt");
+        */
     }
 
 }

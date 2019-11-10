@@ -11,7 +11,7 @@ public class LZWDecompressor {
     private StringBuilder pattern;
     private int codewordRepresentation;    // la longitud en bits para escribir la codificación
 
-    LZWDecompressor() {
+    public LZWDecompressor() {
         initialize();
     }
 

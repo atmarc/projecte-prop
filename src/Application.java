@@ -30,12 +30,10 @@ public class Application {
 
 
         if (false) { // LZW
-            String data = FileManager.readFile("testing_files/filename.txt");
-            ArrayList<Integer> compressedData = LZWCompressor.compress(data);
-            FileManager.createFile(compressedData, "testing_files/output.zero");
-            //compressedData = FileManager.readFileBytes("testing_files/output.zero");
-            String decompressedData = LZWDecompressor.decompress(compressedData);
-            FileManager.createFile(decompressedData, "testing_files/decompress.txt");
+            LZWCompressor compressor = new LZWCompressor();
+            compressor.compress_file(new File("testing_files/lzw/ansi.txt"));
+            LZWDecompressor decompressor = new LZWDecompressor();
+            decompressor.decompress_file(new File("testing_files/lzw/ansi.zero"));
         }
 
         if (false) { // LZSS

@@ -88,10 +88,9 @@ public class Huffman {
             char f1 = (char)((char)(freq)/256);
             char f2 = (char)((char)(freq)%256);
             String c = entry.getValue();
-            char clau = (char) parseInt(c);
             char separador = 0xFF;
 
-            retorn += Integer.toBinaryString(clau) + charToBin(separador) + Integer.toBinaryString(f1)
+            retorn += c + charToBin(separador) + Integer.toBinaryString(f1)
                     + Integer.toBinaryString(f2) + charToBin(separador);
         }
         return retorn;

@@ -1,3 +1,3 @@
 public abstract class Compressor {
-    public abstract String compress(String filePath);
+    public abstract void compress(String filePath);
 }

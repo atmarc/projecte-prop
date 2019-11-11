@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
+import FileManager.FileManager;
 import Triplet.Triplet;
 
 public class JPEGCompressor extends Compressor {
 
     //TODO: Fixar-se amb fitxers no multiples de 8
 
-    public String compress(String path) {
+    public void compress(String path) {
 
         byte s [] = new byte[0];
         try {
@@ -151,7 +152,14 @@ public class JPEGCompressor extends Compressor {
         }
 
         //file = Huffman.encode(file);
-        return file;
+        //return file;
+
+        try {
+            FileManager.createFile(file, "testing_files/image.comp");
+            System.out.println(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*

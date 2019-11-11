@@ -7,7 +7,7 @@ import static java.lang.Integer.parseInt;
 public class JPEGDecompressor extends Decompressor {
 
 
-    public String decompress(String path) {
+    public void decompress(String path) {
 
         byte s [] = new byte[0];
         try {
@@ -63,7 +63,7 @@ public class JPEGDecompressor extends Decompressor {
 
 
 
-        return "";
+       // return "";
     }
 
     // TODO: Pensar com posar que comencen els 0s

@@ -39,30 +39,12 @@ public class LZ78_Compressor {
             previous_index = 0;
             boolean new_searching = true;
 
-            while ((B = reader.read()) > 0) {
+            while ((B = reader.read()) > 0)
                 new_searching = compress((byte) (B & 0xFF), tree, new_searching);
-            }
+
             reader.close();
 
             if (!new_searching) compress((byte) 0x00, tree, false);
-
-            /* ---------------------------------------------- TESTING ---------------------------------------------- /
-            System.out.println("Texto comprimido:\n");
-            if (false) {
-                for (int i = 1; i < comp_file.size(); i++) {
-                    Pair pair = comp_file.get(i);
-
-                    System.out.print(i);
-                    System.out.print(" ->\t");
-                    System.out.print(pair.index);
-                    System.out.print("\t");
-                    System.out.printf("%x", pair.offset);
-                    System.out.print("\n");
-                }
-            }
-
-            System.out.println("Tamano de la salida = " + comp_file.size() + "\n");
-            / ----------------------------------------------------------------------------------------------------- */
 
             // Set del tamano total del archivo comprimido
             comp_file.set(0, new Pair(comp_file.size() - 1, (byte) 0x00));
@@ -74,13 +56,25 @@ public class LZ78_Compressor {
         }
     }
 
-    private boolean compress(byte B, Tree tree, boolean new_searching) {
+    private boolean compress(byte B, Tree tree, boolean top_search) {
 
-        // Retorna el estado en el que se encuentra.
-        //  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
-        //  - false -> El mote buscado existe. Se solicita otro caracter.
+        /**
+         * Pre: Si top_search = false, previamente ha habido llamadas a esta funcion, con el mismo tree y top_search = true;
+         * Post:
+         *  top_search = true -> El byte B esta insertado en el primer nivel del arbol (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
+         *  top_search = false -> El byte B esta insertado en el nivel iesimo del arbol, donde i = numero de llamadas previas con top_search = false desde la ultima llamada con top_search = true (numero de Bytes del submote) (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
+         *
+         * Parametros:
+         *  - byte B: Byte que se quiere comprimir.
+         *  - Tree tree: Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
+         *  - boolean top_search: Indica si se desea reiniciar la busqueda desde arriba del arbol.
+         *
+         * Retorna el estado en el que se encuentra la compresion.
+         *  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
+         *  - false -> El mote buscado existe. Se solicita otro byte para continuar buscando en la actual altura del arbol.
+         */
 
-        int index = tree.progressive_find(B, new_searching);
+        int index = tree.progressive_find(B, top_search);
 
         if (index == comp_file.size()) {
             comp_file.add(new Pair(previous_index, B));
@@ -90,16 +84,6 @@ public class LZ78_Compressor {
 
         previous_index = index;
         return false;
-    }
-
-    private void debug(byte[] buffer) {
-
-        byte[] aux = new byte[buffer.length - 1];
-        System.arraycopy(buffer, 0, aux, 0, buffer.length - 1);
-
-        int test = new BigInteger(aux).intValue();
-        if (test < 0)
-            System.out.println(test);
     }
 
     private void write_compressed_file(String path) throws IOException {
@@ -120,24 +104,16 @@ public class LZ78_Compressor {
         for (; i < 128 && i < comp_file.size(); i++) { // 1 + 1 Byte
             buffer[0] = (byte) (comp_file.get(i).index & 0xFF);
             buffer[1] = comp_file.get(i).offset;
-
-            debug(buffer);
-
             file.write(buffer, 0, 2);
         }
-
         buffer = new byte[3];
         for (; i < 32768 && i < comp_file.size(); i++) {    // 2 + 1 Byte
             index = comp_file.get(i).index;
             buffer[0] = ((byte) ((index & 0x0000FF00) >> 8));
             buffer[1] = ((byte) (index & 0x000000FF));
             buffer[2] = comp_file.get(i).offset;
-
-            debug(buffer);
-
             file.write(buffer, 0, 3);
         }
-
         buffer = new byte[4];
         for (; i < 8388608 && i < comp_file.size(); i++) { // 3 + 1 Byte
             index = comp_file.get(i).index;
@@ -145,12 +121,8 @@ public class LZ78_Compressor {
             buffer[1] = ((byte) ((index & 0x0000FF00) >> 8));
             buffer[2] = ((byte) (index & 0x000000FF));
             buffer[3] = comp_file.get(i).offset;
-
-            debug(buffer);
-
             file.write(buffer, 0, 4);
         }
-
         buffer = new byte[5];
         for (; i < comp_file.size(); i++) {                 // 4 + 1 Byte
             index = comp_file.get(i).index;
@@ -159,9 +131,6 @@ public class LZ78_Compressor {
             buffer[2] = ((byte) ((index & 0x0000FF00) >> 8));
             buffer[3] = ((byte) (index & 0x000000FF));
             buffer[4] = comp_file.get(i).offset;
-
-            debug(buffer);
-
             file.write(buffer, 0, 5);
         }
 

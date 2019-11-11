@@ -1,5 +1,3 @@
-package LZW;
-
 import org.junit.Test;
 
 import java.io.File;
@@ -16,7 +14,7 @@ public class LZWCompressorTest {
 	public void compress_file() {
 		File file = new File("testing_files/filename.txt");
 		LZWCompressor compressor = new LZWCompressor();
-		compressor.compress_file(file);
+		compressor.compress(file);
 	}
 
 	@Test

@@ -1,14 +1,10 @@
-package LZW;
-
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-public class LZWDecompressor {
+public class LZWDecompressor extends Decompressor{
     private static final int BYTE_SIZE = 8;
     private ArrayList<String> dictionary;
-    private StringBuilder pattern;
     private int codewordRepresentation;    // la longitud en bits para escribir la codificación
 
     public LZWDecompressor() {
@@ -19,7 +15,6 @@ public class LZWDecompressor {
         codewordRepresentation = 8;
         dictionary = new ArrayList<>();
         for (char i = 0; i < 256; ++i) dictionary.add(String.valueOf(i));
-        pattern = new StringBuilder();
     }
 
     static private ArrayList<String> basicDictionary() {
@@ -43,29 +38,19 @@ public class LZWDecompressor {
         return compressedFileName;
     }
 
-    public String decompress(ArrayList<Integer> data) {
-        StringBuilder outString = new StringBuilder();
-        String pattern = dictionary.get(data.get(0));
-        outString.append(dictionary.get(data.get(0)));
-
-        for (int i = 1; i < data.size(); ++i) {
-            int index = data.get(i);
-            if (index < dictionary.size()) {
-                String out = dictionary.get(index);
-                outString.append(out);
-                dictionary.add(pattern + out.charAt(0));
-                pattern = out;
-            }
-            else {
-                dictionary.add(pattern + pattern.charAt(0));
-                outString.append(pattern + pattern.charAt(0));
-            }
-        }
-
-        return outString.toString();
+    /**
+     * Descomprime un fichero codificado con el algoritmo LZW
+     * @param filePath dirección del fichero a descomprimir
+     */
+    public void decompress(String filePath) {
+        decompress(new File(filePath));
     }
 
-    public void decompress_file(File file) {
+    /**
+     * Descomprime un fichero codificado con el algoritmo LZW
+     * @param file fichero a descomprimir
+     */
+    public void decompress(File file) {
         File decompressedFile = new File(getPathName(file) + "_decompressed.txt");
         try (BufferedInputStream bufferedInputStream =
                      new BufferedInputStream(new FileInputStream(file.getPath()));
@@ -110,5 +95,27 @@ public class LZWDecompressor {
             index = (index << i) | readByte;
         }
         return index;
+    }
+
+    public String decompress_list(ArrayList<Integer> data) {
+        StringBuilder outString = new StringBuilder();
+        String pattern = dictionary.get(data.get(0));
+        outString.append(dictionary.get(data.get(0)));
+
+        for (int i = 1; i < data.size(); ++i) {
+            int index = data.get(i);
+            if (index < dictionary.size()) {
+                String out = dictionary.get(index);
+                outString.append(out);
+                dictionary.add(pattern + out.charAt(0));
+                pattern = out;
+            }
+            else {
+                dictionary.add(pattern + pattern.charAt(0));
+                outString.append(pattern).append(pattern.charAt(0));
+            }
+        }
+
+        return outString.toString();
     }
 }

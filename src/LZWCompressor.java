@@ -1,16 +1,14 @@
-package LZW;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LZWCompressor {
+public class LZWCompressor extends Compressor {
     private static final String extension = ".zero";
     private static final int BYTE_SIZE = 8;
     private HashMap<String, Integer> dictionary;
     private StringBuilder pattern;
-    private int codewordRepresentation;    // la longitud en bits para escribir la codificación
+    private int codewordRepresentation;   // la longitud en bits para escribir la codificación
 
     /**
      * Crea un objecto compressor con el diccionario básico.
@@ -37,7 +35,7 @@ public class LZWCompressor {
      * @param data cadena de caracteres
      * @return     una lista de enteros que representa la cadena {@code data} en forma comprimida
      */
-    public ArrayList<Integer> compress(String data) {
+    public ArrayList<Integer> compress_string(String data) {
         ArrayList<Integer> outList = new ArrayList<>();
         for (int i = 0; i < data.length(); i++) {
             char c = data.charAt(i);
@@ -55,11 +53,15 @@ public class LZWCompressor {
         return outList;
     }
 
+    public void compress(String path) {
+        compress(new File(path));
+    }
+
     /**
      * Comprime un fichero text que recibe como parametro y crea un nuevo fichero con el contenido comprimido
      * @param file el fichero a comprimir
      */
-    public void compress_file(File file) {
+    public void compress(File file) {
         File compressedFile = new File(getCompressedName(file));
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(
                 new FileInputStream(file.getPath()));
@@ -90,6 +92,7 @@ public class LZWCompressor {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            System.out.println("Error de lectura/escritura");
             e.printStackTrace();
         };
     }

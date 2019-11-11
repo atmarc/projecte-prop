@@ -1,15 +1,11 @@
 import FileManager.FileManager;
-import JPEG.Block;
 import JPEG.JpegAlgorithm;
-import LZ78.LZ78_Compressor;
 import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
-import LZW.*;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class Application {
     public static void main(String [] args) throws Exception {
@@ -25,7 +21,7 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (true) { // LZ78
+        if (false) { // LZ78
 
             String input_comp = "./testing_files/big.txt";
             String output_comp = "./testing_files/LZ78_testing/comp.txt";
@@ -43,9 +39,9 @@ public class Application {
 
         if (false) { // LZW
             LZWCompressor compressor = new LZWCompressor();
-            compressor.compress_file(new File("testing_files/lzw/ansi.txt"));
+            compressor.compress(new File("testing_files/lzw/ansi.txt"));
             LZWDecompressor decompressor = new LZWDecompressor();
-            decompressor.decompress_file(new File("testing_files/lzw/ansi.zero"));
+            decompressor.decompress(new File("testing_files/lzw/ansi.zero"));
         }
 
         if (false) { // LZSS

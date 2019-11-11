@@ -78,7 +78,7 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        // Downsampling
+        // TODO: Downsampling
 
         // Block splitting
 
@@ -123,20 +123,21 @@ public class JPEGCompressor extends Compressor {
                     }
                 }
 
+                // TODO: arreglar el diff
                 blockY.DCT(); // Apliquem DCT a cada bloc
                 BlocksArrayY[y][x] = blockY;
-                int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
-                BlocksArrayY[y][x].setDCTValue(0,0, diff);
+                //int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
+                //BlocksArrayY[y][x].setDCTValue(0,0, diff);
 
                 blockCb.DCT();
                 BlocksArrayCb[y][x] = blockCb;
-                diff = getDiff(BlocksArrayCb, x, y);
-                BlocksArrayCb[y][x].setDCTValue(0,0, diff);
+                //diff = getDiff(BlocksArrayCb, x, y);
+                //BlocksArrayCb[y][x].setDCTValue(0,0, diff);
 
                 blockCr.DCT();
                 BlocksArrayCr[y][x] = blockCr;
-                diff = getDiff(BlocksArrayCr, x, y);
-                BlocksArrayCr[y][x].setDCTValue(0,0, diff);
+                //diff = getDiff(BlocksArrayCr, x, y);
+                //BlocksArrayCr[y][x].setDCTValue(0,0, diff);
             }
         }
 
@@ -151,12 +152,13 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        //file = Huffman.encode(file);
-        //return file;
+        Huffman huffman = new Huffman();
+        file = huffman.encode(file);
+
+        file = binToChar(file);
 
         try {
             FileManager.createFile(file, "testing_files/image.comp");
-            System.out.println(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -226,5 +228,18 @@ public class JPEGCompressor extends Compressor {
             diff = arrayBlock[y][x].getDCTValue(0,0);
         }
         return diff;
+    }
+
+    public static String binToChar (String s) {
+        String retorn = "";
+        int i;
+        for (i = 0; i + 16 <= s.length(); i += 16) {
+            retorn += (char) Integer.parseInt(s.substring(i, i + 16), 2);
+        }
+        if (i < s.length()) {
+            retorn += (char) Integer.parseInt(s.substring(i, s.length()), 2);
+        }
+
+        return retorn;
     }
 }

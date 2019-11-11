@@ -16,13 +16,11 @@ public class JPEGDecompressor extends Decompressor {
             e.printStackTrace();
         }
 
-        String file = "";
+        String file = byteToString(s);
 
-        for (int i = 0; i < s.length; ++i) {
-            file += (char) s[i];
-        }
-        String[] data = file.split(",");
-        // file = huffman.decode(file);
+        Huffman huffman = new Huffman();
+        //int[] data = huffman.decode(file);
+        String []data = file.split(",");
 
         final int nivellCompressio = parseInt(data[0]);
         final int nBlocksX = parseInt(data[1]);
@@ -61,9 +59,16 @@ public class JPEGDecompressor extends Decompressor {
             }
         }
 
+        // return "";
+    }
 
-
-       // return "";
+    private String byteToString(byte[] s) {
+        String retorn = "";
+        for (int i = 0; i < s.length; i += 2) {
+            char c = (char)(s[i] * 256 + s[i + 1]);
+            retorn += c;
+        }
+        return retorn;
     }
 
     // TODO: Pensar com posar que comencen els 0s
@@ -98,5 +103,4 @@ public class JPEGDecompressor extends Decompressor {
             arrayBlock[x][y].setDCTValue(0,0, value);
         }
     }
-
 }

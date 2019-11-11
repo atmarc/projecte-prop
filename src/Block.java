@@ -218,9 +218,9 @@ public class Block {
             }
         }
 
-        if (retorn.charAt(retorn.length() - 1) == ',') {
+        /*if (retorn.charAt(retorn.length() - 1) == ',') {
             retorn = retorn.substring(0, retorn.length() - 1);
-        }
+        }*/
 
         return retorn;
     }

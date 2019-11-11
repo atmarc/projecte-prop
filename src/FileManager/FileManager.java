@@ -28,22 +28,28 @@ public class FileManager {
         return outString.toString();
     }
 
-    public static ArrayList<Integer> readFileBytes(String filePath) throws IOException {
-        ArrayList outString = new ArrayList();
-        try {
-            FileReader reader = new FileReader(filePath);
-            BufferedReader bufferedReader = new BufferedReader(reader);
+    public static ArrayList<Byte> readFileBytes(String filePath) throws IOException {
+        /*
+        No funciona bé, amb File si que va bé:
 
-            int readByte;
-            while ((readByte = bufferedReader.read()) != -1) {
-                outString.add(readByte);
+        byte fileB [] = Files.readAllBytes(Paths.get("testing_files/boxes_1.ppm"));
+        */
+
+        ArrayList<Byte> outArray = new ArrayList<Byte>();
+        try {
+            FileInputStream in = new FileInputStream(filePath);
+            byte[] buffer = new byte[1024];
+            int size;
+
+            while ((size = in.read(buffer)) != -1) {
+                for (int i = 0; i < size; i++) outArray.add(buffer[i]);
             }
-            bufferedReader.close();
+            in.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return outString;
+        return outArray;
     }
 
     public static void createFile(String data, String path) throws IOException {

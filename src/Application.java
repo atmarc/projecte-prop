@@ -1,42 +1,140 @@
 import FileManager.FileManager;
-import JPEG.JpegAlgorithm;
-import LZ78.LZ78_Compressor;
+import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
-import LZW.*;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Application {
-    public static void main(String [] args) throws Exception
-    {
+    public static void main(String [] args) throws Exception {
         System.out.println("Testing output:\n");
 
-        ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-        JpegAlgorithm.compress(FileManager.readFile(paths.get(0)));
+        if (true) { // JPEG
+            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
+            JPEGCompressor jpegCompressor = new JPEGCompressor();
+            jpegCompressor.compress("testing_files/image.ppm");
+            //System.out.println(compimit);
+            //FileManager.createFile(compimit, "testing_files/image.comp");
+            //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));
+            //JpegAlgorithm.decompress(file);
+        }
+
+        if (false) { // LZ78
+
+            String input_comp = "./testing_files/big.txt";
+            String output_comp = "./testing_files/LZ78_testing/comp.txt";
+/*
+            LZ78_Compressor LZ78 = new LZ78_Compressor();
+            LZ78.TXcompressor(input_comp, output_comp);
+*/
+            String input_decomp = output_comp;
+            String output_decomp = "./testing_files/LZ78_testing/decomp.txt";
+
+            LZ78_Decompressor decompressor = new LZ78_Decompressor();
+            decompressor.TXdecompressor(input_decomp, output_decomp);
+        }
+
+
+        if (false) { // LZW
+            LZWCompressor compressor = new LZWCompressor();
+            compressor.compress(new File("testing_files/lzw/ansi.txt"));
+            LZWDecompressor decompressor = new LZWDecompressor();
+            decompressor.decompress(new File("testing_files/lzw/ansi.zero"));
+        }
+
+        if (false) { // LZSS
+            String path = FileManager.readFile("testing_files/filename.txt");
+            LZSS_Compressor LZSS = new LZSS_Compressor();
+            LZSS.Compress(path);
+        }
 
         /*
-        ArrayList<String> paths = FileManager.readFolder("testing_files", ".txt");
-        LZ78_Compressor LZ78 = new LZ78_Compressor();
-        LZ78.compress(FileManager.readFile(paths.get(0)));
-        LZ78.compress(FileManager.readFile_Byte(paths.get(0)));
+        Block block = new Block(8,8, "Y");
+        block.setValue(0,0,-76);
+        block.setValue(0,1,-73);
+        block.setValue(0,2,-67);
+        block.setValue(0,3,-62);
+        block.setValue(0,4,-58);
+        block.setValue(0,5,-67);
+        block.setValue(0,6,-64);
+        block.setValue(0,7,-55);
+
+        block.setValue(1,0,-65);
+        block.setValue(1,1,-69);
+        block.setValue(1,2,-73);
+        block.setValue(1,3,-38);
+        block.setValue(1,4,-19);
+        block.setValue(1,5,-43);
+        block.setValue(1,6,-59);
+        block.setValue(1,7,-56);
+
+        block.setValue(2,0,-66);
+        block.setValue(2,1,-69);
+        block.setValue(2,2,-60);
+        block.setValue(2,3,-15);
+        block.setValue(2,4,16);
+        block.setValue(2,5,-24);
+        block.setValue(2,6,-62);
+        block.setValue(2,7,-55);
+
+        block.setValue(3,0,-65);
+        block.setValue(3,1,-70);
+        block.setValue(3,2,-57);
+        block.setValue(3,3,-6);
+        block.setValue(3,4,26);
+        block.setValue(3,5,-22);
+        block.setValue(3,6,-58);
+        block.setValue(3,7,-59);
+
+        block.setValue(4,0,-61);
+        block.setValue(4,1,-67);
+        block.setValue(4,2,-60);
+        block.setValue(4,3,-24);
+        block.setValue(4,4,-2);
+        block.setValue(4,5,-40);
+        block.setValue(4,6,-60);
+        block.setValue(4,7,-58);
+
+        block.setValue(5,0,-49);
+        block.setValue(5,1,-63);
+        block.setValue(5,2,-68);
+        block.setValue(5,3,-58);
+        block.setValue(5,4,-51);
+        block.setValue(5,5,-60);
+        block.setValue(5,6,-70);
+        block.setValue(5,7,-53);
+
+        block.setValue(6,0,-43);
+        block.setValue(6,1,-57);
+        block.setValue(6,2,-64);
+        block.setValue(6,3,-69);
+        block.setValue(6,4,-73);
+        block.setValue(6,5,-67);
+        block.setValue(6,6,-63);
+        block.setValue(6,7,-45);
+
+        block.setValue(7,0,-41);
+        block.setValue(7,1,-49);
+        block.setValue(7,2,-59);
+        block.setValue(7,3,-60);
+        block.setValue(7,4,-63);
+        block.setValue(7,5,-52);
+        block.setValue(7,6,-50);
+        block.setValue(7,7,-34);
+
+        block.DCT();
+
+        block.printBlockDCT();
+        block.inverseQuantizationY();
+        block.printBlockDCT();
+        block.inverseDCT();
+        block.printBlockDCT();
+
+        //System.out.println(block.zigzag());
+
+        FileManager.createFile(block.zigzag(), "testing_files/provacreateFile.txt");
         */
-
-
-        /*
-        String data = FileManager.readFile("testing_files/filename.txt");
-        ArrayList<Integer> compressedData = LZWCompressor.compress(data);
-        FileManager.createFile(compressedData, "testing_files/output.zero");
-        compressedData = FileManager.readFileBytes("testing_files/output.zero");
-        String decompressedData = LZWDecompressor.decompress(compressedData);
-        FileManager.createFile(decompressedData, "testing_files/decompress.txt");
-        */
-
-
-        String path = FileManager.readFile("testing_files/filename.txt");
-        LZSS_Compressor LZSS = new LZSS_Compressor();
-        LZSS.Compress(path);
-
-
     }
 
 }

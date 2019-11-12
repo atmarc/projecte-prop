@@ -1,5 +1,4 @@
 import FileManager.FileManager;
-import JPEG.JpegAlgorithm;
 import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
 
@@ -11,10 +10,10 @@ public class Application {
     public static void main(String [] args) throws Exception {
         System.out.println("Testing output:\n");
 
-        if (false) { // JPEG
+        if (true) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-            byte file [] = Files.readAllBytes(Paths.get("testing_files/image.ppm"));
-            String compimit = JpegAlgorithm.compress(file);
+            JPEGCompressor jpegCompressor = new JPEGCompressor();
+            jpegCompressor.compress("testing_files/image.ppm");
             //System.out.println(compimit);
             //FileManager.createFile(compimit, "testing_files/image.comp");
             //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));

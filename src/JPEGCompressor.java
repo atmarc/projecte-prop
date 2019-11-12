@@ -1,15 +1,25 @@
-package JPEG;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
+import FileManager.FileManager;
 import Triplet.Triplet;
 
-public class JpegAlgorithm {
+public class JPEGCompressor extends Compressor {
 
     //TODO: Fixar-se amb fitxers no multiples de 8
-    public static String compress(byte s[]) {
+
+    public void compress(String path) {
+
+        byte s [] = new byte[0];
+        try {
+            s = Files.readAllBytes(Paths.get(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
         final String inputMode = "P" + (char)s[1];
@@ -68,7 +78,7 @@ public class JpegAlgorithm {
             }
         }
 
-        // Downsampling
+        // TODO: Downsampling
 
         // Block splitting
 
@@ -113,20 +123,21 @@ public class JpegAlgorithm {
                     }
                 }
 
+                // TODO: arreglar el diff
                 blockY.DCT(); // Apliquem DCT a cada bloc
                 BlocksArrayY[y][x] = blockY;
-                int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
-                BlocksArrayY[y][x].setDCTValue(0,0, diff);
+                //int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
+                //BlocksArrayY[y][x].setDCTValue(0,0, diff);
 
                 blockCb.DCT();
                 BlocksArrayCb[y][x] = blockCb;
-                diff = getDiff(BlocksArrayCb, x, y);
-                BlocksArrayCb[y][x].setDCTValue(0,0, diff);
+                //diff = getDiff(BlocksArrayCb, x, y);
+                //BlocksArrayCb[y][x].setDCTValue(0,0, diff);
 
                 blockCr.DCT();
                 BlocksArrayCr[y][x] = blockCr;
-                diff = getDiff(BlocksArrayCr, x, y);
-                BlocksArrayCr[y][x].setDCTValue(0,0, diff);
+                //diff = getDiff(BlocksArrayCr, x, y);
+                //BlocksArrayCr[y][x].setDCTValue(0,0, diff);
             }
         }
 
@@ -141,61 +152,17 @@ public class JpegAlgorithm {
             }
         }
 
-        //file = Huffman.encode(file);
-        return file;
+        Huffman huffman = new Huffman();
+        file = huffman.encode(file);
+
+        file = binToChar(file);
+
+        try {
+            FileManager.createFile(file, "testing_files/image.comp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    public static String decompress(byte s[]) {
-        String file = "";
-
-        for (int i = 0; i < s.length; ++i) {
-            file += (char) s[i];
-        }
-        String[] data = file.split(",");
-        // file = huffman.decode(file);
-
-        final int nivellCompressio = parseInt(data[0]);
-        final int nBlocksX = parseInt(data[1]);
-        final int nBlocksY = parseInt(data[2]);
-
-        Block[][] arrayOfBlocksY = new Block[nBlocksX][nBlocksY];
-        Block[][] arrayOfBlocksCb = new Block[nBlocksX][nBlocksY];
-        Block[][] arrayOfBlocksCr = new Block[nBlocksX][nBlocksY];
-
-        int index = 3;
-        int bi = 0, bj = 0;
-        while (index < data.length) {
-            // TODO: Mirar si entren 0 no s'ha de sumar 64
-            arrayOfBlocksY[bi][bj] = readBlock(data, index);
-            index += 64;
-
-            arrayOfBlocksCb[bi][bj] = readBlock(data, index);
-            index += 64;
-
-            arrayOfBlocksCr[bi][bj] = readBlock(data, index);
-            index += 64;
-
-            ++bj;
-            if (bj >= 8 && bi < 7) ++bi;
-        }
-
-        // Tornar a sumar diferència
-        for (int i = 0; i < nBlocksY; ++i) {
-            for (int j = 0; j < nBlocksX; ++j) {
-                sumDC(arrayOfBlocksY, j, i);
-                arrayOfBlocksY[i][j].inverseQuantizationY();
-                arrayOfBlocksY[i][j].inverseDCT();
-
-                sumDC(arrayOfBlocksCb, j, i);
-                sumDC(arrayOfBlocksCr, j, i);
-            }
-        }
-
-
-
-        return "";
-    }
-
 
     /*
     RGB --> YCbCr
@@ -250,27 +217,6 @@ public class JpegAlgorithm {
         }
     }
 
-    // TODO: Pensar com posar que comencen els 0s
-    private static Block readBlock(String data[], int i) {
-        Block blockY = new Block(8,8, "Y");
-        boolean zero = false;
-        for (int x = 0; x < 8 && x < data.length; ++x) {
-            for (int y = 0; y < 8 && y < data.length; ++y) {
-                int value;
-                if (!zero) {
-                    value = parseInt(data[i]);
-                    if (value == 0) zero = true;
-                    blockY.setDCTValue(x, y, parseInt(data[i]));
-                    ++i;
-                }
-                else {
-                    blockY.setDCTValue(x, y, 0);
-                }
-            }
-        }
-        return blockY;
-    }
-
     private static int getDiff (Block [][] arrayBlock, int x, int y) {
         int diff;
         if (x > 0) {
@@ -284,15 +230,16 @@ public class JpegAlgorithm {
         return diff;
     }
 
-    private static void sumDC (Block [][] arrayBlock, int x, int y) {
-        int value;
-        if (x > 0) {
-            value = arrayBlock[y][x - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
-            arrayBlock[x][y].setDCTValue(0,0, value);
+    public static String binToChar (String s) {
+        String retorn = "";
+        int i;
+        for (i = 0; i + 16 <= s.length(); i += 16) {
+            retorn += (char) Integer.parseInt(s.substring(i, i + 16), 2);
         }
-        else if (y > 0) {
-            value = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
-            arrayBlock[x][y].setDCTValue(0,0, value);
+        if (i < s.length()) {
+            retorn += (char) Integer.parseInt(s.substring(i, s.length()), 2);
         }
+
+        return retorn;
     }
 }

@@ -1,6 +1,5 @@
-package LZ78;
-
 import FileManager.FileManager;
+import LZ78.Pair;
 import SearchTree.Tree;
 
 import java.io.*;
@@ -10,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class LZ78_Compressor {
-
+public class LZ78Compressor extends Compressor {
+    final static String extension = ".egg";
     final static int BUFF_SIZE = 1024; // 16KB
     private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
     private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
     private int previous_index;
 
-    public LZ78_Compressor() {
+    public LZ78Compressor() {
         files = new ArrayList<>();
         add_comp_file();
     }
@@ -28,11 +27,29 @@ public class LZ78_Compressor {
         comp_file.add(new Pair(0, (byte) 0x00));
     }
 
-    public void TXcompressor(String inputPath, String outputPath) {
+    /**
+     * @param file El fichero desde cual se tiene que calcular el nombre
+     * @return     El nombre con la extension del fichero a comprimir
+     */
+    private String getCompressedName(File file) {
+        String fileName = file.getPath();
+        int pos = fileName.lastIndexOf('.');
+        String compressedFileName;
+        if (pos != -1) compressedFileName = fileName.substring(0, pos);
+        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
+        return compressedFileName + extension;
+    }
+
+
+    public void compress(String inputPath) {
 
         try {
 
-            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputPath));
+            File file = new File(inputPath);
+
+
+
+            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(file));
 
             int B;
             Tree tree = new Tree(1);
@@ -49,7 +66,7 @@ public class LZ78_Compressor {
             // Set del tamano total del archivo comprimido
             comp_file.set(0, new Pair(comp_file.size() - 1, (byte) 0x00));
 
-            write_compressed_file(outputPath);
+            write_compressed_file(getCompressedName(file));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -133,7 +150,6 @@ public class LZ78_Compressor {
             buffer[4] = comp_file.get(i).offset;
             file.write(buffer, 0, 5);
         }
-
         file.close();
     }
 

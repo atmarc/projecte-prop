@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class LZWCompressor extends Compressor {
     private static final String extension = ".zero";
@@ -35,7 +34,7 @@ public class LZWCompressor extends Compressor {
      * @param data cadena de caracteres
      * @return     una lista de enteros que representa la cadena {@code data} en forma comprimida
      */
-    public ArrayList<Integer> compress_string(String data) {
+    public ArrayList<Integer> compressString(String data) {
         ArrayList<Integer> outList = new ArrayList<>();
         for (int i = 0; i < data.length(); i++) {
             char c = data.charAt(i);
@@ -49,7 +48,7 @@ public class LZWCompressor extends Compressor {
             }
             else pattern.append(c);
         }
-        outList.add(dictionary.get(pattern.toString()));
+        if (pattern.length() > 0 ) outList.add(dictionary.get(pattern.toString()));
         return outList;
     }
 
@@ -85,10 +84,12 @@ public class LZWCompressor extends Compressor {
                 }
                 else pattern.append(c);
             }
-            codeword = dictionary.get(pattern.toString());
-            if (codeword >= (1 << codewordRepresentation)) codewordRepresentation += BYTE_SIZE;
-            byte[] codewordAsByte = toByteArray(codeword);
-            bufferedOutputStream.write(codewordAsByte);
+            if (pattern.length() > 0) {
+                codeword = dictionary.get(pattern.toString());
+                if (codeword >= (1 << codewordRepresentation)) codewordRepresentation += BYTE_SIZE;
+                byte[] codewordAsByte = toByteArray(codeword);
+                bufferedOutputStream.write(codewordAsByte);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

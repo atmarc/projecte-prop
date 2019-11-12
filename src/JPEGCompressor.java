@@ -153,9 +153,15 @@ public class JPEGCompressor extends Compressor {
         }
 
         Huffman huffman = new Huffman();
-        file = huffman.encode(file);
 
-        file = binToChar(file);
+        file = huffman.encode(file);
+        //System.out.println(file);
+        //System.out.println(file.length());
+
+        file = stringBinToChar(file);
+
+        //System.out.println(file);
+        //System.out.println(file.length());
 
         try {
             FileManager.createFile(file, "testing_files/image.comp");
@@ -230,7 +236,7 @@ public class JPEGCompressor extends Compressor {
         return diff;
     }
 
-    public static String binToChar (String s) {
+    public static String stringBinToChar(String s) {
         String retorn = "";
         int i;
         for (i = 0; i + 16 <= s.length(); i += 16) {

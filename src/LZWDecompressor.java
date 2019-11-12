@@ -1,8 +1,7 @@
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-public class LZWDecompressor extends Decompressor{
+public class LZWDecompressor extends Decompressor {
     private static final int BYTE_SIZE = 8;
     private ArrayList<String> dictionary;
     private int codewordRepresentation;    // la longitud en bits para escribir la codificación

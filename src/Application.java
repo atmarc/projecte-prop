@@ -3,17 +3,25 @@ import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Application {
     public static void main(String [] args) throws Exception {
-        System.out.println("Testing output:\n");
 
         if (true) { // JPEG
-            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JPEGCompressor jpegCompressor = new JPEGCompressor();
+            System.out.println("Start compression...");
+            //jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
             jpegCompressor.compress("testing_files/image.ppm");
+            System.out.println("Finish compressing!");
+
+            JPEGDecompressor jpegDecompressor = new JPEGDecompressor();
+            jpegDecompressor.decompress("testing_files/image.comp");
+
+            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             //System.out.println(compimit);
             //FileManager.createFile(compimit, "testing_files/image.comp");
             //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));

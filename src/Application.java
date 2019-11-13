@@ -1,5 +1,4 @@
 import FileManager.FileManager;
-import LZ78.LZ78_Decompressor;
 import LZSS.LZSS_Compressor;
 
 import java.io.File;
@@ -12,6 +11,7 @@ public class Application {
     public static void main(String [] args) throws Exception {
 
         if (true) { // JPEG
+            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JPEGCompressor jpegCompressor = new JPEGCompressor();
             System.out.println("Start compression...");
             //jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
@@ -28,15 +28,15 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (false) { // LZ78
+        if (true) { // LZ78
 
             String input_comp = "./testing_files/big.txt";
             String output_comp = "./testing_files/LZ78_testing/comp.txt";
-/*
-            LZ78_Compressor LZ78 = new LZ78_Compressor();
-            LZ78.TXcompressor(input_comp, output_comp);
-*/
-            String input_decomp = output_comp;
+
+            LZ78Compressor LZ78 = new LZ78Compressor();
+            LZ78.compress(input_comp);
+
+            String input_decomp = "./testing_files/big.egg";
             String output_decomp = "./testing_files/LZ78_testing/decomp.txt";
 
             LZ78_Decompressor decompressor = new LZ78_Decompressor();

@@ -68,6 +68,7 @@ public class Huffman {
         // Posem un 1 per saber que comença el diccionari i 2 al final per dir que s'acaba
         String comprimit = "1" + addDictionary() + "011111111111111110";
 
+        int size = comprimit.length();
         for (int i = 0; i < file.length; ++i) {
             comprimit += dictionary.get(file[i]);
         }
@@ -79,12 +80,6 @@ public class Huffman {
         }
 
         if (comprimit.length()%8 != 0) System.out.println("Segueix sense ser multiple");
-
-        for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-            String c = entry.getKey();
-            String code = entry.getValue();
-            System.out.println(c + ": " + code);
-        }
 
         return comprimit;
     }
@@ -101,7 +96,7 @@ public class Huffman {
         return  true;
     }
 
-    public int[] decode(String file) {
+    public ArrayList<Integer> decode(String file) {
         LinkedHashMap<String, String> dictionary = new LinkedHashMap<>();
         int index = 0;
         fileGlobal = file;
@@ -134,14 +129,21 @@ public class Huffman {
                 key = "" + (aux);
             }
 
-            dictionary.put(key, code);
+            dictionary.put(code, key);
         }
-        index += 36;
 
-        
-
-
-        return null;
+        index += 18;
+        String sub = file.substring(index);
+        ArrayList<Integer> valors = new ArrayList<>();
+        while (index < file.length()) {
+            String code = "";
+            while (!dictionary.containsKey(code)) {
+                code += file.charAt(index);
+                ++index;
+            }
+            valors.add(parseInt(dictionary.get(code)));
+        }
+        return valors;
     }
 
     public static String charToBin(char c) {
@@ -172,8 +174,8 @@ public class Huffman {
             //System.out.println(root.c + ":" + s);
             return;
         }
-        makeDict(root.left, s + "0");
-        makeDict(root.right, s + "1");
+        makeDict(root.left, s + "1");
+        makeDict(root.right, s + "0");
     }
 
     private LinkedHashMap<String, Integer> calculateFreq(String[] file) {

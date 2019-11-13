@@ -3,6 +3,7 @@ import FileManager.FileManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.BitSet;
 
 import static java.lang.Integer.parseInt;
@@ -20,11 +21,12 @@ public class JPEGDecompressor extends Decompressor {
         }
 
         String file = charToBinString(s);
-        System.out.println(file);
-        System.out.println(file.length());
         Huffman huffman = new Huffman();
-        int values[] = huffman.decode(file);
+        ArrayList<Integer> valors = huffman.decode(file);
 
+        String aux = "";
+        for(int i = 0; i < valors.size(); ++i) aux += valors.get(i) + ",";
+        System.out.println(aux);
         /*
         final int nivellCompressio = parseInt(data[0]);
         final int nBlocksX = parseInt(data[1]);

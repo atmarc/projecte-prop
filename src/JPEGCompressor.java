@@ -152,11 +152,9 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        Huffman huffman = new Huffman();
-
-        file = huffman.encode(file);
         System.out.println(file);
-        System.out.println(file.length());
+        Huffman huffman = new Huffman();
+        file = huffman.encode(file);
 
         ArrayList<Byte> arrayBytes = stringBinToChar(file);
 

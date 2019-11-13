@@ -20,7 +20,6 @@ public class Application {
 
             JPEGDecompressor jpegDecompressor = new JPEGDecompressor();
             jpegDecompressor.decompress("testing_files/image.comp");
-
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             //System.out.println(compimit);
             //FileManager.createFile(compimit, "testing_files/image.comp");
@@ -28,7 +27,7 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (true) { // LZ78
+        if (false) { // LZ78
 
             String input_comp = "./testing_files/big.txt";
             String output_comp = "./testing_files/LZ78_testing/comp.txt";

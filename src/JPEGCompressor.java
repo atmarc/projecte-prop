@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -155,21 +155,24 @@ public class JPEGCompressor extends Compressor {
         Huffman huffman = new Huffman();
 
         file = huffman.encode(file);
-        //System.out.println(file);
-        //System.out.println(file.length());
+        System.out.println(file);
+        System.out.println(file.length());
 
-        file = stringBinToChar(file);
+        ArrayList<Byte> arrayBytes = stringBinToChar(file);
 
-        //System.out.println(file);
-        //System.out.println(file.length());
+        try (BufferedOutputStream bufferedOutputStream =
+                     new BufferedOutputStream(new FileOutputStream("testing_files/image.comp"))) {
 
-        try {
-            FileManager.createFile(file, "testing_files/image.comp");
+            byte [] bytes = new byte[arrayBytes.size()];
+            for (int i = 0; i < arrayBytes.size(); ++i) {
+                bytes[i] = arrayBytes.get(i);
+            }
+            bufferedOutputStream.write(bytes);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /*
     RGB --> YCbCr
         Y = 0.299 R + 0.587 G + 0.114 B
@@ -236,16 +239,19 @@ public class JPEGCompressor extends Compressor {
         return diff;
     }
 
-    public static String stringBinToChar(String s) {
+    public static ArrayList<Byte> stringBinToChar(String s) {
         String retorn = "";
-        int i;
-        for (i = 0; i + 16 <= s.length(); i += 16) {
-            retorn += (char) Integer.parseInt(s.substring(i, i + 16), 2);
+        ArrayList<Byte> arrayBytes = new ArrayList<>();
+        for (int j = 0; j + 8 <= s.length(); j += 8) {
+            byte b = 0;
+            String aux = s.substring(j, j + 8);
+            for (int i = 0; i < 8; ++i) {
+                if (aux.charAt(i) == '1') {
+                    b = (byte) (b | (1 << 7-i));
+                }
+            }
+            arrayBytes.add(b);
         }
-        if (i < s.length()) {
-            retorn += (char) Integer.parseInt(s.substring(i, s.length()), 2);
-        }
-
-        return retorn;
+        return arrayBytes;
     }
 }

@@ -3,6 +3,7 @@ import FileManager.FileManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.BitSet;
 
 import static java.lang.Integer.parseInt;
 
@@ -11,19 +12,20 @@ public class JPEGDecompressor extends Decompressor {
 
     public void decompress(String path) {
 
-        String file = "";
+        byte s [] = new byte[0];
         try {
-            file = FileManager.readFile(path);
+            s = Files.readAllBytes(Paths.get(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        file = charToBinString(file);
+        String file = charToBinString(s);
         System.out.println(file);
         System.out.println(file.length());
         Huffman huffman = new Huffman();
         int values[] = huffman.decode(file);
-/*
+
+        /*
         final int nivellCompressio = parseInt(data[0]);
         final int nBlocksX = parseInt(data[1]);
         final int nBlocksY = parseInt(data[2]);
@@ -65,12 +67,13 @@ public class JPEGDecompressor extends Decompressor {
     }
 
 
-    private static String charToBinString(String s) {
+    private static String charToBinString(byte[] s) {
         String retorn = "";
-
-        for (int i = 0; i < s.length(); ++i) {
-            char c = s.charAt(i);
-            retorn += Huffman.charToBin(c);
+        for (int i = 0; i < s.length; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                if (((s[i] >> 7 - j) & 1) == 1) retorn += "1";
+                else retorn += "0";
+            }
         }
 
         return retorn;

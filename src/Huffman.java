@@ -106,10 +106,10 @@ public class Huffman {
         int index = 0;
         fileGlobal = file;
         // Llegim els 0 que el fan múltiple de 8
-        System.out.println(file.length());
         while (file.charAt(index) != '1') ++index;
         // Saltem el primer 1 que indica el principi de la
         ++index;
+        // Llegim diccionari
         while (!isSeparador(index) && !isSeparador(index + 18)) {
             String key = "";
             while (!isSeparador(index)) {
@@ -136,13 +136,11 @@ public class Huffman {
 
             dictionary.put(key, code);
         }
+        index += 36;
 
-        //retorn +=  '|' + character + '|' + separador + '|' + code + '|' + separador;
-        for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-            String c = entry.getKey();
-            String code = entry.getValue();
-            System.out.println(c + ": " + code);
-        }
+        
+
+
         return null;
     }
 

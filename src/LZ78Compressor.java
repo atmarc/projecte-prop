@@ -82,11 +82,11 @@ public class LZ78Compressor extends Compressor {
          *  top_search = false -> El byte B esta insertado en el nivel iesimo del arbol, donde i = numero de llamadas previas con top_search = false desde la ultima llamada con top_search = true (numero de Bytes del submote) (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
          *
          * Parametros:
-         *  - byte B: Byte que se quiere comprimir.
-         *  - Tree tree: Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
-         *  - boolean top_search: Indica si se desea reiniciar la busqueda desde arriba del arbol.
+         * @param B Byte que se quiere comprimir.
+         * @param tree: Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
+         * @param top_search: Indica si se desea reiniciar la busqueda desde arriba del arbol.
          *
-         * Retorna el estado en el que se encuentra la compresion.
+         * @return Retorna el estado en el que se encuentra la compresion.
          *  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
          *  - false -> El mote buscado existe. Se solicita otro byte para continuar buscando en la actual altura del arbol.
          */

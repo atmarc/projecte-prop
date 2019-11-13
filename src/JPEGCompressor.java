@@ -143,7 +143,7 @@ public class JPEGCompressor extends Compressor {
 
         int nivellCompressio = 0;
 
-        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + ",";
+        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + "," + HEIGHT + "," + WIDTH + ",";
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
                 file += BlocksArrayY[y][x].zigzag();
@@ -152,7 +152,6 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        System.out.println(file);
         Huffman huffman = new Huffman();
         file = huffman.encode(file);
 

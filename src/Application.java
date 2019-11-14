@@ -2,21 +2,20 @@ import FileManager.FileManager;
 import LZSS.LZSS_Compressor;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Application {
     public static void main(String [] args) throws Exception {
 
+        // TODO: Mirar com evitar els comentaris
         if (true) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JPEGCompressor jpegCompressor = new JPEGCompressor();
             System.out.println("Start compression...");
-            //jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
+            jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
             //jpegCompressor.compress("testing_files/image.ppm");
-            jpegCompressor.compress("testing_files/ppm_images/boxes_1.ppm");
+            //jpegCompressor.compress("testing_files/ppm_images/france-wallpaper.ppm");
             System.out.println("Finish compressing!");
 
             System.out.println("Start decompression...");
@@ -41,8 +40,6 @@ public class Application {
             String input_decomp = "./testing_files/big.egg";
             String output_decomp = "./testing_files/LZ78_testing/decomp.txt";
 
-            LZ78_Decompressor decompressor = new LZ78_Decompressor();
-            decompressor.TXdecompressor(input_decomp, output_decomp);
         }
 
 

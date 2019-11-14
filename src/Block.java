@@ -125,20 +125,20 @@ public class Block {
         DCTvalors = auxArray;
     }
 
-    public String zigzag() {
+    public void zigzag(int [] file, int ind) {
         int row = 0, col = 0;
         boolean row_inc = false;
         int m = height;
         int n = width;
-
+        int index = ind;
         int mn = Math.min(m, n);
 
-        String retorn = "";
 
         for (int len = 1; len <= mn; ++len) {
             for (int i = 0; i < len; ++i) {
 
-                retorn += DCTvalors[row][col] + ",";
+                file[index] = DCTvalors[row][col];
+                ++index;
 
                 if (i + 1 == len)
                     break;
@@ -187,7 +187,8 @@ public class Block {
                 len = diag;
 
             for (int i = 0; i < len; ++i) {
-                retorn += DCTvalors[row][col] + ",";
+                file[index] = DCTvalors[row][col];
+                ++index;
 
                 if (i + 1 == len)
                     break;
@@ -219,8 +220,6 @@ public class Block {
                 row_inc = false;
             }
         }
-
-        return retorn;
     }
 
     public void zigzagInvers(ArrayList<Integer> arr, int index) {

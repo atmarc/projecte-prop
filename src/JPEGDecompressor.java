@@ -23,9 +23,11 @@ public class JPEGDecompressor extends Decompressor {
             e.printStackTrace();
         }
 
-        String file = charToBinString(s);
+        int[] bits = new int[s.length * 8];
+        charToBinString(s, bits);
         Huffman huffman = new Huffman();
-        ArrayList<Integer> valors = huffman.decode(file);
+        ArrayList<Integer> valors = new ArrayList<>();
+        huffman.decode(bits, valors);
 
         final int nivellCompressio = valors.get(0);
         final int nBlocksX = valors.get(1);
@@ -138,16 +140,15 @@ public class JPEGDecompressor extends Decompressor {
         return new Triplet<Byte, Byte, Byte>((byte)R, (byte)G, (byte)B);
     }
 
-    private static String charToBinString(byte[] s) {
-        String retorn = "";
+    private static void charToBinString(byte[] s, int[] bits) {
+        int index = 0;
         for (int i = 0; i < s.length; ++i) {
             for (int j = 0; j < 8; ++j) {
-                if (((s[i] >> 7 - j) & 1) == 1) retorn += "1";
-                else retorn += "0";
+                if (((s[i] >> 7 - j) & 1) == 1) bits[index] = 1;
+                else bits[index] = 0;
+                ++index;
             }
         }
-
-        return retorn;
     }
 
     // TODO: Pensar com posar que comencen els 0s

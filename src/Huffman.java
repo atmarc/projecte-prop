@@ -87,38 +87,34 @@ public class Huffman {
         if (bits.size() % 8 != 0) System.out.println("Segueix sense ser multiple");
     }
 
-
-    // Perque no s'hagi de copiar cada vegada al fer isSeparador
-    private String fileGlobal = "";
-    private boolean isSeparador (int index) {
-        if (fileGlobal.charAt(index) != '0') return false;
+    private boolean isSeparador (int[] bits, int index) {
+        if (bits[index] != 0) return false;
         for (int i = 1; i <= 16; ++i) {
-            if (fileGlobal.charAt(index + i) != '1') return false;
+            if (bits[index + i] != 1) return false;
         }
-        if (fileGlobal.charAt(index + 17) != '0') return false;
-        return  true;
+        if (bits[index + 17] != 0) return false;
+        return true;
     }
 
-    public ArrayList<Integer> decode(String file) {
+    public void decode(int[] file, ArrayList<Integer> valors) {
         LinkedHashMap<String, String> dictionary = new LinkedHashMap<>();
         int index = 0;
-        fileGlobal = file;
         // Llegim els 0 que el fan múltiple de 8
-        while (file.charAt(index) != '1') ++index;
+        while (file[index] != 1) ++index;
         // Saltem el primer 1 que indica el principi de la
         ++index;
         // Llegim diccionari
-        while (!isSeparador(index) && !isSeparador(index + 18)) {
+        while (!isSeparador(file, index) && !isSeparador(file, index + 18)) {
             String key = "";
-            while (!isSeparador(index)) {
-                key += file.charAt(index);
+            while (!isSeparador(file, index)) {
+                key += file[index];
                 ++index;
             }
             // Com que hem trobat un separador, el saltem
             index += 18;
             String code = "";
-            while (!isSeparador(index)) {
-                code += file.charAt(index);
+            while (!isSeparador(file, index)) {
+                code += file[index];
                 ++index;
             }
             // Com que hem trobat un separador, el saltem
@@ -136,17 +132,15 @@ public class Huffman {
         }
 
         index += 18;
-        String sub = file.substring(index);
-        ArrayList<Integer> valors = new ArrayList<>();
-        while (index < file.length()) {
+
+        while (index < file.length) {
             String code = "";
             while (!dictionary.containsKey(code)) {
-                code += file.charAt(index);
+                code += file[index];
                 ++index;
             }
             valors.add(parseInt(dictionary.get(code)));
         }
-        return valors;
     }
 
     public static String charToBin(char c) {

@@ -9,60 +9,58 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         // TODO: Mirar com evitar els comentaris
+        String inputPath = "";
+        String outputPath = "";
         if (true) { // JPEG
-            String inputPath = "";
-            String outputPath = "";
+
+            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
+            JPEGCompressor jpegCompressor = new JPEGCompressor();
+            System.out.println("Start compression...");
+            //jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
+            //jpegCompressor.compress("testing_files/image.ppm");
+            jpegCompressor.compress("testing_files/ppm_images/france-wallpaper.ppm");
+            System.out.println("Finish compressing!");
+
+            System.out.println("Start decompression...");
+            JPEGDecompressor jpegDecompressor = new JPEGDecompressor();
+            jpegDecompressor.decompress("testing_files/image.comp");
+            System.out.println("Finish decompressing!");
+            // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
+            //System.out.println(compimit);
+            //FileManager.createFile(compimit, "testing_files/image.comp");
+            //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));
+            //JpegAlgorithm.decompress(file);
+        }
+
+        if (true) { // LZ78
+
+            String input_comp = "./testing_files/1M.txt";
+            String output_comp = "./testing_files/comp.txt";
+
+            LZ78Compressor LZ78 = new LZ78Compressor();
+            LZ78.compress(input_comp);
+
+            String input_decomp = "./testing_files/1M.egg";
+            String output_decomp = "./testing_files/decomp.txt";
+
+            LZ78Decompressor decompressor = new LZ78Decompressor();
+            // decompressor.TXdecompressor(input_decomp, output_decomp);
+        }
 
 
-            if (false) { // JPEG
-                // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-                JPEGCompressor jpegCompressor = new JPEGCompressor();
-                System.out.println("Start compression...");
-                jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
-                //jpegCompressor.compress("testing_files/image.ppm");
-                //jpegCompressor.compress("testing_files/ppm_images/france-wallpaper.ppm");
-                System.out.println("Finish compressing!");
+        if (false) { // LZW
+            Compressor compressor = new LZWCompressor();
+            compressor.selectFiles(inputPath, outputPath);
+            compressor.compress("testing_files/lzw/ansi.txt");
+            Decompressor decompressor = new LZWDecompressor();
+            decompressor.decompress("testing_files/lzw/ansi.zero");
+        }
 
-                System.out.println("Start decompression...");
-                JPEGDecompressor jpegDecompressor = new JPEGDecompressor();
-                jpegDecompressor.decompress("testing_files/image.comp");
-                System.out.println("Finish decompressing!");
-                // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
-                //System.out.println(compimit);
-                //FileManager.createFile(compimit, "testing_files/image.comp");
-                //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));
-                //JpegAlgorithm.decompress(file);
-            }
-
-            if (true) { // LZ78
-
-                String input_comp = "./testing_files/1M.txt";
-                String output_comp = "./testing_files/comp.txt";
-
-                LZ78Compressor LZ78 = new LZ78Compressor();
-                LZ78.compress(input_comp);
-
-                String input_decomp = "./testing_files/1M.egg";
-                String output_decomp = "./testing_files/decomp.txt";
-
-                LZ78Decompressor decompressor = new LZ78Decompressor();
-                // decompressor.TXdecompressor(input_decomp, output_decomp);
-            }
-
-
-            if (false) { // LZW
-                Compressor compressor = new LZWCompressor();
-                compressor.selectFiles(inputPath, outputPath);
-                compressor.compress("testing_files/lzw/ansi.txt");
-                Decompressor decompressor = new LZWDecompressor();
-                decompressor.decompress("testing_files/lzw/ansi.zero");
-            }
-
-            if (false) { // LZSS
-                String path = FileManager.readFile("testing_files/filename.txt");
-                LZSS_Compressor LZSS = new LZSS_Compressor();
-                LZSS.Compress(path);
-            }
+        if (false) { // LZSS
+            String path = FileManager.readFile("testing_files/filename.txt");
+            LZSS_Compressor LZSS = new LZSS_Compressor();
+            LZSS.Compress(path);
+        }
 
         /*
         Block block = new Block(8,8, "Y");
@@ -150,6 +148,6 @@ public class Application {
 
         FileManager.createFile(block.zigzag(), "testing_files/provacreateFile.txt");
         */
-        }
+
     }
 }

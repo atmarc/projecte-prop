@@ -10,13 +10,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class LZ78Compressor extends Compressor {
-    final static String extension = ".egg";
-    final static int BUFF_SIZE = 1024; // 16KB
+
+    private final static String extension = ".lz78";
     private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
+
     private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
     private int previous_index;
 
-    public LZ78Compressor() {
+    LZ78Compressor() {
         files = new ArrayList<>();
         add_comp_file();
     }
@@ -46,9 +47,6 @@ public class LZ78Compressor extends Compressor {
         try {
 
             File file = new File(inputPath);
-
-
-
             BufferedInputStream reader = new BufferedInputStream(new FileInputStream(file));
 
             int B;
@@ -83,8 +81,8 @@ public class LZ78Compressor extends Compressor {
          *
          * Parametros:
          * @param B Byte que se quiere comprimir.
-         * @param tree: Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
-         * @param top_search: Indica si se desea reiniciar la busqueda desde arriba del arbol.
+         * @param tree Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
+         * @param top_search Indica si se desea reiniciar la busqueda desde arriba del arbol.
          *
          * @return Retorna el estado en el que se encuentra la compresion.
          *  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
-import FileManager.FileManager;
 import Triplet.Triplet;
 
 public class JPEGCompressor extends Compressor {
@@ -143,7 +142,7 @@ public class JPEGCompressor extends Compressor {
 
         int nivellCompressio = 0;
 
-        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + ",";
+        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + "," + HEIGHT + "," + WIDTH + ",";
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
                 file += BlocksArrayY[y][x].zigzag();
@@ -152,11 +151,10 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        System.out.println(file);
         Huffman huffman = new Huffman();
         file = huffman.encode(file);
 
-        ArrayList<Byte> arrayBytes = stringBinToChar(file);
+        ArrayList<Byte> arrayBytes = stringBinToByte(file);
 
         try (BufferedOutputStream bufferedOutputStream =
                      new BufferedOutputStream(new FileOutputStream("testing_files/image.comp"))) {
@@ -237,7 +235,7 @@ public class JPEGCompressor extends Compressor {
         return diff;
     }
 
-    public static ArrayList<Byte> stringBinToChar(String s) {
+    public static ArrayList<Byte> stringBinToByte(String s) {
         String retorn = "";
         ArrayList<Byte> arrayBytes = new ArrayList<>();
         for (int j = 0; j + 8 <= s.length(); j += 8) {

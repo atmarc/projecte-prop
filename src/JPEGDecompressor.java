@@ -1,5 +1,8 @@
 import FileManager.FileManager;
+import Triplet.Triplet;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,50 +27,116 @@ public class JPEGDecompressor extends Decompressor {
         Huffman huffman = new Huffman();
         ArrayList<Integer> valors = huffman.decode(file);
 
-        String aux = "";
-        for(int i = 0; i < valors.size(); ++i) aux += valors.get(i) + ",";
-        System.out.println(aux);
-        /*
-        final int nivellCompressio = parseInt(data[0]);
-        final int nBlocksX = parseInt(data[1]);
-        final int nBlocksY = parseInt(data[2]);
+        final int nivellCompressio = valors.get(0);
+        final int nBlocksX = valors.get(1);
+        final int nBlocksY = valors.get(2);
+        final int HEIGHT = valors.get(3);
+        final int WIDTH = valors.get(4);
 
-        Block[][] arrayOfBlocksY = new Block[nBlocksX][nBlocksY];
-        Block[][] arrayOfBlocksCb = new Block[nBlocksX][nBlocksY];
-        Block[][] arrayOfBlocksCr = new Block[nBlocksX][nBlocksY];
+        Block[][] arrayOfBlocksY = new Block[nBlocksY][nBlocksX];
+        Block[][] arrayOfBlocksCb = new Block[nBlocksY][nBlocksX];
+        Block[][] arrayOfBlocksCr = new Block[nBlocksY][nBlocksX];
 
-        int index = 3;
+        int index = 5;
         int bi = 0, bj = 0;
-        while (index < data.length) {
-            // TODO: Mirar si entren 0 no s'ha de sumar 64
-            arrayOfBlocksY[bi][bj] = readBlock(data, index);
+
+        // TODO: Tornar a sumar diferència
+        while (index < valors.size()) {
+            Block blockY = readBlock(valors, index, "Y");
+            blockY.inverseQuantizationY();
+            blockY.inverseDCT();
+            arrayOfBlocksY[bi][bj] = blockY;
             index += 64;
 
-            arrayOfBlocksCb[bi][bj] = readBlock(data, index);
+            Block blockCb = readBlock(valors, index, "Cb");
+            blockCb.inverseQuantizationC();
+            blockCb.inverseDCT();
+            arrayOfBlocksCb[bi][bj] = blockCb;
             index += 64;
 
-            arrayOfBlocksCr[bi][bj] = readBlock(data, index);
+            Block blockCr = readBlock(valors, index, "Cr");
+            blockCr.inverseQuantizationC();
+            blockCr.inverseDCT();
+            arrayOfBlocksCr[bi][bj] = blockCr;
             index += 64;
 
             ++bj;
-            if (bj >= 8 && bi < 7) ++bi;
-        }
-
-        // Tornar a sumar diferència
-        for (int i = 0; i < nBlocksY; ++i) {
-            for (int j = 0; j < nBlocksX; ++j) {
-                sumDC(arrayOfBlocksY, j, i);
-                arrayOfBlocksY[i][j].inverseQuantizationY();
-                arrayOfBlocksY[i][j].inverseDCT();
-
-                sumDC(arrayOfBlocksCb, j, i);
-                sumDC(arrayOfBlocksCr, j, i);
+            if (bj >= nBlocksX && bi < nBlocksY) {
+                ++bi;
+                bj = 0;
             }
         }
-*/
-        // return "";
+
+        Triplet<Byte, Byte, Byte> Pixels [][] = new Triplet[nBlocksY*8][nBlocksX*8];
+
+        for (int y = 0; y < nBlocksY; ++y) {
+            for (int x = 0; x < nBlocksX; ++x) {
+
+                int offsetX = x * 8;
+                int offsetY = y * 8;
+                for (int i = 0; i < 8; ++i) {
+                    for (int j = 0; j < 8; ++j) {
+                        int Y = arrayOfBlocksY[y][x].getDCTValue(i, j);
+                        int Cb = arrayOfBlocksCb[y][x].getDCTValue(i, j);
+                        int Cr = arrayOfBlocksCr[y][x].getDCTValue(i, j);
+                        Pixels[offsetY + i][offsetX + j] = YCbCrToRGB(Y, Cb, Cr);
+                    }
+                }
+            }
+        }
+
+        String capçaleraStr = "P6\n" + nBlocksX * 8 + " " + nBlocksY * 8 + '\n' + "255\n";
+        byte[] capçalera = capçaleraStr.getBytes();
+        byte[] returnData = new byte[capçalera.length + nBlocksX * nBlocksY * 64 * 3];
+
+        for (int i = 0; i < capçalera.length; ++i) returnData[i] = capçalera[i];
+
+        index = capçalera.length;
+
+        int f = nBlocksY * 8;
+        int c = nBlocksX * 8;
+        for (int i = 0; i < f; ++i) {
+            for (int j = 0; j < c; ++j) {
+                returnData[index] = Pixels[i][j].getFirst();
+                ++index;
+                returnData[index] = Pixels[i][j].getSecond();
+                ++index;
+                returnData[index] = Pixels[i][j].getThird();
+                ++index;
+            }
+        }
+
+        try (BufferedOutputStream bufferedOutputStream =
+                     new BufferedOutputStream(new FileOutputStream("testing_files/imgDescompr.ppm"))) {
+
+            bufferedOutputStream.write(returnData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
+
+    /*
+
+    R = Y+ 1.402 (Cr-128)
+    G = Y - 0.34414 (Cb-128) - 0.71414 (Cr-128)
+    B = Y + 1.772 (Cb-128)
+     */
+    private Triplet<Byte, Byte, Byte> YCbCrToRGB(int Y, int Cb, int Cr) {
+        Triplet<Integer, Integer, Integer> retorn = new Triplet<Integer, Integer, Integer>();
+        int R = ((int) (Y + 1.402 * (Cr - 128)));
+        int G = ((int) (Y - 0.34414 * (Cb-128) - 0.71414*(Cr-128)));
+        int B = ((int) (Y + 1.772 * (Cb-128)));
+        if (R > 255) R = 255;
+        else if (R < 0) R = 0;
+        if (G > 255) G = 255;
+        else if (G < 0) G = 0;
+        if (B > 255) B = 255;
+        else if (B < 0) B = 0;
+
+        return new Triplet<Byte, Byte, Byte>((byte)R, (byte)G, (byte)B);
+    }
 
     private static String charToBinString(byte[] s) {
         String retorn = "";
@@ -82,23 +151,9 @@ public class JPEGDecompressor extends Decompressor {
     }
 
     // TODO: Pensar com posar que comencen els 0s
-    private static Block readBlock(String data[], int i) {
-        Block blockY = new Block(8,8, "Y");
-        boolean zero = false;
-        for (int x = 0; x < 8 && x < data.length; ++x) {
-            for (int y = 0; y < 8 && y < data.length; ++y) {
-                int value;
-                if (!zero) {
-                    value = parseInt(data[i]);
-                    if (value == 0) zero = true;
-                    blockY.setDCTValue(x, y, parseInt(data[i]));
-                    ++i;
-                }
-                else {
-                    blockY.setDCTValue(x, y, 0);
-                }
-            }
-        }
+    private static Block readBlock(ArrayList<Integer> data, int i, String tipus) {
+        Block blockY = new Block(8,8, tipus);
+        blockY.zigzagInvers(data, i);
         return blockY;
     }
 

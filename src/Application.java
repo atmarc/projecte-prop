@@ -19,11 +19,14 @@ public class Application {
             JPEGCompressor jpegCompressor = new JPEGCompressor();
             System.out.println("Start compression...");
             //jpegCompressor.compress("testing_files/ppm_images/west_2.ppm");
-            jpegCompressor.compress("testing_files/image.ppm");
+            //jpegCompressor.compress("testing_files/image.ppm");
+            jpegCompressor.compress("testing_files/ppm_images/boxes_1.ppm");
             System.out.println("Finish compressing!");
 
+            System.out.println("Start decompression...");
             JPEGDecompressor jpegDecompressor = new JPEGDecompressor();
             jpegDecompressor.decompress("testing_files/image.comp");
+            System.out.println("Finish decompressing!");
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             //System.out.println(compimit);
             //FileManager.createFile(compimit, "testing_files/image.comp");
@@ -42,8 +45,8 @@ public class Application {
             String input_decomp = "./testing_files/1M.egg";
             String output_decomp = "./testing_files/decomp.txt";
 
-            LZ78_Decompressor decompressor = new LZ78_Decompressor();
-            decompressor.TXdecompressor(input_decomp, output_decomp);
+            LZ78Decompressor decompressor = new LZ78Decompressor();
+            // decompressor.TXdecompressor(input_decomp, output_decomp);
         }
 
 

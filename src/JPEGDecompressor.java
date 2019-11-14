@@ -1,4 +1,5 @@
 import FileManager.FileManager;
+import Triplet.Triplet;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -22,9 +23,11 @@ public class JPEGDecompressor extends Decompressor {
             e.printStackTrace();
         }
 
-        String file = charToBinString(s);
+        int[] bits = new int[s.length * 8];
+        charToBinString(s, bits);
         Huffman huffman = new Huffman();
-        ArrayList<Integer> valors = huffman.decode(file);
+        ArrayList<Integer> valors = new ArrayList<>();
+        huffman.decode(bits, valors);
 
         final int nivellCompressio = valors.get(0);
         final int nBlocksX = valors.get(1);
@@ -32,9 +35,9 @@ public class JPEGDecompressor extends Decompressor {
         final int HEIGHT = valors.get(3);
         final int WIDTH = valors.get(4);
 
-        Block[][] arrayOfBlocksY = new Block[nBlocksX][nBlocksY];
-        Block[][] arrayOfBlocksCb = new Block[nBlocksX][nBlocksY];
-        Block[][] arrayOfBlocksCr = new Block[nBlocksX][nBlocksY];
+        Block[][] arrayOfBlocksY = new Block[nBlocksY][nBlocksX];
+        Block[][] arrayOfBlocksCb = new Block[nBlocksY][nBlocksX];
+        Block[][] arrayOfBlocksCr = new Block[nBlocksY][nBlocksX];
 
         int index = 5;
         int bi = 0, bj = 0;
@@ -66,28 +69,42 @@ public class JPEGDecompressor extends Decompressor {
             }
         }
 
-        String capçaleraStr = "P6\n" + HEIGHT + ' ' + WIDTH + '\n' + "255\n";
-        byte[] capçalera = capçaleraStr.getBytes();
-        byte[] returnData = new byte[capçalera.length + nBlocksX*nBlocksY*64*3 + 1];
-
-        for (int i = 0; i < capçalera.length; ++i) returnData[i] = capçalera[i];
-
-        index = capçalera.length + 1;
+        Triplet<Byte, Byte, Byte> Pixels [][] = new Triplet[nBlocksY*8][nBlocksX*8];
 
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
 
+                int offsetX = x * 8;
+                int offsetY = y * 8;
                 for (int i = 0; i < 8; ++i) {
                     for (int j = 0; j < 8; ++j) {
-                        returnData[index] = (byte) arrayOfBlocksY[y][x].getDCTValue(i, j);
-                        ++index;
-                        returnData[index] = (byte) arrayOfBlocksCb[y][x].getDCTValue(i, j);
-                        ++index;
-                        returnData[index] = (byte) arrayOfBlocksCr[y][x].getDCTValue(i, j);
-                        ++index;
+                        int Y = arrayOfBlocksY[y][x].getDCTValue(i, j);
+                        int Cb = arrayOfBlocksCb[y][x].getDCTValue(i, j);
+                        int Cr = arrayOfBlocksCr[y][x].getDCTValue(i, j);
+                        Pixels[offsetY + i][offsetX + j] = YCbCrToRGB(Y, Cb, Cr);
                     }
                 }
+            }
+        }
 
+        String capçaleraStr = "P6\n" + nBlocksX * 8 + " " + nBlocksY * 8 + '\n' + "255\n";
+        byte[] capçalera = capçaleraStr.getBytes();
+        byte[] returnData = new byte[capçalera.length + nBlocksX * nBlocksY * 64 * 3];
+
+        for (int i = 0; i < capçalera.length; ++i) returnData[i] = capçalera[i];
+
+        index = capçalera.length;
+
+        int f = nBlocksY * 8;
+        int c = nBlocksX * 8;
+        for (int i = 0; i < f; ++i) {
+            for (int j = 0; j < c; ++j) {
+                returnData[index] = Pixels[i][j].getFirst();
+                ++index;
+                returnData[index] = Pixels[i][j].getSecond();
+                ++index;
+                returnData[index] = Pixels[i][j].getThird();
+                ++index;
             }
         }
 
@@ -102,27 +119,42 @@ public class JPEGDecompressor extends Decompressor {
     }
 
 
-    private static String charToBinString(byte[] s) {
-        String retorn = "";
+    /*
+
+    R = Y+ 1.402 (Cr-128)
+    G = Y - 0.34414 (Cb-128) - 0.71414 (Cr-128)
+    B = Y + 1.772 (Cb-128)
+     */
+    private Triplet<Byte, Byte, Byte> YCbCrToRGB(int Y, int Cb, int Cr) {
+        Triplet<Integer, Integer, Integer> retorn = new Triplet<Integer, Integer, Integer>();
+        int R = ((int) (Y + 1.402 * (Cr - 128)));
+        int G = ((int) (Y - 0.34414 * (Cb-128) - 0.71414*(Cr-128)));
+        int B = ((int) (Y + 1.772 * (Cb-128)));
+        if (R > 255) R = 255;
+        else if (R < 0) R = 0;
+        if (G > 255) G = 255;
+        else if (G < 0) G = 0;
+        if (B > 255) B = 255;
+        else if (B < 0) B = 0;
+
+        return new Triplet<Byte, Byte, Byte>((byte)R, (byte)G, (byte)B);
+    }
+
+    private static void charToBinString(byte[] s, int[] bits) {
+        int index = 0;
         for (int i = 0; i < s.length; ++i) {
             for (int j = 0; j < 8; ++j) {
-                if (((s[i] >> 7 - j) & 1) == 1) retorn += "1";
-                else retorn += "0";
+                if (((s[i] >> 7 - j) & 1) == 1) bits[index] = 1;
+                else bits[index] = 0;
+                ++index;
             }
         }
-
-        return retorn;
     }
 
     // TODO: Pensar com posar que comencen els 0s
     private static Block readBlock(ArrayList<Integer> data, int i, String tipus) {
         Block blockY = new Block(8,8, tipus);
-        for (int x = 0; x < 8 && x < data.size(); ++x) {
-            for (int y = 0; y < 8 && y < data.size(); ++y) {
-                    blockY.setDCTValue(x, y, data.get(i));
-                    ++i;
-                }
-            }
+        blockY.zigzagInvers(data, i);
         return blockY;
     }
 

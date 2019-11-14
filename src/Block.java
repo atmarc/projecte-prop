@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import static java.lang.Math.*;
 
 public class Block {
@@ -123,20 +125,20 @@ public class Block {
         DCTvalors = auxArray;
     }
 
-    public String zigzag() {
+    public void zigzag(int [] file, int ind) {
         int row = 0, col = 0;
         boolean row_inc = false;
         int m = height;
         int n = width;
-
+        int index = ind;
         int mn = Math.min(m, n);
 
-        String retorn = "";
 
         for (int len = 1; len <= mn; ++len) {
             for (int i = 0; i < len; ++i) {
 
-                retorn += DCTvalors[row][col] + ",";
+                file[index] = DCTvalors[row][col];
+                ++index;
 
                 if (i + 1 == len)
                     break;
@@ -185,7 +187,105 @@ public class Block {
                 len = diag;
 
             for (int i = 0; i < len; ++i) {
-                retorn += DCTvalors[row][col] + ",";
+                file[index] = DCTvalors[row][col];
+                ++index;
+
+                if (i + 1 == len)
+                    break;
+
+                if (row_inc) {
+                    ++row;
+                    --col;
+                } else {
+                    ++col;
+                    --row;
+                }
+            }
+
+            if (row == 0 || col == m - 1) {
+                if (col == m - 1)
+                    ++row;
+                else
+                    ++col;
+
+                row_inc = true;
+            }
+
+            else if (col == 0 || row == n - 1) {
+                if (row == n - 1)
+                    ++col;
+                else
+                    ++row;
+
+                row_inc = false;
+            }
+        }
+    }
+
+    public void zigzagInvers(ArrayList<Integer> arr, int index) {
+        int row = 0, col = 0;
+        boolean row_inc = false;
+        int m = height;
+        int n = width;
+        int mn = Math.min(m, n);
+
+        String retorn = "";
+
+        for (int len = 1; len <= mn; ++len) {
+            for (int i = 0; i < len; ++i) {
+
+                DCTvalors[row][col] = arr.get(index);
+                ++index;
+
+                if (i + 1 == len)
+                    break;
+
+                if (row_inc) {
+                    ++row;
+                    --col;
+                } else {
+                    --row;
+                    ++col;
+                }
+            }
+
+            if (len == mn)
+                break;
+
+            if (row_inc) {
+                ++row;
+                row_inc = false;
+            } else {
+                ++col;
+                row_inc = true;
+            }
+        }
+
+        if (row == 0) {
+            if (col == m - 1)
+                ++row;
+            else
+                ++col;
+            row_inc = true;
+        } else {
+            if (row == n - 1)
+                ++col;
+            else
+                ++row;
+            row_inc = false;
+        }
+
+        int MAX = Math.max(m, n) - 1;
+        for (int len, diag = MAX; diag > 0; --diag) {
+
+            if (diag > mn)
+                len = mn;
+            else
+                len = diag;
+
+            for (int i = 0; i < len; ++i) {
+                DCTvalors[row][col] = arr.get(index);
+                ++index;
 
                 if (i + 1 == len)
                     break;
@@ -218,12 +318,8 @@ public class Block {
             }
         }
 
-        /*if (retorn.charAt(retorn.length() - 1) == ',') {
-            retorn = retorn.substring(0, retorn.length() - 1);
-        }*/
-
-        return retorn;
     }
+
 
     public void print (int i) {
         for (int x = 0; x < height; ++x) {

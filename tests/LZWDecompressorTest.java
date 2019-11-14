@@ -15,6 +15,6 @@ public class LZWDecompressorTest {
 	@Test
 	public void decompress_file() {
 		LZWDecompressor decompressor = new LZWDecompressor();
-		decompressor.decompress(new File("testing_files/filename.zero"));
+		decompressor.decompress(new File("testing_files/big.zero"));
 	}
 }

@@ -2,10 +2,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
-import FileManager.FileManager;
 import Triplet.Triplet;
 
 public class JPEGCompressor extends Compressor {
@@ -21,7 +22,9 @@ public class JPEGCompressor extends Compressor {
             e.printStackTrace();
         }
 
+        System.out.println("Read Header");
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
+
         final String inputMode = "P" + (char)s[1];
         final int WIDTH = headers.getFirst();
         final int HEIGHT = headers.getSecond();
@@ -61,6 +64,8 @@ public class JPEGCompressor extends Compressor {
 
         Triplet<Integer, Integer, Integer> Pixels [][] = new Triplet[HEIGHT][WIDTH];
 
+        System.out.println("Llegim pixels");
+
         // Llegim els pixels i ja els passem a YCbCr
         int f = 0;
         int c = 0;
@@ -92,6 +97,8 @@ public class JPEGCompressor extends Compressor {
 
         int numOfBlocks = nBlocksX * nBlocksY;
 
+        System.out.println("Block splitting i DCT");
+
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
 
@@ -111,7 +118,7 @@ public class JPEGCompressor extends Compressor {
                         }
                         else {
                             // Aprofitem i centrem els valors a 0
-                            int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
+                                int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
                             blockY.setValue(i, j, value);
 
                             value = Pixels[i + marginY][j + marginX].getSecond() - 128;
@@ -143,19 +150,42 @@ public class JPEGCompressor extends Compressor {
 
         int nivellCompressio = 0;
 
-        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + "," + HEIGHT + "," + WIDTH + ",";
+        System.out.println("Zig zag");
+
+        int file[] = new int [5 + nBlocksX * nBlocksY * 64 * 3];
+
+        file[0] = nivellCompressio;
+        file[1] = nBlocksX;
+        file[2] = nBlocksY;
+        file[3] = HEIGHT;
+        file[4] = WIDTH;
+
+        index = 5;
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
-                file += BlocksArrayY[y][x].zigzag();
-                file += BlocksArrayCb[y][x].zigzag();
-                file += BlocksArrayCr[y][x].zigzag();
+                BlocksArrayY[y][x].zigzag(file, index);
+                index += 64;
+                BlocksArrayCb[y][x].zigzag(file, index);
+                index += 64;
+                BlocksArrayCr[y][x].zigzag(file, index);
+                index += 64;
             }
         }
 
-        Huffman huffman = new Huffman();
-        file = huffman.encode(file);
 
-        ArrayList<Byte> arrayBytes = stringBinToChar(file);
+        System.out.println("Huffman encode");
+
+
+        Huffman huffman = new Huffman();
+        LinkedList<Integer> bits = new LinkedList<>();
+
+        huffman.encode(file, bits);
+
+        ArrayList<Byte> arrayBytes = new ArrayList<>();
+
+        stringBinToByte(bits, arrayBytes);
+
+        System.out.println("Escrivim");
 
         try (BufferedOutputStream bufferedOutputStream =
                      new BufferedOutputStream(new FileOutputStream("testing_files/image.comp"))) {
@@ -236,19 +266,17 @@ public class JPEGCompressor extends Compressor {
         return diff;
     }
 
-    public static ArrayList<Byte> stringBinToChar(String s) {
-        String retorn = "";
-        ArrayList<Byte> arrayBytes = new ArrayList<>();
-        for (int j = 0; j + 8 <= s.length(); j += 8) {
+    public static void stringBinToByte(LinkedList<Integer> bits, ArrayList<Byte> arrayBytes) {
+        int bitsSize = bits.size();
+        for (int i = 0; i + 8 <= bitsSize; i += 8) {
             byte b = 0;
-            String aux = s.substring(j, j + 8);
-            for (int i = 0; i < 8; ++i) {
-                if (aux.charAt(i) == '1') {
-                    b = (byte) (b | (1 << 7-i));
+            for (int j = 0; j < 8; ++j) {
+                if (bits.getFirst() == 1) {
+                    b = (byte) (b | (1 << 7 - j));
                 }
+                bits.removeFirst();
             }
             arrayBytes.add(b);
         }
-        return arrayBytes;
     }
 }

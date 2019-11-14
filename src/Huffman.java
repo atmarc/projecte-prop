@@ -8,7 +8,7 @@ public class Huffman {
 
     private class Node {
         int data;
-        String c;
+        int c;
         Node left;
         Node right;
 
@@ -17,7 +17,7 @@ public class Huffman {
             this.right = null;
         }
 
-        private Node (int data, String c) {
+        private Node (int data, int c) {
             this.c = c;
             this.data = data;
             this.left = null;
@@ -33,12 +33,11 @@ public class Huffman {
         }
     }
 
-    private HashMap<String, String> dictionary = new HashMap<>();
+    private HashMap<Integer, String> dictionary = new HashMap<>();
 
-    public String encode(String s) {
-        String file [] = s.split(",");
+    public void encode(int[] file, LinkedList<Integer> bits) {
 
-        LinkedHashMap<String, Integer> lhm = calculateFreq(file);
+        LinkedHashMap<Integer, Integer> lhm = calculateFreq(file);
         PriorityQueue<Node> pQ = new PriorityQueue<>(lhm.size(), new NodeComparator());
 
         lhm.forEach((c, freq) -> {
@@ -56,7 +55,7 @@ public class Huffman {
             Node y = pQ.peek();
             pQ.poll();
 
-            Node f = new Node(x.data + y.data, "999999");
+            Node f = new Node(x.data + y.data, 999999);
             f.left = x;
             f.right = y;
             root = f;
@@ -66,56 +65,56 @@ public class Huffman {
         makeDict(root, "");
 
         // Posem un 1 per saber que comença el diccionari i 2 al final per dir que s'acaba
-        String comprimit = "1" + addDictionary() + "011111111111111110";
+        bits.add(1);
+        addDictionary(bits);
+        addSeparador(bits);
+        //String comprimit = "1" + addDictionary() + "011111111111111110";
 
-        int size = comprimit.length();
         for (int i = 0; i < file.length; ++i) {
-            comprimit += dictionary.get(file[i]);
+            for (int j = 0; j < dictionary.get(file[i]).length(); ++j) {
+                if (dictionary.get(file[i]).charAt(j) == '1')
+                    bits.add(1);
+                else bits.add(0);
+            }
         }
 
         // Posem 0 al principi perque sigui múltiple de 8
-        if (comprimit.length()%8 != 0) {
-            int offset = 8 - comprimit.length()%8;
-            for (int i = 0; i < offset; ++i) comprimit = "0" + comprimit;
+        if (bits.size() % 8 != 0) {
+            int offset = 8 - bits.size() % 8;
+            for (int i = 0; i < offset; ++i) bits.addFirst(0);
         }
 
-        if (comprimit.length()%8 != 0) System.out.println("Segueix sense ser multiple");
-
-        return comprimit;
+        if (bits.size() % 8 != 0) System.out.println("Segueix sense ser multiple");
     }
 
-
-    // Perque no s'hagi de copiar cada vegada al fer isSeparador
-    private String fileGlobal = "";
-    private boolean isSeparador (int index) {
-        if (fileGlobal.charAt(index) != '0') return false;
+    private boolean isSeparador (int[] bits, int index) {
+        if (bits[index] != 0) return false;
         for (int i = 1; i <= 16; ++i) {
-            if (fileGlobal.charAt(index + i) != '1') return false;
+            if (bits[index + i] != 1) return false;
         }
-        if (fileGlobal.charAt(index + 17) != '0') return false;
-        return  true;
+        if (bits[index + 17] != 0) return false;
+        return true;
     }
 
-    public ArrayList<Integer> decode(String file) {
+    public void decode(int[] file, ArrayList<Integer> valors) {
         LinkedHashMap<String, String> dictionary = new LinkedHashMap<>();
         int index = 0;
-        fileGlobal = file;
         // Llegim els 0 que el fan múltiple de 8
-        while (file.charAt(index) != '1') ++index;
+        while (file[index] != 1) ++index;
         // Saltem el primer 1 que indica el principi de la
         ++index;
         // Llegim diccionari
-        while (!isSeparador(index) && !isSeparador(index + 18)) {
+        while (!isSeparador(file, index) && !isSeparador(file, index + 18)) {
             String key = "";
-            while (!isSeparador(index)) {
-                key += file.charAt(index);
+            while (!isSeparador(file, index)) {
+                key += file[index];
                 ++index;
             }
             // Com que hem trobat un separador, el saltem
             index += 18;
             String code = "";
-            while (!isSeparador(index)) {
-                code += file.charAt(index);
+            while (!isSeparador(file, index)) {
+                code += file[index];
                 ++index;
             }
             // Com que hem trobat un separador, el saltem
@@ -133,17 +132,15 @@ public class Huffman {
         }
 
         index += 18;
-        String sub = file.substring(index);
-        ArrayList<Integer> valors = new ArrayList<>();
-        while (index < file.length()) {
+
+        while (index < file.length) {
             String code = "";
             while (!dictionary.containsKey(code)) {
-                code += file.charAt(index);
+                code += file[index];
                 ++index;
             }
             valors.add(parseInt(dictionary.get(code)));
         }
-        return valors;
     }
 
     public static String charToBin(char c) {
@@ -152,24 +149,37 @@ public class Huffman {
         return s;
     }
 
-    private String addDictionary() {
-        String retorn = "";
-        for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-            String c = entry.getKey();
+    private void addSeparador(LinkedList<Integer> bits) {
+        bits.add(0);
+        for (int i = 0; i < 16; ++i) bits.add(1);
+        bits.add(0);
+    }
+
+    private void addDictionary(LinkedList<Integer> bits) {
+
+        for (Map.Entry<Integer, String> entry : dictionary.entrySet()) {
+            int c = entry.getKey();
             String code = entry.getValue();
             // Posem separadors de 32 bits (2 caràcters)
-            String separador = "011111111111111110";
-            String character = Integer.toBinaryString(parseInt(c));
+            String character = Integer.toBinaryString(c);
             if (character.length() > 16) character = character.substring(character.length() - 16);
 
             //retorn +=  '|' + character + '|' + separador + '|' + code + '|' + separador;
-            retorn += character + separador + code + separador;
+            for (int i = 0; i < character.length(); ++i) {
+                if (character.charAt(i) == '1') bits.add(1);
+                else bits.add(0);
+            }
+            addSeparador(bits);
+            for (int i = 0; i < code.length(); ++i) {
+                if (code.charAt(i) == '1') bits.add(1);
+                else bits.add(0);
+            }
+            addSeparador(bits);
         }
-        return retorn;
     }
 
     private void makeDict(Node root, String s) {
-        if (root.left == null && root.right == null && root.c != "999999") {
+        if (root.left == null && root.right == null && root.c != 999999) {
             dictionary.put(root.c, s);
             //System.out.println(root.c + ":" + s);
             return;
@@ -178,12 +188,12 @@ public class Huffman {
         makeDict(root.right, s + "0");
     }
 
-    private LinkedHashMap<String, Integer> calculateFreq(String[] file) {
+    private LinkedHashMap<Integer, Integer> calculateFreq(int[] file) {
 
-        LinkedHashMap<String, Integer> dic = new LinkedHashMap<>();
+        LinkedHashMap<Integer, Integer> dic = new LinkedHashMap<>();
         for (int i = 0; i < file.length; ++i) {
 
-            String key = file[i];
+            int key = file[i];
 
             if (dic.containsKey(key)) {
                 dic.replace(key, dic.get(key) + 1);

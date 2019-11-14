@@ -11,7 +11,7 @@ public class Application {
         // TODO: Mirar com evitar els comentaris
         String inputPath = "";
         String outputPath = "";
-        if (true) { // JPEG
+        if (false) { // JPEG
 
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JPEGCompressor jpegCompressor = new JPEGCompressor();
@@ -32,7 +32,7 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (true) { // LZ78
+        if (false) { // LZ78
 
             String input_comp = "./testing_files/1M.txt";
             String output_comp = "./testing_files/comp.txt";
@@ -50,7 +50,6 @@ public class Application {
 
         if (false) { // LZW
             Compressor compressor = new LZWCompressor();
-            compressor.selectFiles(inputPath, outputPath);
             compressor.compress("testing_files/lzw/ansi.txt");
             Decompressor decompressor = new LZWDecompressor();
             decompressor.decompress("testing_files/lzw/ansi.zero");
@@ -59,7 +58,7 @@ public class Application {
         if (false) { // LZSS
             String path = FileManager.readFile("testing_files/filename.txt");
             LZSS_Compressor LZSS = new LZSS_Compressor();
-            LZSS.Compress(path);
+            // LZSS.Compress(path);
         }
 
         /*

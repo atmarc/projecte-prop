@@ -10,7 +10,7 @@ public class LZWCompressorTest {
 
 	@Test
 	public void compress_file() {
-		File file = new File("testing_files/filename.txt");
+		File file = new File("testing_files/big.txt");
 		LZWCompressor compressor = new LZWCompressor();
 		compressor.compress(file);
 	}

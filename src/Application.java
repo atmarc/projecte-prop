@@ -10,7 +10,11 @@ import java.nio.file.Paths;
 public class Application {
     public static void main(String [] args) throws Exception {
 
-        if (true) { // JPEG
+        String inputPath = "";
+        String outputPath = "";
+
+
+        if (false) { // JPEG
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JPEGCompressor jpegCompressor = new JPEGCompressor();
             System.out.println("Start compression...");
@@ -27,16 +31,16 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (false) { // LZ78
+        if (true) { // LZ78
 
-            String input_comp = "./testing_files/big.txt";
-            String output_comp = "./testing_files/LZ78_testing/comp.txt";
+            String input_comp = "./testing_files/1M.txt";
+            String output_comp = "./testing_files/comp.txt";
 
             LZ78Compressor LZ78 = new LZ78Compressor();
             LZ78.compress(input_comp);
 
-            String input_decomp = "./testing_files/big.egg";
-            String output_decomp = "./testing_files/LZ78_testing/decomp.txt";
+            String input_decomp = "./testing_files/1M.egg";
+            String output_decomp = "./testing_files/decomp.txt";
 
             LZ78_Decompressor decompressor = new LZ78_Decompressor();
             decompressor.TXdecompressor(input_decomp, output_decomp);
@@ -44,10 +48,11 @@ public class Application {
 
 
         if (false) { // LZW
-            LZWCompressor compressor = new LZWCompressor();
-            compressor.compress(new File("testing_files/lzw/ansi.txt"));
-            LZWDecompressor decompressor = new LZWDecompressor();
-            decompressor.decompress(new File("testing_files/lzw/ansi.zero"));
+            Compressor compressor = new LZWCompressor();
+            compressor.selectFiles(inputPath, outputPath);
+            compressor.compress("testing_files/lzw/ansi.txt");
+            Decompressor decompressor = new LZWDecompressor();
+            decompressor.decompress("testing_files/lzw/ansi.zero");
         }
 
         if (false) { // LZSS

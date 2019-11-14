@@ -1,13 +1,7 @@
-import FileManager.FileManager;
-import LZ78.Pair;
 import SearchTree.Tree;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class LZ78Compressor extends Compressor {
     final static String extension = ".egg";
@@ -46,8 +40,6 @@ public class LZ78Compressor extends Compressor {
         try {
 
             File file = new File(inputPath);
-
-
 
             BufferedInputStream reader = new BufferedInputStream(new FileInputStream(file));
 

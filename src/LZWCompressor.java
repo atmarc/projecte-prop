@@ -1,19 +1,20 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class LZWCompressor extends Compressor {
     private static final String extension = ".zero";
     private static final int BYTE_SIZE = 8;
     private HashMap<String, Integer> dictionary;
-    private StringBuilder pattern;
-    private int codewordRepresentation;   // la longitud en bits para escribir la codificación
+    private StringBuilder patternBuilder;
+    private int codewordSize;   // la longitud en bits para escribir la codificación
 
     /**
      * Crea un objecto compressor con el diccionario básico.
      */
     public LZWCompressor() {
-        this.initialize();
+        this.inicializar();
     }
 
 
@@ -38,17 +39,17 @@ public class LZWCompressor extends Compressor {
         ArrayList<Integer> outList = new ArrayList<>();
         for (int i = 0; i < data.length(); i++) {
             char c = data.charAt(i);
-            String s = pattern.toString();
+            String s = patternBuilder.toString();
             if (!dictionary.containsKey(s + c)) {
                 outList.add(dictionary.get(s));
                 int temp = dictionary.size();
                 dictionary.put(s + c, temp);
-                pattern = new StringBuilder();
-                pattern.append(c);
+                patternBuilder = new StringBuilder();
+                patternBuilder.append(c);
             }
-            else pattern.append(c);
+            else patternBuilder.append(c);
         }
-        if (pattern.length() > 0 ) outList.add(dictionary.get(pattern.toString()));
+        if (patternBuilder.length() > 0 ) outList.add(dictionary.get(patternBuilder.toString()));
         return outList;
     }
 
@@ -61,41 +62,58 @@ public class LZWCompressor extends Compressor {
      * @param file el fichero a comprimir
      */
     public void compress(File file) {
+        inicializar();
         File compressedFile = new File(getCompressedName(file));
-        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(
-                new FileInputStream(file.getPath()));
-             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-                     new FileOutputStream(compressedFile.getPath()))
+//        super.inicializar(file.getPath());
+        try (BufferedInputStream bufferedInputStream =
+                     new BufferedInputStream(new FileInputStream(file.getPath()));
+             BufferedOutputStream bufferedOutputStream =
+                     new BufferedOutputStream(new FileOutputStream(compressedFile.getPath()))
         ) {
             int readByte;
             int codeword;
+            int q = 0;
+            boolean t = false;
+            int nr = 0;
             while ((readByte = bufferedInputStream.read()) != -1) {
-                char c   = (char)readByte;
-                String s = pattern.toString();
-                if (!dictionary.containsKey(s + c)) {
-                    codeword = dictionary.get(s);
-                    byte[] codewordAsByte = toByteArray(codeword);
-                    bufferedOutputStream.write(codewordAsByte);
+                char c = (char) readByte;
+                String pattern = patternBuilder.toString();
+                if (!dictionary.containsKey(pattern + c)) {
+                    codeword = dictionary.get(pattern);
+                    byte[] codewordAsByteArray = toByteArray(codeword);
+                    if (t && nr < 10) {
+                        for (int i = 0; i < codewordAsByteArray.length; ++i)
+                            System.out.print(String.format("%02X " , codewordAsByteArray[i] & 0xFF));
+                        nr++;
+                    }
+                    bufferedOutputStream.write(codewordAsByteArray);
+                    q++;
                     int index = dictionary.size();
-                    dictionary.put(s + c, index);
-                    if (dictionary.size() >= (1 << codewordRepresentation)) codewordRepresentation += BYTE_SIZE;
-                    pattern   = new StringBuilder();
-                    pattern.append(c);
-                }
-                else pattern.append(c);
+                    if (index == (1 << codewordSize) - 1) {
+                        System.out.println("Cambio de radix, last codeword with old radix:" + Arrays.asList(codewordAsByteArray));
+                        System.out.println("Index numero: " + q);
+                        t = true;
+                    }
+                    dictionary.put(pattern + c, index);
+                    if (dictionary.size() >= (1 << codewordSize)) {
+                        codewordSize += BYTE_SIZE;
+                        System.out.println(codewordSize);
+                    }
+                    patternBuilder = new StringBuilder();
+                    patternBuilder.append(c);
+                } else patternBuilder.append(c);
             }
-            if (pattern.length() > 0) {
-                codeword = dictionary.get(pattern.toString());
-                if (codeword >= (1 << codewordRepresentation)) codewordRepresentation += BYTE_SIZE;
-                byte[] codewordAsByte = toByteArray(codeword);
-                bufferedOutputStream.write(codewordAsByte);
+            if (patternBuilder.length() > 0) {
+                codeword = dictionary.get(patternBuilder.toString());
+                byte[] codewordAsByteArray = toByteArray(codeword);
+                bufferedOutputStream.write(codewordAsByteArray);
+                q++;
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Fichero no encontrado\n" + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Error de lectura/escritura");
-            e.printStackTrace();
-        };
+            System.out.println("Error de lectura/escritura\n" + e.getMessage());
+        }
     }
 
     /**
@@ -105,10 +123,10 @@ public class LZWCompressor extends Compressor {
      * @return         un array con la representación de {@code codeword}
      */
     private byte[] toByteArray(int codeword) {
-        byte[] codewordAsByte = new byte[codewordRepresentation/BYTE_SIZE];
-        int pos = 0;
-        for (int i = codewordRepresentation - BYTE_SIZE; i >= 0; i -= 8, ++pos) {
-            codewordAsByte[pos] = (byte) ((codeword >>> i) & 0xFF);
+        byte[] codewordAsByte = new byte[codewordSize/BYTE_SIZE];
+        for (int i = codewordAsByte.length-1; i >= 0; --i) {
+            codewordAsByte[i] = (byte) (codeword & 0xFF);
+            codeword >>= 8;
         }
         return codewordAsByte;
     }
@@ -116,11 +134,11 @@ public class LZWCompressor extends Compressor {
     /**
      * Inicializa el diccionario del compresor al diccionario básico
      */
-    public void initialize() {
-        codewordRepresentation = 8;
+    public void inicializar() {
         dictionary = new HashMap<>();
         for (char i = 0; i < 256; ++i) dictionary.put(String.valueOf(i), (int) i);
-        pattern = new StringBuilder();
+        codewordSize = 16;
+        patternBuilder = new StringBuilder();
     }
 
 }

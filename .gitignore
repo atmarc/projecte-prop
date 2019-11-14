@@ -3,3 +3,6 @@
 .vscode/launch.json
 /testing_files/pelicula.txt
 out
+*.zero
+*decompressed.txt
+*.DS_Store

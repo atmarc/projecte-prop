@@ -1,5 +1,3 @@
-package LZ78;
-
 import SearchTree.Tree;
 
 import java.io.*;

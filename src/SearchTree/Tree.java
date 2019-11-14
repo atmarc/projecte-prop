@@ -19,6 +19,22 @@ public class Tree{
         Tree.last_index = last_index;
     }
 
+    public int find(byte[] word, int digit) {
+        Node aux = getNode(word[digit]);
+        if (aux == null) return -1; // no encontrado
+        if (digit == word.length - 1) // caso base
+            return aux.getData();
+
+        return aux.getSons().find(word, digit + 1);
+    }
+
+    public Node getNode(byte B) {
+        for (Node son : sons) {
+            if (son.areYou(B)) return son;
+        }
+        return null;
+    }
+
     public int progressive_find(byte B, boolean restart) {
 
         Node aux;
@@ -31,11 +47,11 @@ public class Tree{
         return data;
     }
     private Node putNodeIfAbsent(byte id) {
-        for (Node son : sons) {
-            if (son.areYou(id)) return son;
+        Node son = getNode(id);
+        if (son == null) {
+            son = new Node(id, last_index, new Tree());
+            sons.add(son);
         }
-        Node son = new Node(id, last_index, new Tree());
-        sons.add(son);
         return son;
     }
     private Node findNextByte(byte B) {

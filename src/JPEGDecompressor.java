@@ -1,6 +1,12 @@
+import FileManager.FileManager;
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.BitSet;
 
 import static java.lang.Integer.parseInt;
 
@@ -16,74 +22,107 @@ public class JPEGDecompressor extends Decompressor {
             e.printStackTrace();
         }
 
-        String file = "";
+        String file = charToBinString(s);
+        Huffman huffman = new Huffman();
+        ArrayList<Integer> valors = huffman.decode(file);
 
-        for (int i = 0; i < s.length; ++i) {
-            file += (char) s[i];
-        }
-        String[] data = file.split(",");
-        // file = huffman.decode(file);
-
-        final int nivellCompressio = parseInt(data[0]);
-        final int nBlocksX = parseInt(data[1]);
-        final int nBlocksY = parseInt(data[2]);
+        final int nivellCompressio = valors.get(0);
+        final int nBlocksX = valors.get(1);
+        final int nBlocksY = valors.get(2);
+        final int HEIGHT = valors.get(3);
+        final int WIDTH = valors.get(4);
 
         Block[][] arrayOfBlocksY = new Block[nBlocksX][nBlocksY];
         Block[][] arrayOfBlocksCb = new Block[nBlocksX][nBlocksY];
         Block[][] arrayOfBlocksCr = new Block[nBlocksX][nBlocksY];
 
-        int index = 3;
+        int index = 5;
         int bi = 0, bj = 0;
-        while (index < data.length) {
-            // TODO: Mirar si entren 0 no s'ha de sumar 64
-            arrayOfBlocksY[bi][bj] = readBlock(data, index);
+
+        // TODO: Tornar a sumar diferència
+        while (index < valors.size()) {
+            Block blockY = readBlock(valors, index, "Y");
+            blockY.inverseQuantizationY();
+            blockY.inverseDCT();
+            arrayOfBlocksY[bi][bj] = blockY;
             index += 64;
 
-            arrayOfBlocksCb[bi][bj] = readBlock(data, index);
+            Block blockCb = readBlock(valors, index, "Cb");
+            blockCb.inverseQuantizationC();
+            blockCb.inverseDCT();
+            arrayOfBlocksCb[bi][bj] = blockCb;
             index += 64;
 
-            arrayOfBlocksCr[bi][bj] = readBlock(data, index);
+            Block blockCr = readBlock(valors, index, "Cr");
+            blockCr.inverseQuantizationC();
+            blockCr.inverseDCT();
+            arrayOfBlocksCr[bi][bj] = blockCr;
             index += 64;
 
             ++bj;
-            if (bj >= 8 && bi < 7) ++bi;
-        }
-
-        // Tornar a sumar diferència
-        for (int i = 0; i < nBlocksY; ++i) {
-            for (int j = 0; j < nBlocksX; ++j) {
-                sumDC(arrayOfBlocksY, j, i);
-                arrayOfBlocksY[i][j].inverseQuantizationY();
-                arrayOfBlocksY[i][j].inverseDCT();
-
-                sumDC(arrayOfBlocksCb, j, i);
-                sumDC(arrayOfBlocksCr, j, i);
+            if (bj >= nBlocksX && bi < nBlocksY) {
+                ++bi;
+                bj = 0;
             }
         }
 
+        String capçaleraStr = "P6\n" + HEIGHT + ' ' + WIDTH + '\n' + "255\n";
+        byte[] capçalera = capçaleraStr.getBytes();
+        byte[] returnData = new byte[capçalera.length + nBlocksX*nBlocksY*64*3 + 1];
+
+        for (int i = 0; i < capçalera.length; ++i) returnData[i] = capçalera[i];
+
+        index = capçalera.length + 1;
+
+        for (int y = 0; y < nBlocksY; ++y) {
+            for (int x = 0; x < nBlocksX; ++x) {
+
+                for (int i = 0; i < 8; ++i) {
+                    for (int j = 0; j < 8; ++j) {
+                        returnData[index] = (byte) arrayOfBlocksY[y][x].getDCTValue(i, j);
+                        ++index;
+                        returnData[index] = (byte) arrayOfBlocksCb[y][x].getDCTValue(i, j);
+                        ++index;
+                        returnData[index] = (byte) arrayOfBlocksCr[y][x].getDCTValue(i, j);
+                        ++index;
+                    }
+                }
+
+            }
+        }
+
+        try (BufferedOutputStream bufferedOutputStream =
+                     new BufferedOutputStream(new FileOutputStream("testing_files/imgDescompr.ppm"))) {
+
+            bufferedOutputStream.write(returnData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
-       // return "";
+    private static String charToBinString(byte[] s) {
+        String retorn = "";
+        for (int i = 0; i < s.length; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                if (((s[i] >> 7 - j) & 1) == 1) retorn += "1";
+                else retorn += "0";
+            }
+        }
+
+        return retorn;
     }
 
     // TODO: Pensar com posar que comencen els 0s
-    private static Block readBlock(String data[], int i) {
-        Block blockY = new Block(8,8, "Y");
-        boolean zero = false;
-        for (int x = 0; x < 8 && x < data.length; ++x) {
-            for (int y = 0; y < 8 && y < data.length; ++y) {
-                int value;
-                if (!zero) {
-                    value = parseInt(data[i]);
-                    if (value == 0) zero = true;
-                    blockY.setDCTValue(x, y, parseInt(data[i]));
+    private static Block readBlock(ArrayList<Integer> data, int i, String tipus) {
+        Block blockY = new Block(8,8, tipus);
+        for (int x = 0; x < 8 && x < data.size(); ++x) {
+            for (int y = 0; y < 8 && y < data.size(); ++y) {
+                    blockY.setDCTValue(x, y, data.get(i));
                     ++i;
                 }
-                else {
-                    blockY.setDCTValue(x, y, 0);
-                }
             }
-        }
         return blockY;
     }
 
@@ -98,5 +137,4 @@ public class JPEGDecompressor extends Decompressor {
             arrayBlock[x][y].setDCTValue(0,0, value);
         }
     }
-
 }

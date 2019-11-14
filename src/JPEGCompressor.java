@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        // Downsampling
+        // TODO: Downsampling
 
         // Block splitting
 
@@ -123,26 +123,27 @@ public class JPEGCompressor extends Compressor {
                     }
                 }
 
+                // TODO: arreglar el diff
                 blockY.DCT(); // Apliquem DCT a cada bloc
                 BlocksArrayY[y][x] = blockY;
-                int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
-                BlocksArrayY[y][x].setDCTValue(0,0, diff);
+                //int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
+                //BlocksArrayY[y][x].setDCTValue(0,0, diff);
 
                 blockCb.DCT();
                 BlocksArrayCb[y][x] = blockCb;
-                diff = getDiff(BlocksArrayCb, x, y);
-                BlocksArrayCb[y][x].setDCTValue(0,0, diff);
+                //diff = getDiff(BlocksArrayCb, x, y);
+                //BlocksArrayCb[y][x].setDCTValue(0,0, diff);
 
                 blockCr.DCT();
                 BlocksArrayCr[y][x] = blockCr;
-                diff = getDiff(BlocksArrayCr, x, y);
-                BlocksArrayCr[y][x].setDCTValue(0,0, diff);
+                //diff = getDiff(BlocksArrayCr, x, y);
+                //BlocksArrayCr[y][x].setDCTValue(0,0, diff);
             }
         }
 
         int nivellCompressio = 0;
 
-        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + ",";
+        String file = nivellCompressio + "," + nBlocksX + "," + nBlocksY + "," + HEIGHT + "," + WIDTH + ",";
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
                 file += BlocksArrayY[y][x].zigzag();
@@ -151,17 +152,24 @@ public class JPEGCompressor extends Compressor {
             }
         }
 
-        //file = Huffman.encode(file);
-        //return file;
+        Huffman huffman = new Huffman();
+        file = huffman.encode(file);
 
-        try {
-            FileManager.createFile(file, "testing_files/image.comp");
-            System.out.println(file);
+        ArrayList<Byte> arrayBytes = stringBinToChar(file);
+
+        try (BufferedOutputStream bufferedOutputStream =
+                     new BufferedOutputStream(new FileOutputStream("testing_files/image.comp"))) {
+
+            byte [] bytes = new byte[arrayBytes.size()];
+            for (int i = 0; i < arrayBytes.size(); ++i) {
+                bytes[i] = arrayBytes.get(i);
+            }
+            bufferedOutputStream.write(bytes);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /*
     RGB --> YCbCr
         Y = 0.299 R + 0.587 G + 0.114 B
@@ -226,5 +234,21 @@ public class JPEGCompressor extends Compressor {
             diff = arrayBlock[y][x].getDCTValue(0,0);
         }
         return diff;
+    }
+
+    public static ArrayList<Byte> stringBinToChar(String s) {
+        String retorn = "";
+        ArrayList<Byte> arrayBytes = new ArrayList<>();
+        for (int j = 0; j + 8 <= s.length(); j += 8) {
+            byte b = 0;
+            String aux = s.substring(j, j + 8);
+            for (int i = 0; i < 8; ++i) {
+                if (aux.charAt(i) == '1') {
+                    b = (byte) (b | (1 << 7-i));
+                }
+            }
+            arrayBytes.add(b);
+        }
+        return arrayBytes;
     }
 }

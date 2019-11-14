@@ -11,7 +11,7 @@ public class Tree{
 
 
     // Constructors
-    public Tree() {
+    private Tree() {
         sons = new ArrayList<>();
     }
     public Tree(int last_index) {
@@ -23,7 +23,7 @@ public class Tree{
         Node aux = getNode(word[digit]);
         if (aux == null) return -1; // no encontrado
         if (digit == word.length - 1) // caso base
-            return aux.getData();
+            return aux.getIndex();
 
         return aux.getSons().find(word, digit + 1);
     }
@@ -35,17 +35,24 @@ public class Tree{
         return null;
     }
 
+
+    /**
+     * @param B Byte identificador del nodo que se quiere buscar.
+     * @param restart Indica si se quiere realizar la busqueda desde la raiz o si se desea continuar la busqueda desde donde se dejo la anterior.
+     * @return Retorna el "index" del nodo buscado (con identificador B). Si este no existia, el nodo ha sido creado, e insertado con "index" = last_index;
+     */
     public int progressive_find(byte B, boolean restart) {
 
         Node aux;
         if (!restart) aux = findNextByte(B);
         else aux = putNodeIfAbsent(B);
 
-        int data = aux.getData();
+        int data = aux.getIndex();
         if (data == last_index) ++last_index;   // El nodo no exisitia, y ha sido insertado
         else previous_node = aux;               // El nodo  estaba presente y debemos seguir buscando
         return data;
     }
+
     private Node putNodeIfAbsent(byte id) {
         Node son = getNode(id);
         if (son == null) {
@@ -54,6 +61,7 @@ public class Tree{
         }
         return son;
     }
+
     private Node findNextByte(byte B) {
 
         // Pre: Previamente se ha buscado un byte 'a'.

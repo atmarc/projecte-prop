@@ -4,20 +4,20 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class LZ78_Decompressor {
+public class LZ78Decompressor {
 
     private ArrayList<byte[]> dictionary;
     private int length;
 
-    public LZ78_Decompressor() {}
+    public LZ78Decompressor() {}
 
-    public void TXdecompressor(String inputPath, String outputPath) {
+    public void decompressor(String inputPath, String outputPath) {
 
         try {
             BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputPath));
             BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(outputPath));
 
-            byte[] offset = new byte[1], index = new byte[4];
+            byte[] singleByte = new byte[1], index = new byte[4];
             if (reader.read(index) < 0) throw new Exception();
 
             int i = 1;
@@ -28,20 +28,20 @@ public class LZ78_Decompressor {
 
             // 1 + 1 Byte
             index = new byte[1];
-            for (; i < 128 && reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
-                writer.write(decompress(index, offset[0]));
+            for (; i < 128 && reader.read(index) >= 0 && reader.read(singleByte) >= 0; i++)
+                writer.write(decompress(index, singleByte[0]));
             // 2 + 1 Byte
             index = new byte[2];
-            for (; i < 32768 && reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
-                writer.write(decompress(index, offset[0]));
+            for (; i < 32768 && reader.read(index) >= 0 && reader.read(singleByte) >= 0; i++)
+                writer.write(decompress(index, singleByte[0]));
             // 3 + 1 Byte
             index = new byte[3];
-            for (; i < 8388608 && reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
-                writer.write(decompress(index, offset[0]));
+            for (; i < 8388608 && reader.read(index) >= 0 && reader.read(singleByte) >= 0; i++)
+                writer.write(decompress(index, singleByte[0]));
             // 4 + 1 Byte
             index = new byte[4];
-            for (; reader.read(index) >= 0 && reader.read(offset) >= 0; i++)
-                writer.write(decompress(index, offset[0]));
+            for (; reader.read(index) >= 0 && reader.read(singleByte) >= 0; i++)
+                writer.write(decompress(index, singleByte[0]));
 
 
             reader.close();

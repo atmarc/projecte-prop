@@ -1,15 +1,13 @@
 package SearchTree;
 
-import java.util.List;
-
 public class Node {
     private byte id;
-    private int data;
+    private int index;
     private Tree sons;
 
-    public Node(byte id, int data, Tree sons) {
+    public Node(byte id, int index, Tree sons) {
         this.id = id;
-        this.data = data;
+        this.index = index;
         this.sons = sons;
     }
 
@@ -25,12 +23,12 @@ public class Node {
         this.id = id;
     }
 
-    public int getData() {
-        return data;
+    public int getIndex() {
+        return index;
     }
 
-    public void setData(int data) {
-        this.data = data;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public Tree getSons() {

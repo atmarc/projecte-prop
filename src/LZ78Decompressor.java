@@ -4,18 +4,16 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class LZ78Decompressor {
+public class LZ78Decompressor extends Decompressor {
 
     private ArrayList<byte[]> dictionary;
     private int length;
 
     public LZ78Decompressor() {}
 
-    public void decompressor(String inputPath, String outputPath) {
+    public void decompressor() {
 
         try {
-            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(inputPath));
-            BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(outputPath));
 
             byte[] singleByte = new byte[1], index = new byte[4];
             if (reader.read(index) < 0) throw new Exception();
@@ -42,7 +40,6 @@ public class LZ78Decompressor {
             index = new byte[4];
             for (; reader.read(index) >= 0 && reader.read(singleByte) >= 0; i++)
                 writer.write(decompress(index, singleByte[0]));
-
 
             reader.close();
             writer.close();

@@ -9,7 +9,7 @@ import static java.lang.Integer.parseInt;
 
 import Triplet.Triplet;
 
-public class JPEGCompressor extends Compressor {
+public class JPEGCompressor /*extends Compressor */{
 
     //TODO: Fixar-se amb fitxers no multiples de 8
 

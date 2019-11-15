@@ -26,6 +26,7 @@ public abstract class Compressor {
             out = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         } catch (FileNotFoundException e) {
+            System.out.println("Fichero no encontrado!");
             e.printStackTrace();
         }
     }
@@ -41,13 +42,15 @@ public abstract class Compressor {
 
     // Compression
 
-    public void StartCompression(String inputPath, String outputPath) {
+    public void startCompression(String inputPath, String outputPath) {
 
         selectFiles(inputPath, outputPath);
         System.out.println("Compression IN PROGRESS");
 
         time = System.currentTimeMillis();
         compress();
+        closeReader();
+        closeWriter();
         time = System.currentTimeMillis() - time;
 
         this.closeReader();
@@ -55,7 +58,7 @@ public abstract class Compressor {
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
-        System.out.println("Compression ratio: " + this.getCompressionRatio());
+        System.out.printf("Compression ratio: %.2f", this.getCompressionRatio());
     }
     protected abstract void compress();
 
@@ -93,7 +96,7 @@ public abstract class Compressor {
         }
         catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
-            return new byte[0];
+            return new byte[0]; // -1
         }
     }
     protected void closeReader() {
@@ -126,7 +129,7 @@ public abstract class Compressor {
     }
     protected void closeWriter() {
         try {
-            out.close();
+            if (out != null) out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

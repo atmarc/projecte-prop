@@ -11,7 +11,7 @@ public class LZ78Decompressor extends Decompressor {
 
     public LZ78Decompressor() {}
 
-    public void decompressor() {
+    public void decompress() {
 
         byte[] singleByte = new byte[1], index = new byte[4];
         readNBytes(index);
@@ -66,6 +66,10 @@ public class LZ78Decompressor extends Decompressor {
 
         dictionary.add(word);
         return word;
+    }
+
+    String getExtension() {
+        return ".txt";
     }
 
 }

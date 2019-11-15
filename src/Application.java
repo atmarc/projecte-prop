@@ -53,7 +53,7 @@ public class Application {
             String output_decomp = "./testing_files/decomp.txt";
 
             LZ78Decompressor decompressor = new LZ78Decompressor();
-            decompressor.decompressor(input_decomp, output_decomp);
+            decompressor.startDecompression(input_decomp, output_decomp);
         }
 
 /*

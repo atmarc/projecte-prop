@@ -19,7 +19,7 @@ public class JPEGCompressor extends Compressor {
 
     public void compress() {
 
-        byte s [] = super.readAllBytes();
+        byte s [] = readAllBytes();
 
         System.out.println("Read Header");
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
@@ -186,18 +186,12 @@ public class JPEGCompressor extends Compressor {
 
         System.out.println("Escrivim");
 
-        try (BufferedOutputStream bufferedOutputStream =
-                     new BufferedOutputStream(new FileOutputStream("testing_files/image.comp"))) {
-
-            byte [] bytes = new byte[arrayBytes.size()];
-            for (int i = 0; i < arrayBytes.size(); ++i) {
-                bytes[i] = arrayBytes.get(i);
-            }
-            bufferedOutputStream.write(bytes);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        byte [] bytes = new byte[arrayBytes.size()];
+        for (int i = 0; i < arrayBytes.size(); ++i) {
+            bytes[i] = arrayBytes.get(i);
         }
+
+        writeBytes(bytes);
     }
     /*
     RGB --> YCbCr

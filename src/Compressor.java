@@ -15,7 +15,6 @@ public abstract class Compressor {
 
     public void selectFiles(String inputPath, String outputPath) {
         try {
-
             inputFile = new File(inputPath);
 
             if (outputPath == null) outputPath = getCompressedName(inputFile);
@@ -62,7 +61,7 @@ public abstract class Compressor {
     }
 
     public void startCompression(String inputPath) {
-        startCompression(inputPath, getCompressedName(inputFile));
+        startCompression(inputPath, null);
     }
 
     protected abstract void compress();

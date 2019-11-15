@@ -11,8 +11,6 @@ public abstract class Compressor {
     private BufferedOutputStream out;
     private long time;
 
-
-
     // Auxiliar PreCompression Methods
 
     public void selectFiles(String inputPath, String outputPath) {
@@ -32,7 +30,9 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
+
     abstract String getExtension();
+
     private String getCompressedName(File file) {
         String fileName = file.getPath();
         int pos = fileName.lastIndexOf('.');
@@ -51,12 +51,10 @@ public abstract class Compressor {
 
         time = System.currentTimeMillis();
         compress();
-        closeReader();
-        closeWriter();
         time = System.currentTimeMillis() - time;
 
-        this.closeReader();
-        this.closeWriter();
+        closeReader();
+        closeWriter();
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");

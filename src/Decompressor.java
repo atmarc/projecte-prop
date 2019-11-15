@@ -83,14 +83,12 @@ public abstract class Decompressor {
         }
     }
 
-    protected byte[] readNBytes(int n) {
+    protected int readNBytes(byte[] word) {
         try {
-            byte[] word = new byte[n];
-            if (in.read(word) < 0) return new byte[0];
-            return word;
+            return in.read(word);
         } catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
-            return new byte[0]; // -1
+            return -1;
         }
     }
 

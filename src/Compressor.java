@@ -106,6 +106,7 @@ public abstract class Compressor {
             return new byte[0]; // -1
         }
     }
+
     protected void closeReader() {
         try {
             if (in != null) in.close();

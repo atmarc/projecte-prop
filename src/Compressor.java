@@ -30,16 +30,17 @@ public abstract class Compressor {
         }
     }
 
-//    public byte[] readByte(int nrB) {
-//        try {
-//            byte[] word = new
-//            return (byte)in.read();
-//        }
-//        catch (IOException e) {
-//            System.out.println("Error Lectura\n" + e.getMessage());
-//            return -1;
-//        }
-//    }
+    public byte[] readByte(int nrB) {
+        try {
+            byte[] word = new byte[nrB];
+            in.read(word);
+            return word;
+        }
+        catch (IOException e) {
+            System.out.println("Error Lectura\n" + e.getMessage());
+            return new byte[0];
+        }
+    }
 
     protected void writeByte(byte[] word) {
         try {

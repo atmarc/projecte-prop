@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,9 +9,10 @@ import static java.lang.Integer.parseInt;
 
 import Triplet.Triplet;
 
-public class JPEGCompressor {
+public class JPEGCompressor extends Compressor {
 
     //TODO: Fixar-se amb fitxers no multiples de 8
+
     public void compress(String path) {
 
         byte s [] = new byte[0];
@@ -38,12 +38,7 @@ public class JPEGCompressor {
         while (line < 3 && index < s.length) {
             if (s[index] == '\n') ++line;
             ++index;
-            while (s[index] == '#') {
-                while (s[index] != '\n') ++index;
-                ++index;
-            }
         }
-        char ch = (char) s[index];
 
         // El fitxer t'ho passa en ASCII
         if (inputMode.equals("P3")) {
@@ -123,7 +118,7 @@ public class JPEGCompressor {
                         }
                         else {
                             // Aprofitem i centrem els valors a 0
-                            int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
+                                int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
                             blockY.setValue(i, j, value);
 
                             value = Pixels[i + marginY][j + marginX].getSecond() - 128;
@@ -223,9 +218,6 @@ public class JPEGCompressor {
         // Saltem la primera linia
         int index = 0;
         while (s[index] != '\n') {
-            if (s[index] == '#') {
-                while (s[index] != '\n') ++index;
-            }
             ++index;
         }
         ++index;
@@ -234,10 +226,6 @@ public class JPEGCompressor {
 
         // Segona linia
         while (s[index] != '\n' && s[index] != '\r') {
-            while (s[index] == '#') {
-                while (s[index] != '\n') ++index;
-                ++index;
-            }
             linia += (char)s[index];
             ++index;
         }
@@ -249,10 +237,6 @@ public class JPEGCompressor {
         index = (s[index] == '\r') ? index + 2 : ++index;
         linia = new String();
         while (s[index] != '\n' && s[index] != '\r') {
-            while (s[index] == '#') {
-                while (s[index] != '\n') ++index;
-                ++index;
-            }
             linia += (char)s[index];
             ++index;
         }

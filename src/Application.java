@@ -9,9 +9,15 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         // TODO: Mirar com evitar els comentaris
+
+
+
         String inputPath = "";
         String outputPath = "";
-        if (true) { // JPEG
+
+
+/*
+        if (false) { // JPEG
 
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
             JPEGCompressor jpegCompressor = new JPEGCompressor();
@@ -30,27 +36,29 @@ public class Application {
             //FileManager.createFile(compimit, "testing_files/image.comp");
             //file = Files.readAllBytes(Paths.get("testing_files/image.comp"));
             //JpegAlgorithm.decompress(file);
-        }
+        }*/
 
         if (true) { // LZ78
 
             String input_comp = "./testing_files/1M.txt";
-            String output_comp = "./testing_files/comp.txt";
+            String output_comp = "./testing_files/1M.lz78";
 
-            LZ78Compressor LZ78 = new LZ78Compressor();
-            LZ78.compress(input_comp);
+            Compressor compressor = new LZ78Compressor();
+            compressor.StartCompression(input_comp, output_comp);
 
-            String input_decomp = "./testing_files/1M.egg";
+            System.out.println("Time: " + compressor.getTime());
+            System.out.println("Ratio: " + compressor.getCompressionRatio());
+
+            String input_decomp = "./testing_files/1M.lz78";
             String output_decomp = "./testing_files/decomp.txt";
 
             LZ78Decompressor decompressor = new LZ78Decompressor();
-            // decompressor.TXdecompressor(input_decomp, output_decomp);
+            decompressor.decompressor(input_decomp, output_decomp);
         }
 
-
+/*
         if (false) { // LZW
             Compressor compressor = new LZWCompressor();
-            compressor.selectFiles(inputPath, outputPath);
             compressor.compress("testing_files/lzw/ansi.txt");
             Decompressor decompressor = new LZWDecompressor();
             decompressor.decompress("testing_files/lzw/ansi.zero");
@@ -59,8 +67,8 @@ public class Application {
         if (false) { // LZSS
             String path = FileManager.readFile("testing_files/filename.txt");
             LZSS_Compressor LZSS = new LZSS_Compressor();
-            LZSS.Compress(path);
-        }
+            // LZSS.Compress(path);
+        }*/
 
         /*
         Block block = new Block(8,8, "Y");

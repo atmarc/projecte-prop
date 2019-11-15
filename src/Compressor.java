@@ -11,8 +11,6 @@ public abstract class Compressor {
     private BufferedOutputStream out;
     private long time;
 
-
-
     // Auxiliar PreCompression Methods
 
     public void selectFiles(String inputPath, String outputPath) {
@@ -32,9 +30,19 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
+
     abstract String getExtension();
+
     private String getCompressedName(File file) {
         String fileName = file.getPath();
+        int pos = fileName.lastIndexOf('.');
+        String compressedFileName;
+        if (pos != -1) compressedFileName = fileName.substring(0, pos);
+        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
+        return compressedFileName + getExtension();
+    }
+
+    private String getCompressedName(String fileName) {
         int pos = fileName.lastIndexOf('.');
         String compressedFileName;
         if (pos != -1) compressedFileName = fileName.substring(0, pos);
@@ -51,17 +59,20 @@ public abstract class Compressor {
 
         time = System.currentTimeMillis();
         compress();
-        closeReader();
-        closeWriter();
         time = System.currentTimeMillis() - time;
 
-        this.closeReader();
-        this.closeWriter();
+        closeReader();
+        closeWriter();
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
         System.out.printf("Compression ratio: %.2f", this.getCompressionRatio());
     }
+
+    public void startCompression(String inputPath) {
+        startCompression(inputPath, getCompressedName(inputFile));
+    }
+
     protected abstract void compress();
 
     // Post-Compression Consultants
@@ -69,9 +80,11 @@ public abstract class Compressor {
     public long getTime() {
         return time;
     }
+
     public long getOriginalSize() {
         return inputFile.length();
     }
+
     public long getCompressedSize() {
         return outputFile.length();
     }
@@ -103,7 +116,7 @@ public abstract class Compressor {
     }
     protected void closeReader() {
         try {
-            in.close();
+            if (in != null) in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,7 +155,5 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-
-
 
 }

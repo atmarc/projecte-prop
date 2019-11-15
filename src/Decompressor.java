@@ -41,6 +41,14 @@ public abstract class Decompressor {
         return compressedFileName + getExtension();
     }
 
+    private String getCompressedName(String fileName) {
+        int pos = fileName.lastIndexOf('.');
+        String compressedFileName;
+        if (pos != -1) compressedFileName = fileName.substring(0, pos);
+        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
+        return compressedFileName + getExtension();
+    }
+
     // Compression
 
     public void startDecompression(String inputPath, String outputPath) {
@@ -61,10 +69,10 @@ public abstract class Decompressor {
     }
 
     public void startDecompression(String inputPath) {
-        startDecompression(inputPath, getCompressedName(inputFile));
+        startDecompression(inputPath, getCompressedName(inputPath));
     }
 
-    public abstract void decompress();
+    protected abstract void decompress();
 
     // Post-Compression Consultants
 

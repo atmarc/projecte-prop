@@ -37,6 +37,36 @@ public class LZWDecompressor extends Decompressor {
         decompress(new File(filePath));
     }
 
+    String getExtension() {
+        return "_decompressed.txt";
+    }
+
+    public void decompress() {
+        int q = 0;
+        boolean t = false;
+        int nr = 0;
+        byte[] codeword = new byte[codewordSize/BYTE_SIZE];
+        readNBytes(codeword);
+        int index = getNextIndex(codeword);
+        String pattern = dictionary.get(index);
+        for (int i = 0; i < pattern.length(); ++i) writeByte((byte)pattern.charAt(i));
+        while (readNBytes(codeword) != -1) {
+            index = getNextIndex(codeword);
+            String out = "";
+            if (index < dictionary.size()) {
+                out = dictionary.get(index);
+            }
+            else out = pattern + pattern.charAt(0);
+            dictionary.add(pattern + out.charAt(0));
+            for (int i = 0; i < out.length(); ++i) writeByte((byte)out.charAt(i));
+            pattern = out;
+            if (dictionary.size() >= (1 << codewordSize)-1) {
+                codewordSize += BYTE_SIZE;
+                codeword = new byte[codewordSize/BYTE_SIZE];
+            }
+        }
+    }
+
     /**
      * Descomprime un fichero codificado con el algoritmo LZW
      * @param file fichero a descomprimir
@@ -76,6 +106,14 @@ public class LZWDecompressor extends Decompressor {
         }
     }
 
+    private int getNextIndex(byte[] codeword)  {
+        int index = 0;
+        for (byte b : codeword) {
+            index = (index << BYTE_SIZE) | (b & 0xFF);
+        }
+        return index;
+    }
+
     private int getNextIndex(BufferedInputStream bufferedInputStream) throws IOException {
         int index = 0;
         for (int i = 0; i < codewordSize; i += BYTE_SIZE) {
@@ -83,6 +121,7 @@ public class LZWDecompressor extends Decompressor {
             if (readByte == -1) return -1;
             index = (index << BYTE_SIZE) | readByte;
         }
+        System.out.println(index);
         return index;
     }
 
@@ -104,7 +143,6 @@ public class LZWDecompressor extends Decompressor {
                 outString.append(pattern).append(pattern.charAt(0));
             }
         }
-
         return outString.toString();
     }
 }

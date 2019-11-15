@@ -1,5 +1,7 @@
 import javax.sound.midi.Soundbank;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public abstract class Compressor {
 
@@ -108,7 +110,13 @@ public abstract class Compressor {
     }
 
     protected byte[] readAllBytes() {
-        return new byte[0];
+        byte[] b = new byte[0];
+        try {
+            b = Files.readAllBytes(Paths.get(inputFile.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return b;
     }
 
     // Escritura

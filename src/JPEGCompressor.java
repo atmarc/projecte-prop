@@ -13,14 +13,13 @@ public class JPEGCompressor extends Compressor {
 
     //TODO: Fixar-se amb fitxers no multiples de 8
 
-    public void compress(String path) {
+    public String getExtension() {
+        return ".jpeg";
+    }
 
-        byte s [] = new byte[0];
-        try {
-            s = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void compress() {
+
+        byte s [] = super.readAllBytes();
 
         System.out.println("Read Header");
         Triplet<Integer, Integer, Float> headers = readHeaders(s);

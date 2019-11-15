@@ -1,10 +1,3 @@
-import FileManager.FileManager;
-import LZSS.LZSS_Compressor;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 public class Application {
     public static void main(String[] args) throws Exception {
 
@@ -38,13 +31,13 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }*/
 
-        if (true) { // LZ78
+        if (false) { // LZ78
 
             String input_comp = "./testing_files/1M.txt";
             String output_comp = "./testing_files/1M.lz78";
 
             Compressor compressor = new LZ78Compressor();
-            compressor.StartCompression(input_comp, output_comp);
+            compressor.startCompression(input_comp, output_comp);
 
             System.out.println("Time: " + compressor.getTime());
             System.out.println("Ratio: " + compressor.getCompressionRatio());
@@ -56,14 +49,15 @@ public class Application {
             decompressor.decompressor(input_decomp, output_decomp);
         }
 
-/*
-        if (false) { // LZW
-            Compressor compressor = new LZWCompressor();
-            compressor.compress("testing_files/lzw/ansi.txt");
-            Decompressor decompressor = new LZWDecompressor();
-            decompressor.decompress("testing_files/lzw/ansi.zero");
-        }
 
+        if (true) { // LZW
+            Compressor compressor = new LZWCompressor();
+            // TODO: Add a selectFiles with only input file
+            compressor.startCompression("./testing_files/1M.txt", "./testing_files/1M_T.zero");
+            Decompressor decompressor = new LZWDecompressor();
+            decompressor.decompress("testing_files/1M.zero");
+        }
+        /*
         if (false) { // LZSS
             String path = FileManager.readFile("testing_files/filename.txt");
             LZSS_Compressor LZSS = new LZSS_Compressor();

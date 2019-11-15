@@ -31,6 +31,37 @@ public class LZWCompressor extends Compressor {
 		return compressedFileName + extension;
 	}
 
+	public void compress() {
+		inicializar();
+		int readByte;
+		int codeword;
+		int nr = 0;
+		while ((readByte = super.readByte()) != -1) {
+			char c = (char) readByte;
+			String pattern = patternBuilder.toString();
+			if (!dictionary.containsKey(pattern + c)) {
+				codeword = dictionary.get(pattern);
+				byte[] codewordAsByteArray = toByteArray(codeword);
+				super.writeBytes(codewordAsByteArray);
+				nr += codewordAsByteArray.length;
+				int index = dictionary.size();
+				dictionary.put(pattern + c, index);
+				if (dictionary.size() >= (1 << codewordSize)) {
+					codewordSize += BYTE_SIZE;
+				}
+				patternBuilder = new StringBuilder();
+				patternBuilder.append(c);
+			} else patternBuilder.append(c);
+		}
+		if (patternBuilder.length() > 0) {
+			codeword = dictionary.get(patternBuilder.toString());
+			byte[] codewordAsByteArray = toByteArray(codeword);
+			super.writeBytes(codewordAsByteArray);
+			nr += codewordAsByteArray.length;
+		}
+		System.out.println("It: " + nr);
+	}
+
 	/**
 	 * @param data cadena de caracteres
 	 * @return una lista de enteros que representa la cadena {@code data} en forma comprimida
@@ -64,7 +95,6 @@ public class LZWCompressor extends Compressor {
 	public void compress(File file) {
 		inicializar();
 		File compressedFile = new File(getCompressedName(file));
-//        super.inicializar(file.getPath());
 		try (BufferedInputStream bufferedInputStream =
 					 new BufferedInputStream(new FileInputStream(file.getPath()));
 			 BufferedOutputStream bufferedOutputStream =
@@ -72,8 +102,6 @@ public class LZWCompressor extends Compressor {
 		) {
 			int readByte;
 			int codeword;
-			int q = 0;
-			boolean t = false;
 			int nr = 0;
 			while ((readByte = bufferedInputStream.read()) != -1) {
 				char c = (char) readByte;
@@ -82,6 +110,7 @@ public class LZWCompressor extends Compressor {
 					codeword = dictionary.get(pattern);
 					byte[] codewordAsByteArray = toByteArray(codeword);
 					bufferedOutputStream.write(codewordAsByteArray);
+					nr += codewordAsByteArray.length;
 					int index = dictionary.size();
 					dictionary.put(pattern + c, index);
 					if (dictionary.size() >= (1 << codewordSize)) {
@@ -95,7 +124,9 @@ public class LZWCompressor extends Compressor {
 				codeword = dictionary.get(patternBuilder.toString());
 				byte[] codewordAsByteArray = toByteArray(codeword);
 				bufferedOutputStream.write(codewordAsByteArray);
+				nr += codewordAsByteArray.length;
 			}
+			System.out.println("It: " + nr);
 		} catch (FileNotFoundException e) {
 			System.out.println("Fichero no encontrado\n" + e.getMessage());
 		} catch (IOException e) {

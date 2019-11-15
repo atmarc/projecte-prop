@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class LZWCompressor extends Compressor {
@@ -17,6 +16,10 @@ public class LZWCompressor extends Compressor {
 		this.inicializar();
 	}
 
+
+	String getExtension() {
+		return ".zero";
+	}
 
 	/**
 	 * @param file El fichero desde cual se tiene que calcular el nombre
@@ -36,7 +39,7 @@ public class LZWCompressor extends Compressor {
 		int readByte;
 		int codeword;
 		int nr = 0;
-		while ((readByte = super.readByte()) != -1) {
+		while ((readByte = readByte()) != -1) {
 			char c = (char) readByte;
 			String pattern = patternBuilder.toString();
 			if (!dictionary.containsKey(pattern + c)) {
@@ -56,7 +59,7 @@ public class LZWCompressor extends Compressor {
 		if (patternBuilder.length() > 0) {
 			codeword = dictionary.get(patternBuilder.toString());
 			byte[] codewordAsByteArray = toByteArray(codeword);
-			super.writeBytes(codewordAsByteArray);
+			writeBytes(codewordAsByteArray);
 			nr += codewordAsByteArray.length;
 		}
 		System.out.println("It: " + nr);
@@ -83,10 +86,6 @@ public class LZWCompressor extends Compressor {
 		return outList;
 	}
 
-	public void compress() {
-		String path = "";
-		compress(new File(path));
-	}
 
 	/**
 	 * Comprime un fichero text que recibe como parametro y crea un nuevo fichero con el contenido comprimido

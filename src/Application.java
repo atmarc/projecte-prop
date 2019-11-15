@@ -44,7 +44,7 @@ public class Application {
             String output_comp = "./testing_files/1M.lz78";
 
             Compressor compressor = new LZ78Compressor();
-            compressor.StartCompression(input_comp, output_comp);
+            compressor.startCompression(input_comp, output_comp);
 
             System.out.println("Time: " + compressor.getTime());
             System.out.println("Ratio: " + compressor.getCompressionRatio());

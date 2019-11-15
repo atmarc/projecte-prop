@@ -42,6 +42,14 @@ public abstract class Compressor {
         return compressedFileName + getExtension();
     }
 
+    private String getCompressedName(String fileName) {
+        int pos = fileName.lastIndexOf('.');
+        String compressedFileName;
+        if (pos != -1) compressedFileName = fileName.substring(0, pos);
+        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
+        return compressedFileName + getExtension();
+    }
+
     // Compression
 
     public void startCompression(String inputPath, String outputPath) {
@@ -60,6 +68,11 @@ public abstract class Compressor {
         System.out.println("Time: " + this.getTime() + " ms");
         System.out.printf("Compression ratio: %.2f", this.getCompressionRatio());
     }
+
+    public void startCompression(String inputPath) {
+        startCompression(inputPath, getCompressedName(inputFile));
+    }
+
     protected abstract void compress();
 
     // Post-Compression Consultants
@@ -67,9 +80,11 @@ public abstract class Compressor {
     public long getTime() {
         return time;
     }
+
     public long getOriginalSize() {
         return inputFile.length();
     }
+
     public long getCompressedSize() {
         return outputFile.length();
     }
@@ -101,7 +116,7 @@ public abstract class Compressor {
     }
     protected void closeReader() {
         try {
-            in.close();
+            if (in != null) in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,7 +155,5 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-
-
 
 }

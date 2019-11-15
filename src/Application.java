@@ -9,8 +9,12 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         // TODO: Mirar com evitar els comentaris
+
         String inputPath = "";
         String outputPath = "";
+
+
+
         if (false) { // JPEG
 
             // ArrayList<String> paths = FileManager.readFolder("testing_files", ".ppm");
@@ -32,19 +36,22 @@ public class Application {
             //JpegAlgorithm.decompress(file);
         }
 
-        if (false) { // LZ78
+        if (true) { // LZ78
 
             String input_comp = "./testing_files/1M.txt";
             String output_comp = "./testing_files/comp.txt";
 
-            LZ78Compressor LZ78 = new LZ78Compressor();
-            LZ78.compress(input_comp);
+            Compressor compressor = new LZ78Compressor();
+            compressor.StartCompression(input_comp, output_comp);
 
-            String input_decomp = "./testing_files/1M.egg";
+            System.out.println("Time: " + compressor.getTime());
+            System.out.println("Ratio: " + compressor.getCompressionRatio());
+
+            String input_decomp = "./testing_files/1M.lz78";
             String output_decomp = "./testing_files/decomp.txt";
 
             LZ78Decompressor decompressor = new LZ78Decompressor();
-            // decompressor.TXdecompressor(input_decomp, output_decomp);
+            decompressor.decompressor(input_decomp, output_decomp);
         }
 
 

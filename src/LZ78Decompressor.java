@@ -61,12 +61,15 @@ public class LZ78Decompressor {
         if (index == 0) {
             word = new byte[1];
             word[0] = offset;
-        } else {
+        }
+        else if (dictionary.size() == length - 1){
+            word = dictionary.get(index);
+        }
+        else {
             byte[] prefix = dictionary.get(index);
             word = new byte[prefix.length + 1];
             System.arraycopy(prefix, 0, word, 0, prefix.length);
-            if (dictionary.size() < length - 1)
-                word[prefix.length] = offset;
+            word[prefix.length] = offset;
         }
 
         dictionary.add(word);

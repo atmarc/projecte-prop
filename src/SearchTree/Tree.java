@@ -28,6 +28,11 @@ public class Tree{
         return aux.getSons().find(word, digit + 1);
     }
 
+    public void reset() {
+        previous_node = null;
+        sons = new ArrayList<>();
+    }
+
     public Node getNode(byte B) {
         for (Node son : sons) {
             if (son.areYou(B)) return son;

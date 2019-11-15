@@ -16,6 +16,10 @@ public class LZ78Compressor extends Compressor {
         add_comp_file();
     }
 
+    public static String getExtension() {
+        return extension;
+    }
+
     private void add_comp_file() {
         files.add(new ArrayList<>());
         comp_file = files.get(files.size() - 1);
@@ -36,7 +40,7 @@ public class LZ78Compressor extends Compressor {
     }
 
 
-    public void compress(String inputPath) {
+    public void compress() {
 
         try {
 

@@ -15,7 +15,7 @@ public class LZ78Compressor extends Compressor {
         add_comp_file();
     }
 
-    public static String getExtension() {
+    String getExtension() {
         return extension;
     }
 
@@ -25,7 +25,7 @@ public class LZ78Compressor extends Compressor {
         comp_file.add(new Pair(0, (byte) 0x00));
     }
 
-    public void compress() {
+    protected void compress() {
 
         int B;
         Tree tree = new Tree(1);

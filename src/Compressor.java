@@ -30,9 +30,7 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-    private static String getExtension() {
-        return null;
-    }
+    abstract String getExtension();
     private String getCompressedName(File file) {
         String fileName = file.getPath();
         int pos = fileName.lastIndexOf('.');
@@ -47,7 +45,7 @@ public abstract class Compressor {
     public void startCompression(String inputPath, String outputPath) {
 
         selectFiles(inputPath, outputPath);
-        System.out.println("Starting compression ...");
+        System.out.println("Compression IN PROGRESS");
 
         time = System.currentTimeMillis();
         compress();
@@ -55,11 +53,14 @@ public abstract class Compressor {
         closeWriter();
         time = System.currentTimeMillis() - time;
 
+        this.closeReader();
+        this.closeWriter();
+
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
         System.out.printf("Compression ratio: %.2f", this.getCompressionRatio());
     }
-    public abstract void compress();
+    protected abstract void compress();
 
     // Post-Compression Consultants
 
@@ -104,6 +105,10 @@ public abstract class Compressor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    protected byte[] readAllBytes() {
+        return new byte[0];
     }
 
     // Escritura

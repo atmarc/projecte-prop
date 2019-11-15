@@ -83,7 +83,8 @@ public class LZWCompressor extends Compressor {
 		return outList;
 	}
 
-	public void compress(String path) {
+	public void compress() {
+		String path = "";
 		compress(new File(path));
 	}
 

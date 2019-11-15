@@ -29,11 +29,9 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-
     private static String getExtension() {
         return null;
     }
-
     private String getCompressedName(File file) {
         String fileName = file.getPath();
         int pos = fileName.lastIndexOf('.');
@@ -48,11 +46,16 @@ public abstract class Compressor {
     public void StartCompression(String inputPath, String outputPath) {
 
         selectFiles(inputPath, outputPath);
+        System.out.println("Starting compression ...");
+
         time = System.currentTimeMillis();
         compress();
         time = System.currentTimeMillis() - time;
-    }
 
+        System.out.println("Compression DONE");
+        System.out.println("Time: " + this.getTime() + " ms");
+        System.out.println("Compression ratio: " + this.getCompressionRatio());
+    }
     public abstract void compress();
 
     // Post-Compression Consultants
@@ -61,10 +64,10 @@ public abstract class Compressor {
         return time;
     }
     public long getOriginalSize() {
-        return inputFile.getTotalSpace();
+        return inputFile.length();
     }
     public long getCompressedSize() {
-        return outputFile.getTotalSpace();
+        return outputFile.length();
     }
     public double getCompressionRatio() {
         return (double)getCompressedSize()/(double)getOriginalSize();
@@ -72,16 +75,15 @@ public abstract class Compressor {
 
     // Lectura
 
-    protected byte readByte() {
+    protected int readByte() {
         try {
-            return (byte) in.read();
+            return in.read();
         }
         catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
             return -1;
         }
     }
-
     protected byte[] readNBytes(int n) {
         try {
             byte[] word = new byte[n];
@@ -93,7 +95,6 @@ public abstract class Compressor {
             return new byte[0];
         }
     }
-
     protected void closeReader() {
         try {
             in.close();
@@ -111,7 +112,6 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-
     protected void writeBytes(byte[] word) {
         try {
             out.write(word);
@@ -119,7 +119,6 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-
     protected void closeWriter() {
         try {
             out.close();

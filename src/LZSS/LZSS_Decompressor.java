@@ -16,21 +16,47 @@ public class LZSS_Decompressor {
     public LZSS_Decompressor() {
     }
 
+    private String BitSetToString(ArrayList<Boolean> s) {
+        String aux = "";
+        //System.out.println(s.size());
+        for (int i = 0; i < s.size(); ++i) {
+            if (!s.get(i)) {
+                aux += "0";
+            }
+            else aux += "1";
+        }
+        return aux;
+    }
+
+    private Queue<Character> PrintQueue(Queue<Character> Q) {
+        String aux = "";
+        Queue<Character> charQ2  = new LinkedList<>();
+        for(;!Q.isEmpty();) {
+            charQ2.add(Q.peek());
+            aux += Q.remove();
+        }
+        //System.out.println(aux);
+        return charQ2;
+    }
+
+
+
     public void Decompress(String item) throws IOException {
         int nextsegment = 0;
         String resultat = "";
         boolean end = false;
+        String reslocal;
 
         while (!end) {
-
             Queue<Character> charQ  = new LinkedList<>();
             ArrayList<Boolean> BitSet = new ArrayList<Boolean>();
 
             boolean endBits = false;
             int poscharQ = 0;
             boolean start = false; //Els primers bits son per quadrar-los en multuiples de 8
+            reslocal = "";
 
-            for (int i = nextsegment; endBits == false; i++) {
+            for (int i = nextsegment; !endBits; i++) {
                 char c = item.charAt(i);
                 if (start) {
                     if (c == 0xFFFF) {
@@ -42,7 +68,7 @@ public class LZSS_Decompressor {
                             char aux = (char) ((c >> 15 - j) & 0x0001);
 
                             if (aux == 0) BitSet.add(false);
-                            else BitSet.add(true);
+                                else BitSet.add(true);
                         }
                     }
                 } else {
@@ -64,6 +90,7 @@ public class LZSS_Decompressor {
                 }
             }
 
+
             for (int i = poscharQ; i < item.length(); i++) {
                 if (item.charAt(i) == 0xFFFF) { //Vol dir que s'ha acabat aquest segment
                     nextsegment = i + 1;
@@ -72,12 +99,16 @@ public class LZSS_Decompressor {
                 } else charQ.add(item.charAt(i));
             }
 
+            //charQ = PrintQueue(charQ);
+
 
             for (int i = 0; i < BitSet.size(); ++i) {
                 if (!BitSet.get(i)) {
-                    resultat += (char) charQ.remove();
+                    //System.out.print(charQ.peek());
+                    reslocal += (char) charQ.remove();
 
                 } else {
+
                     char aux = charQ.remove();
                     short os = (short) (aux & 0xFFF0);
                     os = (short) (os >> 4);
@@ -87,14 +118,15 @@ public class LZSS_Decompressor {
                     short point = (short) (os);
 
                     for (short j = 0; j <= dpls; ++j) {
-
-                        resultat = resultat + resultat.charAt(point + j);
+                        //System.out.print(reslocal.charAt(point + j));
+                        reslocal = reslocal + reslocal.charAt(point + j);
                     }
                     i += dpls;
 
                 }
             }
 
+            resultat = resultat + reslocal;
         }
 
         try {

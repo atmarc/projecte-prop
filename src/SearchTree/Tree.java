@@ -28,6 +28,31 @@ public class Tree{
         return aux.getSons().find(word, digit + 1);
     }
 
+    public void insert(byte[] word, int digit, int index) {
+        Node aux = getNode(word[digit]);
+        if (aux == null) {
+            if (digit == word.length - 1) {
+                aux = new Node(word[digit], index, new Tree());
+                sons.add(aux);
+            }
+            else {
+                aux = new Node(word[digit], -1, new Tree());
+                sons.add(aux);
+                aux.getSons().insert(word, digit + 1, index);
+            }
+        }
+        else if (digit != word.length - 1) {
+            aux.getSons().insert(word, digit + 1, index);
+        }
+        else throw new IllegalArgumentException("La palabra ya estaba insertada con index = " + aux.getIndex());
+    }
+
+
+    public void reset() {
+        previous_node = null;
+        sons = new ArrayList<>();
+    }
+
     public Node getNode(byte B) {
         for (Node son : sons) {
             if (son.areYou(B)) return son;

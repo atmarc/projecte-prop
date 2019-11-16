@@ -1,27 +1,17 @@
-import FileManager.FileManager;
 import Triplet.Triplet;
-
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.BitSet;
-
-import static java.lang.Integer.parseInt;
 
 public class JPEGDecompressor extends Decompressor {
 
 
-    public void decompress(String path) {
+    public void decompress() {
 
-        byte s [] = new byte[0];
-        try {
-            s = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        byte s [] = readAllBytes();
 
         int[] bits = new int[s.length * 8];
         charToBinString(s, bits);
@@ -108,16 +98,12 @@ public class JPEGDecompressor extends Decompressor {
             }
         }
 
-        try (BufferedOutputStream bufferedOutputStream =
-                     new BufferedOutputStream(new FileOutputStream("testing_files/imgDescompr.ppm"))) {
-
-            bufferedOutputStream.write(returnData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        writeBytes(returnData);
     }
 
+    public String getExtension() {
+        return ".jpeg";
+    }
 
     /*
 

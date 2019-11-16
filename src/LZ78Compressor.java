@@ -1,6 +1,5 @@
 import SearchTree.Tree;
 
-import java.io.*;
 import java.util.ArrayList;
 
 public class LZ78Compressor extends Compressor {
@@ -16,53 +15,34 @@ public class LZ78Compressor extends Compressor {
         add_comp_file();
     }
 
+    String getExtension() {
+        return extension;
+    }
+
     private void add_comp_file() {
         files.add(new ArrayList<>());
         comp_file = files.get(files.size() - 1);
         comp_file.add(new Pair(0, (byte) 0x00));
     }
 
-    /**
-     * @param file El fichero desde cual se tiene que calcular el nombre
-     * @return     El nombre con la extension del fichero a comprimir
-     */
-    private String getCompressedName(File file) {
-        String fileName = file.getPath();
-        int pos = fileName.lastIndexOf('.');
-        String compressedFileName;
-        if (pos != -1) compressedFileName = fileName.substring(0, pos);
-        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-        return compressedFileName + extension;
-    }
+    protected void compress() {
 
+        int B;
+        Tree tree = new Tree(1);
+        previous_index = 0;
+        boolean new_searching = true;
 
-    public void compress(String inputPath) {
+        while ((B = super.readByte()) > 0)
+            new_searching = compress((byte) (B & 0xFF), tree, new_searching);
 
-        try {
+        super.closeReader();
 
-            File file = new File(inputPath);
-            BufferedInputStream reader = new BufferedInputStream(new FileInputStream(file));
+        if (!new_searching) compress((byte) 0x00, tree, false);
 
-            int B;
-            Tree tree = new Tree(1);
-            previous_index = 0;
-            boolean new_searching = true;
+        // Set del tamano total del archivo comprimido
+        comp_file.set(0, new Pair(comp_file.size() - 1, (byte) 0x00));
 
-            while ((B = reader.read()) > 0)
-                new_searching = compress((byte) (B & 0xFF), tree, new_searching);
-
-            reader.close();
-
-            if (!new_searching) compress((byte) 0x00, tree, false);
-
-            // Set del tamano total del archivo comprimido
-            comp_file.set(0, new Pair(comp_file.size() - 1, (byte) 0x00));
-
-            write_compressed_file(getCompressedName(file));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        write_compressed_file();
     }
 
     private boolean compress(byte B, Tree tree, boolean top_search) {
@@ -95,9 +75,8 @@ public class LZ78Compressor extends Compressor {
         return false;
     }
 
-    private void write_compressed_file(String path) throws IOException {
+    private void write_compressed_file() {
 
-        BufferedOutputStream file = new BufferedOutputStream(new FileOutputStream(path));
         int i = 1;
         byte[] buffer = new byte[4];
         int index = comp_file.size();
@@ -107,13 +86,13 @@ public class LZ78Compressor extends Compressor {
         buffer[2] = ((byte) ((index & 0x0000FF00) >> 8));
         buffer[3] = ((byte) (index & 0x000000FF));
 
-        file.write(buffer, 0, 4);
+        super.writeBytes(buffer);
 
         buffer = new byte[2];
         for (; i < 128 && i < comp_file.size(); i++) { // 1 + 1 Byte
             buffer[0] = (byte) (comp_file.get(i).index & 0xFF);
             buffer[1] = comp_file.get(i).offset;
-            file.write(buffer, 0, 2);
+            super.writeBytes(buffer);
         }
         buffer = new byte[3];
         for (; i < 32768 && i < comp_file.size(); i++) {    // 2 + 1 Byte
@@ -121,7 +100,7 @@ public class LZ78Compressor extends Compressor {
             buffer[0] = ((byte) ((index & 0x0000FF00) >> 8));
             buffer[1] = ((byte) (index & 0x000000FF));
             buffer[2] = comp_file.get(i).offset;
-            file.write(buffer, 0, 3);
+            super.writeBytes(buffer);
         }
         buffer = new byte[4];
         for (; i < 8388608 && i < comp_file.size(); i++) { // 3 + 1 Byte
@@ -130,7 +109,7 @@ public class LZ78Compressor extends Compressor {
             buffer[1] = ((byte) ((index & 0x0000FF00) >> 8));
             buffer[2] = ((byte) (index & 0x000000FF));
             buffer[3] = comp_file.get(i).offset;
-            file.write(buffer, 0, 4);
+            super.writeBytes(buffer);
         }
         buffer = new byte[5];
         for (; i < comp_file.size(); i++) {                 // 4 + 1 Byte
@@ -140,9 +119,9 @@ public class LZ78Compressor extends Compressor {
             buffer[2] = ((byte) ((index & 0x0000FF00) >> 8));
             buffer[3] = ((byte) (index & 0x000000FF));
             buffer[4] = comp_file.get(i).offset;
-            file.write(buffer, 0, 5);
+            super.writeBytes(buffer);
         }
-        file.close();
+        super.closeWriter();
     }
 
 

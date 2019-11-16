@@ -10,7 +10,7 @@ public class LZWDecompressor extends Decompressor {
         inicializar();
     }
 
-    public void inicializar() {
+    private void inicializar() {
         dictionary = new ArrayList<>();
         for (char i = 0; i < 256; ++i) dictionary.add(String.valueOf(i));
         codewordSize =  16;
@@ -37,9 +37,35 @@ public class LZWDecompressor extends Decompressor {
         decompress(new File(filePath));
     }
 
-    public static boolean t = false;
-    public static int nr = 0;
-    public static int ix = 0;
+    String getExtension() {
+        return "_decompressed.txt";
+    }
+
+    public void decompress() {
+        int q = 0;
+        boolean t = false;
+        int nr = 0;
+        byte[] codeword = new byte[codewordSize/BYTE_SIZE];
+        readNBytes(codeword);
+        int index = getNextIndex(codeword);
+        String pattern = dictionary.get(index);
+        for (int i = 0; i < pattern.length(); ++i) writeByte((byte)pattern.charAt(i));
+        while (readNBytes(codeword) != -1) {
+            index = getNextIndex(codeword);
+            String out = "";
+            if (index < dictionary.size()) {
+                out = dictionary.get(index);
+            }
+            else out = pattern + pattern.charAt(0);
+            dictionary.add(pattern + out.charAt(0));
+            for (int i = 0; i < out.length(); ++i) writeByte((byte)out.charAt(i));
+            pattern = out;
+            if (dictionary.size() >= (1 << codewordSize)-1) {
+                codewordSize += BYTE_SIZE;
+                codeword = new byte[codewordSize/BYTE_SIZE];
+            }
+        }
+    }
 
     /**
      * Descomprime un fichero codificado con el algoritmo LZW
@@ -56,7 +82,6 @@ public class LZWDecompressor extends Decompressor {
             boolean t = false;
             int nr = 0;
             int index = getNextIndex(bufferedInputStream);
-            ix = index;
             String pattern = dictionary.get(index);
             for (int i = 0; i < pattern.length(); ++i) bufferedOutputStream.write((byte)pattern.charAt(i));
             while ((index = getNextIndex(bufferedInputStream)) != -1) {
@@ -81,20 +106,22 @@ public class LZWDecompressor extends Decompressor {
         }
     }
 
+    private int getNextIndex(byte[] codeword)  {
+        int index = 0;
+        for (byte b : codeword) {
+            index = (index << BYTE_SIZE) | (b & 0xFF);
+        }
+        return index;
+    }
+
     private int getNextIndex(BufferedInputStream bufferedInputStream) throws IOException {
         int index = 0;
-        byte[] aux = new byte[codewordSize/BYTE_SIZE];
         for (int i = 0; i < codewordSize; i += BYTE_SIZE) {
             int readByte = bufferedInputStream.read();
-            aux[i/8] = (byte) readByte;
             if (readByte == -1) return -1;
             index = (index << BYTE_SIZE) | readByte;
         }
-        if ((t || 65280 - ix < 10) && nr < 20) {
-            for (byte b : aux) System.out.print(String.format("%02X ", b & 0xFF));
-            System.out.println();
-            nr++;
-        }
+        System.out.println(index);
         return index;
     }
 
@@ -116,7 +143,6 @@ public class LZWDecompressor extends Decompressor {
                 outString.append(pattern).append(pattern.charAt(0));
             }
         }
-
         return outString.toString();
     }
 }

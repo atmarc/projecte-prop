@@ -16,7 +16,7 @@ public class Node {
     }
 
     public boolean areYou(byte id) {
-        return (this.id == id);
+        return (this.index != -1 && this.id == id);
     }
 
     public void setId(byte id) {

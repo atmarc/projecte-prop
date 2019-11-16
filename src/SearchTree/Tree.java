@@ -7,8 +7,11 @@ public class Tree{
 
     private List<Node> sons;
     private static Node previous_node;
-    private static int last_index;
+    private static int last_index; // Em sembla que no Funciona + Shouldn't it be non static?
 
+    public static int getLast_index() {
+        return last_index;
+    }
 
     // Constructors
     private Tree() {
@@ -28,6 +31,10 @@ public class Tree{
         return aux.getSons().find(word, digit + 1);
     }
 
+    public int find(byte[] word) {
+       return find(word, 0);
+    }
+
     public void insert(byte[] word, int digit, int index) {
         Node aux = getNode(word[digit]);
         if (aux == null) {
@@ -45,6 +52,10 @@ public class Tree{
             aux.getSons().insert(word, digit + 1, index);
         }
         else throw new IllegalArgumentException("La palabra ya estaba insertada con index = " + aux.getIndex());
+    }
+
+    public void insert(byte[] word, int index) {
+        insert(word, 0, index);
     }
 
 

@@ -32,13 +32,16 @@ public abstract class Compressor {
 
     abstract String getExtension();
 
-    private String getCompressedName(File file) {
-        String fileName = file.getPath();
+    private String getCompressedName(String fileName) {
         int pos = fileName.lastIndexOf('.');
         String compressedFileName;
         if (pos != -1) compressedFileName = fileName.substring(0, pos);
         else throw new IllegalArgumentException("Nombre de fichero incorrecto");
         return compressedFileName + getExtension();
+    }
+
+    private String getCompressedName(File file) {
+        return getCompressedName(file.getPath());
     }
 
     // Compression
@@ -61,7 +64,7 @@ public abstract class Compressor {
     }
 
     public void startCompression(String inputPath) {
-        startCompression(inputPath, getCompressedName(inputFile));
+        startCompression(inputPath, getCompressedName(inputPath));
     }
 
     protected abstract void compress();

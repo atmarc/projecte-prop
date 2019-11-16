@@ -13,28 +13,28 @@ public class DriverLZWCompressor {
     }
 
     private void testCompressString(String filePathInput, String filePathCorrect, int testNumber) {
-        System.out.print("Test " + testNumber + ": ");
-        LZWCompressor compressor = new LZWCompressor();
-        try {
-            StringBuilder stringBuilder = new StringBuilder();
-            Scanner scanner = new Scanner(new File(filePathInput));
-            while (scanner.hasNext()) stringBuilder.append(scanner.nextLine());
-            ArrayList<Integer> actual = compressor.compressString(stringBuilder.toString());
-            scanner = new Scanner(new File(filePathCorrect));
-            ArrayList<Integer> esperado = new ArrayList<>();
-            while (scanner.hasNextInt()) esperado.add(scanner.nextInt());
-            if (actual.size() == esperado.size()) {
-                boolean ok = true;
-                for (int i = 0; ok && i < actual.size(); ++i) {
-                    if (!actual.get(i).equals(esperado.get(i))) ok = false;
-                }
-                System.out.println((ok ? OK : BAD));
-            }
-            else System.out.println(BAD);
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("Test no valid. Fichero no encontrado\n" + e.getMessage());
-        }
+//        System.out.print("Test " + testNumber + ": ");
+//        LZWCompressor compressor = new LZWCompressor();
+//        try {
+//            StringBuilder stringBuilder = new StringBuilder();
+//            Scanner scanner = new Scanner(new File(filePathInput));
+//            while (scanner.hasNext()) stringBuilder.append(scanner.nextLine());
+//            ArrayList<Integer> actual = compressor.compressString(stringBuilder.toString());
+//            scanner = new Scanner(new File(filePathCorrect));
+//            ArrayList<Integer> esperado = new ArrayList<>();
+//            while (scanner.hasNextInt()) esperado.add(scanner.nextInt());
+//            if (actual.size() == esperado.size()) {
+//                boolean ok = true;
+//                for (int i = 0; ok && i < actual.size(); ++i) {
+//                    if (!actual.get(i).equals(esperado.get(i))) ok = false;
+//                }
+//                System.out.println((ok ? OK : BAD));
+//            }
+//            else System.out.println(BAD);
+//        }
+//        catch (FileNotFoundException e) {
+//            System.out.println("Test no valid. Fichero no encontrado\n" + e.getMessage());
+//        }
     }
 
     private void testCompressPath() {

@@ -1,0 +1,18 @@
+LZW es un algoritmo de compresión basado en diccionarios. El algoritmo
+tanto en la compresión como en la descompresión empieza con un alfabeto
+básico. Por lo tanto es imprescindible que el alfabeto en el proceso de
+compresión y el de la descompresión sean idénticos.
+
+Compresión:
+Como se ha mencionado antes el algoritmo empieza con un diccionario básico
+(un alfabeto) y lee todos los caracteres de la entrada, uno por uno. Ademas
+utiliza un contenedor para crear la nueva palabra que no esta en el
+diccionario. Cunado encuentra una palabra que no esta en el diccionario, la
+añade al diccionario, escribe el código de la ultima palabra que estaba en
+el diccionario en la salida y empieza a buscar otra empezando con el ultimo
+carácter leído.
+// Mejora1: Indices de longitud variable(-1 compressor y -2 decompressor)
+// Mejora2: Árbol de búsqueda.
+// Mejora3: Reiniciar al llenarse el diccionario.
+
+El algoritmo ha sido creado en varias iteraciones.

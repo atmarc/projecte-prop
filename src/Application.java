@@ -96,7 +96,7 @@ public class Application {
                     decompressor = new LZ78Decompressor();
                     break;
                 case "lzss":
-                    //decompressor = new LZSSDecompressor();
+                    decompressor = new LZSSDecompressorv2();
                     break;
                 case "lzw":
                     //decompressor = new LZWDecompressor();

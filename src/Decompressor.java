@@ -17,9 +17,8 @@ public abstract class Decompressor {
 
             inputFile = new File(inputPath);
 
-            if (outputPath == null) outputPath = getCompressedName(inputFile);
-
-            outputFile = new File(outputPath);
+            if (outputPath == null) outputFile = new File(getCompressedName(inputFile));
+            else outputFile = new File(outputPath + getCompressedName(inputFile.getName()));
 
             in = new BufferedInputStream(new FileInputStream(inputFile));
             out = new BufferedOutputStream(new FileOutputStream(outputFile));
@@ -66,10 +65,6 @@ public abstract class Decompressor {
         System.out.println("Decompression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
 
-    }
-
-    public void startDecompression(String inputPath) {
-        startDecompression(inputPath, getCompressedName(inputPath));
     }
 
     protected abstract void decompress();

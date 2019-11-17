@@ -4,7 +4,7 @@ public class DecompressorTest {
 
     @Test
     public void decompress() {
-        Decompressor decompressor = new LZWDecompressor();
+        Decompressor decompressor = new Decompressor_LZW();
 //        decompressor.decompress("testing_files/filename.zero");
     }
 }

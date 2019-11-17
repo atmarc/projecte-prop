@@ -4,7 +4,7 @@ import java.util.Queue;
 
 import java.util.HashMap;
 
-public class LZSSDecompressorv2 extends Decompressor {
+public class Decompressor_LZSS extends Decompressor {
 
 
     String getExtension() {

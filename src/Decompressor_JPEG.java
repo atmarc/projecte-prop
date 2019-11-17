@@ -1,12 +1,6 @@
-import Triplet.Triplet;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class JPEGDecompressor extends Decompressor {
+public class Decompressor_JPEG extends Decompressor {
 
 
     public void decompress() {

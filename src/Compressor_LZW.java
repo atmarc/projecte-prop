@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class LZWCompressor extends Compressor {
+public class Compressor_LZW extends Compressor {
 	private static final String extension = ".zero";
 	private static final int BYTE_SIZE = 8;
 	private Tree dictionary;
@@ -12,7 +12,7 @@ public class LZWCompressor extends Compressor {
 	/**
 	 * Crea un objecto compressor con el diccionario básico.
 	 */
-	public LZWCompressor() {
+	public Compressor_LZW() {
 		inicializar();
 	}
 

@@ -1,5 +1,3 @@
-package Triplet;
-
 public class Triplet <E, T, A> {
 
     private E first;

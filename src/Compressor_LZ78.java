@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class LZ78Compressor extends Compressor {
+public class Compressor_LZ78 extends Compressor {
 
     private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
     private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
     private int next_index;
 
-    LZ78Compressor() {
+    Compressor_LZ78() {
         files = new ArrayList<>();
         add_comp_file();
     }

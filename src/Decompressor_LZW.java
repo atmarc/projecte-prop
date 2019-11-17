@@ -1,12 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class LZWDecompressor extends Decompressor {
+public class Decompressor_LZW extends Decompressor {
     private static final int BYTE_SIZE = 8;
     private ArrayList<String> dictionary;
     private int codewordSize;    // la longitud en bits para escribir la codificación
 
-    public LZWDecompressor() {
+    public Decompressor_LZW() {
         inicializar();
     }
 

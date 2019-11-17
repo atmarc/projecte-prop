@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class LZSSCompressorv2 extends Compressor {
+public class Compressor_LZSS extends Compressor {
 
     public String getExtension() {
         return ".lzss";

@@ -4,9 +4,7 @@ import java.util.LinkedList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
-import Triplet.Triplet;
-
-public class JPEGCompressor extends Compressor {
+public class Compressor_JPEG extends Compressor {
 
     //TODO: Fixar-se amb fitxers no multiples de 8
 

@@ -1,12 +1,12 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class LZ78Decompressor extends Decompressor {
+public class Decompressor_LZ78 extends Decompressor {
 
     private ArrayList<byte[]> dictionary;
     private int length;
 
-    public LZ78Decompressor() {}
+    public Decompressor_LZ78() {}
 
     public void decompress() {
 

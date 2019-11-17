@@ -77,7 +77,7 @@ public class LZWDecompressor extends Decompressor {
                      new BufferedInputStream(new FileInputStream(file.getPath()));
              BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
                      new FileOutputStream(decompressedFile.getPath()))
-        ) { // 65279
+        ) {
             int q = 0;
             boolean t = false;
             int nr = 0;

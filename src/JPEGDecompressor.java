@@ -13,7 +13,6 @@ import static java.lang.Integer.parseInt;
 
 public class JPEGDecompressor extends Decompressor {
 
-
     public void decompress(String path) {
 
         byte s [] = new byte[0];
@@ -168,5 +167,15 @@ public class JPEGDecompressor extends Decompressor {
             value = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
             arrayBlock[x][y].setDCTValue(0,0, value);
         }
+    }
+
+    @Override
+    String getExtension() {
+        return null;
+    }
+
+    @Override
+    protected void decompress() {
+
     }
 }

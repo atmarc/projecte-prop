@@ -8,7 +8,7 @@ public class LZWDecompressorTest {
 
 	@Test
 	public void decompress() {
-		LZWDecompressor decompressor = new LZWDecompressor();
+		Decompressor_LZW decompressor = new Decompressor_LZW();
 		long inicio = System.currentTimeMillis();
 		decompressor.decompress(new File("testing_files/1M.zero"));
 		long fin = System.currentTimeMillis();
@@ -23,7 +23,7 @@ public class LZWDecompressorTest {
 
 	@Test
 	public void testDecompress() {
-		Decompressor decompressor = new LZWDecompressor();
+		Decompressor decompressor = new Decompressor_LZW();
 		decompressor.startDecompression("testing_files/quicksort.zero");
 	}
 

@@ -43,4 +43,4 @@ correspondiente a la concatenación de la palabra del penúltimo código
 descomprimido y el primer carácter de la misma palabra. Si se utilizan
 códigos de tamaño variable el tamaño de los códigos a leer cambian cuando
 el tamaño del diccionario es el máximo código representable con este
-número de bits menos 1.
+número de bits menos uno.

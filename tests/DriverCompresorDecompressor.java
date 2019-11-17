@@ -34,8 +34,8 @@ public class DriverCompresorDecompressor {
 				"testing_files/big",
 				"testing_files/quicksort"
 		));
-		Compressor compressor = new LZWCompressor();
-		Decompressor decompressor = new LZWDecompressor();
+		Compressor compressor = new Compressor_LZW();
+		Decompressor decompressor = new Decompressor_LZW();
 		for (String file : files) {
 			System.out.println("File: " + file);
 			compressor.startCompression(file+".txt");

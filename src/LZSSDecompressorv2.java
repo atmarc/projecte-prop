@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import java.util.HashMap;
+
 public class LZSSDecompressorv2 extends Decompressor {
 
 
@@ -11,6 +13,7 @@ public class LZSSDecompressorv2 extends Decompressor {
 
     protected void decompress() {
         byte item[] = readAllBytes();
+        System.out.println(item.length);
 
         Queue<Byte> noCoincQ = new LinkedList<>();
         Queue<Character> coincQ = new LinkedList<>();
@@ -22,13 +25,13 @@ public class LZSSDecompressorv2 extends Decompressor {
         boolean endstart = false;
         int i = 7;
         while (!start) {
-            System.out.println("bucle2");
             if (item[0] == 0x01) {
                 start = true;
                 endstart = true;
             }
             else {
                 byte aux = (byte) (item[0] >> i);
+                aux = (byte) (aux & 0x01);
                 if (aux == 1) start = true;
                 i--;
             }
@@ -36,7 +39,7 @@ public class LZSSDecompressorv2 extends Decompressor {
         while(i >= 0 && !endstart) {
             byte aux = (byte) (item[0] >> i);
             aux = (byte) (aux & 0x01);
-            if (aux == 1 || aux == -1) bitQ.add(true);
+            if (aux == 1) bitQ.add(true);
             else bitQ.add(false);
             i--;
         }
@@ -55,7 +58,7 @@ public class LZSSDecompressorv2 extends Decompressor {
                 for (int j = 0; j < 8; j++) {
                     byte bit = (byte) (aux >> (7-j));
                     bit = (byte) (bit & 0x01);
-                    if (bit == 1 || bit == -1) bitQ.add(true);
+                    if (bit == 1) bitQ.add(true);
                     else bitQ.add(false);
                 }
             }
@@ -97,11 +100,14 @@ public class LZSSDecompressorv2 extends Decompressor {
         System.out.println(b1);
         System.out.println(c1);*/
 
+        //int i = 0;
+
         while (!bitQ.isEmpty()) {
 
             boolean aux = bitQ.remove();
             if (!aux) {
                 result.add(noCoincQ.remove());
+
             }
             else {
                 char a = coincQ.remove();
@@ -110,7 +116,7 @@ public class LZSSDecompressorv2 extends Decompressor {
                 char d = (char) (a & 0x000F);
                 int desp = d;
                 for(int j = 0; j < desp; j++) {
-                    byte b = result.get(offset + j);
+                    byte b = result.get(result.size() - offset);
                     result.add(b);
                 }
                 for(int j = 0; j < desp - 1; j++) {

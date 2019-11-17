@@ -4,7 +4,7 @@ public class LZ78Compressor extends Compressor {
 
     private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
     private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
-    private int previous_index;
+    private int next_index;
 
     LZ78Compressor() {
         files = new ArrayList<>();
@@ -25,7 +25,7 @@ public class LZ78Compressor extends Compressor {
 
         int B;
         Tree tree = new Tree(1);
-        previous_index = 0;
+        next_index = 0;
         boolean new_searching = true;
 
         while ((B = super.readByte()) > 0)
@@ -61,12 +61,12 @@ public class LZ78Compressor extends Compressor {
         int index = tree.progressive_find(B, top_search);
 
         if (index == comp_file.size()) {
-            comp_file.add(new Pair(previous_index, B));
-            previous_index = 0;
+            comp_file.add(new Pair(next_index, B));
+            next_index = 0;
             return true;
         }
 
-        previous_index = index;
+        next_index = index;
         return false;
     }
 

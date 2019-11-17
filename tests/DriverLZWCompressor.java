@@ -8,7 +8,7 @@ public class DriverLZWCompressor {
     private static final String BAD = "WRONG!!! La función no ha pasado el test";
 
     private void testConstructor() {
-        LZWCompressor compressor = new LZWCompressor();
+        Compressor_LZW compressor = new Compressor_LZW();
         System.out.println("No se puede verificar");
     }
 

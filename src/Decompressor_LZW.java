@@ -10,6 +10,9 @@ public class Decompressor_LZW extends Decompressor {
         inicializar();
     }
 
+    /**
+     * Inicializa el diccionario para la descompresion
+     */
     private void inicializar() {
         dictionary = new ArrayList<>();
         for (char i = 0; i < 256; ++i) dictionary.add(String.valueOf(i));
@@ -29,18 +32,17 @@ public class Decompressor_LZW extends Decompressor {
         return compressedFileName;
     }
 
-    /**
-     * Descomprime un fichero codificado con el algoritmo LZW
-     * @param filePath dirección del fichero a descomprimir
-     */
-    public void decompress(String filePath) {
-        decompress(new File(filePath));
-    }
 
+    /**
+     * @return La extencion del fichero descomprimido
+     */
     String getExtension() {
         return "_decompressed.txt";
     }
 
+    /**
+     * Descomprime un fichero codificado con el algoritmo LZW
+     */
     public void decompress() {
         inicializar();
         byte[] codeword = new byte[codewordSize/BYTE_SIZE];
@@ -66,47 +68,10 @@ public class Decompressor_LZW extends Decompressor {
     }
 
     /**
-     * Descomprime un fichero codificado con el algoritmo LZW
-     * @param file fichero a descomprimir
+     * Convierte un byte array en un int. Cada elemento del array representa un digito en la base 256.
+     * @param codeword el byte array a convertir
+     * @return un numero entero que representa el resultado de la conversion
      */
-    public void decompress(File file) {
-        File decompressedFile = new File(getPathName(file) + "_decompressed.txt");
-        try (BufferedInputStream bufferedInputStream =
-                     new BufferedInputStream(new FileInputStream(file.getPath()));
-             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-                     new FileOutputStream(decompressedFile.getPath()))
-        ) {
-            int q = 0;
-            boolean t = false;
-            int nr = 0;
-            int index = getNextIndex(bufferedInputStream);
-            String pattern = dictionary.get(index);
-            for (int i = 0; i < pattern.length(); ++i)
-                bufferedOutputStream.write((byte)pattern.charAt(i));
-            while ((index = getNextIndex(bufferedInputStream)) != -1) {
-                String out = "";
-                if (index < dictionary.size()) {
-                    out = dictionary.get(index);
-                }
-                else out = pattern + pattern.charAt(0);
-                dictionary.add(pattern + out.charAt(0));
-                for (int i = 0; i < out.length(); ++i)
-                    bufferedOutputStream.write((byte)out.charAt(i));
-                pattern = out;
-                if (dictionary.size() >= (1 << codewordSize)-1)
-                    codewordSize += BYTE_SIZE;
-            }
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("Fichero no encontrado");
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            System.out.println("Error de escritura/lectura");
-            e.printStackTrace();
-        }
-    }
-
     private int getNextIndex(byte[] codeword)  {
         int index = 0;
         for (byte b : codeword) {
@@ -115,35 +80,4 @@ public class Decompressor_LZW extends Decompressor {
         return index;
     }
 
-    private int getNextIndex(BufferedInputStream bufferedInputStream) throws IOException {
-        int index = 0;
-        for (int i = 0; i < codewordSize; i += BYTE_SIZE) {
-            int readByte = bufferedInputStream.read();
-            if (readByte == -1) return -1;
-            index = (index << BYTE_SIZE) | readByte;
-        }
-        System.out.println(index);
-        return index;
-    }
-
-    public String decompress_list(ArrayList<Integer> data) {
-        StringBuilder outString = new StringBuilder();
-        String pattern = dictionary.get(data.get(0));
-        outString.append(dictionary.get(data.get(0)));
-
-        for (int i = 1; i < data.size(); ++i) {
-            int index = data.get(i);
-            if (index < dictionary.size()) {
-                String out = dictionary.get(index);
-                outString.append(out);
-                dictionary.add(pattern + out.charAt(0));
-                pattern = out;
-            }
-            else {
-                dictionary.add(pattern + pattern.charAt(0));
-                outString.append(pattern).append(pattern.charAt(0));
-            }
-        }
-        return outString.toString();
-    }
 }

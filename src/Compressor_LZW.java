@@ -16,6 +16,10 @@ public class Compressor_LZW extends Compressor {
 		inicializar();
 	}
 
+	/**
+	 * Retorna la extension de los ficheros comprimidos con esta clase
+	 * @return la extension de los ficheros comprimidos
+	 */
 	String getExtension() {
 		return ".zero";
 	}
@@ -33,6 +37,9 @@ public class Compressor_LZW extends Compressor {
 		return compressedFileName + extension;
 	}
 
+	/**
+	 * Comprime un fichero mediante el algoritmo LZW
+	 */
 	public void compress() {
 		inicializar();
 		int nx;
@@ -62,12 +69,24 @@ public class Compressor_LZW extends Compressor {
 		}
 	}
 
+	/**
+	 * Convierte un ArrayList de Bytes en un byte array
+	 * @param p el ArrayList a convertir
+	 * @return	el byte array equivalente a {@code p}
+	 */
 	private byte[] toByteArray(ArrayList<Byte> p) {
 		byte[] res = new byte[p.size()];
 		for (int i = 0; i < p.size(); ++i) res[i] = p.get(i);
 		return res;
 	}
 
+	/**
+	 * Concatena un byte array con un byte
+	 * @param p el byte array a concatenar
+	 * @param b el byte a concatenar
+	 * @return un byte array que representa la
+	 * concatenacion de {@code p} y {@code b}
+	 */
 	private byte[] concatenate(ArrayList<Byte> p, byte b) {
 		byte[] res = new byte[p.size()+1];
 		for (int i = 0; i < p.size(); ++i) res[i] = p.get(i);
@@ -94,7 +113,7 @@ public class Compressor_LZW extends Compressor {
 	/**
 	 * Inicializa el diccionario del compresor al diccionario básico
 	 */
-	public void inicializar() {
+	private void inicializar() {
 		nextIndex = 0;
 		dictionary = new Tree(0);
 		byte[] b = new byte[1];

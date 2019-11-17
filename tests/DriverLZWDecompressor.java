@@ -3,7 +3,7 @@ import java.util.concurrent.ExecutionException;
 public class DriverLZWDecompressor {
 
     public void testConstructor() {
-        LZWDecompressor decompressor = new LZWDecompressor();
+        Decompressor_LZW decompressor = new Decompressor_LZW();
         System.out.println("Todo bien");
     }
 

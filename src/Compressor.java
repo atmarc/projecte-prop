@@ -78,6 +78,7 @@ public abstract class Compressor {
     public long getCompressedSize() {
         return outputFile.length();
     }
+
     public double getCompressionRatio() {
         return (double)getCompressedSize()/(double)getOriginalSize();
     }
@@ -93,6 +94,7 @@ public abstract class Compressor {
             return -1;
         }
     }
+
     protected byte[] readNBytes(int n) {
         try {
             byte[] word = new byte[n];
@@ -121,6 +123,24 @@ public abstract class Compressor {
             e.printStackTrace();
         }
         return b;
+    }
+
+    protected String readFileString() {
+        StringBuffer outString = new StringBuffer();
+        try {
+            FileReader reader = new FileReader(inputFile.getPath());
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            int readByte;
+            while ((readByte = bufferedReader.read()) != -1) {
+                outString.append((char) readByte);
+            }
+            bufferedReader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outString.toString();
     }
 
     // Escritura

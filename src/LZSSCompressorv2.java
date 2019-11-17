@@ -1,22 +1,27 @@
+import java.lang.reflect.Array;
 import java.sql.Struct;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class LZSSCompressorv2 extends Compressor {
 
-    public void Compress (String item) {
+    public String getExtension() {
+        return ".lzss";
+    }
 
-        int itemsize = item.length();
+    public void compress () {
+        String item = readFileString();
+        int itemSize = item.length();
         StringBuilder searchBuffer = new StringBuilder();
         Queue<Byte> noCoincQ = new LinkedList<>();
         Queue<Character> coincQ = new LinkedList<>();
         Queue<Boolean> bitQ = new LinkedList<>();
 
-        for (int i = 0; i < itemsize; i++) {
+        for (int i = 0; i < itemSize; i++) {
 
             boolean coinc = false;
-
-            if (i < 4) break;
+            boolean small = false;
+            if (i < 4) small = true;
 
             searchBuffer.append(item.charAt(i)); //afegim l'element al searchBuffer
             int desplmaxcoinc = 0;
@@ -24,20 +29,19 @@ public class LZSSCompressorv2 extends Compressor {
 
             int posSearch = min(4096, searchBuffer.length());
 
-            for (int j = 1; j < posSearch; ++j) { //Bucle que mirarà les 4095 posicions anteriors al searchbuffer buscant coincidencies d'almenys 3 nums seguits
-
-                if (i - j <= 0) break;
-                desplmaxcoinc = 0;
-                maxcoincpointer = 0;
+            for (int j = 1; j < posSearch && !small; ++j) {
+                //Bucle que mirarà les 4095 posicions anteriors al searchbuffer buscant coincidencies d'almenys 3 nums seguits
+                //dummy variables TODO: esborrarles
+                if (i - j < 0) break;
 
                 if (coincidence(i,j,item, searchBuffer.toString())) {
                     //si trobem una coincidencia d'almenys 3, mirem de quant es la coincidencia
                     coinc = true;
                     boolean endcoinc = false;
                     int despl = 0;
-                    for (int h = j, k = i; !endcoinc; ++h, ++k) {
+                    for (int h = i - j, k = i; !endcoinc; ++h, ++k) {
                         if (despl == 15) break;
-                        if (searchBuffer.charAt(h) == item.charAt(k)) {
+                        if (h < searchBuffer.length() && k < itemSize && searchBuffer.charAt(h) == item.charAt(k)) {
                             despl++;
                         }
                         else endcoinc = true;
@@ -45,12 +49,12 @@ public class LZSSCompressorv2 extends Compressor {
                     //Hem de buscar la coincidencia maxima, per tant mirem si el despl trobat es el mes gran
                     if (despl == 15) {
                         desplmaxcoinc = despl;
-                        maxcoincpointer = j;
+                        maxcoincpointer = i-j;
                         break;
                     }
                     if (despl > desplmaxcoinc) {
                         desplmaxcoinc = despl;
-                        maxcoincpointer = j;
+                        maxcoincpointer = i-j;
                     }
                 }
             }
@@ -87,6 +91,44 @@ public class LZSSCompressorv2 extends Compressor {
         }
 
         //codifiquem
+
+        byte aux[] = new byte[2];
+        aux[0] = (byte) 0xFF;
+        aux[1] = (byte) 0xFF;
+
+        byte a[] = byteQtoByteArray(noCoincQ);
+        byte b[] = charQtoByteArray(coincQ);
+        byte c[] = boolQtoByteArray(bitQ);
+
+        int index = 0;
+        byte []arrFinal = new byte[a.length + b.length + c.length + 4];
+        while (index < c.length) {
+            arrFinal[index] = c[index];
+            index++;
+        }
+        arrFinal[index] = aux[0];
+        index++;
+        arrFinal[index] = aux[1];
+        index++;
+        int h = 0;
+        while (h < a.length) {
+            arrFinal[index] = a[h];
+            index++;
+            h++;
+        }
+        arrFinal[index] = aux[0];
+        index++;
+        arrFinal[index] = aux[1];
+        index++;
+        h = 0;
+        while (h < b.length) {
+            arrFinal[index] = b[h];
+            index++;
+            h++;
+        }
+
+        writeBytes(arrFinal);
+
     }
 
     private byte charToByte(char a) {
@@ -100,13 +142,75 @@ public class LZSSCompressorv2 extends Compressor {
         else return b;
     }
 
-    private Pair checkBiggestCoincidence()
+    private byte[] byteQtoByteArray (Queue<Byte> a) {
+        int size = a.size();
+        byte b[] = new byte[size];
+        for (int i = 0; i < size; ++i) {
+            b[i] = a.remove();
+        }
+        return b;
+    }
+
+    private byte[] charQtoByteArray (Queue<Character> a) {
+        int size = a.size();
+        byte b[] = new byte[size*2];
+
+        for (int i = 0; i < size*2; i+=2) {
+            char aux = a.remove();
+            byte c = (byte) (aux>>8);
+            byte d = (byte) (aux);
+            b[i] = c;
+            b[i+1] = d;
+        }
+        return b;
+    }
+
+    private byte[] boolQtoByteArray (Queue<Boolean> a) {
+        int mida = (a.size() / 8) + 1;
+        int modA = a.size() % 8;
+        byte b[] = new byte[mida];
+        byte c = 0;
+        int i = 0;
+        if (modA == 0) {
+            b[i] = 1;
+        }
+        else {
+            int nbits = 8 - modA;
+            c = 1;
+            for(int j=0; j<modA; ++j) {
+                boolean aux = a.remove();
+                c  = (byte) (c << 1);
+                if (aux) {
+                    c = (byte) (c + 1);
+                }
+            }
+            b[i] = c;
+        }
+        i++;
+        c = 0;
+        while (!a.isEmpty()) {
+            for (int h=0; h < 8; ++h) {
+                boolean aux = a.remove();
+                c  = (byte) (c << 1);
+                if (aux) {
+                    c = (byte) (c + 1);
+                }
+            }
+            b[i] = c;
+            i++;
+        }
+
+        return b;
+    }
 
     private boolean coincidence(int i, int j, String item, String searchBuffer) {
 
-        if (item.charAt(i) == searchBuffer.charAt(i-j) && item.charAt(i+1) == searchBuffer.charAt(i-j+1) && item.charAt(i+2) == searchBuffer.charAt(i-j+2)) {
-
+        if ( i+2 < item.length() && (i-j+2) < searchBuffer.length() &&
+                item.charAt(i) == searchBuffer.charAt(i-j) &&
+                item.charAt(i+1) == searchBuffer.charAt((i-j)+1) &&
+                item.charAt(i+2) == searchBuffer.charAt((i-j)+2)) {
+            return true;
         }
-
+        return false;
     }
 }

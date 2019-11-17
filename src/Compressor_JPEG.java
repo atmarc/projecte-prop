@@ -16,7 +16,6 @@ public class Compressor_JPEG extends Compressor {
 
         byte s [] = readAllBytes();
 
-        System.out.println("Read Header");
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
 
         final String inputMode = "P" + (char)s[1];
@@ -32,6 +31,10 @@ public class Compressor_JPEG extends Compressor {
         while (line < 3 && index < s.length) {
             if (s[index] == '\n') ++line;
             ++index;
+            while (s[index] == '#') {
+                while (s[index] != '\n') ++index;
+                ++index;
+            }
         }
 
         // El fitxer t'ho passa en ASCII
@@ -57,8 +60,6 @@ public class Compressor_JPEG extends Compressor {
         }
 
         Triplet<Integer, Integer, Integer> Pixels [][] = new Triplet[HEIGHT][WIDTH];
-
-        System.out.println("Llegim pixels");
 
         // Llegim els pixels i ja els passem a YCbCr
         int f = 0;
@@ -90,8 +91,6 @@ public class Compressor_JPEG extends Compressor {
         Block BlocksArrayCr [][] = new Block[nBlocksY][nBlocksX];
 
         int numOfBlocks = nBlocksX * nBlocksY;
-
-        System.out.println("Block splitting i DCT");
 
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
@@ -144,8 +143,6 @@ public class Compressor_JPEG extends Compressor {
 
         int nivellCompressio = 0;
 
-        System.out.println("Zig zag");
-
         int file[] = new int [5 + nBlocksX * nBlocksY * 64 * 3];
 
         file[0] = nivellCompressio;
@@ -167,9 +164,6 @@ public class Compressor_JPEG extends Compressor {
         }
 
 
-        System.out.println("Huffman encode");
-
-
         Huffman huffman = new Huffman();
         LinkedList<Integer> bits = new LinkedList<>();
 
@@ -178,8 +172,6 @@ public class Compressor_JPEG extends Compressor {
         ArrayList<Byte> arrayBytes = new ArrayList<>();
 
         stringBinToByte(bits, arrayBytes);
-
-        System.out.println("Escrivim");
 
         byte [] bytes = new byte[arrayBytes.size()];
         for (int i = 0; i < arrayBytes.size(); ++i) {
@@ -206,6 +198,9 @@ public class Compressor_JPEG extends Compressor {
         // Saltem la primera linia
         int index = 0;
         while (s[index] != '\n') {
+            if (s[index] == '#') {
+                while (s[index] != '\n') ++index;
+            }
             ++index;
         }
         ++index;
@@ -214,6 +209,10 @@ public class Compressor_JPEG extends Compressor {
 
         // Segona linia
         while (s[index] != '\n' && s[index] != '\r') {
+            while (s[index] == '#') {
+                while (s[index] != '\n') ++index;
+                ++index;
+            }
             linia += (char)s[index];
             ++index;
         }
@@ -225,6 +224,10 @@ public class Compressor_JPEG extends Compressor {
         index = (s[index] == '\r') ? index + 2 : ++index;
         linia = new String();
         while (s[index] != '\n' && s[index] != '\r') {
+            while (s[index] == '#') {
+                while (s[index] != '\n') ++index;
+                ++index;
+            }
             linia += (char)s[index];
             ++index;
         }

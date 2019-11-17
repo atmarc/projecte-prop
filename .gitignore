@@ -1,7 +1,7 @@
 *.idea
 *.iml
 .vscode/launch.json
-/testing_files/pelicula.txt
+/testing_files
 out
 *.zero
 *decompressed.txt

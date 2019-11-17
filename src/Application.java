@@ -15,31 +15,62 @@ public class Application {
         int mode, route, alg;
         String inputPath, outputPath = null;
 
+        boolean valid = false;
+
         System.out.println(
                 "Que tarea desea realizar?\n" +
                         "\t [0] - Comprimir archivo.\n" +
                         "\t [1] - Descomprimir archivo.");
-        mode = in.nextInt();
-        if (mode != 0 && mode != 1)
-            throw new IllegalArgumentException("Debe introducir 0 o 1.");
 
-        String action = (mode == 0) ? "comprimir":"descomprimir";
-        System.out.println("Proporcione ruta del archivo que desea " + action + "\n");
-        inputPath = in.next();
-
-        System.out.println("Ruta de salida:\n" +
-                "\t [0] - Utilizar la misma ruta que el archivo origen.\n" +
-                "\t [1] - Proporcionar manualmente una ruta.");
-        route = in.nextInt();
-        if (route == 1) {
-            System.out.println("Introduzca ruta de salida:");
-            outputPath = in.next();
+        do {
+            mode = in.nextInt();
+            valid = (mode == 0 || mode == 1);
+            if (!valid) System.out.println("Numero no valido. Debe introducir 0 o 1.");
         }
-        else if (route != 0) throw new IllegalArgumentException("Debe introducir 0 o 1.");
+        while (!valid);
 
-        String extension = getPathExtension(inputPath);
-        if (extension == null)
-            throw new IllegalArgumentException("Ruta no valida.");
+        String extension;
+        if (mode == 0) { // comprimir
+            System.out.println("Proporcione ruta del archivo que desea comprimir (archivos .txt/.ppm):");
+            do {
+                inputPath = in.next();
+                extension = getPathExtension(inputPath);
+                valid = (extension != null && (extension.equals("txt") || extension.equals("ppm")));
+                if (!valid) System.out.println("El archivo proporcionado no es ni un .txt ni un .ppm .\nIntroduzca una ruta a un archivo valido:");
+            }
+            while(!valid);
+        }
+        else { // descomprimir
+            System.out.println("Proporcione ruta del archivo que desea descomprimir (archivos .lz78/.lzss/.lzw/.jpeg):");
+            do {
+                inputPath = in.next();
+                extension = getPathExtension(inputPath);
+                valid = (extension != null && (extension.equals("lz78") || extension.equals("lzss") || extension.equals("lzw") || extension.equals("jpeg")));
+                if (!valid) System.out.println("El archivo proporcionado no es de un tipo soportado.\nIntroduzca una ruta a un archivo valido (archivos .lz78/.lzss/.lzw/.jpeg):");
+            }
+            while (!valid);
+        }
+
+        System.out.println("Ruta del directorio salida:\n" +
+                "\t [0] - Utilizar el mismo directorio que el archivo origen.\n" +
+                "\t [1] - Proporcionar manualmente una ruta del directorio destino.");
+
+        do {
+            route = in.nextInt();
+            valid = (route == 0 || route == 1);
+            if (!valid) System.out.println("Numero no valido. Debe introducir 0 o 1.");
+        }
+        while (!valid);
+
+        if (route == 1) {
+            do {
+                System.out.println("Introduzca la ruta del directorio salida (acabado en '/' para UNIX o en '\\' para WINDOWS):");
+                outputPath = in.next();
+                valid = (outputPath.charAt(outputPath.length() - 1) == '/' || outputPath.charAt(outputPath.length() - 1) == '\\');
+                if (!valid) System.out.println("Ruta no valida, debe terminar en '/' ");
+            }
+            while (!valid);
+        }
 
         if (mode == 0) { // Comprimir
 
@@ -52,7 +83,12 @@ public class Application {
                                     "\t [0] - LZ-78\n" +
                                     "\t [1] - LZ-SS\n" +
                                     "\t [2] - LZ-W\n");
-                    alg = in.nextInt();
+                    do {
+                        alg = in.nextInt();
+                        valid = (0 <= alg && alg <= 2);
+                        if (!valid) System.out.println("Numero no valido. Debe introducir 0, 1 o 2.");
+                    }
+                    while(!valid);
                     break;
 
                 case "ppm":
@@ -61,12 +97,17 @@ public class Application {
                                     "\t [0] - LZ-78\n" +
                                     "\t [1] - JPEG\n");
 
-                    alg = in.nextInt() * 3;
+                    do {
+                        alg = in.nextInt() * 3;
+                        valid = (alg == 0 || alg == 3);
+                        if (!valid) System.out.println("Numero no valido. Debe introducir 0 o 1.");
+                    }
+                    while(!valid);
                     break;
 
-                default:
-                    throw new IllegalArgumentException("La ruta no hace referencia a un archivo con extension .txt o .ppm.");
+                default: throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
             }
+
             switch (alg) {
                 case 0:
                     compressor = new Compressor_LZ78();
@@ -81,9 +122,8 @@ public class Application {
                     compressor = new Compressor_JPEG();
                     break;
                 default:
-                    throw new IllegalArgumentException("El numero introducido no hace referencia a ningun algoritmo.");
+                    throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch alg)");
             }
-
             compressor.startCompression(inputPath, outputPath);
 
         }
@@ -105,7 +145,7 @@ public class Application {
                     decompressor = new Decompressor_JPEG();
                     break;
                 default:
-                    throw new IllegalArgumentException("La ruta no hace referencia a un archivo con extension .txt o .ppm.");
+                    throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
             }
 
             decompressor.startDecompression(inputPath, outputPath);

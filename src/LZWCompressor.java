@@ -20,7 +20,7 @@ public class LZWCompressor extends Compressor {
 	 * Crea un objecto compressor con el diccionario básico.
 	 */
 	public LZWCompressor() {
-		this.inicializar();
+		inicializar();
 	}
 
 	String getExtension() {

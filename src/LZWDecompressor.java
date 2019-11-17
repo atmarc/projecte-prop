@@ -42,9 +42,7 @@ public class LZWDecompressor extends Decompressor {
     }
 
     public void decompress() {
-        int q = 0;
-        boolean t = false;
-        int nr = 0;
+        inicializar();
         byte[] codeword = new byte[codewordSize/BYTE_SIZE];
         readNBytes(codeword);
         int index = getNextIndex(codeword);

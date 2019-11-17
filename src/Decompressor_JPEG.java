@@ -96,7 +96,7 @@ public class Decompressor_JPEG extends Decompressor {
     }
 
     public String getExtension() {
-        return ".jpeg";
+        return ".ppm";
     }
 
     /*

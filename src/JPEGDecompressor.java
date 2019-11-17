@@ -1,26 +1,17 @@
-import FileManager.FileManager;
 import Triplet.Triplet;
-
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.BitSet;
-
-import static java.lang.Integer.parseInt;
 
 public class JPEGDecompressor extends Decompressor {
 
-    public void decompress(String path) {
 
-        byte s [] = new byte[0];
-        try {
-            s = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void decompress() {
+
+        byte s [] = readAllBytes();
 
         int[] bits = new int[s.length * 8];
         charToBinString(s, bits);
@@ -107,16 +98,12 @@ public class JPEGDecompressor extends Decompressor {
             }
         }
 
-        try (BufferedOutputStream bufferedOutputStream =
-                     new BufferedOutputStream(new FileOutputStream("testing_files/imgDescompr.ppm"))) {
-
-            bufferedOutputStream.write(returnData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        writeBytes(returnData);
     }
 
+    public String getExtension() {
+        return ".jpeg";
+    }
 
     /*
 
@@ -167,15 +154,5 @@ public class JPEGDecompressor extends Decompressor {
             value = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
             arrayBlock[x][y].setDCTValue(0,0, value);
         }
-    }
-
-    @Override
-    String getExtension() {
-        return null;
-    }
-
-    @Override
-    protected void decompress() {
-
     }
 }

@@ -4,7 +4,7 @@ import java.util.Queue;
 
 import java.util.HashMap;
 
-public class LZSSDecompressorv2 extends Decompressor {
+public class LZSSDecompressor extends Decompressor {
 
 
     String getExtension() {
@@ -13,7 +13,6 @@ public class LZSSDecompressorv2 extends Decompressor {
 
     protected void decompress() {
         byte item[] = readAllBytes();
-        System.out.println(item.length);
 
         Queue<Byte> noCoincQ = new LinkedList<>();
         Queue<Character> coincQ = new LinkedList<>();
@@ -114,7 +113,7 @@ public class LZSSDecompressorv2 extends Decompressor {
                 char offset = (char) (a >> 4);
                 offset = (char) (offset & 0x0FFF);
                 char d = (char) (a & 0x000F);
-                int desp = d;
+                int desp = d + 3;
                 for(int j = 0; j < desp; j++) {
                     byte b = result.get(result.size() - offset);
                     result.add(b);
@@ -131,6 +130,10 @@ public class LZSSDecompressorv2 extends Decompressor {
         writeBytes(res);
     }
 
+    /**
+     * @param a ArrayList de Bytes
+     * @return Un Array de Bytes con los mismos elementos que la Arraylist, para usar el método writeBytes
+     */
     private byte[] arrListToArray (ArrayList<Byte> a) {
 
         int size = a.size();
@@ -142,68 +145,5 @@ public class LZSSDecompressorv2 extends Decompressor {
 
         return aux;
     }
-
-
-    private byte[] byteQtoByteArray (Queue<Byte> a) {
-        int size = a.size();
-        byte b[] = new byte[size];
-        for (int i = 0; i < size; ++i) {
-            b[i] = a.remove();
-        }
-        return b;
-    }
-
-    private byte[] charQtoByteArray (Queue<Character> a) {
-        int size = a.size();
-        byte b[] = new byte[size*2];
-
-        for (int i = 0; i < size*2; i+=2) {
-            char aux = a.remove();
-            byte c = (byte) (aux>>8);
-            byte d = (byte) (aux);
-            b[i] = c;
-            b[i+1] = d;
-        }
-        return b;
-    }
-
-    private byte[] boolQtoByteArray (Queue<Boolean> a) {
-        int mida = (a.size() / 8) + 1;
-        int modA = a.size() % 8;
-        byte b[] = new byte[mida];
-        byte c = 0;
-        int i = 0;
-        if (modA == 0) {
-            b[i] = 1;
-        }
-        else {
-            int nbits = 8 - modA;
-            c = 1;
-            for(int j=0; j<modA; ++j) {
-                boolean aux = a.remove();
-                c  = (byte) (c << 1);
-                if (aux) {
-                    c = (byte) (c + 1);
-                }
-            }
-            b[i] = c;
-        }
-        i++;
-        c = 0;
-        while (!a.isEmpty()) {
-            for (int h=0; h < 8; ++h) {
-                boolean aux = a.remove();
-                c  = (byte) (c << 1);
-                if (aux) {
-                    c = (byte) (c + 1);
-                }
-            }
-            b[i] = c;
-            i++;
-        }
-
-        return b;
-    }
-
 
 }

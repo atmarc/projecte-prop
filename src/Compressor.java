@@ -16,9 +16,8 @@ public abstract class Compressor {
         try {
             inputFile = new File(inputPath);
 
-            if (outputPath == null) outputPath = getCompressedName(inputFile);
-
-            outputFile = new File(outputPath);
+            if (outputPath == null) outputFile = new File(getCompressedName(inputFile));
+            else outputFile = new File(outputPath + getCompressedName(inputFile.getName()));
 
             in = new BufferedInputStream(new FileInputStream(inputFile));
             out = new BufferedOutputStream(new FileOutputStream(outputFile));
@@ -31,13 +30,16 @@ public abstract class Compressor {
 
     abstract String getExtension();
 
-    private String getCompressedName(File file) {
-        String fileName = file.getPath();
+    private String getCompressedName(String fileName) {
         int pos = fileName.lastIndexOf('.');
         String compressedFileName;
         if (pos != -1) compressedFileName = fileName.substring(0, pos);
         else throw new IllegalArgumentException("Nombre de fichero incorrecto");
         return compressedFileName + getExtension();
+    }
+
+    private String getCompressedName(File file) {
+        return getCompressedName(file.getPath());
     }
 
     // Compression
@@ -56,11 +58,11 @@ public abstract class Compressor {
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
-        System.out.printf("Compression ratio: %.2f", this.getCompressionRatio());
+        System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
     }
 
     public void startCompression(String inputPath) {
-        startCompression(inputPath, null);
+        startCompression(inputPath, getCompressedName(inputPath));
     }
 
     protected abstract void compress();
@@ -70,15 +72,12 @@ public abstract class Compressor {
     public long getTime() {
         return time;
     }
-
     public long getOriginalSize() {
         return inputFile.length();
     }
-
     public long getCompressedSize() {
         return outputFile.length();
     }
-
     public double getCompressionRatio() {
         return (double)getCompressedSize()/(double)getOriginalSize();
     }
@@ -94,7 +93,6 @@ public abstract class Compressor {
             return -1;
         }
     }
-
     protected byte[] readNBytes(int n) {
         try {
             byte[] word = new byte[n];
@@ -106,7 +104,6 @@ public abstract class Compressor {
             return new byte[0]; // -1
         }
     }
-
     protected void closeReader() {
         try {
             if (in != null) in.close();
@@ -114,7 +111,6 @@ public abstract class Compressor {
             e.printStackTrace();
         }
     }
-
     protected byte[] readAllBytes() {
         byte[] b = new byte[0];
         try {
@@ -124,7 +120,6 @@ public abstract class Compressor {
         }
         return b;
     }
-
     protected String readFileString() {
         StringBuffer outString = new StringBuffer();
         try {

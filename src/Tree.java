@@ -62,6 +62,7 @@ public class Tree {
         insert(word, 0, index);
     }
 
+
     /**
      * Inserta recursivamente (byte a byte) una palabra (cadena de bytes) en el arbol de busqueda.
      * 
@@ -169,9 +170,6 @@ public class Tree {
         last_visited_node = last_visited_node.getSons().putNodeIfAbsent(B);
         return last_visited_node;
     }
-
-
-
 }
 
 

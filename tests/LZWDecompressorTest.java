@@ -10,7 +10,7 @@ public class LZWDecompressorTest {
 	public void decompress() {
 		Decompressor_LZW decompressor = new Decompressor_LZW();
 		long inicio = System.currentTimeMillis();
-		decompressor.decompress(new File("testing_files/1M.zero"));
+		// decompressor.decompress(new File("testing_files/1M.zero"));
 		long fin = System.currentTimeMillis();
 		System.out.println("Duración: " + (fin-inicio) + " ms");
 

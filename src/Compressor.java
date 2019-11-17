@@ -31,13 +31,16 @@ public abstract class Compressor {
 
     abstract String getExtension();
 
-    private String getCompressedName(File file) {
-        String fileName = file.getPath();
+    private String getCompressedName(String fileName) {
         int pos = fileName.lastIndexOf('.');
         String compressedFileName;
         if (pos != -1) compressedFileName = fileName.substring(0, pos);
         else throw new IllegalArgumentException("Nombre de fichero incorrecto");
         return compressedFileName + getExtension();
+    }
+
+    private String getCompressedName(File file) {
+        return getCompressedName(file.getPath());
     }
 
     // Compression
@@ -56,11 +59,11 @@ public abstract class Compressor {
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
-        System.out.printf("Compression ratio: %.2f", this.getCompressionRatio());
+        System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
     }
 
     public void startCompression(String inputPath) {
-        startCompression(inputPath, null);
+        startCompression(inputPath, getCompressedName(inputPath));
     }
 
     protected abstract void compress();

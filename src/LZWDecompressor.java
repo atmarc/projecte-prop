@@ -42,9 +42,7 @@ public class LZWDecompressor extends Decompressor {
     }
 
     public void decompress() {
-        int q = 0;
-        boolean t = false;
-        int nr = 0;
+        inicializar();
         byte[] codeword = new byte[codewordSize/BYTE_SIZE];
         readNBytes(codeword);
         int index = getNextIndex(codeword);
@@ -83,7 +81,8 @@ public class LZWDecompressor extends Decompressor {
             int nr = 0;
             int index = getNextIndex(bufferedInputStream);
             String pattern = dictionary.get(index);
-            for (int i = 0; i < pattern.length(); ++i) bufferedOutputStream.write((byte)pattern.charAt(i));
+            for (int i = 0; i < pattern.length(); ++i)
+                bufferedOutputStream.write((byte)pattern.charAt(i));
             while ((index = getNextIndex(bufferedInputStream)) != -1) {
                 String out = "";
                 if (index < dictionary.size()) {
@@ -91,9 +90,11 @@ public class LZWDecompressor extends Decompressor {
                 }
                 else out = pattern + pattern.charAt(0);
                 dictionary.add(pattern + out.charAt(0));
-                for (int i = 0; i < out.length(); ++i) bufferedOutputStream.write((byte)out.charAt(i));
+                for (int i = 0; i < out.length(); ++i)
+                    bufferedOutputStream.write((byte)out.charAt(i));
                 pattern = out;
-                if (dictionary.size() >= (1 << codewordSize)-1) codewordSize += BYTE_SIZE;
+                if (dictionary.size() >= (1 << codewordSize)-1)
+                    codewordSize += BYTE_SIZE;
             }
         }
         catch (FileNotFoundException e) {

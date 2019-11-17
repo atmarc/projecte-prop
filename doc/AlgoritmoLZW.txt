@@ -1,0 +1,46 @@
+LZW es un algoritmo de compresión basado en diccionarios. El algoritmo
+reemplaza cadenas de caracteres por códigos que representan la posición
+de esta cadena dentro del diccionario. La comprensión se realiza cuando
+una cadena con muchos caracteres se se reemplaza por un código que ocupa
+mucho menos espacio que esa cadena. Tanto la compresión como la descompresión
+empieza con un alfabeto básico. Por lo tanto es imprescindible que el
+alfabeto en el proceso de compresión y el de la descompresión sean idénticos.
+
+Compresión:
+Como se ha mencionado antes el algoritmo empieza con un diccionario básico
+compuesto por todos los caracteres del alfabeto con que se trabaja y
+lee todos los caracteres de la entrada, uno por uno. Ademas, utiliza un
+contenedor para crear la nueva palabra que no está en el diccionario.
+Cuando la encuentra, la añade al diccionario con el menor indice no
+utilizado, escribe el código de esta palabra menos el último carácter
+en la salida y empieza a buscar otra empezando con el ultimo carácter leído.
+Para escribir los códigos en el fichero comprimido se puede utilizar un
+tamaño fijo, pero para no limitar el tamaño del diccionario al número de
+palabras que se pueden representar en este número fijo de bits se utilizan
+tamaños variables. Se empieza con un tamaño pequeño y cuando el siguiente
+indice no utilizado no puede ser representado en este número de bits se
+aumenta el tamaño.
+Para tener una búsqueda rápida se puede utilizar una variación de la
+estructura de datos arborescente que en la literatura se conoce como Trie,
+donde buscar una palabra e insertar una tiene coste lineal respecto a la
+longitud de la palabra buscada/insertada.
+Dado que el diccionario no puede crecer infinitamente grande por razones
+de memoria, se establece un tamaño máximo del diccionario y cuando se
+llega a este tamaño se escribe el código de la palabra acumulada, se
+reinicia el diccionario y se sigue con la compresión.
+
+Descompresión:
+Para hacer la descompresión es necesario recrear el diccionario de la
+compresión. Se inicializa el diccionario, después se lee un código y
+se escribe la palabra correspondiente en la salida. A continuación se
+leen todos los códigos y se descomprimen. Si el código leído está en el
+diccionario entonces se escribe en la salida la cadena de caracteres
+correspondiente al código leído y se añade al diccionario la cadena
+resultante a la concatenación de la palabra correspondiente al penúltimo
+código descomprimido y el primer carácter del la palabra actual, en otro
+caso se añade al diccionario y se escribe en la salida la palabra
+correspondiente a la concatenación de la palabra del penúltimo código
+descomprimido y el primer carácter de la misma palabra. Si se utilizan
+códigos de tamaño variable el tamaño de los códigos a leer cambian cuando
+el tamaño del diccionario es el máximo código representable con este
+número de bits menos 1.

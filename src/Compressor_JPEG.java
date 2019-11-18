@@ -65,7 +65,8 @@ public class Compressor_JPEG extends Compressor {
             }
         }
 
-        Triplet<Integer, Integer, Integer> Pixels [][] = new Triplet[HEIGHT][WIDTH];
+        @SuppressWarnings("unchecked")
+        Triplet<Integer, Integer, Integer>[][] Pixels = new Triplet[HEIGHT][WIDTH];
 
         // Llegim els pixels i ja els passem a YCbCr
         int f = 0;

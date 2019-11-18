@@ -60,6 +60,7 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
+        @SuppressWarnings("unchecked")
         Triplet<Byte, Byte, Byte> Pixels [][] = new Triplet[nBlocksY*8][nBlocksX*8];
 
         for (int y = 0; y < nBlocksY; ++y) {

@@ -5,7 +5,12 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;
 
 /*!
- *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
+ *  \brief     Clase auxiliar para la implementación del algortimo JPEG. Esta clase comprime un array de enteros
+ *  usando el algoritmo de compressión de Huffman. Para ello, cuenta la frecuencia de aparición de los enteros en la
+ *  cadena y después genera un arbol de Huffman a partir de estos, para generar los codigos de huffman de cada entero.
+ *  También puede descomprimir una cadena de bits que haya sido comprimida anteriormente con esta clase, ya que al
+ *  comprimir un archivo, se pasa al principio de este el diccionario utilizado para hacerlo.
+ *
  *  \details
  *  \author    Marc Amorós
  */

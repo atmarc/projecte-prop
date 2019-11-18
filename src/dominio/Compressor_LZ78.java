@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * realizar una busqueda de una cadena completa cada vez. Debido al duncionamiento de este algoritmo, si estamos buscando
  * una cadena de N bytes, es porque previamente hemos buscado la cadena correspondiente a los primeros N-1 bytes y el
  * resultado de la busqueda ha sido positivo, asi que no tendria sentido volver a recorrer los N-1 niveles del arbol para
- * consultar si el siguiente byte esta presente. Por lo tanto, cada busqueda es consante, O(255).
+ * consultar si el siguiente byte esta presente. Por lo tanto, cada busqueda es constante, O(255).
  *
  *
  *  \author    Edgar Perez
@@ -42,11 +42,11 @@ public class Compressor_LZ78 extends Compressor {
     }
 
     private ArrayList<Pair> comp_file;                  ///< Archivo sobre el que se escribe la compresion actual
-    private int next_index;                             ///< Siguiente indice que se debe utilizar como referencia en el diccionario.
+    private int next_index;                             ///< write
 
     /*!
      *  \brief      Clase auxiliar para la implementacion del diccionario del compresor mediante el algortimo LZ-78.
-     *  \details    Dado qu la compresion se basa en pares de indice y valor, esta clase representa cada entrada del diccionario generado.
+     *  \details    Dado que la compresion se basa en pares de indice y valor, esta clase representa cada entrada del diccionario generado.
      *  \author     Edgar Perez
      */
     public static class Pair {
@@ -173,6 +173,9 @@ public class Compressor_LZ78 extends Compressor {
      *
      * Todas las escrituras son llevadas a cabo mediante la controladora del compresor, a la cual unicamente le envia la
      * cadena de bytes que debe escribir.
+     *
+     * @pre Comp_file no esta vacio.
+     * @post Se ha escrito el tamano de y el contenido de comp_file a traves de la controladora del compresor.
      */
     private void write_compressed_file() {
 

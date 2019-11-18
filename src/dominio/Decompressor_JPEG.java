@@ -2,7 +2,9 @@ package dominio;
 import java.util.ArrayList;
 
 /*!
- *  \brief     Extension de la clase Decompressor mediante el algoritmo JPEG.
+ *  \brief     Extension de la clase Decompressor mediante el algoritmo JPEG. Esta clase descomprime un archivo
+ *  antiguamente comprimido con la classe Compressor_JPEG. Hace los pasos que anteriormente hicimos con el Compressor a
+ *  la inversa. Utiliza, como el compresor, las classes Huffman, Block y Triplet para conseguirlo.
  *  \details
  *  \author    Marc Amorós
  */

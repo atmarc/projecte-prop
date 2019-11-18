@@ -201,8 +201,8 @@ public class Tree {
     
     /**
      * El funcionamiento varia segun el valor de restart:
-     * - Si restart == true: La busqueda se lleva a cabo sobre los hijos de la raiz del arbol.
-     * - Si restart == false: La busqueda se lleva a cabo sobre los hijos del ultimo nodo visitado.
+     * - <b>Si restart == true:</b> La busqueda se lleva a cabo sobre los hijos de la raiz del arbol.
+     * - <b>Si restart == false:</b> La busqueda se lleva a cabo sobre los hijos del ultimo nodo visitado.
      *
      * Se busca un nodo con id = B.
      * - Si este existe se retorna su contenido index.

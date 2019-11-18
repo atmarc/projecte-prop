@@ -23,17 +23,12 @@ public class DriverCompresorDecompressor {
 
 	public static void main(String[] args) throws IOException {
 		ArrayList<String> files = new ArrayList<>(Arrays.asList(
-				"testing_files/lzw/ansi",
-				"testing_files/lzw/catala",
-				"testing_files/lzw/emoji",
-				"testing_files/lzw/español",
-				"testing_files/lzw/japones",
-				"testing_files/lzw/ruso",
-				"testing_files/newD/good_one",
-				"testing_files/newD/another_good_one",
-				"testing_files/1M",
-				"testing_files/big",
-				"testing_files/quicksort"
+				"src/persistencia/testing_files/txt/emoji",
+				"src/persistencia/testing_files/txt/japones",
+				"src/persistencia/testing_files/txt/good_one",
+				"src/persistencia/testing_files/txt/1M",
+				"src/persistencia/testing_files/txt/big",
+				"src/persistencia/testing_files/txt/quicksort"
 		));
 		Compressor_Controller compressor = new Compressor_Controller(2);
 		Decompressor_Controller decompressor = new Decompressor_Controller("lzw");

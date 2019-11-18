@@ -67,6 +67,10 @@ public abstract class Decompressor {
 
     }
 
+    public void startDecompression(String inputPath) {
+        startDecompression(inputPath, getCompressedName(inputPath));
+    }
+
     protected abstract void decompress();
 
     // Post-Compression Consultants

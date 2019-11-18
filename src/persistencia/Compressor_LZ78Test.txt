@@ -1,0 +1,9 @@
+Los tests se han realizado pensando en los dos posibles escenarios al final de una compresión. Encontrarse con un último
+ elemento que no ha aparecido hasta el momento y que por lo tanto se introduce normal en la tabla (tests de tipo A); y
+ encontrarse en la situación de terminar con el fichero a mitad de una compresión y necesitar un último byte para añadir
+ aunque este no este presente en el texto original (tests de tipo B).
+
+Del mismo modo, y siguiendo el mismo razonamiento se han realizado tests para descompresión en ambos estados.
+Descomprimiendo sets de entradas completas, o por contra sets con la un ultimo byte que no se debe escribir en el
+fichero original.
+

@@ -9,6 +9,9 @@ Application:
 run:
 	java -cp "bin/" presentacion.Application
 
+run-lzw-test:
+	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZWTest
+
 testingCompressJPEG:
 	java -cp "bin/" Compressor_JPEGTest
 

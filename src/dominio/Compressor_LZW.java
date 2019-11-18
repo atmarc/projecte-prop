@@ -13,7 +13,7 @@ public class Compressor_LZW extends Compressor {
 	private static final int BYTE_SIZE = 8;	///< dimension de un byte
 	private Tree dictionary;	///< el diccionario de los patrones encontrados
 	private int nextIndex = 0;	///< el indice de la siguiente palabra a insertar
-	private ArrayList<Byte> pattern; ///< la el contenedor para guarda el patron
+	private ArrayList<Byte> pattern; ///< el contenedor para guarda el patron
 	private int codewordSize;   ///< la longitud en bits para escribir la codificación
 
 	/**
@@ -24,7 +24,7 @@ public class Compressor_LZW extends Compressor {
 	}
 
 	/**
-	 * @brief Retorna la extension de los ficheros comprimidos con esta clase
+	 * @brief Retorna la extension de los ficheros comprimidos con este algoritmo
 	 * @return la extension de los ficheros comprimidos
 	 */
 	public String getExtension() {
@@ -71,8 +71,8 @@ public class Compressor_LZW extends Compressor {
 	}
 
 	/**
-	 * @param p el ArrayList a convertir
 	 * @brief Convierte un ArrayList de Bytes en un byte array
+	 * @param p el ArrayList a convertir
 	 * @return el byte array equivalente a {@code p}
 	 */
 	private byte[] toByteArray(ArrayList<Byte> p) {

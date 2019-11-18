@@ -1,5 +1,9 @@
 import java.util.ArrayList;
-
+/*!
+ *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-78.
+ *  \details
+ *  \author    Edgar Perez
+ */
 public class Compressor_LZ78 extends Compressor {
 
     private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
@@ -31,7 +35,7 @@ public class Compressor_LZ78 extends Compressor {
         while ((B = super.readByte()) > 0)
             new_searching = compress((byte) (B & 0xFF), tree, new_searching);
 
-        super.closeReader();
+        closeReader();
 
         if (!new_searching) compress((byte) 0x00, tree, false);
 
@@ -42,12 +46,11 @@ public class Compressor_LZ78 extends Compressor {
     }
 
     /**
-     * Pre: Si top_search = false, previamente ha habido llamadas a esta funcion, con el mismo tree y top_search = true;
-     * Post:
-     *  top_search = true -> El byte B esta insertado en el primer nivel del arbol (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
-     *  top_search = false -> El byte B esta insertado en el nivel iesimo del arbol, donde i = numero de llamadas previas con top_search = false desde la ultima llamada con top_search = true (numero de Bytes del submote) (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
+     *  - Pre: Si top_search = false, previamente ha habido llamadas a esta funcion, con el mismo tree y top_search = true;
+     *  - Post:
+     *      - top_search = true -> El byte B esta insertado en el primer nivel del arbol (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
+     *      - top_search = false -> El byte B esta insertado en el nivel iesimo del arbol, donde i = numero de llamadas previas con top_search = false desde la ultima llamada con top_search = true (numero de Bytes del submote) (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
      *
-     * Parametros:
      * @param B Byte que se quiere comprimir.
      * @param tree Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
      * @param top_search Indica si se desea reiniciar la busqueda desde arriba del arbol.

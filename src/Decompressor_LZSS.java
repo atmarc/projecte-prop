@@ -2,10 +2,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import java.util.HashMap;
-
+/*!
+ *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-SS.
+ *  \details
+ *  \author    Nicolas Camerlynck
+ */
 public class Decompressor_LZSS extends Decompressor {
-
 
     /**
      * @return La extension del fichero descomprimido

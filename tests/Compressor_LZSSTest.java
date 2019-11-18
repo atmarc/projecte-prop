@@ -1,11 +1,11 @@
 import dominio.*;
 import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Compressor_LZSSTest {
 
@@ -25,35 +25,69 @@ public class Compressor_LZSSTest {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
-        mainTests();
-    }
-
-
     @Test
-    public static void mainTests() throws IOException {
+    public void testA() throws IOException {
 
         Compressor_Controller compressor_lzss = new Compressor_Controller(1);
         Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
 
-        String[] files = {
-                "./testing_files/lzss/sample1",
-                "./testing_files/lzss/500kb",
-                "./testing_files/lzss/200kb",
-                "./testing_files/lzss/sample2",
-                "./testing_files/lzss/sample3"
-        };
+        String file = "./src/persistencia/testing_files/txt/sample1";
+        compressor_lzss.startCompression(file + ".txt", null);
+        decompressor_lzss.startDecompression(file + ".lzss", null);
+        assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
 
-        for (int i = 0; i < files.length; ++i) {
-            compressor_lzss.startCompression(files[i] + ".txt", null);
-            System.out.println();
-            decompressor_lzss.startDecompression(files[i] + ".lzss", null);
-            System.out.println("Verdict: " + (diffFiles(files[i]+".txt", files[i] + "_decompressed.txt")
-                    ? "\u001B[32m" + "OK! Files are equal." + "\u001B[0m"
-                    : "\u001B[31m" + "Wrong!!!" + "\u001B[0m"));
-            System.out.println();
-            System.out.println("-------------------------------------------------");
-        }
+    }
+
+    @Test
+    public void testB() throws IOException {
+
+        Compressor_Controller compressor_lzss = new Compressor_Controller(1);
+        Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
+
+        String file = "./src/persistencia/testing_files/txt/500kb";
+        compressor_lzss.startCompression(file + ".txt", null);
+        decompressor_lzss.startDecompression(file + ".lzss", null);
+        assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
+
+    }
+
+    @Test
+    public void testC() throws IOException {
+
+        Compressor_Controller compressor_lzss = new Compressor_Controller(1);
+        Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
+
+        String file = "./src/persistencia/testing_files/txt/200kb";
+        compressor_lzss.startCompression(file + ".txt", null);
+        decompressor_lzss.startDecompression(file + ".lzss", null);
+        assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
+
+    }
+
+    @Test
+    public void testD() throws IOException {
+
+        Compressor_Controller compressor_lzss = new Compressor_Controller(1);
+        Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
+
+        String file = "./src/persistencia/testing_files/txt/sample2";
+        compressor_lzss.startCompression(file + ".txt", null);
+        decompressor_lzss.startDecompression(file + ".lzss", null);
+        assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
+
+    }
+
+    @Test
+    public void testE() throws IOException {
+
+        Compressor_Controller compressor_lzss = new Compressor_Controller(1);
+        Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
+
+        String file = "./src/persistencia/testing_files/txt/sample3";
+        compressor_lzss.startCompression(file + ".txt", null);
+        decompressor_lzss.startDecompression(file + ".lzss", null);
+        assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
+
     }
 
 }

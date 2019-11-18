@@ -196,4 +196,8 @@
  * <br>
  * @b make @b clean <br>
  * <br>
+ * Para ejecutar los JUnits se ejecuta el comando>: <br>
+ * <br>
+ * @b make @b run-tests-<algoritmo> <br>
+ * <br>
  */

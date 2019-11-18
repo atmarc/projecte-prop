@@ -58,7 +58,7 @@ public class Compressor_LZW extends Compressor {
 		if (pattern.size() > 0) {
 		codeword = dictionary.find(toByteArray(pattern));
 		byte[] codewordAsByteArray = toByteArray(codeword);
-			controller.writeBytes(codewordAsByteArray);
+		controller.writeBytes(codewordAsByteArray);
 		}
 	}
 

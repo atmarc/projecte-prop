@@ -63,7 +63,7 @@ public class Decompressor_LZW extends Decompressor {
      * @param codeword el byte array a convertir
      * @return un numero entero que representa el resultado de la conversion
      */
-    private int getNextIndex(byte[] codeword)  {
+    private int getNextIndex(byte[] codeword) {
         int index = 0;
         for (byte b : codeword) {
             index = (index << BYTE_SIZE) | (b & 0xFF);

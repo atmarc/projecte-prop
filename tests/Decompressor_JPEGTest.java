@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import static org.junit.Assert.assertTrue;
+
 public class Decompressor_JPEGTest {
 
 
@@ -25,32 +27,51 @@ public class Decompressor_JPEGTest {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
-        mainTests();
+
+    @Test
+    public void testA() throws IOException {
+
+        String file = "./src/persistencia/testing_files/ppm/boxes_1";
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
+
     }
 
     @Test
-    public static void mainTests() throws IOException {
+    public void testB() throws IOException {
 
+        String file = "./src/persistencia/testing_files/ppm/image";
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
+    }
 
-        String[] files = {
-                "./testing_files/ppm_images/boxes_1",
-                "./testing_files/ppm_images/image",
-                "./testing_files/ppm_images/house_1",
-                "./testing_files/ppm_images/west_1",
-                "./testing_files/ppm_images/france-wallpaper"
-        };
+    @Test
+    public void testC() throws IOException {
 
-        for (int i = 0; i < files.length; ++i) {
-            decompressor_jpeg.startDecompression(files[i] + ".jpeg", null);
-            System.out.println();
-            System.out.println("Verdict: " + (diffFiles(files[i]+"_decompressed_test.ppm", files[i] + "_decompressed.ppm")
-                    ? "\u001B[32m" + "OK! Files are equal." + "\u001B[0m"
-                    : "\u001B[31m" + "Wrong!!!" + "\u001B[0m"));
-            System.out.println();
-            System.out.println("-------------------------------------------------");
-        }
+        String file = "./src/persistencia/testing_files/ppm/house_1";
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
+    }
+
+    @Test
+    public void testD() throws IOException {
+
+        String file = "./src/persistencia/testing_files/ppm/west_1";
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
+    }
+
+    @Test
+    public void testE() throws IOException {
+
+        String file = "./src/persistencia/testing_files/ppm/france-wallpaper";
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
 
 }

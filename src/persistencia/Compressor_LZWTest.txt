@@ -1,0 +1,31 @@
+getExtension
+Descripció: Comprueba el funcionamiento basico de la
+Objectius: Verificar que funciona
+Entrada: -
+Sortida: ".lzw"
+Resultat de la prova: ok
+
+compress1
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar si el caso especial en el cual el nuevo codigo no
+se encuentra en el diccionario para el algoritmo de descompresion funciona.
+Entrada: ababababababababababababababababababababababababa
+Sortida: ababababababababababababababababababababababababa
+Resultat de la prova: ok
+
+compress2
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar si los algoritmos de compression y decompresion se
+sincronizan bien y cambian el numero de bits con que se escriben/leen
+los codigos. Ademas se testea si los algoritmos con funcionan con ficheros grandes.
+Entrada: big.txt
+Sortida: big_decompressed.txt
+Resultat de la prova: ok
+
+compress2
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar si los algoritmos de compression y decompresion funcionan
+no solo con letras del alfabeto ingles. Y el rendimiento con ficherospequenos.
+Entrada: emoji.txt japones.txt
+Sortida: emoji_decompressed.txt japones_decompressed.txt
+Resultat de la prova: ok

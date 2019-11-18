@@ -3,6 +3,8 @@ import dominio.Compressor_Controller;
 import dominio.Decompressor_Controller;
 
 import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Application {
@@ -63,12 +65,13 @@ public class Application {
 
         System.out.println("Ruta del directorio salida:\n" +
                 "\t [0] - Utilizar el mismo directorio que el archivo origen.\n" +
-                "\t [1] - Proporcionar manualmente una ruta del directorio destino.");
+                "\t [1] - Proporcionar manualmente una ruta del directorio destino.\n" +
+                "\t [2] - Utilizar el directorio 'src/persistencia/out/' .\n");
 
         do {
             route = in.nextInt();
-            valid = (route == 0 || route == 1);
-            if (!valid) System.out.println("Numero no valido. Debe introducir 0 o 1.");
+            valid = (route == 0 || route == 1 || route == 2);
+            if (!valid) System.out.println("Numero no valido. Debe introducir 0, 1 o 2.");
         }
         while (!valid);
 
@@ -80,6 +83,10 @@ public class Application {
                 if (!valid) System.out.println("Ruta no valida, debe terminar en '/' ");
             }
             while (!valid);
+            outputPath = FileSystems.getDefault().getPath(outputPath).normalize().toAbsolutePath().toString() + "/";
+        }
+        else if (route == 2) {
+            outputPath = FileSystems.getDefault().getPath("./src/persistencia/out/").normalize().toAbsolutePath().toString() + "/";
         }
 
         if (mode == 0) { // Comprimir

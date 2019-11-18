@@ -6,9 +6,8 @@ import java.util.ArrayList;
  */
 public class Compressor_LZ78 extends Compressor {
 
-    private static ArrayList<ArrayList<Pair>> files;    // Conjunto de archivos comprimidos
-    private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
-    private int next_index;
+    private ArrayList<Pair> comp_file;                  ///< Archivo sobre el que se escribe la compresion actual
+    private int next_index;                             ///< Siguiente indice que se debe utilizar como referencia en el diccionario.
 
     /*!
      *  \brief     Clase auxiliar para la implementacion del diccionario del compresor mediante el algortimo LZ-78.
@@ -26,21 +25,14 @@ public class Compressor_LZ78 extends Compressor {
         }
 
     }
-
-
+    
     Compressor_LZ78() {
-        files = new ArrayList<>();
-        add_comp_file();
+        comp_file = new ArrayList<>();
+        comp_file.add(new Pair(0, (byte) 0x00));
     }
 
     protected String getExtension() {
         return ".lz78";
-    }
-
-    private void add_comp_file() {
-        files.add(new ArrayList<>());
-        comp_file = files.get(files.size() - 1);
-        comp_file.add(new Pair(0, (byte) 0x00));
     }
 
     protected void compress() {

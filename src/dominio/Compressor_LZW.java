@@ -9,12 +9,12 @@ import java.util.ArrayList;
  *  @author    	Andrei Mihalache
  */
 public class Compressor_LZW extends Compressor {
-	private static final String extension = ".lzw";
-	private static final int BYTE_SIZE = 8;
-	private Tree dictionary;
-	private int nextIndex = 0;
-	private ArrayList<Byte> pattern;
-	private int codewordSize;   // la longitud en bits para escribir la codificación
+	private static final String extension = ".lzw"; ///< extension del los ficheros comprimidos por el algoritmo
+	private static final int BYTE_SIZE = 8;	///< dimension de un byte
+	private Tree dictionary;	///< el diccionario de los patrones encontrados
+	private int nextIndex = 0;	///< el indice de la siguiente palabra a insertar
+	private ArrayList<Byte> pattern; ///< la el contenedor para guarda el patron
+	private int codewordSize;   ///< la longitud en bits para escribir la codificación
 
 	/**
 	 * @brief Crea un objecto compressor con el diccionario básico.
@@ -35,7 +35,7 @@ public class Compressor_LZW extends Compressor {
 	 * @brief 	Comprime un fichero mediante el algoritmo LZW
 	 * @details La funcion lee byte a byte desde el fichero a comprimir mediante
 	 * 			el controlador, y construye la palabra mas grande de bytes seguides que no esta
-	 * 			en el diccionario hastael momento. Cuando la encuentra, la añade al diccionario
+	 * 			en el diccionario hasta el momento. Cuando la encuentra, la añade al diccionario
 	 * 			con el menor indice no utilizado, escribe el código de esta palabra menos el último
 	 * 			carácter en la salida y empieza a buscar otra empezando con el ultimo carácter leído.
 	 * @pre		El input stream reader y el output stream reader estan creados e inicializados

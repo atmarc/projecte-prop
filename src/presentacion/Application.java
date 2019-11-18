@@ -63,12 +63,13 @@ public class Application {
 
         System.out.println("Ruta del directorio salida:\n" +
                 "\t [0] - Utilizar el mismo directorio que el archivo origen.\n" +
-                "\t [1] - Proporcionar manualmente una ruta del directorio destino.");
+                "\t [1] - Proporcionar manualmente una ruta del directorio destino.\n" +
+                "\t [2] - Utilizar el directorio 'src/persistencia/out/' .\n");
 
         do {
             route = in.nextInt();
-            valid = (route == 0 || route == 1);
-            if (!valid) System.out.println("Numero no valido. Debe introducir 0 o 1.");
+            valid = (route == 0 || route == 1 || route == 2);
+            if (!valid) System.out.println("Numero no valido. Debe introducir 0, 1 o 2.");
         }
         while (!valid);
 
@@ -81,6 +82,7 @@ public class Application {
             }
             while (!valid);
         }
+        else if (route == 2) outputPath = "./../src/persistencia/out/";
 
         if (mode == 0) { // Comprimir
 

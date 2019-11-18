@@ -8,10 +8,13 @@ tt:
 	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/" tests/*.java -d bin/
 
 Application:
-	javac src/*.java -d bin/
+	javac src/*/*.java -d bin/
 
 run:
-	java -cp "bin/" Application
+	java -cp "bin/" presentacion.Application
+
+testingLZ78:
+	java -cp "bin/" Compressor_JPEGTest
 
 clean:
-	rm bin/*.class
+	rm bin/*/*.class

@@ -1,3 +1,4 @@
+import dominio.*;
 import java.util.concurrent.ExecutionException;
 
 public class DriverLZWDecompressor {

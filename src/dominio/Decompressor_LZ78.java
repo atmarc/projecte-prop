@@ -1,0 +1,95 @@
+package dominio;
+import java.math.BigInteger;
+import java.util.ArrayList;
+
+/*!
+ *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-78.
+ *  \details
+ *  \author    Edgar Perez
+ */
+public class Decompressor_LZ78 extends Decompressor {
+
+    public ArrayList<byte[]> getDictionary() {
+        return dictionary;
+    }
+
+    public void setDictionary(ArrayList<byte[]> dictionary) {
+        this.dictionary = dictionary;
+    }
+
+    ArrayList<byte[]> dictionary;
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    int length;
+
+    public Decompressor_LZ78() {}
+
+    public void decompress() {
+
+        byte[] singleByte = new byte[1], index = new byte[4];
+        controller.readNBytes(index);
+
+        int i = 1;
+        length = new BigInteger(index).intValue();
+
+        dictionary = new ArrayList<>(length);
+        dictionary.add(null); // para empezar desde la posicion 1
+
+        // 1 + 1 Byte
+        index = new byte[1];
+        for (; i < 128 && controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
+        // 2 + 1 Byte
+        index = new byte[2];
+        for (; i < 32768 && controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
+        // 3 + 1 Byte
+        index = new byte[3];
+        for (; i < 8388608 && controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
+        // 4 + 1 Byte
+        index = new byte[4];
+        for (; controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
+
+        controller.closeReader();
+        controller.closeWriter();
+
+    }
+
+    public byte[] decompress(byte[] indexB, byte offset) {
+
+        int index = new BigInteger(indexB).intValue();
+
+        byte[] word;
+
+        if (index == 0) {
+            word = new byte[1];
+            word[0] = offset;
+        }
+        else if (dictionary.size() == length - 1 && offset == (byte) 0){
+            word = dictionary.get(index);
+        }
+        else {
+            byte[] prefix = dictionary.get(index);
+            word = new byte[prefix.length + 1];
+            System.arraycopy(prefix, 0, word, 0, prefix.length);
+            word[prefix.length] = offset;
+        }
+
+        dictionary.add(word);
+        return word;
+    }
+
+    public String getExtension() {
+        return "_decompressed.txt";
+    }
+
+}

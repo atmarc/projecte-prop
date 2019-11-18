@@ -1,0 +1,39 @@
+El algoritmo LZSS es un algoritmo de compresión sin perdida. El
+algoritmo busca coincidencias para cada carácter del texto a comprimir
+en los carácteres anteriores, y guarda el desplazamiento hasta la
+posición en la que empieza la coincidencia, y el numero de carácteres
+seguidos que coinciden.
+
+COMPRESIÓN:
+Leemos byte a byte el fichero txt que se debe comprimir y lo ponemos en
+HashMap para acceder de manera eficiente a cada elemento. (coste de acceso
+logn). Seguidamente lo que haremos es iterar para cada elemento del Hashmap
+mencionado y añadiremos cada elemento en otro HashMap llamado searchB que
+será nuestro searchBuffer, en el que buscaremos coincidencias. Por cada
+elemento en el que iteramos del primer Hashmap, buscaremos en las 4095
+posiciones anteriores a la ultima posicion del searchB, y en caso que
+encontremos coincidencia de al menos 3 elementos seguidos, guardaremos
+en una cola de chars (16bit), 12bits para representar el offset (posicion
+de la coincidencia) y 4 bits para expresar el desplazamiento (por tanto
+puede haber hasta 18 carácteres seguidos que coincidan, si cogemos
+desplazamiento 0 como una coincidencia de 3 elementos, el mínimo). Los
+elementos con los que no encontremos coincidencias los guardaremos en otra
+cola de bytes. Paralelamente, guardaremos valor true en un array de bools si
+hemos encontrado coincidencia para el elemento que iteramos, y false en caso
+contrario. Escribimos en la salida los booleanos en forma de bits agrupados
+de 8 en 8 en bytes, seguidamente los bytes correspondientes a los carácteres
+sin coincidencia y finalmente los chars codificados para representar las
+coincidencias.
+
+DECOMPRESIÓN:
+Leemos byte a byte el fichero txt comprimido, y ponemos en 3 colas distintas
+los valores booleanos, los bytes que representan las no coincidencias y los
+chars que representan las coincidencias. Seguidamente iteraremos para cada
+elemento de la cola de booleanos. Si nos encontramos con un false, querrá
+decir que en esa posición hay un elemento que no coincide y por tanto
+escribiremos en un array de bytes (representando el resultado) el byte
+correspondiente al primer elemento de la cola de no coincidencias. En caso
+que nos encontremos un valor true, querrá decir que en esa posición hay una
+coincidencia, así que descodificaremos el offset y desplazamiento y añadiremos
+al resultado los elementos que coinciden. Para la salida, escribimos el array de
+bytes de resultado byte a byte.

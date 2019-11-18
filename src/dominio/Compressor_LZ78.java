@@ -1,0 +1,146 @@
+package dominio;
+import java.util.ArrayList;
+/*!
+ *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-78.
+ *  \details
+ *  \author    Edgar Perez
+ */
+public class Compressor_LZ78 extends Compressor {
+
+    public ArrayList<Pair> getComp_file() {
+        return comp_file;
+    }
+
+    ArrayList<Pair> comp_file;                  ///< Archivo sobre el que se escribe la compresion actual
+    int next_index;                             ///< Siguiente indice que se debe utilizar como referencia en el diccionario.
+
+    /*!
+     *  \brief     Clase auxiliar para la implementacion del diccionario del compresor mediante el algortimo LZ-78.
+     *  \details
+     *  \author    Edgar Perez
+     */
+    public static class Pair {
+
+        public int index;
+        public byte offset;
+
+        public Pair(int i, byte b) {
+            index = i;
+            offset = b;
+        }
+
+    }
+    
+    public Compressor_LZ78() {
+        comp_file = new ArrayList<>();
+        comp_file.add(new Pair(0, (byte) 0x00));
+    }
+
+    public Compressor_LZ78(int i) {
+        comp_file = new ArrayList<>();
+        comp_file.add(new Pair(0, (byte) 0x00));
+        next_index = i;
+    }
+
+    public String getExtension() {
+        return ".lz78";
+    }
+
+    public void compress() {
+
+        int B;
+        Tree tree = new Tree(1);
+        next_index = 0;
+        boolean new_searching = true;
+
+        while ((B = controller.readByte()) > 0)
+            new_searching = compress((byte) (B & 0xFF), tree, new_searching);
+
+        controller.closeReader();
+
+        if (!new_searching) compress((byte) 0x00, tree, false);
+
+        write_compressed_file();
+    }
+
+    /**
+     *  - Pre: Si top_search = false, previamente ha habido llamadas a esta funcion, con el mismo tree y top_search = true;
+     *  - Post:
+     *      - top_search = true -> El byte B esta insertado en el primer nivel del arbol (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
+     *      - top_search = false -> El byte B esta insertado en el nivel iesimo del arbol, donde i = numero de llamadas previas con top_search = false desde la ultima llamada con top_search = true (numero de Bytes del submote) (o bien ya lo estaba, o se ha realizado en esta instancia con indice = comp_file.size()-1). El arbol ahora recuerda el nodo referente a este Byte como ultima visita.
+     *
+     * @param B Byte que se quiere comprimir.
+     * @param tree Arbol de motes conocidos sobre el que se realizan las inserciones y busquedas.
+     * @param top_search Indica si se desea reiniciar la busqueda desde arriba del arbol.
+     *
+     * @return Retorna el estado en el que se encuentra la compresion.
+     *  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
+     *  - false -> El mote buscado existe. Se solicita otro byte para continuar buscando en la actual altura del arbol.
+     */
+    public boolean compress(byte B, Tree tree, boolean top_search) {
+
+        int index = tree.progressive_find(B, top_search);
+
+        if (index == comp_file.size()) {
+            comp_file.add(new Pair(next_index, B));
+            next_index = 0;
+            return true;
+        }
+
+        next_index = index;
+        return false;
+    }
+
+    /**
+     * Escribe en el fichero de salida mediante la controladora del compresor el diccionario comprimido.
+     */
+    private void write_compressed_file() {
+
+        int i = 1;
+        byte[] buffer = new byte[4];
+        int index = comp_file.size();
+
+        buffer[0] = ((byte) ((index & 0xFF000000) >> 24));
+        buffer[1] = ((byte) ((index & 0x00FF0000) >> 16));
+        buffer[2] = ((byte) ((index & 0x0000FF00) >> 8));
+        buffer[3] = ((byte) (index & 0x000000FF));
+
+        controller.writeBytes(buffer);
+
+        buffer = new byte[2];
+        for (; i < 128 && i < comp_file.size(); i++) { // 1 + 1 Byte
+            buffer[0] = (byte) (comp_file.get(i).index & 0xFF);
+            buffer[1] = comp_file.get(i).offset;
+            controller.writeBytes(buffer);
+        }
+        buffer = new byte[3];
+        for (; i < 32768 && i < comp_file.size(); i++) {    // 2 + 1 Byte
+            index = comp_file.get(i).index;
+            buffer[0] = ((byte) ((index & 0x0000FF00) >> 8));
+            buffer[1] = ((byte) (index & 0x000000FF));
+            buffer[2] = comp_file.get(i).offset;
+            controller.writeBytes(buffer);
+        }
+        buffer = new byte[4];
+        for (; i < 8388608 && i < comp_file.size(); i++) { // 3 + 1 Byte
+            index = comp_file.get(i).index;
+            buffer[0] = ((byte) ((index & 0x00FF0000) >> 16));
+            buffer[1] = ((byte) ((index & 0x0000FF00) >> 8));
+            buffer[2] = ((byte) (index & 0x000000FF));
+            buffer[3] = comp_file.get(i).offset;
+            controller.writeBytes(buffer);
+        }
+        buffer = new byte[5];
+        for (; i < comp_file.size(); i++) {                 // 4 + 1 Byte
+            index = comp_file.get(i).index;
+            buffer[0] = ((byte) ((index & 0xFF000000) >> 24));
+            buffer[1] = ((byte) ((index & 0x00FF0000) >> 16));
+            buffer[2] = ((byte) ((index & 0x0000FF00) >> 8));
+            buffer[3] = ((byte) (index & 0x000000FF));
+            buffer[4] = comp_file.get(i).offset;
+            controller.writeBytes(buffer);
+        }
+        controller.closeWriter();
+    }
+
+}

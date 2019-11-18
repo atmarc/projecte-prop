@@ -12,6 +12,12 @@ run:
 run-lzw-test:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZWTest
 
+run-lz78-test:
+	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZ78Test
+
+run-lzss-test:
+	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZSSTest
+
 testingCompressJPEG:
 	java -cp "bin/" Compressor_JPEGTest
 

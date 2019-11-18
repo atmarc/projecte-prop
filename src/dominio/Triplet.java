@@ -1,6 +1,7 @@
 package dominio;
 /*!
- *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
+ *  \brief     Clase auxiliar para la implementacion del algortimo JPEG. Consta de una tripleta de 3 elementos de
+ * tipo genérico.
  *  \details
  *  \author    Marc Amorós
  */

@@ -4,19 +4,26 @@ import java.util.Queue;
 
 public class Compressor_LZSS extends Compressor {
 
+    /**
+     * Retorna la extension de los ficheros comprimidos con esta clase
+     * @return la extension de los ficheros comprimidos
+     */
     public String getExtension() {
         return ".lzss";
     }
 
+    /**
+     * Comprime un fichero mediante el algoritmo LZSS
+     */
     public void compress () {
         byte[] itemb = readAllBytes();
-        HashMap<Integer, Character> item = byteArrayToHashMap(itemb);
+        HashMap<Integer, Byte> item = byteArrayToHashMap(itemb);
         int itemSize = item.size();
 
         Queue<Byte> noCoincQ = new LinkedList<>();
         Queue<Character> coincQ = new LinkedList<>();
         Queue<Boolean> bitQ = new LinkedList<>();
-        HashMap<Integer, Character> searchB = new HashMap<>();
+        HashMap<Integer, Byte> searchB = new HashMap<>();
 
         for (int i = 0; i < itemSize; i++) {
 
@@ -67,8 +74,8 @@ public class Compressor_LZSS extends Compressor {
 
             if (!coinc) { //no tenim coincidencia
                 bitQ.add(false);
-                byte aux = charToByte(item.get(i));
-                noCoincQ.add(aux);
+                //byte aux = charToByte(item.get(i));
+                noCoincQ.add(item.get(i));
             }
 
             else {
@@ -144,6 +151,7 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
+     * Pasa de un char a byte
      * @param a Es el carácter que se tiene que pasar a Byte
      * @return Un byte b que corresponde a los 8 bits inferiores del char a
      */
@@ -154,6 +162,7 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
+     * Retorna el mínimo entre dos ints
      * @param a
      * @param b
      * @return El elemento mas pequeño entre a y b
@@ -164,6 +173,7 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
+     * Pasa de una cola de bytes a un array de bytes
      * @param a Cola de Bytes que tenemos que pasar a array
      * @return Un Array de a.size() elementos con los elementos de la cola a;
      */
@@ -177,6 +187,7 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
+     * Pasa de una cola de chars a un array de bytes
      * @param a Cola de Chars que tenemos que pasar a array
      * @return Un Array de a.size() elementos con los elementos de la cola a;
      */
@@ -195,6 +206,7 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
+     * Pasa de una cola de booleanos a un array de bytes con bits a 1 para valores true, y bits a 0 para false
      * @param a Cola de booleans que tenemos que pasar a array
      * @return Un Array de bytes de tamaño (a.size() / 8) + 1, donde cada bit de estos bytes representa un valor true o
      *         false de la cola a. Al principio se añaden ceros y un 1 para cuadrar que el total de bits sea múltiplo de 8
@@ -237,8 +249,8 @@ public class Compressor_LZSS extends Compressor {
         return b;
     }
 
-
     /**
+     * Busca una coincidencia de al menos 3 elementos entre la posicion i del item y la pos i - j del searchBuffer
      * @param i posicion inicial a la que accederemos de item
      * @param j posicion inicial a la que accederemos de searchB
      * @param item Hasjmap que contiene el texto a comprimir
@@ -246,7 +258,7 @@ public class Compressor_LZSS extends Compressor {
      * @return true si encontramos una coincidencia de tres carácteres seguidos con posicion inicial i y j en Item y searchB, respectivamente
      *         false en caso opuesto
      */
-    private boolean coincidence(int i, int j, HashMap<Integer,Character> item, HashMap<Integer, Character> searchB) {
+    private boolean coincidence(int i, int j, HashMap<Integer,Byte> item, HashMap<Integer, Byte> searchB) {
 
         if ( i+2 < item.size() && (i-j+2) < searchB.size() &&
                 item.get(i) == searchB.get( (i-j) ) &&
@@ -258,14 +270,14 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
+     * Pasa de un array de bytes a un hash map con las posiciones en las key y los bytes en el value
      * @param a Hasjmap que contiene el texto a comprimir
      * @return Un Hashmap<Int,Char> con en la key la posicion de los elementos que habia en a y en el value el byte que había
      */
-    private HashMap<Integer, Character> byteArrayToHashMap(byte[] a) {
-        HashMap<Integer,Character> aux = new HashMap<>();
+    private HashMap<Integer, Byte> byteArrayToHashMap(byte[] a) {
+        HashMap<Integer,Byte> aux = new HashMap<>();
         for (int i = 0; i < a.length; ++i) {
-            char aux1 = (char) a[i];
-            aux.put(i,aux1);
+            aux.put(i,a[i]);
         }
 
         return aux;

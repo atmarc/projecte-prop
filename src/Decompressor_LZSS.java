@@ -6,10 +6,17 @@ import java.util.HashMap;
 
 public class Decompressor_LZSS extends Decompressor {
 
+
+    /**
+     * @return La extension del fichero descomprimido
+     */
     String getExtension() {
         return ".txt";
     }
 
+    /**
+     * Descomprime un fichero codificado con el algoritmo LZSS
+     */
     protected void decompress() {
         byte item[] = readAllBytes();
 
@@ -130,6 +137,7 @@ public class Decompressor_LZSS extends Decompressor {
     }
 
     /**
+     * Pasa de array list a array
      * @param a ArrayList de Bytes
      * @return Un Array de Bytes con los mismos elementos que la Arraylist, para usar el método writeBytes
      */

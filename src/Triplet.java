@@ -1,7 +1,7 @@
 /*!
  *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
  *  \details
- *  \author    Marc Amoros
+ *  \author    Marc Amorós
  */
 public class Triplet <E, T, A> {
     /**

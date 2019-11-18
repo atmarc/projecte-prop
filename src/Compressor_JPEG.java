@@ -7,7 +7,7 @@ import static java.lang.Integer.parseInt;
 /*!
  *  \brief     Extension de la clase Compressor mediante el algoritmo JPEG.
  *  \details
- *  \author    Marc Amoros
+ *  \author    Marc Amorós
  */
 public class Compressor_JPEG extends Compressor {
 

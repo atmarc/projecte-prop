@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /*!
  *  \brief     Extension de la clase Decompressor mediante el algoritmo JPEG.
  *  \details
- *  \author    Marc Amoros
+ *  \author    Marc Amorós
  */
 public class Decompressor_JPEG extends Decompressor {
 

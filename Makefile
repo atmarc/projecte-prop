@@ -14,3 +14,7 @@ testingLZ78:
 
 clean:
 	rm bin/*/*.class
+
+clean_test_txt:
+	rm src/persistencia/testing_files/txt/*.lzw
+	rm src/persistencia/testing_files/txt/*_decompressed.txt

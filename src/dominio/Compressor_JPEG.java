@@ -6,7 +6,11 @@ import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 /*!
- *  \brief     Extension de la clase Compressor mediante el algoritmo JPEG.
+ *  \brief Extension de la clase Compressor mediante el algoritmo JPEG. Esta classe comprime los archivos utilizando
+ *  el algorítmo de JPEG. En ella encontramos la funcion compress y sus funciones auxiliares. También hay una funcion
+ *  que devuelve el tipo de extensión que tendrà la salida. La función decompress hace los pasos del JPEG: Blocksplitting,
+ *  color space transformation, quantization, DCT, zigzag reading y Huffman encoding usando las classes auxiliares Block,
+ * Huffman y Triplet.
  *  \details
  *  \author    Marc Amorós
  */

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 /*!
- *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
+ *  \brief     Clase auxiliar para la implementacion del algortimo JPEG. Representa un subconjunto de los píxeles de una
+ *  imagen, normalmente de 8x8 pixeles. En ella encontramos alguna funcion de trasnformación de estos valores que se
+ *  usan en el algorítmo de JPEG.
  *  \details
  *  \author    Marc Amorós
  */

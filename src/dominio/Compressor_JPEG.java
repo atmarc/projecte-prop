@@ -6,7 +6,11 @@ import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 /*!
- *  \brief     Extension de la clase Compressor mediante el algoritmo JPEG.
+ *  \brief Extension de la clase Compressor mediante el algoritmo JPEG. Esta classe comprime los archivos utilizando
+ *  el algorítmo de JPEG. En ella encontramos la funcion compress y sus funciones auxiliares. También hay una funcion
+ *  que devuelve el tipo de extensión que tendrà la salida. La función decompress hace los pasos del JPEG: Blocksplitting,
+ *  color space transformation, quantization, DCT, zigzag reading y Huffman encoding usando las classes auxiliares Block,
+ * Huffman y Triplet.
  *  \details
  *  \author    Marc Amorós
  */
@@ -14,11 +18,19 @@ public class Compressor_JPEG extends Compressor {
 
     /**
      * Función abstracta de la clase Compresor que devuelve la extension del archivo.
+     * @pre -
+     * @post devuelve la extension
      */
     public String getExtension() {
         return ".jpeg";
     }
 
+
+    /**
+     * Implementación de la función abstracta de la clase Compressor utilizando el algoritmo JPEG.
+     * @pre Se han inicializado los atributos inputFile y outputFile en el Compressor_controller conveniente.
+     * @post Se escribe en outputFile el archivo comprimido.
+     */
     public void compress() {
 
         byte[] s = controller.readAllBytes();
@@ -191,6 +203,8 @@ public class Compressor_JPEG extends Compressor {
 
     /**
      * Función para pasar de RGB a la base de color YCbCr usando las formulas del estandard de Jfif.
+     * @pre -
+     * @post devuelve una tripleta de valores enteros con el valor delpixel en YCbCr
      * @param R componente Red del pixel que quieres transformar.
      * @param G componente Green del pixel que quieres transformar.
      * @param B componente Blue del pixel que quieres transformar.
@@ -205,6 +219,8 @@ public class Compressor_JPEG extends Compressor {
 
     /**
      * Funcion que lee los headers del ppm y ignora los comentarios.
+     * @pre el parámetro s contiene el archivo en un array de bytes
+     * @post se lee la cabecera del archivo y se devuelve
      * @param s Array de bytes que representa el archivo.
      * @return devuelve una tripleta de valores con el la altura, anchura y valor maximo de los pixels.
      */
@@ -252,6 +268,8 @@ public class Compressor_JPEG extends Compressor {
 
     /**
      * Función que por cada 8 enteros que representan 8 bits, crea un byte y lo añade a arrayBytes.
+     * @pre bits es una cadena de bits no vacia
+     * @post arrayBytes contiene el valor en bytes de la cadena de bits
      * @param bits Cadena de bits representados con enteros.
      * @param arrayBytes ArrayList de bytes formados por los bits.
      */

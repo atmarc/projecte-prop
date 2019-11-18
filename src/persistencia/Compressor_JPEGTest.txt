@@ -1,0 +1,5 @@
+En el test escojemos fotografias de distintos tamaños, para comprobar que el tiempo de compressión no baria
+exponencialmente a partir de un cierto tamaño. Tambien uso imagenes con un tamaño múltiplo y no múltiplo de 8 para
+comprobar que no haya errores en la compressión al hacer los bloques. También tengo imagenes codificadas en P6 y en P3
+para comprobar que leo bien en los dos formatos. Uso una imagen de tamaño 8x8 para comprobar bit a bit que los pixeles
+sean iguales o muy parecidos.

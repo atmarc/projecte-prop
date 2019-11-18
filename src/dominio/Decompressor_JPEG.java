@@ -2,14 +2,18 @@ package dominio;
 import java.util.ArrayList;
 
 /*!
- *  \brief     Extension de la clase Decompressor mediante el algoritmo JPEG.
+ *  \brief     Extension de la clase Decompressor mediante el algoritmo JPEG. Esta clase descomprime un archivo
+ *  antiguamente comprimido con la classe Compressor_JPEG. Hace los pasos que anteriormente hicimos con el Compressor a
+ *  la inversa. Utiliza, como el compresor, las classes Huffman, Block y Triplet para conseguirlo.
  *  \details
  *  \author    Marc Amorós
  */
 public class Decompressor_JPEG extends Decompressor {
 
     /**
-     * Funcion abstracta de Decompresor que comprime el archivo
+     * Implementación de la función abstracta de la clase Decompressor utilizando el algoritmo JPEG.
+     * @pre Se han inicializado los atributos inputFile y outputFile en el Compressor_controller conveniente.
+     * @post Se escribe en outputFile el archivo descomprimido.
      */
     public void decompress() {
 
@@ -105,6 +109,7 @@ public class Decompressor_JPEG extends Decompressor {
     }
 
     /**
+     * Getter de la extensión del archivo
      * @return Extension del archivo descomprimido
      */
     public String getExtension() {
@@ -113,6 +118,8 @@ public class Decompressor_JPEG extends Decompressor {
 
     /**
      * Funcion para canviar de YCbCr a base de colores RGB.
+     * @pre -
+     * @post devuelve una tripleta de Bytes con el valor del pixel en RGB.
      * @param Y Componente Y del pixel.
      * @param Cb Componente Cb del pixel.
      * @param Cr Componente Cr del pixel.
@@ -135,6 +142,8 @@ public class Decompressor_JPEG extends Decompressor {
 
     /**
      * Función que convierte un array de bytes a una cadena de bits representada con enteros.
+     * @pre bits tiene el tamaño suficiente para que quepa la representación en bits de la cadena de bytes de s
+     * @post bits continene el valor en binario del array de bytes
      * @param s Array de bytes.
      * @param bits Cadena de bits representada con un array de enteros.
      */
@@ -151,6 +160,8 @@ public class Decompressor_JPEG extends Decompressor {
 
     /**
      * Funcion que lee un bloque.
+     * @pre data contiene el contenido del archivo y el parámetro i < data.size().
+     * @post devuelve un bloque con los valores leidos
      * @param data Array de la que se leen los datos.
      * @param i Indice del array en el que se empieza a leer.
      * @param tipus Tipo de bloque que vamos a leer.

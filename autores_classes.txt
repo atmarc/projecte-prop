@@ -1,0 +1,8 @@
+Marc: Block, Compressor_JPEG, Decompressor_JPEG, Huffman, Triplet, Compressor_JPEGTest, Decompressor_JPEGTest
+
+Nicolas: Compressor_LZSS, Decompressor_LZSS, Compressor_LZSSTest
+
+Andrei: Compressor_LZW, Decompressor_LZW, Compressor_LZWTest, Decompressor_LZW, DriverCompresorDecompresor
+
+Edgar: Compressor_LZ78, Decompressor_LZ78, Compressor_LZ78Test, Decompressor_LZ78Test, Compressor,
+Compressor_Controller, Decompressor, Decompressor_Controller, Tree, Application

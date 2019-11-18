@@ -11,7 +11,10 @@ import java.util.Queue;
 public class Decompressor_LZSS extends Decompressor {
 
     /**
-     * @return La extension del fichero descomprimido
+     * @pre
+     * @post
+     * Retorna la extension de los ficheros descomprimidos con esta clase
+     * @return la extension de los ficheros descomprimidos
      */
     public String getExtension() {
         return "_decompressed.txt";
@@ -141,6 +144,8 @@ public class Decompressor_LZSS extends Decompressor {
 
     /**
      * Pasa de array list a array
+     * @pre a es un arrayList de bytes no vacío
+     * @post El array aux de retorno contiene los mismos elementos que el arrayList a.
      * @param a ArrayList de Bytes
      * @return Un Array de Bytes con los mismos elementos que la Arraylist, para usar el método writeBytes
      */

@@ -35,7 +35,7 @@ public class Compressor_LZ78 extends Compressor {
         while ((B = super.readByte()) > 0)
             new_searching = compress((byte) (B & 0xFF), tree, new_searching);
 
-        super.closeReader();
+        closeReader();
 
         if (!new_searching) compress((byte) 0x00, tree, false);
 

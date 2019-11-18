@@ -9,7 +9,7 @@ Application:
 run:
 	java -cp "bin/" presentacion.Application
 
-testingLZ78:
+testingCompressJPEG:
 	java -cp "bin/" Compressor_JPEGTest
 
 clean:

@@ -37,11 +37,11 @@ public class Compressor_LZSSTest {
         Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
 
         String[] files = {
-                "./testing_files/lzss/sample1",
-                "./testing_files/lzss/500kb",
-                "./testing_files/lzss/200kb",
-                "./testing_files/lzss/sample2",
-                "./testing_files/lzss/sample3"
+                "./src/persistencia/testing_files/lzss/sample1",
+                "./src/persistencia/testing_files/lzss/500kb",
+                "./src/persistencia/testing_files/lzss/200kb",
+                "./src/persistencia/testing_files/lzss/sample2",
+                "./src/persistencia/testing_files/lzss/sample3"
         };
 
         for (int i = 0; i < files.length; ++i) {

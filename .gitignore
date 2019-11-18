@@ -1,7 +1,6 @@
 *.idea
 *.iml
 .vscode/launch.json
-out
 *.zero
 *decompressed.txt
 *.DS_Store

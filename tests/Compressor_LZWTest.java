@@ -23,19 +23,45 @@ public class Compressor_LZWTest {
 	@Test
 	public void compress1() throws IOException {
 		Compressor_Controller cc = new Compressor_Controller(2);
-		cc.startCompression("testing_files/newD/good_one.txt");
+		cc.startCompression("src/persistencia/testing_files/txt/good_one.txt",
+				"src/persistencia/testing_files/txt/");
 		Decompressor_Controller dc = new Decompressor_Controller("lzw");
-		dc.startDecompression("testing_files/newD/good_one.lzw");
-		assertTrue(diffFiles("testing_files/newD/good_one_decompressed.txt", "testing_files/newD/good_one.txt"));
+		dc.startDecompression("src/persistencia/testing_files/txt/good_one.lzw",
+				"src/persistencia/testing_files/txt/");
+		assertTrue(diffFiles("src/persistencia/testing_files/txt/good_one_decompressed.txt",
+				"src/persistencia/testing_files/txt/good_one.txt"));
 	}
 
 	@Test
 	public void compress2() throws IOException {
 		Compressor_Controller cc = new Compressor_Controller(2);
-		cc.startCompression("testing_files/big.txt");
+		cc.startCompression("src/persistencia/testing_files/txt/big.txt",
+				"src/persistencia/testing_files/txt/");
 		Decompressor_Controller dc = new Decompressor_Controller("lzw");
-		dc.startDecompression("testing_files/big.lzw");
-		assertTrue(diffFiles("testing_files/big_decompressed.txt", "testing_files/big.txt"));
+		dc.startDecompression("src/persistencia/testing_files/txt/big.lzw",
+				"src/persistencia/testing_files/txt/");
+		assertTrue(diffFiles("src/persistencia/testing_files/txt/big_decompressed.txt",
+				"src/persistencia/testing_files/txt/big.txt"));
+	}
+
+	@Test
+	public void compress3() throws IOException {
+		Compressor_Controller cc = new Compressor_Controller(2);
+		cc.startCompression("src/persistencia/testing_files/txt/emoji.txt",
+				"src/persistencia/testing_files/txt/");
+		Decompressor_Controller dc = new Decompressor_Controller("lzw");
+		dc.startDecompression("src/persistencia/testing_files/txt/emoji.lzw",
+				"src/persistencia/testing_files/txt/");
+		boolean r1 = diffFiles("src/persistencia/testing_files/txt/emoji_decompressed.txt",
+				"src/persistencia/testing_files/txt/emoji.txt");
+
+		cc.startCompression("src/persistencia/testing_files/txt/japones.txt",
+				"src/persistencia/testing_files/txt/");
+		dc.startDecompression("src/persistencia/testing_files/txt/japones.lzw",
+				"src/persistencia/testing_files/txt/");
+		boolean r2 = diffFiles("src/persistencia/testing_files/txt/japones_decompressed.txt",
+				"src/persistencia/testing_files/txt/japones.txt");
+		assertTrue(r1 && r2);
 	}
 
 	private static boolean diffFiles(String name1, String name2) throws IOException {

@@ -21,3 +21,7 @@ clean:
 clean_test_txt:
 	rm src/persistencia/testing_files/txt/*.lzw
 	rm src/persistencia/testing_files/txt/*_decompressed.txt
+
+clean_test_ppm:
+	rm src/persistencia/testing_files/ppm/*.jpeg
+	rm src/persistencia/testing_files/ppm/*_decompressed.ppm

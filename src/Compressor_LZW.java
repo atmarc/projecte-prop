@@ -29,18 +29,6 @@ public class Compressor_LZW extends Compressor {
 		return ".lzw";
 	}
 
-	/**
-	 * @param file El fichero desde cual se tiene que calcular el nombre
-	 * @return El nombre con la extension del fichero a comprimir
-	 */
-	private String getCompressedName(File file) {
-		String fileName = file.getPath();
-		int pos = fileName.lastIndexOf('.');
-		String compressedFileName;
-		if (pos != -1) compressedFileName = fileName.substring(0, pos);
-		else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-		return compressedFileName + extension;
-	}
 
 	/**
 	 * Comprime un fichero mediante el algoritmo LZW

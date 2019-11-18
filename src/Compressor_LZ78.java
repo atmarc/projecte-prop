@@ -10,6 +10,24 @@ public class Compressor_LZ78 extends Compressor {
     private ArrayList<Pair> comp_file;                  // Archivo sobre el que se escribe la compresion actual
     private int next_index;
 
+    /*!
+     *  \brief     Clase auxiliar para la implementacion del diccionario del compresor mediante el algortimo LZ-78.
+     *  \details
+     *  \author    Edgar Perez
+     */
+    private class Pair {
+
+        public int index;
+        public byte offset;
+
+        private Pair(int i, byte b) {
+            index = i;
+            offset = b;
+        }
+
+    }
+
+
     Compressor_LZ78() {
         files = new ArrayList<>();
         add_comp_file();

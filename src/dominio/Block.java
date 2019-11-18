@@ -113,6 +113,9 @@ public class Block {
 
     /**
      * Función que aplica la trasformada discreta del coseno a los valores del bloque y guarda su resultado en DCTvalors.
+     * @pre El atributo valors contiene todos los valores del bloque
+     * @post El atributo DCTvalors contiene todos los valores del bloque después de palicarles la DCT i dividirlos entre la
+     * la tabla de quantización
      */
     public void DCT() {
         for (int i = 0; i < height; ++i) {
@@ -142,6 +145,8 @@ public class Block {
     /**
      * Función que aplica la trasformada discreta del coseno inversa a los valores del bloque y guarda su resultado en
      * DCTvalors.
+     * @pre El atributo DCTvalors contiene los valores después de aplicar la DCT.
+     * @post El atributo DCTvalors contiene los valores después de aplicar la inversa de la DCT.
      */
     public void inverseDCT() {
         int auxArray[][] = new int [height][width];
@@ -173,8 +178,10 @@ public class Block {
 
     /**
      * Guarda en el array file a partir del índice los valores de DCTvalors recorridos en zigzag.
-     * @param file Array donde se van guardando los valores.
-     * @param ind Índice del file a partir del cual se empieza a escribir.
+     * @pre El atributo DCTvalors contiene los valores después de aplicar la DCT.
+     * @post File contiene los valores de DCTvalors haciendo zigzag.
+     * @param file Array donde se van guardando los valores. Tiene tamaño mínimo 8 x 8
+     * @param ind Índice del file a partir del cual se empieza a escribir. ind < file.lenght
      */
     public void zigzag(int [] file, int ind) {
         int row = 0, col = 0;
@@ -275,6 +282,8 @@ public class Block {
 
     /**
      * Guarda en DCTvalors el contenido de arr recorriendo DCTvalors en zigzag.
+     * @pre index < arr.size()
+     * @post El atributo DCTvalors contiene los valores después de guardarlos en zigzag.
      * @param arr Array de donde se leen los valores.
      * @param index Indice a partir del cual se empieza a leer de arr.
      */
@@ -401,7 +410,9 @@ public class Block {
 
     /**
      * Multiplica cada valor por la tabla de cuantization de lumincancia
-      */
+     * @pre El atributo DCTvalors contiene los valores después de aplicar la DCT inversa.
+     * @post El atributo DCTvalors contiene los valores después de multiplicarlos por la tabla de quantización.
+     */
     public void inverseQuantizationY() {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
@@ -412,6 +423,8 @@ public class Block {
 
     /**
      * Multiplica cada valor por la tabla de cuantization de crominancia
+     * @pre El atributo DCTvalors contiene los valores después de aplicar la DCT inversa.
+     * @post El atributo DCTvalors contiene los valores después de multiplicarlos por la tabla de quantización.
      */
     public void inverseQuantizationC() {
         for (int y = 0; y < height; ++y) {

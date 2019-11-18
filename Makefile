@@ -12,14 +12,16 @@ run:
 run-tests-lzw:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZWTest
 
-run-lz78-test:
+run-tests-lz78:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZ78Test
+	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Decompressor_LZ78Test
 
-run-lzss-test:
+run-tests-lzss:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZSSTest
 
-testingCompressJPEG:
-	java -cp "bin/" Compressor_JPEGTest
+run-tests-jpeg:
+	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_JPEGTest
+	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Decompressor_JPEGTest
 
 clean:
 	rm bin/*/*.class bin/*.class

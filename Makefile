@@ -13,7 +13,7 @@ testingLZ78:
 	java -cp "bin/" Compressor_JPEGTest
 
 clean:
-	rm bin/*/*.class
+	rm bin/*/*.class bin/*.class
 
 clean_test_txt:
 	rm src/persistencia/testing_files/txt/*.lzw

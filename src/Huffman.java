@@ -3,6 +3,11 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;
 
+/*!
+ *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
+ *  \details
+ *  \author    Marc Amoros
+ */
 public class Huffman {
 
     /**

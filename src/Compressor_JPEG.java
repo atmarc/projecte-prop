@@ -4,6 +4,11 @@ import java.util.LinkedList;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
+/*!
+ *  \brief     Extension de la clase Compressor mediante el algoritmo JPEG.
+ *  \details
+ *  \author    Marc Amoros
+ */
 public class Compressor_JPEG extends Compressor {
 
     /**

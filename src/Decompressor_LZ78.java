@@ -1,6 +1,11 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+/*!
+ *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-78.
+ *  \details
+ *  \author    Edgar Perez
+ */
 public class Decompressor_LZ78 extends Decompressor {
 
     private ArrayList<byte[]> dictionary;

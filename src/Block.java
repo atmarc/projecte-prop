@@ -2,6 +2,11 @@ import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
+/*!
+ *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
+ *  \details
+ *  \author    Marc Amoros
+ */
 public class Block {
 
     /**

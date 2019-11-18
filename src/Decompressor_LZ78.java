@@ -8,12 +8,12 @@ import java.util.ArrayList;
  */
 public class Decompressor_LZ78 extends Decompressor {
 
-    private ArrayList<byte[]> dictionary;
-    private int length;
+    ArrayList<byte[]> dictionary;
+    int length;
 
     public Decompressor_LZ78() {}
 
-    public void decompress() {
+    void decompress() {
 
         byte[] singleByte = new byte[1], index = new byte[4];
         controller.readNBytes(index);
@@ -46,7 +46,7 @@ public class Decompressor_LZ78 extends Decompressor {
 
     }
 
-    private byte[] decompress(byte[] indexB, byte offset) {
+    byte[] decompress(byte[] indexB, byte offset) {
 
         int index = new BigInteger(indexB).intValue();
 
@@ -70,7 +70,7 @@ public class Decompressor_LZ78 extends Decompressor {
         return word;
     }
 
-    protected String getExtension() {
+    String getExtension() {
         return "_decompressed.txt";
     }
 

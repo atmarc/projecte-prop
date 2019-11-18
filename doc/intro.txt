@@ -7,7 +7,43 @@
  * \section detail_sec Los algoritmos en detalle
 
  * \subsection LZ78 Algoritmo LZ-78
+ * El algoritmo LZ78 es un algoritmo basado en repeticiones. En mi caso ha sido implementado a nivel de byte, por lo tanto
+ * las repeticiones se corresponden con repeticiones de cadenas de bytes puros, tal y como estan almacenados en memoria
+ * para el archivo a comprimir en cuestion.<br>
+ *
+ * La compresion es sencilla. Consiste en guardar pares de indice y byte. Donde el el indice indica la posicion en el
+ * diccionario del antecesor del byte en una cadena de bytes. Cuando el indice es un 0, significa que no hay antecesor.<br>
+ *
+ * El proceso se inicia leyendo byte a byte el fichero a comprimir. Cada vez que nos encontramos con un byte nunca visto
+ * antes, lo almacenamos en un diccionario con una referencia igual al numero cero. De este modo indicamos
+ * que este byte no tiene antecesor, y por lo tanto es el inicio de una cadena.<br>
+ *
+ * En el caso de leer un byte ya visto antes, la cadena actual se debe interpretar como una pareja indice byte, donde el byte
+ * es el ultimo leido, y el indice es la posicion de la anterior byte en el diccionario. De este modo, nosotros solo
+ * almacenamos parejas de indices y bytes, donde cada byte es el ultimo de la cadena que forma y el indice 'apunta' a su
+ * antecesor o nadie (= 0) si este no tiene antecesor y es el primero de su cadena.<br>
+ *
+ * Dada una cadena de bytes, si el prefijo completo de la cadena ya esta presente en el diccionario, solo necesitamos una
+ * entrada para dicha cadena donde: el indice indica la posicion en el diccionario que representa el prefijo y el byte es
+ * el que debemos concatenar a dicho prefijo par formar esta cadena.<br>
+ *
+ * Algoritmicamente tenemos que ir consultando al diccionario si la cadena que consideramos en cada iteracion esta "presente".
+ * Si existe un entrada que hace referencia a una cadena A: consideraremos una nueva cadena A' que resulta de concatenar A
+ * con el siguiente byte leido. Repetiriamos este proceso hasta que la cadena que consultamos no este presente y entonces,
+ * simplemente debemos anadir el indice referente a la subcadena prefijo, y el ultimo byte leido. Cabe remarcar que las primeras
+ * iteraciones de este algoritmo son ceros, debido a que el diccionario esta inicialmente vacio.<br>
+ *
+ * Para descomprimir la informacion, bastaria con leer el diccionario desde el principio hasta el final (en orden). Recursivamente,
+ * pensamos en una cadena que se va formando desde la cola hasta el inicio. Mientras el indice de las entradas leidas sea
+ * diferente de cero, vamos anadiendo los bytes de estas entradas a nuestra cadena temporal y viajando a la posicion marcada por el
+ * indice de los pares leidos. Eventualmente llegaremos a un par con indice = 0, donde deberemos finalizar la formacion de
+ * la cadena con el byte de esa entrada y escribir la palabra formada como texto original.<br>
+ *
+ *
  * \subsection LZSS Algoritmo LZ-SS
+ *
+ *
+ *
  * \subsection LZW Algoritmo LZ-W
  * LZW es un algoritmo de compresión basado en diccionarios. El algoritmo
  * reemplaza cadenas de caracteres por códigos que representan la posición
@@ -15,7 +51,7 @@
  * una cadena con muchos caracteres se se reemplaza por un código que ocupa
  * mucho menos espacio que esa cadena. Tanto la compresión como la descompresión
  * empieza con un alfabeto básico. Por lo tanto es imprescindible que el
- * alfabeto en el proceso de compresión y el de la descompresión sean idénticos.
+ * alfabeto en el proceso de compresión y el de la descompresión sean idénticos.<br>
  *
  * Compresión:
  * Como se ha mencionado antes el algoritmo empieza con un diccionario básico
@@ -38,7 +74,7 @@
  * Dado que el diccionario no puede crecer infinitamente grande por razones
  * de memoria, se establece un tamaño máximo del diccionario y cuando se
  * llega a este tamaño se escribe el código de la palabra acumulada, se
- * reinicia el diccionario y se sigue con la compresión.
+ * reinicia el diccionario y se sigue con la compresión.<br>
  *
  * Descompresión:
  * Para hacer la descompresión es necesario recrear el diccionario de la
@@ -54,16 +90,29 @@
  * descomprimido y el primer carácter de la misma palabra. Si se utilizan
  * códigos de tamaño variable el tamaño de los códigos a leer cambian cuando
  * el tamaño del diccionario es el máximo código representable con este
- * número de bits menos uno.
+ * número de bits menos uno.<br>
+ *
+ *
  * \subsection JPEG Algoritmo JPEG
+ *
+ *
+ *
  * \section install_sec Instalacion
  *
- * Para instalar el programa se debe ejecutar el comando:
- *  make
- * Para ejecutar el programa principal se debe ejecutar el comando:
- *  make run
- * Para ejecutar cualquier otro Driver o Test se utiliza el compando:
- *  make -cp "bin/" nombre_de_la_clase
- * Para borrar todos los ejecutables se utiliza el comando>:
- * make clean
+ * Para instalar el programa se debe ejecutar el comando:<br>
+ * <br>
+ * @b make <br>
+ * <br>
+ * Para ejecutar el programa principal se debe ejecutar el comando:<br>
+ * <br>
+ *      @b make @b run <br>
+ * <br>
+ * Para ejecutar cualquier otro Driver o Test se utiliza el compando:<br>
+ * <br>
+ *     @b make @b -cp @b "bin/" @b nombre_de_la_clase <br>
+ * <br>
+ * Para borrar todos los ejecutables se utiliza el comando>: <br>
+ * <br>
+ * @b make @b clean <br>
+ * <br>
  */

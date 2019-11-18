@@ -17,10 +17,10 @@ public abstract class Compressor {
      * Retorna la extension del archivo comprimido (depende del tipo de algoritmo utilizado).
      * @return Retorna la extension del archivo comprimido.
      */
-    protected abstract String getExtension();
+    abstract String getExtension();
     /**
      * Funcion encargada de comprimir el archivo proporcionado por la controladora y escribirlo en el archivo de salida tambien a traves de la controladora.
      */
-    protected abstract void compress();
+    abstract void compress();
 
 }

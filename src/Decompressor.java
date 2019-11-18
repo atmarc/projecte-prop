@@ -17,10 +17,10 @@ public abstract class Decompressor {
      * Retorna la extension del archivo original (actualemente comprimido).
      * @return Retorna la extension del archivo original.
      */
-    protected abstract String getExtension();
+    abstract String getExtension();
     /**
      * Funcion encargada de descomprimir el archivo proporcionado por la controladora y escribirlo en el archivo de salida tambien a traves de la controladora.
      */
-    protected abstract void decompress();
+    abstract void decompress();
 
 }

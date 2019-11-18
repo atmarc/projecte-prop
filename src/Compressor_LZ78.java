@@ -6,20 +6,20 @@ import java.util.ArrayList;
  */
 public class Compressor_LZ78 extends Compressor {
 
-    private ArrayList<Pair> comp_file;                  ///< Archivo sobre el que se escribe la compresion actual
-    private int next_index;                             ///< Siguiente indice que se debe utilizar como referencia en el diccionario.
+    ArrayList<Pair> comp_file;                  ///< Archivo sobre el que se escribe la compresion actual
+    int next_index;                             ///< Siguiente indice que se debe utilizar como referencia en el diccionario.
 
     /*!
      *  \brief     Clase auxiliar para la implementacion del diccionario del compresor mediante el algortimo LZ-78.
      *  \details
      *  \author    Edgar Perez
      */
-    private class Pair {
+    public static class Pair {
 
         public int index;
         public byte offset;
 
-        private Pair(int i, byte b) {
+        public Pair(int i, byte b) {
             index = i;
             offset = b;
         }
@@ -35,7 +35,7 @@ public class Compressor_LZ78 extends Compressor {
         return ".lz78";
     }
 
-    protected void compress() {
+    void compress() {
 
         int B;
         Tree tree = new Tree(1);
@@ -69,7 +69,7 @@ public class Compressor_LZ78 extends Compressor {
      *  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
      *  - false -> El mote buscado existe. Se solicita otro byte para continuar buscando en la actual altura del arbol.
      */
-    private boolean compress(byte B, Tree tree, boolean top_search) {
+    boolean compress(byte B, Tree tree, boolean top_search) {
 
         int index = tree.progressive_find(B, top_search);
 
@@ -83,7 +83,10 @@ public class Compressor_LZ78 extends Compressor {
         return false;
     }
 
-    private void write_compressed_file() {
+    /**
+     * Escribe en el fichero de salida mediante la controladora del compresor el diccionario comprimido.
+     */
+    void write_compressed_file() {
 
         int i = 1;
         byte[] buffer = new byte[4];

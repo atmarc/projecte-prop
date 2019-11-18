@@ -30,7 +30,7 @@ Resultat de la prova: ok
 
 TestD
 Descripció: Comprueba el funcionamiento del compressor y decompressor
-Objectius: Comprobar si el algoritmo funciona bien con ficheros grandes
+Objectius: Comprobar si el algoritmo funciona bien con ficheros muy grandes
 Entrada: 1M.txt
 Sortida: 1M_decompressed.txt
 Resultat de la prova: ok

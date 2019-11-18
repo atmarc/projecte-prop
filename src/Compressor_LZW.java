@@ -25,8 +25,8 @@ public class Compressor_LZW extends Compressor {
 	 * Retorna la extension de los ficheros comprimidos con esta clase
 	 * @return la extension de los ficheros comprimidos
 	 */
-	String getExtension() {
-		return ".zero";
+	protected String getExtension() {
+		return ".lzw";
 	}
 
 	/**
@@ -49,14 +49,14 @@ public class Compressor_LZW extends Compressor {
 		inicializar();
 		int nx;
 		int codeword;
-		while ((nx = readByte()) != -1) {
+		while ((nx = controller.readByte()) != -1) {
 			byte B = (byte) nx;
 			byte[] patternByteArray = toByteArray(pattern);
 			byte[] patternPlusNextChar = concatenate(pattern, B);
 			if (dictionary.find(patternPlusNextChar) == -1) {
 				codeword = dictionary.find(patternByteArray);
 				byte[] codewordAsByteArray = toByteArray(codeword);
-				writeBytes(codewordAsByteArray);
+				controller.writeBytes(codewordAsByteArray);
 				dictionary.insert(patternPlusNextChar, nextIndex);
 				++nextIndex;
 				if (nextIndex >= (1 << codewordSize)) {
@@ -70,7 +70,7 @@ public class Compressor_LZW extends Compressor {
 		if (pattern.size() > 0) {
 		codeword = dictionary.find(toByteArray(pattern));
 		byte[] codewordAsByteArray = toByteArray(codeword);
-		writeBytes(codewordAsByteArray);
+			controller.writeBytes(codewordAsByteArray);
 		}
 	}
 

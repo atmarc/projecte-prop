@@ -41,7 +41,7 @@ public class Decompressor_LZW extends Decompressor {
     /**
      * @return La extencion del fichero descomprimido
      */
-    String getExtension() {
+    protected String getExtension() {
         return "_decompressed.txt";
     }
 
@@ -51,11 +51,11 @@ public class Decompressor_LZW extends Decompressor {
     public void decompress() {
         inicializar();
         byte[] codeword = new byte[codewordSize/BYTE_SIZE];
-        readNBytes(codeword);
+        controller.readNBytes(codeword);
         int index = getNextIndex(codeword);
         String pattern = dictionary.get(index);
-        for (int i = 0; i < pattern.length(); ++i) writeByte((byte)pattern.charAt(i));
-        while (readNBytes(codeword) != -1) {
+        for (int i = 0; i < pattern.length(); ++i) controller.writeByte((byte)pattern.charAt(i));
+        while (controller.readNBytes(codeword) != -1) {
             index = getNextIndex(codeword);
             String out = "";
             if (index < dictionary.size()) {
@@ -63,7 +63,7 @@ public class Decompressor_LZW extends Decompressor {
             }
             else out = pattern + pattern.charAt(0);
             dictionary.add(pattern + out.charAt(0));
-            for (int i = 0; i < out.length(); ++i) writeByte((byte)out.charAt(i));
+            for (int i = 0; i < out.length(); ++i) controller.writeByte((byte)out.charAt(i));
             pattern = out;
             if (dictionary.size() >= (1 << codewordSize)-1) {
                 codewordSize += BYTE_SIZE;

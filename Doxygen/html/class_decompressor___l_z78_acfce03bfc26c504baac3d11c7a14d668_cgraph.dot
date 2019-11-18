@@ -5,11 +5,11 @@ digraph "Decompressor_LZ78.decompress"
   rankdir="LR";
   Node2 [label="Decompressor_LZ78.decompress",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node3 [label="Decompressor.closeReader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a1e9f0226a83f178072324fa363a66977"];
+  Node3 [label="Decompressor_Controller.close\lReader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#aace423b5f88eb4c8515e069a1d8a9f66"];
   Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node4 [label="Decompressor.closeWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#aac28ac799caa1348ca7cbacf5e31a8f0"];
+  Node4 [label="Decompressor_Controller.close\lWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#a16003ee60f10fab6d14dc3a2e26ab49a"];
   Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node5 [label="Decompressor.readNBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#ac1628f51a87bc0314517b24706ad125d"];
+  Node5 [label="Decompressor_Controller.read\lNBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#ad364218ae641db82740df0d84e004704"];
   Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node6 [label="Decompressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a70985895edbfc651941247ab1bbeee80"];
+  Node6 [label="Decompressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#a2ea1b06ed37f0f413e193c571efdaed0"];
 }

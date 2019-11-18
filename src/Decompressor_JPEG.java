@@ -12,7 +12,7 @@ public class Decompressor_JPEG extends Decompressor {
      */
     public void decompress() {
 
-        byte s [] = readAllBytes();
+        byte s [] = controller.readAllBytes();
 
         int[] bits = new int[s.length * 8];
         byteToBin(s, bits);
@@ -100,14 +100,14 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
-        writeBytes(returnData);
+        controller.writeBytes(returnData);
     }
 
     /**
      * @return Extension del archivo descomprimido
      */
     public String getExtension() {
-        return ".ppm";
+        return "_decompressed.ppm";
     }
 
     /**

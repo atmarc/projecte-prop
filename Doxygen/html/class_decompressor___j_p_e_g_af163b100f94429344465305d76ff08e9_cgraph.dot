@@ -25,13 +25,13 @@ digraph "Decompressor_JPEG.decompress"
   Node3 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node13 [label="Block.inverseQuantizationY",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#affa25308109765ddce8dff89d2e4135b",tooltip="Multiplica cada valor por la tabla de cuantization de lumincancia. "];
   Node3 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node14 [label="Decompressor.readAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a53d34b9cac0dc0fb0b56005fbc9e4c46"];
+  Node14 [label="Decompressor_Controller.read\lAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#a609269200ffa33af53c6d91e747497b2"];
   Node3 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node15 [label="Decompressor_JPEG.readBlock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#a288ec8ca34be258afa9073c6927119eb",tooltip="Funcion que lee un bloque. "];
   Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node16 [label="Block.zigzagInvers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#a5fe5c8a7f90d2f9c51f375ed4844f7e9",tooltip="Guarda en DCTvalors el contenido de arr recorriendo DCTvalors en zigzag. "];
   Node3 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node17 [label="Decompressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a70985895edbfc651941247ab1bbeee80"];
+  Node17 [label="Decompressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#a2ea1b06ed37f0f413e193c571efdaed0"];
   Node3 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node18 [label="Decompressor_JPEG.YCbCrToRGB",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#a3466bce611f7a6ac5f2d175383a57fc8",tooltip="Funcion para canviar de YCbCr a base de colores RGB. "];
 }

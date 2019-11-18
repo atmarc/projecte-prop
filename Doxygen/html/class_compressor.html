@@ -83,8 +83,7 @@ $(document).ready(function(){initNavTree('class_compressor.html','');});
   <div class="summary">
 <a href="#pub-methods">Métodos públicos</a> &#124;
 <a href="#pro-methods">Métodos protegidos</a> &#124;
-<a href="#pri-methods">Métodos privados</a> &#124;
-<a href="#pri-attribs">Atributos privados</a> &#124;
+<a href="#pro-attribs">Atributos protegidos</a> &#124;
 <a href="class_compressor-members.html">Lista de todos los miembros</a>  </div>
   <div class="headertitle">
 <div class="title">Referencia de la Clase Compressor<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -111,140 +110,25 @@ $(document).ready(function(){initNavTree('class_compressor.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
-<tr class="memitem:ab543704088332634aad6f16c81a589a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#ab543704088332634aad6f16c81a589a0">selectFiles</a> (String inputPath, String outputPath)</td></tr>
-<tr class="separator:ab543704088332634aad6f16c81a589a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7599d0290ea9f31c6241bee2eefa2edd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd">startCompression</a> (String inputPath, String outputPath)</td></tr>
-<tr class="separator:a7599d0290ea9f31c6241bee2eefa2edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab908f4b96276f6e2c3d52b75d1a57926"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#ab908f4b96276f6e2c3d52b75d1a57926">startCompression</a> (String inputPath)</td></tr>
-<tr class="separator:ab908f4b96276f6e2c3d52b75d1a57926"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a183902861246f33ad9dc2f3f2710e21c"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a183902861246f33ad9dc2f3f2710e21c">getTime</a> ()</td></tr>
-<tr class="separator:a183902861246f33ad9dc2f3f2710e21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f2aac1c4046a45dc6293ceef13d81bd"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a1f2aac1c4046a45dc6293ceef13d81bd">getOriginalSize</a> ()</td></tr>
-<tr class="separator:a1f2aac1c4046a45dc6293ceef13d81bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5684d1b8b78aa4b10d2484979e7b5278"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a5684d1b8b78aa4b10d2484979e7b5278">getCompressedSize</a> ()</td></tr>
-<tr class="separator:a5684d1b8b78aa4b10d2484979e7b5278"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b30207ecc08993f863588719a681f9b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a6b30207ecc08993f863588719a681f9b">getCompressionRatio</a> ()</td></tr>
-<tr class="separator:a6b30207ecc08993f863588719a681f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0647b93df616cd67c37a16466a475b52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a0647b93df616cd67c37a16466a475b52">setController</a> (<a class="el" href="class_compressor___controller.html">Compressor_Controller</a> <a class="el" href="class_compressor.html#ae5c5b1278265c1506681c60af40e2632">controller</a>)</td></tr>
+<tr class="separator:a0647b93df616cd67c37a16466a475b52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Métodos protegidos</h2></td></tr>
+<tr class="memitem:a4e768b08b92fcf424dac410a974a8094"><td class="memItemLeft" align="right" valign="top">abstract String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a4e768b08b92fcf424dac410a974a8094">getExtension</a> ()</td></tr>
+<tr class="separator:a4e768b08b92fcf424dac410a974a8094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63f63747a032ecdf027c98cc4afa8b90"><td class="memItemLeft" align="right" valign="top">abstract void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90">compress</a> ()</td></tr>
 <tr class="separator:a63f63747a032ecdf027c98cc4afa8b90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af90efb69949b51f4fa3be86cdd9e2a08"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#af90efb69949b51f4fa3be86cdd9e2a08">readByte</a> ()</td></tr>
-<tr class="separator:af90efb69949b51f4fa3be86cdd9e2a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ad244f12fa2a23c1a47029b2bb24d9e"><td class="memItemLeft" align="right" valign="top">byte []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a9ad244f12fa2a23c1a47029b2bb24d9e">readNBytes</a> (int n)</td></tr>
-<tr class="separator:a9ad244f12fa2a23c1a47029b2bb24d9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bfed2a2fa86b7e66bfd9ca125ee7e8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a4bfed2a2fa86b7e66bfd9ca125ee7e8c">closeReader</a> ()</td></tr>
-<tr class="separator:a4bfed2a2fa86b7e66bfd9ca125ee7e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae16be32e1f9932d51f132de65015280e"><td class="memItemLeft" align="right" valign="top">byte []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#ae16be32e1f9932d51f132de65015280e">readAllBytes</a> ()</td></tr>
-<tr class="separator:ae16be32e1f9932d51f132de65015280e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ed4be911f856209ac4491b767fe3c83"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a7ed4be911f856209ac4491b767fe3c83">readFileString</a> ()</td></tr>
-<tr class="separator:a7ed4be911f856209ac4491b767fe3c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1aad5c65cb968fc602fa3542217b36c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#aa1aad5c65cb968fc602fa3542217b36c">writeByte</a> (byte B)</td></tr>
-<tr class="separator:aa1aad5c65cb968fc602fa3542217b36c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5977ed901c196653ef36cf8c14a71bee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a5977ed901c196653ef36cf8c14a71bee">writeBytes</a> (byte[] word)</td></tr>
-<tr class="separator:a5977ed901c196653ef36cf8c14a71bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d30df78cd1136f2b6b75fb8f98fe14b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a9d30df78cd1136f2b6b75fb8f98fe14b">closeWriter</a> ()</td></tr>
-<tr class="separator:a9d30df78cd1136f2b6b75fb8f98fe14b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Métodos privados</h2></td></tr>
-<tr class="memitem:a0bf0f0aa1e2700643f5ae663afd1eacb"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">getCompressedName</a> (String fileName)</td></tr>
-<tr class="separator:a0bf0f0aa1e2700643f5ae663afd1eacb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a279d09ac721a4aeeb17980cd91076034"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a279d09ac721a4aeeb17980cd91076034">getCompressedName</a> (File file)</td></tr>
-<tr class="separator:a279d09ac721a4aeeb17980cd91076034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Atributos privados</h2></td></tr>
-<tr class="memitem:a517d1d5a352d2202a911ab8804bf32a3"><td class="memItemLeft" align="right" valign="top">File&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a></td></tr>
-<tr class="separator:a517d1d5a352d2202a911ab8804bf32a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e7cacfc9805efed29ee91339bb0fde1"><td class="memItemLeft" align="right" valign="top">File&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">outputFile</a></td></tr>
-<tr class="separator:a6e7cacfc9805efed29ee91339bb0fde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7829666e03b6b7a21ee796993515dab2"><td class="memItemLeft" align="right" valign="top">BufferedInputStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">in</a></td></tr>
-<tr class="separator:a7829666e03b6b7a21ee796993515dab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84297928c15ed8493df06a4c705439f7"><td class="memItemLeft" align="right" valign="top">BufferedOutputStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">out</a></td></tr>
-<tr class="separator:a84297928c15ed8493df06a4c705439f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae08957f6c8fd8536fc174df99de0e625"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">time</a></td></tr>
-<tr class="separator:ae08957f6c8fd8536fc174df99de0e625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Atributos protegidos</h2></td></tr>
+<tr class="memitem:ae5c5b1278265c1506681c60af40e2632"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_compressor___controller.html">Compressor_Controller</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#ae5c5b1278265c1506681c60af40e2632">controller</a></td></tr>
+<tr class="separator:ae5c5b1278265c1506681c60af40e2632"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
 <div class="textblock">
 <p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00005">5</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
 </div><h2 class="groupheader">Documentación de las funciones miembro</h2>
-<a id="a4bfed2a2fa86b7e66bfd9ca125ee7e8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bfed2a2fa86b7e66bfd9ca125ee7e8c">&#9670;&nbsp;</a></span>closeReader()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Compressor.closeReader </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00107">107</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                 {</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">in</a> != null) <a class="code" href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">in</a>.close();</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        } <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        }</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a7829666e03b6b7a21ee796993515dab2"><div class="ttname"><a href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">Compressor.in</a></div><div class="ttdeci">BufferedInputStream in</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00009">Compressor.java:9</a></div></div>
-</div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a4bfed2a2fa86b7e66bfd9ca125ee7e8c_icgraph.png" border="0" usemap="#class_compressor_a4bfed2a2fa86b7e66bfd9ca125ee7e8c_icgraph" alt=""/></div>
-<map name="class_compressor_a4bfed2a2fa86b7e66bfd9ca125ee7e8c_icgraph" id="class_compressor_a4bfed2a2fa86b7e66bfd9ca125ee7e8c_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a9d30df78cd1136f2b6b75fb8f98fe14b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d30df78cd1136f2b6b75fb8f98fe14b">&#9670;&nbsp;</a></span>closeWriter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Compressor.closeWriter </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00157">157</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                                 {</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">out</a> != null) <a class="code" href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">out</a>.close();</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        } <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a84297928c15ed8493df06a4c705439f7"><div class="ttname"><a href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">Compressor.out</a></div><div class="ttdeci">BufferedOutputStream out</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00010">Compressor.java:10</a></div></div>
-</div><!-- fragment --><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a9d30df78cd1136f2b6b75fb8f98fe14b_icgraph.png" border="0" usemap="#class_compressor_a9d30df78cd1136f2b6b75fb8f98fe14b_icgraph" alt=""/></div>
-<map name="class_compressor_a9d30df78cd1136f2b6b75fb8f98fe14b_icgraph" id="class_compressor_a9d30df78cd1136f2b6b75fb8f98fe14b_icgraph">
-</map>
-</div>
-
-</div>
-</div>
 <a id="a63f63747a032ecdf027c98cc4afa8b90"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a63f63747a032ecdf027c98cc4afa8b90">&#9670;&nbsp;</a></span>compress()</h2>
 
@@ -267,11 +151,11 @@ Atributos privados</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_compressor_a63f63747a032ecdf027c98cc4afa8b90_icgraph.png" border="0" usemap="#class_compressor_a63f63747a032ecdf027c98cc4afa8b90_icgraph" alt=""/></div>
 <map name="class_compressor_a63f63747a032ecdf027c98cc4afa8b90_icgraph" id="class_compressor_a63f63747a032ecdf027c98cc4afa8b90_icgraph">
 </map>
@@ -279,8 +163,8 @@ Atributos privados</h2></td></tr>
 
 </div>
 </div>
-<a id="a0bf0f0aa1e2700643f5ae663afd1eacb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bf0f0aa1e2700643f5ae663afd1eacb">&#9670;&nbsp;</a></span>getCompressedName() <span class="overload">[1/2]</span></h2>
+<a id="a4e768b08b92fcf424dac410a974a8094"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e768b08b92fcf424dac410a974a8094">&#9670;&nbsp;</a></span>getExtension()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,214 +173,7 @@ Atributos privados</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String Compressor.getCompressedName </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>fileName</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00033">33</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                                                      {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">int</span> pos = fileName.lastIndexOf(<span class="charliteral">&#39;.&#39;</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        String compressedFileName;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> (pos != -1) compressedFileName = fileName.substring(0, pos);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="stringliteral">&quot;Nombre de fichero incorrecto&quot;</span>);</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">return</span> compressedFileName + getExtension();</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div></div><!-- fragment --><div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a0bf0f0aa1e2700643f5ae663afd1eacb_icgraph.png" border="0" usemap="#class_compressor_a0bf0f0aa1e2700643f5ae663afd1eacb_icgraph" alt=""/></div>
-<map name="class_compressor_a0bf0f0aa1e2700643f5ae663afd1eacb_icgraph" id="class_compressor_a0bf0f0aa1e2700643f5ae663afd1eacb_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a279d09ac721a4aeeb17980cd91076034"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a279d09ac721a4aeeb17980cd91076034">&#9670;&nbsp;</a></span>getCompressedName() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">String Compressor.getCompressedName </td>
-          <td>(</td>
-          <td class="paramtype">File&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00041">41</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00033">getCompressedName()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                                {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">getCompressedName</a>(file.getPath());</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a0bf0f0aa1e2700643f5ae663afd1eacb"><div class="ttname"><a href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">Compressor.getCompressedName</a></div><div class="ttdeci">String getCompressedName(String fileName)</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00033">Compressor.java:33</a></div></div>
-</div><!-- fragment --><div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas para esta función:</div>
-<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a279d09ac721a4aeeb17980cd91076034_cgraph.png" border="0" usemap="#class_compressor_a279d09ac721a4aeeb17980cd91076034_cgraph" alt=""/></div>
-<map name="class_compressor_a279d09ac721a4aeeb17980cd91076034_cgraph" id="class_compressor_a279d09ac721a4aeeb17980cd91076034_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a5684d1b8b78aa4b10d2484979e7b5278"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5684d1b8b78aa4b10d2484979e7b5278">&#9670;&nbsp;</a></span>getCompressedSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">long Compressor.getCompressedSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00078">78</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                    {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">outputFile</a>.length();</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a6e7cacfc9805efed29ee91339bb0fde1"><div class="ttname"><a href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">Compressor.outputFile</a></div><div class="ttdeci">File outputFile</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00008">Compressor.java:8</a></div></div>
-</div><!-- fragment --><div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a5684d1b8b78aa4b10d2484979e7b5278_icgraph.png" border="0" usemap="#class_compressor_a5684d1b8b78aa4b10d2484979e7b5278_icgraph" alt=""/></div>
-<map name="class_compressor_a5684d1b8b78aa4b10d2484979e7b5278_icgraph" id="class_compressor_a5684d1b8b78aa4b10d2484979e7b5278_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a6b30207ecc08993f863588719a681f9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b30207ecc08993f863588719a681f9b">&#9670;&nbsp;</a></span>getCompressionRatio()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double Compressor.getCompressionRatio </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00081">81</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00078">getCompressedSize()</a> y <a class="el" href="_compressor_8java_source.html#l00075">getOriginalSize()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                        {</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">return</span> (<span class="keywordtype">double</span>)<a class="code" href="class_compressor.html#a5684d1b8b78aa4b10d2484979e7b5278">getCompressedSize</a>()/(double)<a class="code" href="class_compressor.html#a1f2aac1c4046a45dc6293ceef13d81bd">getOriginalSize</a>();</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a5684d1b8b78aa4b10d2484979e7b5278"><div class="ttname"><a href="class_compressor.html#a5684d1b8b78aa4b10d2484979e7b5278">Compressor.getCompressedSize</a></div><div class="ttdeci">long getCompressedSize()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00078">Compressor.java:78</a></div></div>
-<div class="ttc" id="class_compressor_html_a1f2aac1c4046a45dc6293ceef13d81bd"><div class="ttname"><a href="class_compressor.html#a1f2aac1c4046a45dc6293ceef13d81bd">Compressor.getOriginalSize</a></div><div class="ttdeci">long getOriginalSize()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00075">Compressor.java:75</a></div></div>
-</div><!-- fragment --><div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas para esta función:</div>
-<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-8-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a6b30207ecc08993f863588719a681f9b_cgraph.png" border="0" usemap="#class_compressor_a6b30207ecc08993f863588719a681f9b_cgraph" alt=""/></div>
-<map name="class_compressor_a6b30207ecc08993f863588719a681f9b_cgraph" id="class_compressor_a6b30207ecc08993f863588719a681f9b_cgraph">
-</map>
-</div>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a6b30207ecc08993f863588719a681f9b_icgraph.png" border="0" usemap="#class_compressor_a6b30207ecc08993f863588719a681f9b_icgraph" alt=""/></div>
-<map name="class_compressor_a6b30207ecc08993f863588719a681f9b_icgraph" id="class_compressor_a6b30207ecc08993f863588719a681f9b_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a1f2aac1c4046a45dc6293ceef13d81bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f2aac1c4046a45dc6293ceef13d81bd">&#9670;&nbsp;</a></span>getOriginalSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">long Compressor.getOriginalSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00075">75</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                  {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a>.length();</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a517d1d5a352d2202a911ab8804bf32a3"><div class="ttname"><a href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">Compressor.inputFile</a></div><div class="ttdeci">File inputFile</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00007">Compressor.java:7</a></div></div>
-</div><!-- fragment --><div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-10-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a1f2aac1c4046a45dc6293ceef13d81bd_icgraph.png" border="0" usemap="#class_compressor_a1f2aac1c4046a45dc6293ceef13d81bd_icgraph" alt=""/></div>
-<map name="class_compressor_a1f2aac1c4046a45dc6293ceef13d81bd_icgraph" id="class_compressor_a1f2aac1c4046a45dc6293ceef13d81bd_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a183902861246f33ad9dc2f3f2710e21c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a183902861246f33ad9dc2f3f2710e21c">&#9670;&nbsp;</a></span>getTime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">long Compressor.getTime </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00072">72</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00011">time</a>.</p>
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                          {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">time</a>;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div><div class="ttc" id="class_compressor_html_ae08957f6c8fd8536fc174df99de0e625"><div class="ttname"><a href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">Compressor.time</a></div><div class="ttdeci">long time</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00011">Compressor.java:11</a></div></div>
-</div><!-- fragment --><div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-11-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a183902861246f33ad9dc2f3f2710e21c_icgraph.png" border="0" usemap="#class_compressor_a183902861246f33ad9dc2f3f2710e21c_icgraph" alt=""/></div>
-<map name="class_compressor_a183902861246f33ad9dc2f3f2710e21c_icgraph" id="class_compressor_a183902861246f33ad9dc2f3f2710e21c_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ae16be32e1f9932d51f132de65015280e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae16be32e1f9932d51f132de65015280e">&#9670;&nbsp;</a></span>readAllBytes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">byte [] Compressor.readAllBytes </td>
+          <td class="memname">abstract String Compressor.getExtension </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -504,346 +181,57 @@ Atributos privados</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">abstract</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00114">114</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                                    {</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        byte[] b = <span class="keyword">new</span> byte[0];</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            b = Files.readAllBytes(Paths.get(<a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a>.getPath()));</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        } <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        }</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">return</span> b;</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a517d1d5a352d2202a911ab8804bf32a3"><div class="ttname"><a href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">Compressor.inputFile</a></div><div class="ttdeci">File inputFile</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00007">Compressor.java:7</a></div></div>
-</div><!-- fragment --><div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-12-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_ae16be32e1f9932d51f132de65015280e_icgraph.png" border="0" usemap="#class_compressor_ae16be32e1f9932d51f132de65015280e_icgraph" alt=""/></div>
-<map name="class_compressor_ae16be32e1f9932d51f132de65015280e_icgraph" id="class_compressor_ae16be32e1f9932d51f132de65015280e_icgraph">
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_compressor_a4e768b08b92fcf424dac410a974a8094_icgraph.png" border="0" usemap="#class_compressor_a4e768b08b92fcf424dac410a974a8094_icgraph" alt=""/></div>
+<map name="class_compressor_a4e768b08b92fcf424dac410a974a8094_icgraph" id="class_compressor_a4e768b08b92fcf424dac410a974a8094_icgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="af90efb69949b51f4fa3be86cdd9e2a08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af90efb69949b51f4fa3be86cdd9e2a08">&#9670;&nbsp;</a></span>readByte()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Compressor.readByte </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00087">87</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                             {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">in</a>.read();</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            System.out.println(<span class="stringliteral">&quot;Error Lectura\n&quot;</span> + e.getMessage());</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> -1;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a7829666e03b6b7a21ee796993515dab2"><div class="ttname"><a href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">Compressor.in</a></div><div class="ttdeci">BufferedInputStream in</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00009">Compressor.java:9</a></div></div>
-</div><!-- fragment --><div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-13-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_af90efb69949b51f4fa3be86cdd9e2a08_icgraph.png" border="0" usemap="#class_compressor_af90efb69949b51f4fa3be86cdd9e2a08_icgraph" alt=""/></div>
-<map name="class_compressor_af90efb69949b51f4fa3be86cdd9e2a08_icgraph" id="class_compressor_af90efb69949b51f4fa3be86cdd9e2a08_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a7ed4be911f856209ac4491b767fe3c83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ed4be911f856209ac4491b767fe3c83">&#9670;&nbsp;</a></span>readFileString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">String Compressor.readFileString </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00123">123</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00087">readByte()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                                      {</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        StringBuffer outString = <span class="keyword">new</span> StringBuffer();</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            FileReader reader = <span class="keyword">new</span> FileReader(<a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a>.getPath());</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(reader);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordtype">int</span> <a class="code" href="class_compressor.html#af90efb69949b51f4fa3be86cdd9e2a08">readByte</a>;</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">while</span> ((readByte = bufferedReader.read()) != -1) {</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                outString.append((<span class="keywordtype">char</span>) readByte);</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            }</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            bufferedReader.close();</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">return</span> outString.toString();</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div><div class="ttc" id="class_compressor_html_af90efb69949b51f4fa3be86cdd9e2a08"><div class="ttname"><a href="class_compressor.html#af90efb69949b51f4fa3be86cdd9e2a08">Compressor.readByte</a></div><div class="ttdeci">int readByte()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00087">Compressor.java:87</a></div></div>
-<div class="ttc" id="class_compressor_html_a517d1d5a352d2202a911ab8804bf32a3"><div class="ttname"><a href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">Compressor.inputFile</a></div><div class="ttdeci">File inputFile</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00007">Compressor.java:7</a></div></div>
-</div><!-- fragment --><div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Gráfico de llamadas para esta función:</div>
-<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-14-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a7ed4be911f856209ac4491b767fe3c83_cgraph.png" border="0" usemap="#class_compressor_a7ed4be911f856209ac4491b767fe3c83_cgraph" alt=""/></div>
-<map name="class_compressor_a7ed4be911f856209ac4491b767fe3c83_cgraph" id="class_compressor_a7ed4be911f856209ac4491b767fe3c83_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a9ad244f12fa2a23c1a47029b2bb24d9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ad244f12fa2a23c1a47029b2bb24d9e">&#9670;&nbsp;</a></span>readNBytes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">byte [] Compressor.readNBytes </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00096">96</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                       {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            byte[] word = <span class="keyword">new</span> byte[n];</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">in</a>.read(word) &lt; 0) <span class="keywordflow">return</span> <span class="keyword">new</span> byte[0];</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">return</span> word;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            System.out.println(<span class="stringliteral">&quot;Error Lectura\n&quot;</span> + e.getMessage());</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> byte[0]; <span class="comment">// -1</span></div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a7829666e03b6b7a21ee796993515dab2"><div class="ttname"><a href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">Compressor.in</a></div><div class="ttdeci">BufferedInputStream in</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00009">Compressor.java:9</a></div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ab543704088332634aad6f16c81a589a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab543704088332634aad6f16c81a589a0">&#9670;&nbsp;</a></span>selectFiles()</h2>
+<a id="a0647b93df616cd67c37a16466a475b52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0647b93df616cd67c37a16466a475b52">&#9670;&nbsp;</a></span>setController()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Compressor.selectFiles </td>
+          <td class="memname">void Compressor.setController </td>
           <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>inputPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>outputPath</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00015">15</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00033">getCompressedName()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                                                                 {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a> = <span class="keyword">new</span> File(inputPath);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">if</span> (outputPath == null) <a class="code" href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">outputFile</a> = <span class="keyword">new</span> File(<a class="code" href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">getCompressedName</a>(<a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a>));</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keywordflow">else</span> <a class="code" href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">outputFile</a> = <span class="keyword">new</span> File(outputPath + <a class="code" href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">getCompressedName</a>(<a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a>.getName()));</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <a class="code" href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">in</a> = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<a class="code" href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">inputFile</a>));</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <a class="code" href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">out</a> = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(<a class="code" href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">outputFile</a>));</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        } <span class="keywordflow">catch</span> (FileNotFoundException e) {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            System.out.println(<span class="stringliteral">&quot;Fichero no encontrado!&quot;</span>);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a7829666e03b6b7a21ee796993515dab2"><div class="ttname"><a href="class_compressor.html#a7829666e03b6b7a21ee796993515dab2">Compressor.in</a></div><div class="ttdeci">BufferedInputStream in</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00009">Compressor.java:9</a></div></div>
-<div class="ttc" id="class_compressor_html_a0bf0f0aa1e2700643f5ae663afd1eacb"><div class="ttname"><a href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">Compressor.getCompressedName</a></div><div class="ttdeci">String getCompressedName(String fileName)</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00033">Compressor.java:33</a></div></div>
-<div class="ttc" id="class_compressor_html_a517d1d5a352d2202a911ab8804bf32a3"><div class="ttname"><a href="class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3">Compressor.inputFile</a></div><div class="ttdeci">File inputFile</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00007">Compressor.java:7</a></div></div>
-<div class="ttc" id="class_compressor_html_a84297928c15ed8493df06a4c705439f7"><div class="ttname"><a href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">Compressor.out</a></div><div class="ttdeci">BufferedOutputStream out</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00010">Compressor.java:10</a></div></div>
-<div class="ttc" id="class_compressor_html_a6e7cacfc9805efed29ee91339bb0fde1"><div class="ttname"><a href="class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1">Compressor.outputFile</a></div><div class="ttdeci">File outputFile</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00008">Compressor.java:8</a></div></div>
-</div><!-- fragment --><div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Gráfico de llamadas para esta función:</div>
-<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-15-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_ab543704088332634aad6f16c81a589a0_cgraph.png" border="0" usemap="#class_compressor_ab543704088332634aad6f16c81a589a0_cgraph" alt=""/></div>
-<map name="class_compressor_ab543704088332634aad6f16c81a589a0_cgraph" id="class_compressor_ab543704088332634aad6f16c81a589a0_cgraph">
-</map>
-</div>
-<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-16-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_ab543704088332634aad6f16c81a589a0_icgraph.png" border="0" usemap="#class_compressor_ab543704088332634aad6f16c81a589a0_icgraph" alt=""/></div>
-<map name="class_compressor_ab543704088332634aad6f16c81a589a0_icgraph" id="class_compressor_ab543704088332634aad6f16c81a589a0_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a7599d0290ea9f31c6241bee2eefa2edd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7599d0290ea9f31c6241bee2eefa2edd">&#9670;&nbsp;</a></span>startCompression() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Compressor.startCompression </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>inputPath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>outputPath</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00047">47</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00107">closeReader()</a>, <a class="el" href="_compressor_8java_source.html#l00157">closeWriter()</a>, <a class="el" href="class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90">compress()</a>, <a class="el" href="_compressor_8java_source.html#l00081">getCompressionRatio()</a>, <a class="el" href="_compressor_8java_source.html#l00072">getTime()</a>, <a class="el" href="_compressor_8java_source.html#l00015">selectFiles()</a> y <a class="el" href="_compressor_8java_source.html#l00011">time</a>.</p>
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                                                      {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="class_compressor.html#ab543704088332634aad6f16c81a589a0">selectFiles</a>(inputPath, outputPath);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        System.out.println(<span class="stringliteral">&quot;Compression IN PROGRESS&quot;</span>);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">time</a> = System.currentTimeMillis();</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90">compress</a>();</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">time</a> = System.currentTimeMillis() - <a class="code" href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">time</a>;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="class_compressor.html#a4bfed2a2fa86b7e66bfd9ca125ee7e8c">closeReader</a>();</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="class_compressor.html#a9d30df78cd1136f2b6b75fb8f98fe14b">closeWriter</a>();</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        System.out.println(<span class="stringliteral">&quot;Compression DONE&quot;</span>);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        System.out.println(<span class="stringliteral">&quot;Time: &quot;</span> + this.<a class="code" href="class_compressor.html#a183902861246f33ad9dc2f3f2710e21c">getTime</a>() + <span class="stringliteral">&quot; ms&quot;</span>);</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        System.out.printf(<span class="stringliteral">&quot;Compression ratio: %.2f\n&quot;</span>, this.<a class="code" href="class_compressor.html#a6b30207ecc08993f863588719a681f9b">getCompressionRatio</a>());</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a4bfed2a2fa86b7e66bfd9ca125ee7e8c"><div class="ttname"><a href="class_compressor.html#a4bfed2a2fa86b7e66bfd9ca125ee7e8c">Compressor.closeReader</a></div><div class="ttdeci">void closeReader()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00107">Compressor.java:107</a></div></div>
-<div class="ttc" id="class_compressor_html_a183902861246f33ad9dc2f3f2710e21c"><div class="ttname"><a href="class_compressor.html#a183902861246f33ad9dc2f3f2710e21c">Compressor.getTime</a></div><div class="ttdeci">long getTime()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00072">Compressor.java:72</a></div></div>
-<div class="ttc" id="class_compressor_html_a9d30df78cd1136f2b6b75fb8f98fe14b"><div class="ttname"><a href="class_compressor.html#a9d30df78cd1136f2b6b75fb8f98fe14b">Compressor.closeWriter</a></div><div class="ttdeci">void closeWriter()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00157">Compressor.java:157</a></div></div>
-<div class="ttc" id="class_compressor_html_ab543704088332634aad6f16c81a589a0"><div class="ttname"><a href="class_compressor.html#ab543704088332634aad6f16c81a589a0">Compressor.selectFiles</a></div><div class="ttdeci">void selectFiles(String inputPath, String outputPath)</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00015">Compressor.java:15</a></div></div>
-<div class="ttc" id="class_compressor_html_ae08957f6c8fd8536fc174df99de0e625"><div class="ttname"><a href="class_compressor.html#ae08957f6c8fd8536fc174df99de0e625">Compressor.time</a></div><div class="ttdeci">long time</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00011">Compressor.java:11</a></div></div>
-<div class="ttc" id="class_compressor_html_a6b30207ecc08993f863588719a681f9b"><div class="ttname"><a href="class_compressor.html#a6b30207ecc08993f863588719a681f9b">Compressor.getCompressionRatio</a></div><div class="ttdeci">double getCompressionRatio()</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00081">Compressor.java:81</a></div></div>
-<div class="ttc" id="class_compressor_html_a63f63747a032ecdf027c98cc4afa8b90"><div class="ttname"><a href="class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90">Compressor.compress</a></div><div class="ttdeci">abstract void compress()</div></div>
-</div><!-- fragment --><div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Gráfico de llamadas para esta función:</div>
-<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-17-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_cgraph.png" border="0" usemap="#class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_cgraph" alt=""/></div>
-<map name="class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_cgraph" id="class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_cgraph">
-</map>
-</div>
-<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-18-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_icgraph.png" border="0" usemap="#class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_icgraph" alt=""/></div>
-<map name="class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_icgraph" id="class_compressor_a7599d0290ea9f31c6241bee2eefa2edd_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ab908f4b96276f6e2c3d52b75d1a57926"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab908f4b96276f6e2c3d52b75d1a57926">&#9670;&nbsp;</a></span>startCompression() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Compressor.startCompression </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>inputPath</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_compressor___controller.html">Compressor_Controller</a>&#160;</td>
+          <td class="paramname"><em>controller</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00064">64</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00007">7</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
 
-<p class="reference">Hace referencia a <a class="el" href="class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90">compress()</a>, <a class="el" href="_compressor_8java_source.html#l00033">getCompressedName()</a> y <a class="el" href="_compressor_8java_source.html#l00047">startCompression()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                                   {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <a class="code" href="class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd">startCompression</a>(inputPath, <a class="code" href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">getCompressedName</a>(inputPath));</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a7599d0290ea9f31c6241bee2eefa2edd"><div class="ttname"><a href="class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd">Compressor.startCompression</a></div><div class="ttdeci">void startCompression(String inputPath, String outputPath)</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00047">Compressor.java:47</a></div></div>
-<div class="ttc" id="class_compressor_html_a0bf0f0aa1e2700643f5ae663afd1eacb"><div class="ttname"><a href="class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb">Compressor.getCompressedName</a></div><div class="ttdeci">String getCompressedName(String fileName)</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00033">Compressor.java:33</a></div></div>
-</div><!-- fragment --><div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Gráfico de llamadas para esta función:</div>
-<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
+<p class="reference">Hace referencia a <a class="el" href="_compressor_8java_source.html#l00011">controller</a>.</p>
+<div class="fragment"><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                                {</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        this.controller = <a class="code" href="class_compressor.html#ae5c5b1278265c1506681c60af40e2632">controller</a>;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    }</div><div class="ttc" id="class_compressor_html_ae5c5b1278265c1506681c60af40e2632"><div class="ttname"><a href="class_compressor.html#ae5c5b1278265c1506681c60af40e2632">Compressor.controller</a></div><div class="ttdeci">Compressor_Controller controller</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00011">Compressor.java:11</a></div></div>
+</div><!-- fragment --><div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-19-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_ab908f4b96276f6e2c3d52b75d1a57926_cgraph.png" border="0" usemap="#class_compressor_ab908f4b96276f6e2c3d52b75d1a57926_cgraph" alt=""/></div>
-<map name="class_compressor_ab908f4b96276f6e2c3d52b75d1a57926_cgraph" id="class_compressor_ab908f4b96276f6e2c3d52b75d1a57926_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="aa1aad5c65cb968fc602fa3542217b36c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1aad5c65cb968fc602fa3542217b36c">&#9670;&nbsp;</a></span>writeByte()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Compressor.writeByte </td>
-          <td>(</td>
-          <td class="paramtype">byte&#160;</td>
-          <td class="paramname"><em>B</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00143">143</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                                     {</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <a class="code" href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">out</a>.write(B);</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        } <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        }</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a84297928c15ed8493df06a4c705439f7"><div class="ttname"><a href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">Compressor.out</a></div><div class="ttdeci">BufferedOutputStream out</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00010">Compressor.java:10</a></div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a5977ed901c196653ef36cf8c14a71bee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5977ed901c196653ef36cf8c14a71bee">&#9670;&nbsp;</a></span>writeBytes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Compressor.writeBytes </td>
-          <td>(</td>
-          <td class="paramtype">byte []&#160;</td>
-          <td class="paramname"><em>word</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00150">150</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-<div class="fragment"><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                                           {</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <a class="code" href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">out</a>.write(word);</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        } <span class="keywordflow">catch</span> (IOException e) {</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            e.printStackTrace();</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        }</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div><div class="ttc" id="class_compressor_html_a84297928c15ed8493df06a4c705439f7"><div class="ttname"><a href="class_compressor.html#a84297928c15ed8493df06a4c705439f7">Compressor.out</a></div><div class="ttdeci">BufferedOutputStream out</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8java_source.html#l00010">Compressor.java:10</a></div></div>
-</div><!-- fragment --><div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-20-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_compressor_a5977ed901c196653ef36cf8c14a71bee_icgraph.png" border="0" usemap="#class_compressor_a5977ed901c196653ef36cf8c14a71bee_icgraph" alt=""/></div>
-<map name="class_compressor_a5977ed901c196653ef36cf8c14a71bee_icgraph" id="class_compressor_a5977ed901c196653ef36cf8c14a71bee_icgraph">
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_compressor_a0647b93df616cd67c37a16466a475b52_icgraph.png" border="0" usemap="#class_compressor_a0647b93df616cd67c37a16466a475b52_icgraph" alt=""/></div>
+<map name="class_compressor_a0647b93df616cd67c37a16466a475b52_icgraph" id="class_compressor_a0647b93df616cd67c37a16466a475b52_icgraph">
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Documentación de los datos miembro</h2>
-<a id="a7829666e03b6b7a21ee796993515dab2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7829666e03b6b7a21ee796993515dab2">&#9670;&nbsp;</a></span>in</h2>
+<a id="ae5c5b1278265c1506681c60af40e2632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5c5b1278265c1506681c60af40e2632">&#9670;&nbsp;</a></span>controller</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -852,108 +240,12 @@ Atributos privados</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">BufferedInputStream Compressor.in</td>
+          <td class="memname"><a class="el" href="class_compressor___controller.html">Compressor_Controller</a> Compressor.controller</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00009">9</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-</div>
-</div>
-<a id="a517d1d5a352d2202a911ab8804bf32a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a517d1d5a352d2202a911ab8804bf32a3">&#9670;&nbsp;</a></span>inputFile</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">File Compressor.inputFile</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00007">7</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-</div>
-</div>
-<a id="a84297928c15ed8493df06a4c705439f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84297928c15ed8493df06a4c705439f7">&#9670;&nbsp;</a></span>out</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">BufferedOutputStream Compressor.out</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00010">10</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-</div>
-</div>
-<a id="a6e7cacfc9805efed29ee91339bb0fde1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e7cacfc9805efed29ee91339bb0fde1">&#9670;&nbsp;</a></span>outputFile</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">File Compressor.outputFile</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definición en la línea <a class="el" href="_compressor_8java_source.html#l00008">8</a> del archivo <a class="el" href="_compressor_8java_source.html">Compressor.java</a>.</p>
-
-</div>
-</div>
-<a id="ae08957f6c8fd8536fc174df99de0e625"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae08957f6c8fd8536fc174df99de0e625">&#9670;&nbsp;</a></span>time</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">long Compressor.time</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

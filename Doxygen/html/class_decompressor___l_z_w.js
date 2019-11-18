@@ -2,6 +2,7 @@ var class_decompressor___l_z_w =
 [
     [ "Decompressor_LZW", "class_decompressor___l_z_w.html#aee1a95d0fd732c09c1d4534f3171d680", null ],
     [ "decompress", "class_decompressor___l_z_w.html#a73d2c41dd51fb2d705542c0130ea3930", null ],
+    [ "getExtension", "class_decompressor___l_z_w.html#a3f3582a16a193e25e83f93ee079c883a", null ],
     [ "getNextIndex", "class_decompressor___l_z_w.html#a97848b48b7f761273232e7b49ec54cf4", null ],
     [ "getPathName", "class_decompressor___l_z_w.html#a88bd3fe9173ec15a6efa9a08acab37b0", null ],
     [ "inicializar", "class_decompressor___l_z_w.html#a2fc58527c75580c531f848ce1d31f3e3", null ],

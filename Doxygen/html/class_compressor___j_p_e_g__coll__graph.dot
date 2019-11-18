@@ -2,7 +2,10 @@ digraph "Compressor_JPEG"
 {
   edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
   node [fontname="FreeSans",fontsize="10",shape=record];
-  Node2 [label="{Compressor_JPEG\n||+ getExtension()\l+ compress()\l- RGBtoYCbCr()\l- readHeaders()\l- printPixels()\l- getDiff()\l- stringBinToByte()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 [label="{Compressor_JPEG\n||+ compress()\l# getExtension()\l- RGBtoYCbCr()\l- readHeaders()\l- printPixels()\l- getDiff()\l- stringBinToByte()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans"];
-  Node3 [label="{Compressor\n|- inputFile\l- outputFile\l- in\l- out\l- time\l|+ selectFiles()\l+ startCompression()\l+ startCompression()\l+ getTime()\l+ getOriginalSize()\l+ getCompressedSize()\l+ getCompressionRatio()\l~ getExtension()\l# compress()\l# readByte()\l# readNBytes()\l# closeReader()\l# readAllBytes()\l# readFileString()\l# writeByte()\l# writeBytes()\l# closeWriter()\l- getCompressedName()\l- getCompressedName()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html"];
+  Node3 [label="{Compressor\n||+ setController()\l# getExtension()\l# compress()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html"];
+  Node4 -> Node3 [color="grey25",fontsize="10",style="solid",label=" #controller" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node4 [label="{Compressor_Controller\n|- inputFile\l- outputFile\l- in\l- out\l- time\l|+ Compressor_Controller()\l+ selectFiles()\l+ startCompression()\l+ startCompression()\l+ getTime()\l+ getOriginalSize()\l+ getCompressedSize()\l+ getCompressionRatio()\l# readByte()\l# readNBytes()\l# closeReader()\l# readAllBytes()\l# readFileString()\l# writeByte()\l# writeBytes()\l# closeWriter()\l- getCompressedName()\l- getCompressedName()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html"];
+  Node3 -> Node4 [color="grey25",fontsize="10",style="solid",label=" -compressor" ,arrowhead="odiamond",fontname="FreeSans"];
 }

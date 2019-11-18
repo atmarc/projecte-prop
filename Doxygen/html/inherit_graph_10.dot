@@ -3,5 +3,5 @@ digraph "Representación gráfica de la clase"
   edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
   node [fontname="FreeSans",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="Triplet\< E, T, A \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html",tooltip="Clase auxiliar para la implementacion del algortimo JPEG. "];
+  Node0 [label="Tree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html",tooltip="Arbol de busqueda utilizado para agilizar la compresion en los algoritmos LZ-78 y LZ-W..."];
 }

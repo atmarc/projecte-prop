@@ -9,6 +9,9 @@ var files =
     [ "Compressor.java", "_compressor_8java.html", [
       [ "Compressor", "class_compressor.html", "class_compressor" ]
     ] ],
+    [ "Compressor_Controller.java", "_compressor___controller_8java.html", [
+      [ "Compressor_Controller", "class_compressor___controller.html", "class_compressor___controller" ]
+    ] ],
     [ "Compressor_JPEG.java", "_compressor___j_p_e_g_8java.html", [
       [ "Compressor_JPEG", "class_compressor___j_p_e_g.html", "class_compressor___j_p_e_g" ]
     ] ],
@@ -24,6 +27,9 @@ var files =
     ] ],
     [ "Decompressor.java", "_decompressor_8java.html", [
       [ "Decompressor", "class_decompressor.html", "class_decompressor" ]
+    ] ],
+    [ "Decompressor_Controller.java", "_decompressor___controller_8java.html", [
+      [ "Decompressor_Controller", "class_decompressor___controller.html", "class_decompressor___controller" ]
     ] ],
     [ "Decompressor_JPEG.java", "_decompressor___j_p_e_g_8java.html", [
       [ "Decompressor_JPEG", "class_decompressor___j_p_e_g.html", "class_decompressor___j_p_e_g" ]

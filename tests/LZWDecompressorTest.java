@@ -23,8 +23,8 @@ public class LZWDecompressorTest {
 
 	@Test
 	public void testDecompress() {
-		Decompressor decompressor = new Decompressor_LZW();
-		decompressor.startDecompression("testing_files/quicksort.zero");
+		Decompressor_Controller dc = new Decompressor_Controller("lzw");
+		dc.startDecompression("testing_files/quicksort.zero");
 	}
 
 	@Test

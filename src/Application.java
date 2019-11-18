@@ -74,7 +74,7 @@ public class Application {
 
         if (mode == 0) { // Comprimir
 
-            Compressor compressor = null;
+            Compressor_Controller compressor;
 
             switch (extension) {
                 case "txt":
@@ -94,13 +94,12 @@ public class Application {
                 case "ppm":
                     System.out.println(
                             "Que algoritmo de compresion desea utilizar?\n" +
-                                    "\t [0] - LZ-78\n" +
-                                    "\t [1] - JPEG\n");
+                                    "\t [0] - JPEG");
 
                     do {
-                        alg = in.nextInt() * 3;
-                        valid = (alg == 0 || alg == 3);
-                        if (!valid) System.out.println("Numero no valido. Debe introducir 0 o 1.");
+                        alg = in.nextInt() + 3;
+                        valid = alg == 3;
+                        if (!valid) System.out.println("Numero no valido. Debe introducir 0.");
                     }
                     while(!valid);
                     break;
@@ -108,48 +107,13 @@ public class Application {
                 default: throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
             }
 
-            switch (alg) {
-                case 0:
-                    compressor = new Compressor_LZ78();
-                    break;
-                case 1:
-                    compressor = new Compressor_LZSS();
-                    break;
-                case 2:
-                    compressor = new Compressor_LZW();
-                    break;
-                case 3:
-                    compressor = new Compressor_JPEG();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch alg)");
-            }
+            compressor = new Compressor_Controller(alg);
             compressor.startCompression(inputPath, outputPath);
 
         }
         else { // Descomprimir
-
-            Decompressor decompressor = null;
-
-            switch (extension){
-                case "lz78":
-                    decompressor = new Decompressor_LZ78();
-                    break;
-                case "lzss":
-                    decompressor = new Decompressor_LZSS();
-                    break;
-                case "lzw":
-                    decompressor = new Decompressor_LZW();
-                    break;
-                case "jpeg":
-                    decompressor = new Decompressor_JPEG();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
-            }
-
+            Decompressor_Controller decompressor = new Decompressor_Controller(extension);
             decompressor.startDecompression(inputPath, outputPath);
-
         }
     }
 }

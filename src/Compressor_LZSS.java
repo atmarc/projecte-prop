@@ -13,7 +13,7 @@ public class Compressor_LZSS extends Compressor {
      * Retorna la extension de los ficheros comprimidos con esta clase
      * @return la extension de los ficheros comprimidos
      */
-    public String getExtension() {
+    protected String getExtension() {
         return ".lzss";
     }
 
@@ -21,7 +21,7 @@ public class Compressor_LZSS extends Compressor {
      * Comprime un fichero mediante el algoritmo LZSS
      */
     public void compress () {
-        byte[] itemb = readAllBytes();
+        byte[] itemb = controller.readAllBytes();
         HashMap<Integer, Byte> item = byteArrayToHashMap(itemb);
         int itemSize = item.size();
 
@@ -151,7 +151,7 @@ public class Compressor_LZSS extends Compressor {
             h++;
         }
 
-        writeBytes(arrFinal);
+        controller.writeBytes(arrFinal);
 
     }
 

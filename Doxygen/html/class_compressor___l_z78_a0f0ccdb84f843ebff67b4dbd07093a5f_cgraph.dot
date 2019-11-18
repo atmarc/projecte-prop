@@ -3,9 +3,9 @@ digraph "Compressor_LZ78.write_compressed_file"
   edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
   node [fontname="FreeSans",fontsize="10",shape=record];
   rankdir="LR";
-  Node27 [label="Compressor_LZ78.write\l_compressed_file",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node27 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node28 [label="Compressor.closeWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a9d30df78cd1136f2b6b75fb8f98fe14b"];
-  Node27 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node29 [label="Compressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a5977ed901c196653ef36cf8c14a71bee"];
+  Node28 [label="Compressor_LZ78.write\l_compressed_file",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node28 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node29 [label="Compressor_Controller.close\lWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a48fd7050923dcf81c3e7f67c7fb7cac6"];
+  Node28 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node30 [label="Compressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a57f5eb8e74b80f2fb85a058e6e6f10f9"];
 }

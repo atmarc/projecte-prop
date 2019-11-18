@@ -4,6 +4,7 @@ var class_compressor___l_z_w =
     [ "compress", "class_compressor___l_z_w.html#a2c94f2ac7410a64bdca80476e8edc9f0", null ],
     [ "concatenate", "class_compressor___l_z_w.html#a5ef6be9f65e5168cb6f68a79a9c043ad", null ],
     [ "getCompressedName", "class_compressor___l_z_w.html#a01cad98272c88a9f8dc47d46d6b69c19", null ],
+    [ "getExtension", "class_compressor___l_z_w.html#a533238fa49f8e1809be14121b0b0b43f", null ],
     [ "inicializar", "class_compressor___l_z_w.html#a038913598990af083b30b06c4ca1dbd3", null ],
     [ "toByteArray", "class_compressor___l_z_w.html#a6ad011df1ba0554a6b1d27d5ee0efe86", null ],
     [ "toByteArray", "class_compressor___l_z_w.html#a7f74e24fee12ac56e3d5f0bb8195b567", null ],

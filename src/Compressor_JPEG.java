@@ -14,13 +14,13 @@ public class Compressor_JPEG extends Compressor {
     /**
      * Función abstracta de la clase Compresor que devuelve la extension del archivo.
      */
-    public String getExtension() {
+    protected String getExtension() {
         return ".jpeg";
     }
 
     public void compress() {
 
-        byte s [] = readAllBytes();
+        byte[] s = controller.readAllBytes();
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
 
@@ -185,7 +185,7 @@ public class Compressor_JPEG extends Compressor {
             bytes[i] = arrayBytes.get(i);
         }
 
-        writeBytes(bytes);
+        controller.writeBytes(bytes);
     }
 
     /**

@@ -17,7 +17,7 @@ digraph "Compressor_LZSS.compress"
   Node17 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node23 [label="Compressor_LZSS.min",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_s_s.html#a57a006c5c2523b62cbf94bae2a367e4f",tooltip="Retorna el mínimo entre dos ints. "];
   Node17 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node24 [label="Compressor.readAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#ae16be32e1f9932d51f132de65015280e"];
+  Node24 [label="Compressor_Controller.read\lAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a8338478b1e9befa9ad0e166fa814e701"];
   Node17 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node25 [label="Compressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a5977ed901c196653ef36cf8c14a71bee"];
+  Node25 [label="Compressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a57f5eb8e74b80f2fb85a058e6e6f10f9"];
 }

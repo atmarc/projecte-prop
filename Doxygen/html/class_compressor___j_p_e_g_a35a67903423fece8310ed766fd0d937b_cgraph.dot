@@ -26,7 +26,7 @@ digraph "Compressor_JPEG.compress"
   Node0 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node10 [label="Triplet.getThird",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#a49f3586756cf80b28f6b821aaa98a5a0"];
   Node0 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node11 [label="Compressor.readAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#ae16be32e1f9932d51f132de65015280e"];
+  Node11 [label="Compressor_Controller.read\lAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a8338478b1e9befa9ad0e166fa814e701"];
   Node0 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node12 [label="Compressor_JPEG.readHeaders",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#aa8286bec1c8e4169307eaefe305d9063",tooltip="Funcion que lee los headers del ppm y ignora los comentarios. "];
   Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
@@ -42,7 +42,7 @@ digraph "Compressor_JPEG.compress"
   Node0 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node18 [label="Compressor_JPEG.stringBin\lToByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a5b8ab151b531202c83939addf4814a2b",tooltip="Función que por cada 8 enteros que representan 8 bits, crea un byte y lo añade a arrayBytes. "];
   Node0 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node19 [label="Compressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a5977ed901c196653ef36cf8c14a71bee"];
+  Node19 [label="Compressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a57f5eb8e74b80f2fb85a058e6e6f10f9"];
   Node0 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node20 [label="Block.zigzag",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#ab5d1406e2c70d2b57ad929c417ec87b2",tooltip="Guarda en el array file a partir del índice los valores de DCTvalors recorridos en zigzag..."];
 }

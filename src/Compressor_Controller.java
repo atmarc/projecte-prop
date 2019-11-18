@@ -1,0 +1,174 @@
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class Compressor_Controller {
+
+    private Compressor compressor;
+    public Compressor_Controller(int alg) {
+        switch (alg) {
+            case 0:
+                compressor = new Compressor_LZ78();
+                break;
+            case 1:
+                compressor = new Compressor_LZSS();
+                break;
+            case 2:
+                compressor = new Compressor_LZW();
+                break;
+            case 3:
+                compressor = new Compressor_JPEG();
+                break;
+            default:
+                throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch alg)");
+        }
+
+        compressor.setController(this);
+    }
+
+    private File inputFile;
+    private File outputFile;
+    private BufferedInputStream in;
+    private BufferedOutputStream out;
+    private long time;
+
+    // Auxiliar PreCompression Methods
+    public void selectFiles(String inputPath, String outputPath) {
+        try {
+            inputFile = new File(inputPath);
+
+            if (outputPath == null) outputFile = new File(getCompressedName(inputFile));
+            else outputFile = new File(outputPath + getCompressedName(inputFile.getName()));
+
+            in = new BufferedInputStream(new FileInputStream(inputFile));
+            out = new BufferedOutputStream(new FileOutputStream(outputFile));
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Fichero no encontrado!");
+            e.printStackTrace();
+        }
+    }
+    private String getCompressedName(String fileName) {
+        int pos = fileName.lastIndexOf('.');
+        String compressedFileName;
+        if (pos != -1) compressedFileName = fileName.substring(0, pos);
+        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
+        return compressedFileName + compressor.getExtension();
+    }
+    private String getCompressedName(File file) {
+        return getCompressedName(file.getPath());
+    }
+
+    // Compression
+    public void startCompression(String inputPath, String outputPath) {
+
+        selectFiles(inputPath, outputPath);
+        System.out.println("Compression IN PROGRESS");
+
+        time = System.currentTimeMillis();
+        compressor.compress();
+        time = System.currentTimeMillis() - time;
+
+        closeReader();
+        closeWriter();
+
+        System.out.println("Compression DONE");
+        System.out.println("Time: " + this.getTime() + " ms");
+        System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
+    }
+    public void startCompression(String inputPath) {
+        startCompression(inputPath, getCompressedName(inputPath));
+    }
+
+    // Post-Compression Consultants
+    public long getTime() {
+        return time;
+    }
+    public long getOriginalSize() {
+        return inputFile.length();
+    }
+    public long getCompressedSize() {
+        return outputFile.length();
+    }
+    public double getCompressionRatio() {
+        return (double)getCompressedSize()/(double)getOriginalSize();
+    }
+
+    // Lectura
+    protected int readByte() {
+        try {
+            return in.read();
+        }
+        catch (IOException e) {
+            System.out.println("Error Lectura\n" + e.getMessage());
+            return -1;
+        }
+    }
+    protected byte[] readNBytes(int n) {
+        try {
+            byte[] word = new byte[n];
+            if (in.read(word) < 0) return new byte[0];
+            return word;
+        }
+        catch (IOException e) {
+            System.out.println("Error Lectura\n" + e.getMessage());
+            return new byte[0]; // -1
+        }
+    }
+    protected void closeReader() {
+        try {
+            if (in != null) in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    protected byte[] readAllBytes() {
+        byte[] b = new byte[0];
+        try {
+            b = Files.readAllBytes(Paths.get(inputFile.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
+    protected String readFileString() {
+        StringBuffer outString = new StringBuffer();
+        try {
+            FileReader reader = new FileReader(inputFile.getPath());
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            int readByte;
+            while ((readByte = bufferedReader.read()) != -1) {
+                outString.append((char) readByte);
+            }
+            bufferedReader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outString.toString();
+    }
+
+    // Escritura
+    protected void writeByte(byte B) {
+        try {
+            out.write(B);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    protected void writeBytes(byte[] word) {
+        try {
+            out.write(word);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    protected void closeWriter() {
+        try {
+            if (out != null) out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

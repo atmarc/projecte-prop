@@ -11,15 +11,17 @@ var hierarchy =
       [ "Compressor_LZSS", "class_compressor___l_z_s_s.html", null ],
       [ "Compressor_LZW", "class_compressor___l_z_w.html", null ]
     ] ],
+    [ "Compressor_Controller", "class_compressor___controller.html", null ],
     [ "Decompressor", "class_decompressor.html", [
       [ "Decompressor_JPEG", "class_decompressor___j_p_e_g.html", null ],
       [ "Decompressor_LZ78", "class_decompressor___l_z78.html", null ],
       [ "Decompressor_LZSS", "class_decompressor___l_z_s_s.html", null ],
       [ "Decompressor_LZW", "class_decompressor___l_z_w.html", null ]
     ] ],
+    [ "Decompressor_Controller", "class_decompressor___controller.html", null ],
     [ "Huffman", "class_huffman.html", null ],
-    [ "Tree.Node", "class_tree_1_1_node.html", null ],
     [ "Huffman.Node", "class_huffman_1_1_node.html", null ],
+    [ "Tree.Node", "class_tree_1_1_node.html", null ],
     [ "Compressor_LZ78.Pair", "class_compressor___l_z78_1_1_pair.html", null ],
     [ "Tree", "class_tree.html", null ],
     [ "Triplet< E, T, A >", "class_triplet.html", null ]

@@ -9,7 +9,7 @@ digraph "Decompressor_LZW.decompress"
   Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
   Node5 [label="Decompressor_LZW.inicializar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___l_z_w.html#a2fc58527c75580c531f848ce1d31f3e3",tooltip="Inicializa el diccionario para la descompresion. "];
   Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node6 [label="Decompressor.readNBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#ac1628f51a87bc0314517b24706ad125d"];
+  Node6 [label="Decompressor_Controller.read\lNBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#ad364218ae641db82740df0d84e004704"];
   Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node7 [label="Decompressor.writeByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#ab5352b7b0775b031abaae29680769c8b"];
+  Node7 [label="Decompressor_Controller.writeByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#ad2c200fa375b3b0324029eae2eacc8de"];
 }

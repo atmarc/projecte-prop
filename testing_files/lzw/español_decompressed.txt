@@ -1,5 +1,0 @@
-Esta es una prueba sobre la compresión de un archivo de texto japonés. Y ñaña.
-
-Hola. Y ñaña. abab𐍈€
-
-Aquesta és una prova de la compressió d'un arxiu en català. Y una ç.

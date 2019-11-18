@@ -21,3 +21,11 @@ los codigos. Ademas se testea si los algoritmos con funcionan con ficheros grand
 Entrada: big.txt
 Sortida: big_decompressed.txt
 Resultat de la prova: ok
+
+compress2
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar si los algoritmos de compression y decompresion funcionan
+no solo con letras del alfabeto ingles.
+Entrada: emoji.txt japones.txt
+Sortida: emoji_decompressed.txt japones_decompressed.txt
+Resultat de la prova: ok

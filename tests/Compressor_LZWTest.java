@@ -1,4 +1,6 @@
-import dominio.*;
+import dominio.Compressor_Controller;
+import dominio.Compressor_LZW;
+import dominio.Decompressor_Controller;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;

@@ -1,3 +1,4 @@
+package dominio;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -14,7 +15,7 @@ public class Compressor_JPEG extends Compressor {
     /**
      * Función abstracta de la clase Compresor que devuelve la extension del archivo.
      */
-    protected String getExtension() {
+    public String getExtension() {
         return ".jpeg";
     }
 
@@ -247,38 +248,6 @@ public class Compressor_JPEG extends Compressor {
         }
         retorn.setThird(parseFloat(linia));
         return retorn;
-    }
-
-    /**
-     *  Función para imprimir una matriz de tripletas, usada para debugar.
-     */
-    private static void printPixels(Triplet<Integer, Integer, Integer> Pixels [][]) {
-        for (int i = 0; i < Pixels.length; ++i) {
-            for (int j = 0; j < Pixels[0].length; ++j) {
-                Pixels[i][j].print();
-            }
-            System.out.println('\n');
-        }
-    }
-
-    /**
-     * Función que devuelve la diferència entre el valor AC del bloque del arrayBlock[y][x] y el anterior.
-     * @param arrayBlock Array de bloques.
-     * @param x Posición x del bloque del cual queremos la diferencia.
-     * @param y Posición y del bloque del cual queremos la diferencia.
-     * @return Valor de diferència de sus componentes AC.
-     */
-    private static int getDiff (Block [][] arrayBlock, int x, int y) {
-        int diff;
-        if (x > 0) {
-            diff = arrayBlock[y][x - 1].getDCTValue(0,0) - arrayBlock[y][x].getDCTValue(0,0);
-        } else if (y > 0) {
-            diff = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) - arrayBlock[y][x].getDCTValue(0,0);
-        }
-        else {
-            diff = arrayBlock[y][x].getDCTValue(0,0);
-        }
-        return diff;
     }
 
     /**

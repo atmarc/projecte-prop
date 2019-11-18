@@ -1,4 +1,4 @@
-import dominio.Compressor_Controller;
+import dominio.*;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Compressor_JPEGTest {
+public class Compressor_LZSSTest {
 
     private static boolean diffFiles(String name1, String name2) throws IOException {
         File f1 = new File(name1);
@@ -29,23 +29,26 @@ public class Compressor_JPEGTest {
         mainTests();
     }
 
+
     @Test
     public static void mainTests() throws IOException {
 
-        Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
+        Compressor_Controller compressor_lzss = new Compressor_Controller(1);
+        Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
 
         String[] files = {
-                "../testing_files/ppm_images/boxes_1",
-                "../testing_files/ppm_images/image",
-                "../testing_files/ppm_images/house_1",
-                "../testing_files/ppm_images/west_1",
-                "../testing_files/ppm_images/france-wallpaper"
+                "./testing_files/lzss/sample1",
+                "./testing_files/lzss/500kb",
+                "./testing_files/lzss/200kb",
+                "./testing_files/lzss/sample2",
+                "./testing_files/lzss/sample3"
         };
 
         for (int i = 0; i < files.length; ++i) {
-            compressor_jpeg.startCompression(files[i] + ".ppm", null);
+            compressor_lzss.startCompression(files[i] + ".txt", null);
             System.out.println();
-            System.out.println("Verdict: " + (diffFiles(files[i]+"_test.jpeg", files[i] + ".jpeg")
+            decompressor_lzss.startDecompression(files[i] + ".lzss", null);
+            System.out.println("Verdict: " + (diffFiles(files[i]+".txt", files[i] + "_decompressed.txt")
                     ? "\u001B[32m" + "OK! Files are equal." + "\u001B[0m"
                     : "\u001B[31m" + "Wrong!!!" + "\u001B[0m"));
             System.out.println();

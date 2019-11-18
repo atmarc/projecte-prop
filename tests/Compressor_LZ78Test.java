@@ -1,3 +1,4 @@
+import dominio.*;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -22,8 +23,7 @@ public class Compressor_LZ78Test {
     @Before
     public void setUp() throws Exception {
 
-        compressor = new Compressor_LZ78();
-        compressor.next_index = 0;
+        compressor = new Compressor_LZ78(0);
         tree = new Tree(1);
     }
 
@@ -62,7 +62,7 @@ public class Compressor_LZ78Test {
         }
 
         boolean equal = true;
-        ArrayList<Compressor_LZ78.Pair> comp_file = compressor.comp_file;
+        ArrayList<Compressor_LZ78.Pair> comp_file = compressor.getComp_file();
         for (int i = 1; i < comp_file.size(); i++) {
             Compressor_LZ78.Pair pair = comp_file.get(i);
             equal = equal && (pair.index == resultA.get(i).index) && (pair.offset == resultA.get(i).offset);
@@ -104,7 +104,7 @@ public class Compressor_LZ78Test {
         }
 
         boolean equal = true;
-        ArrayList<Compressor_LZ78.Pair> comp_file = compressor.comp_file;
+        ArrayList<Compressor_LZ78.Pair> comp_file = compressor.getComp_file();
         for (int i = 1; i < comp_file.size(); i++) {
             Compressor_LZ78.Pair pair = comp_file.get(i);
             equal = equal && (pair.index == resultB.get(i).index) && (pair.offset == resultB.get(i).offset);

@@ -42,7 +42,45 @@
  *
  * \subsection LZSS Algoritmo LZ-SS
  *
+ * El algoritmo LZSS es un algoritmo de compresión sin perdida. El
+ * algoritmo busca coincidencias para cada carácter del texto a comprimir
+ * en los carácteres anteriores, y guarda el desplazamiento hasta la
+ * posición en la que empieza la coincidencia, y el numero de carácteres
+ * seguidos que coinciden.
  *
+ * COMPRESIÓN:
+ * Leemos byte a byte el fichero txt que se debe comprimir y lo ponemos en
+ * HashMap para acceder de manera eficiente a cada elemento. (coste de acceso
+ * logn). Seguidamente lo que haremos es iterar para cada elemento del Hashmap
+ * mencionado y añadiremos cada elemento en otro HashMap llamado searchB que
+ * será nuestro searchBuffer, en el que buscaremos coincidencias. Por cada
+ * elemento en el que iteramos del primer Hashmap, buscaremos en las 4095
+ * posiciones anteriores a la ultima posicion del searchB, y en caso que
+ * encontremos coincidencia de al menos 3 elementos seguidos, guardaremos
+ * en una cola de chars (16bit), 12bits para representar el offset (posicion
+ * de la coincidencia) y 4 bits para expresar el desplazamiento (por tanto
+ * puede haber hasta 18 carácteres seguidos que coincidan, si cogemos
+ * desplazamiento 0 como una coincidencia de 3 elementos, el mínimo). Los
+ * elementos con los que no encontremos coincidencias los guardaremos en otra
+ * cola de bytes. Paralelamente, guardaremos valor true en un array de bools si
+ * hemos encontrado coincidencia para el elemento que iteramos, y false en caso
+ * contrario. Escribimos en la salida los booleanos en forma de bits agrupados
+ * de 8 en 8 en bytes, seguidamente los bytes correspondientes a los carácteres
+ * sin coincidencia y finalmente los chars codificados para representar las
+ * coincidencias.
+ *
+ * DESCOMPRESIÓN:
+ * Leemos byte a byte el fichero txt comprimido, y ponemos en 3 colas distintas
+ * los valores booleanos, los bytes que representan las no coincidencias y los
+ * chars que representan las coincidencias. Seguidamente iteraremos para cada
+ * elemento de la cola de booleanos. Si nos encontramos con un false, querrá
+ * decir que en esa posición hay un elemento que no coincide y por tanto
+ * escribiremos en un array de bytes (representando el resultado) el byte
+ * correspondiente al primer elemento de la cola de no coincidencias. En caso
+ * que nos encontremos un valor true, querrá decir que en esa posición hay una
+ * coincidencia, así que descodificaremos el offset y desplazamiento y añadiremos
+ * al resultado los elementos que coinciden. Para la salida, escribimos el array de
+ * bytes de resultado byte a byte.
  *
  * \subsection LZW Algoritmo LZ-W
  * LZW es un algoritmo de compresión basado en diccionarios. El algoritmo
@@ -95,6 +133,50 @@
  *
  * \subsection JPEG Algoritmo JPEG
  *
+ * El algorimto JPEG és lossy, lo que significa que al comprimir se pierden
+ * algunos datos. Este algoritmo se aprovecha de la dificutad de los humanos
+ * para distinguir el color a muy baja escala. Empieza cambiando los pixeles
+ * base de color, de RGB a YCbCr. Para poder separar entre la luminancia (Y)
+ * i la crominancia(C) del pixel. Luego dividimos la imagen en bloques de 8x8
+ * pixeles y creamos 3 arrays (uno para cada canal) que los contenga todos.
+ * Después de esto centramos el valor en 0 (restamos 128 a cada valor del
+ * bloque) para poder aplicarle la transformación discreta del coseno. Una
+ * vez echo esto, dividimos los valores entre la tabla de quantización de
+ * luminancia o crominancia respectivamente (estas tablas son del estandard
+ * del JPEG) para conseguir más 0s. De esta forma serà más eficiente el
+ * algortmo de Huffman al comprimir la foto. Ahora leo todos los bloques
+ * en zig-zag para que me queden todos los 0s de cada bloque al final de una
+ * cadena de enteros. Luego añado esta cadena de enteros de todos los bloques
+ * y de todos los canales en un array de enteros, y se lo paso a la classe
+ * Huffman que va a comprimir esta cadena utilizando el algoritmo de Huffman,
+ * con el que crea un arbol de frequéncias para asignar codigos de longitud
+ * variable a cada entero, teniendo los enteros que salen más un codigo más
+ * corto y así aprovechar espacio. Para crear el arbol de Huffman uso una
+ * clase muy sencilla llamada Node. Primero calculo las frequéncias de cada
+ * entero y las guardo en un LinkedHaskMap. Luego genero una priority queue
+ * que guardará los enteros por orden de frequencia. Con esto genero el arbol.
+ * Después recorro de forma recursiva el arbol y al llegar a cada hoja le
+ * assigno a cada entero un codigo, que guardaré en un HashMap que me sirve
+ * de diccionario. Lego genero una linkedList de enteros donde cada entero
+ * representa un bit. Primero guardo el diccionario en ella (en un futuro
+ * guardaré el arbol en preorden) y luego voy guardando en codigo de cada
+ * entero de la cadena de enteros original. Una vez echo esto convierto esta
+ * cadena de bits en un array de bytes para generar el archivo comprimido.
+ * Para la descompresión hago todos los pasos que he echo anteriormente en
+ * orden inverso. Leo el archivo y se lo passo a la classe huffman que lo
+ * decodifica utilizando el diccionario inicial. Esta me devuelve el array
+ * de enteros que anteriormente codificamos. Con esta array volvemos a
+ * generar todos los bloques, los multiplicamos por las tablas de
+ * cuantizacion y les aplicamos la transformada inversa del coseno para
+ * recuperar los valor iniciales que teniamos anteriormente. En este proceso
+ * y en el proceso anterior de la DCT para comprimir es donde se pierden los
+ * datos, ya que redondeamos al entero más próximo. Una vez echo esto ya
+ * sumamos los 128 que anteriormente restamos y ya volvemos a tener los
+ * pixeles originales. Hecho esto, solo nos falta generar la cabecera en ASCII
+ * del archivo (que puedo generar ya que los primeros enteros que
+ * descomprimimos con Huffman son el nivel de compressión, la anchura y la
+ * altura de la foto) y pasar los enteros de cada pixel a bytes siguiendo el
+ * estandard de los archivos ppm.
  *
  *
  * \section install_sec Instalacion

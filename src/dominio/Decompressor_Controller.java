@@ -1,3 +1,4 @@
+package dominio;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,7 +10,7 @@ import java.nio.file.Paths;
  */
 public class Decompressor_Controller {
 
-    private Decompressor decompressor; ///< Objeto descompresor
+    public Decompressor decompressor; ///< Objeto descompresor
 
     /**
      * Constructora que en base al tipo de archivo de comprimido, crea un tipo de descompresor u otro.

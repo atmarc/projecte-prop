@@ -1,3 +1,4 @@
+import dominio.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,9 +12,9 @@ public class Decompressor_LZ78Test {
     public void decompressA() {
 
         Decompressor_LZ78 decompressor = new Decompressor_LZ78();
-        decompressor.length = 8;
-        decompressor.dictionary = new ArrayList<>(decompressor.length);
-        decompressor.dictionary.add(null);                              // para empezar desde la posicion 1
+        decompressor.setLength(8);
+        decompressor.setDictionary(new ArrayList<>(decompressor.getLength()));
+        decompressor.getDictionary().add(null);                              // para empezar desde la posicion 1
 
         byte[] resultA = new byte[13]; // 1 2 3 12 13 123 121
         resultA[0] = 1;
@@ -62,9 +63,9 @@ public class Decompressor_LZ78Test {
     public void decompressB() {
 
         Decompressor_LZ78 decompressor = new Decompressor_LZ78();
-        decompressor.length = 8;
-        decompressor.dictionary = new ArrayList<>(decompressor.length);
-        decompressor.dictionary.add(null);                              // para empezar desde la posicion 1
+        decompressor.setLength(8);
+        decompressor.setDictionary(new ArrayList<>(decompressor.getLength()));
+        decompressor.getDictionary().add(null);                              // para empezar desde la posicion 1
 
         byte[] resultB = new byte[12]; // 1 2 3 12 13 123 12
         resultB[0] = 1;

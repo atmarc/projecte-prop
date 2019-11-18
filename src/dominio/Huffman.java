@@ -1,3 +1,4 @@
+package dominio;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;

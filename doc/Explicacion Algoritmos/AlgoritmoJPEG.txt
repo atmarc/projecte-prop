@@ -1,0 +1,44 @@
+El algorimto JPEG és lossy, lo que significa que al comprimir se pierden
+algunos datos. Este algoritmo se aprovecha de la dificutad de los humanos 
+para distinguir el color a muy baja escala. Empieza cambiando los pixeles
+base de color, de RGB a YCbCr. Para poder separar entre la luminancia (Y)
+i la crominancia(C) del pixel. Luego dividimos la imagen en bloques de 8x8
+pixeles y creamos 3 arrays (uno para cada canal) que los contenga todos.
+Después de esto centramos el valor en 0 (restamos 128 a cada valor del
+bloque) para poder aplicarle la transformación discreta del coseno. Una
+vez echo esto, dividimos los valores entre la tabla de quantización de
+luminancia o crominancia respectivamente (estas tablas son del estandard
+del JPEG) para conseguir más 0s. De esta forma serà más eficiente el 
+algortmo de Huffman al comprimir la foto. Ahora leo todos los bloques
+en zig-zag para que me queden todos los 0s de cada bloque al final de una
+cadena de enteros. Luego añado esta cadena de enteros de todos los bloques
+y de todos los canales en un array de enteros, y se lo paso a la classe 
+Huffman que va a comprimir esta cadena utilizando el algoritmo de Huffman,
+con el que crea un arbol de frequéncias para asignar codigos de longitud
+variable a cada entero, teniendo los enteros que salen más un codigo más 
+corto y así aprovechar espacio. Para crear el arbol de Huffman uso una 
+clase muy sencilla llamada Node. Primero calculo las frequéncias de cada
+entero y las guardo en un LinkedHaskMap. Luego genero una priority queue
+que guardará los enteros por orden de frequencia. Con esto genero el arbol.
+Después recorro de forma recursiva el arbol y al llegar a cada hoja le
+assigno a cada entero un codigo, que guardaré en un HashMap que me sirve
+de diccionario. Lego genero una linkedList de enteros donde cada entero
+representa un bit. Primero guardo el diccionario en ella (en un futuro
+guardaré el arbol en preorden) y luego voy guardando en codigo de cada
+entero de la cadena de enteros original. Una vez echo esto convierto esta
+cadena de bits en un array de bytes para generar el archivo comprimido.
+Para la descompresión hago todos los pasos que he echo anteriormente en
+orden inverso. Leo el archivo y se lo passo a la classe huffman que lo
+decodifica utilizando el diccionario inicial. Esta me devuelve el array 
+de enteros que anteriormente codificamos. Con esta array volvemos a 
+generar todos los bloques, los multiplicamos por las tablas de 
+cuantizacion y les aplicamos la transformada inversa del coseno para
+recuperar los valor iniciales que teniamos anteriormente. En este proceso
+y en el proceso anterior de la DCT para comprimir es donde se pierden los
+datos, ya que redondeamos al entero más próximo. Una vez echo esto ya
+sumamos los 128 que anteriormente restamos y ya volvemos a tener los
+pixeles originales. Hecho esto, solo nos falta generar la cabecera en ASCII
+del archivo (que puedo generar ya que los primeros enteros que
+descomprimimos con Huffman son el nivel de compressión, la anchura y la 
+altura de la foto) y pasar los enteros de cada pixel a bytes siguiendo el
+estandard de los archivos ppm.

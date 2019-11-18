@@ -1,4 +1,5 @@
-import java.io.*;
+package dominio;
+
 import java.util.ArrayList;
 
 /*!
@@ -25,10 +26,9 @@ public class Compressor_LZW extends Compressor {
 	 * Retorna la extension de los ficheros comprimidos con esta clase
 	 * @return la extension de los ficheros comprimidos
 	 */
-	protected String getExtension() {
+	public String getExtension() {
 		return ".lzw";
 	}
-
 
 	/**
 	 * Comprime un fichero mediante el algoritmo LZW

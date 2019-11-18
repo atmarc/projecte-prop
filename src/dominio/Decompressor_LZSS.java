@@ -1,3 +1,4 @@
+package dominio;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,14 +13,14 @@ public class Decompressor_LZSS extends Decompressor {
     /**
      * @return La extension del fichero descomprimido
      */
-    protected String getExtension() {
+    public String getExtension() {
         return "_decompressed.txt";
     }
 
     /**
      * Descomprime un fichero codificado con el algoritmo LZSS
      */
-    protected void decompress() {
+    public void decompress() {
         byte item[] = controller.readAllBytes();
 
         Queue<Byte> noCoincQ = new LinkedList<>();

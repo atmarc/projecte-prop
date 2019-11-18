@@ -1,3 +1,4 @@
+package dominio;
 /*!
  *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
  *  \details

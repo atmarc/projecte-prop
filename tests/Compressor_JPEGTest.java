@@ -24,19 +24,21 @@ public class Compressor_JPEGTest {
         return true;
     }
 
+    public static void main(String[] args) throws IOException {
+        mainTests();
+    }
 
     @Test
-    public void mainTests() throws IOException {
+    public static void mainTests() throws IOException {
 
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
-        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
 
         String[] files = {
-                "./testing_files/ppm_images/boxes_1",
-                "./testing_files/ppm_images/image",
-                "./testing_files/ppm_images/house_1",
-                "./testing_files/ppm_images/west_1",
-                "./testing_files/ppm_images/france-wallpaper"
+                "../testing_files/ppm_images/boxes_1",
+                "../testing_files/ppm_images/image",
+                "../testing_files/ppm_images/house_1",
+                "../testing_files/ppm_images/west_1",
+                "../testing_files/ppm_images/france-wallpaper"
         };
 
         for (int i = 0; i < files.length; ++i) {
@@ -45,8 +47,6 @@ public class Compressor_JPEGTest {
             System.out.println("Verdict: " + (diffFiles(files[i]+"_test.jpeg", files[i] + ".jpeg")
                     ? "\u001B[32m" + "OK! Files are equal." + "\u001B[0m"
                     : "\u001B[31m" + "Wrong!!!" + "\u001B[0m"));
-            System.out.println();
-            decompressor_jpeg.startDecompression(files[i] + ".jpeg", null);
             System.out.println();
             System.out.println("-------------------------------------------------");
         }

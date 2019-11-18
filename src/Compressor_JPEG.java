@@ -7,12 +7,13 @@ import static java.lang.Integer.parseInt;
 /*!
  *  \brief     Extension de la clase Compressor mediante el algoritmo JPEG.
  *  \details
- *  \author    Marc Amoros
+ *  \author    Marc Amorós
  */
 public class Compressor_JPEG extends Compressor {
 
-    //TODO: Fixar-se amb fitxers no multiples de 8
-
+    /**
+     * Función abstracta de la clase Compresor que devuelve la extension del archivo.
+     */
     public String getExtension() {
         return ".jpeg";
     }
@@ -185,12 +186,14 @@ public class Compressor_JPEG extends Compressor {
 
         writeBytes(bytes);
     }
-    /*
-    RGB --> YCbCr
-        Y = 0.299 R + 0.587 G + 0.114 B
-        Cb = - 0.1687 R - 0.3313 G + 0.5 B + 128
-        Cr = 0.5 R - 0.4187 G - 0.0813 B + 128
-    */
+
+    /**
+     * Función para pasar de RGB a la base de color YCbCr usando las formulas del estandard de Jfif.
+     * @param R componente Red del pixel que quieres transformar.
+     * @param G componente Green del pixel que quieres transformar.
+     * @param B componente Blue del pixel que quieres transformar.
+     * @return devuelve una tripleta de valores enteros con el valor del pixel en YCbCr.
+     */
     private static Triplet<Integer, Integer, Integer> RGBtoYCbCr (float R, float G, float B) {
         int Y = (int) (0.299 * R + 0.587 * G + 0.114 * B);
         int Cb = (int) (-0.1687 * R - 0.3313 * G + 0.5 * B + 128);
@@ -198,6 +201,11 @@ public class Compressor_JPEG extends Compressor {
         return new Triplet<>(Y, Cb, Cr);
     }
 
+    /**
+     * Funcion que lee los headers del ppm y ignora los comentarios.
+     * @param s Array de bytes que representa el archivo.
+     * @return devuelve una tripleta de valores con el la altura, anchura y valor maximo de los pixels.
+     */
     private static Triplet<Integer, Integer, Float> readHeaders(byte s[]) {
         Triplet<Integer, Integer, Float> retorn = new Triplet<Integer, Integer, Float>();
         // Saltem la primera linia
@@ -240,6 +248,9 @@ public class Compressor_JPEG extends Compressor {
         return retorn;
     }
 
+    /**
+     *  Función para imprimir una matriz de tripletas, usada para debugar.
+     */
     private static void printPixels(Triplet<Integer, Integer, Integer> Pixels [][]) {
         for (int i = 0; i < Pixels.length; ++i) {
             for (int j = 0; j < Pixels[0].length; ++j) {
@@ -249,6 +260,13 @@ public class Compressor_JPEG extends Compressor {
         }
     }
 
+    /**
+     * Función que devuelve la diferència entre el valor AC del bloque del arrayBlock[y][x] y el anterior.
+     * @param arrayBlock Array de bloques.
+     * @param x Posición x del bloque del cual queremos la diferencia.
+     * @param y Posición y del bloque del cual queremos la diferencia.
+     * @return Valor de diferència de sus componentes AC.
+     */
     private static int getDiff (Block [][] arrayBlock, int x, int y) {
         int diff;
         if (x > 0) {
@@ -262,7 +280,12 @@ public class Compressor_JPEG extends Compressor {
         return diff;
     }
 
-    public static void stringBinToByte(LinkedList<Integer> bits, ArrayList<Byte> arrayBytes) {
+    /**
+     * Función que por cada 8 enteros que representan 8 bits, crea un byte y lo añade a arrayBytes.
+     * @param bits Cadena de bits representados con enteros.
+     * @param arrayBytes ArrayList de bytes formados por los bits.
+     */
+    private static void stringBinToByte(LinkedList<Integer> bits, ArrayList<Byte> arrayBytes) {
         int bitsSize = bits.size();
         for (int i = 0; i + 8 <= bitsSize; i += 8) {
             byte b = 0;

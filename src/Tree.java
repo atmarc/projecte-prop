@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/*!
+ *  \brief     Arbol de busqueda utilizado para agilizar la compresion en los algoritmos LZ-78 y LZ-W.
+ *  \details
+ *  \author    Andrei Mihalache
+ *  \author    Edgar Perez
+ */
 public class Tree {
 
     private List<Node> sons;

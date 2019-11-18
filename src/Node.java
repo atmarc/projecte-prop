@@ -1,3 +1,8 @@
+/*!
+ *  \brief     Clase contenedora de datos y sub arboles para la clase Tree.
+ *  \details
+ *  \author    Edagr Perez
+ */
 public class Node {
     private byte id;
     private int index;

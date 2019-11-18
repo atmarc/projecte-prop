@@ -1,6 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/*!
+ *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-W.
+ *  \details
+ *  \author    Andrei Mihalache
+ */
 public class Decompressor_LZW extends Decompressor {
     private static final int BYTE_SIZE = 8;
     private ArrayList<String> dictionary;

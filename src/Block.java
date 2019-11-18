@@ -2,18 +2,44 @@ import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
+/*!
+ *  \brief     Clase auxiliar para la implementacion del algortimo JPEG.
+ *  \details
+ *  \author    Marc Amorós
+ */
 public class Block {
 
+    /**
+     * Valores originales del bloque
+     */
     private int valors[][];
+
+    /**
+     * Valores del bloque tras aplicar-le la DCT.
+     */
     private int DCTvalors[][];
+
+    /**
+     * Numero de columnas del bloque.
+     */
     private int width;
+
+    /**
+     * Numero de filas del bloque.
+     */
     private int height;
+
+    /**
+     * Tipo de bloque.
+     */
     private String type;
 
     final double PI = Math.PI;
     final double sqrt2 = sqrt(2);
 
-    // Quantization table Luminance
+    /**
+     * Tablas de Quantización para la luminancia.
+     */
     final int[][] QTY = new int[][] {
         {16, 11, 10, 16, 24, 40, 51, 61},
         {12, 12, 14, 19, 26, 58, 60, 55},
@@ -25,7 +51,9 @@ public class Block {
         {72, 92, 95, 98, 112, 100, 103, 99}
     };
 
-    // Quantization table Chrominance
+    /**
+     * Tablas de Quantización para la crominancia.
+     */
     final int[][] QTCr = new int [][] {
             {17, 18, 24, 47, 99, 99, 99, 99},
             {18, 21, 26, 66, 99, 99, 99, 99},
@@ -37,9 +65,18 @@ public class Block {
             {99, 99, 99, 99, 99, 99, 99, 99}
     };
 
+    /**
+     * Constructora por defecto
+     */
     public Block() {
     }
 
+    /**
+     * Constructora con definiciones de atributos.
+     * @param width Número de columnas del bloque.
+     * @param height Número de filas del bloque.
+     * @param type Tipo de bloque
+     */
     public Block(int width, int height, String type) {
         this.valors = new int[width][height];
         this.DCTvalors = new int[width][height];
@@ -47,6 +84,7 @@ public class Block {
         this.width = width;
         this.type = type;
     }
+
 
     public int getValue(int i, int j) {
         return valors[i][j];
@@ -72,6 +110,9 @@ public class Block {
         return height;
     }
 
+    /**
+     * Función que aplica la trasformada discreta del coseno a los valores del bloque y guarda su resultado en DCTvalors.
+     */
     public void DCT() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -97,6 +138,10 @@ public class Block {
         }
     }
 
+    /**
+     * Función que aplica la trasformada discreta del coseno inversa a los valores del bloque y guarda su resultado en
+     * DCTvalors.
+     */
     public void inverseDCT() {
         int auxArray[][] = new int [height][width];
         for (int y = 0; y < height; ++y) {
@@ -125,6 +170,11 @@ public class Block {
         DCTvalors = auxArray;
     }
 
+    /**
+     * Guarda en el array file a partir del índice los valores de DCTvalors recorridos en zigzag.
+     * @param file Array donde se van guardando los valores.
+     * @param ind Índice del file a partir del cual se empieza a escribir.
+     */
     public void zigzag(int [] file, int ind) {
         int row = 0, col = 0;
         boolean row_inc = false;
@@ -222,6 +272,11 @@ public class Block {
         }
     }
 
+    /**
+     * Guarda en DCTvalors el contenido de arr recorriendo DCTvalors en zigzag.
+     * @param arr Array de donde se leen los valores.
+     * @param index Indice a partir del cual se empieza a leer de arr.
+     */
     public void zigzagInvers(ArrayList<Integer> arr, int index) {
         int row = 0, col = 0;
         boolean row_inc = false;
@@ -320,7 +375,10 @@ public class Block {
 
     }
 
-
+    /**
+     * Imprime valores del bloque, usado para debugar.
+     * @param i
+     */
     public void print (int i) {
         for (int x = 0; x < height; ++x) {
             String aux = "";
@@ -340,6 +398,9 @@ public class Block {
         print(1);
     }
 
+    /**
+     * Multiplica cada valor por la tabla de cuantization de lumincancia
+      */
     public void inverseQuantizationY() {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
@@ -348,6 +409,9 @@ public class Block {
         }
     }
 
+    /**
+     * Multiplica cada valor por la tabla de cuantization de crominancia
+     */
     public void inverseQuantizationC() {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {

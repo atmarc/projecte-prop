@@ -11,6 +11,8 @@ import java.util.Queue;
 public class Compressor_LZSS extends Compressor {
 
     /**
+     * @pre
+     * @post
      * Retorna la extension de los ficheros comprimidos con esta clase
      * @return la extension de los ficheros comprimidos
      */
@@ -157,7 +159,8 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
-     * Retorna el mínimo entre dos ints
+     * @pre a y b son dos enteros
+     * @post La variable de retorno contiene el valor del elemento mas pequeño entre a y b
      * @param a
      * @param b
      * @return El elemento mas pequeño entre a y b
@@ -168,7 +171,8 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
-     * Pasa de una cola de bytes a un array de bytes
+     * @pre a es una cola de bytes
+     * @post El Array de retorno contiene todos los elementos del parámetro a, con orden ascendente de inserción en la cola
      * @param a Cola de Bytes que tenemos que pasar a array
      * @return Un Array de a.size() elementos con los elementos de la cola a;
      */
@@ -182,7 +186,8 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
-     * Pasa de una cola de chars a un array de bytes
+     * @pre a es una cola de carácteres
+     * @post El Array de retorno contiene todos los elementos del parámetro a, con orden ascendente de inserción en la cola
      * @param a Cola de Chars que tenemos que pasar a array
      * @return Un Array de a.size() elementos con los elementos de la cola a;
      */
@@ -202,6 +207,11 @@ public class Compressor_LZSS extends Compressor {
 
     /**
      * Pasa de una cola de booleanos a un array de bytes con bits a 1 para valores true, y bits a 0 para false
+     * @pre a es una cola de valores booleanos no vacía
+     * @post b contiene (size cola / 8) + 1 bytes, y en los bits de mas peso del primer byte se han añadido bits a 0,
+     *        para que el numero de bits sea multiplo de 8 y se pueda representar en bytes. Después de hacer que el
+     *        numero de bits sea multiplo de 8, se añade un bit a 1 para indicar que a partir de ahí empiezan los
+     *        valores de verdad, con 0 para representar a false y 1 para representar a true.
      * @param a Cola de booleans que tenemos que pasar a array
      * @return Un Array de bytes de tamaño (a.size() / 8) + 1, donde cada bit de estos bytes representa un valor true o
      *         false de la cola a. Al principio se añaden ceros y un 1 para cuadrar que el total de bits sea múltiplo de 8
@@ -245,11 +255,13 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
-     * Busca una coincidencia de al menos 3 elementos entre la posicion i del item y la pos i - j del searchBuffer
-     * @param i posicion inicial a la que accederemos de item
-     * @param j posicion inicial a la que accederemos de searchB
-     * @param item Hasjmap que contiene el texto a comprimir
-     * @param searchB Search Buffer
+     * @pre i y (i-j) son posiciones de item y searchB, respectivamente.
+     * @post retorna true si se han encontrado coincidencias en los carácteres de las tres posiciones consecutivas de
+     *        item y searchB, a partir de la posición i de item y (i-j) de searchB.
+     * @param i posicion inicial a la que accederemos de item.
+     * @param j posicion inicial a la que accederemos de searchB.
+     * @param item Hashmap que contiene el texto a comprimir.
+     * @param searchB Search Buffer.
      * @return true si encontramos una coincidencia de tres carácteres seguidos con posicion inicial i y j en Item y searchB, respectivamente
      *         false en caso opuesto
      */
@@ -265,9 +277,13 @@ public class Compressor_LZSS extends Compressor {
     }
 
     /**
-     * Pasa de un array de bytes a un hash map con las posiciones en las key y los bytes en el value
-     * @param a Hasjmap que contiene el texto a comprimir
-     * @return Un Hashmap<Int,Char> con en la key la posicion de los elementos que habia en a y en el value el byte que había
+     * Pasa de un array de bytes a un hash map con las posiciones en las key y los bytes en el value.
+     * @pre a es un array de bytes no vacío.
+     * @post el contenido del Hashmap aux que se retorna es el mismo que el de a, con las posiciones como key y los
+     *       bytes como value.
+     * @param a Hashmap que contiene el texto a comprimir.
+     * @return Un Hashmap<Int,Char> con en la key la posicion de los elementos que habia en a y en el value el byte
+     *         que había.
      */
     private HashMap<Integer, Byte> byteArrayToHashMap(byte[] a) {
         HashMap<Integer,Byte> aux = new HashMap<>();

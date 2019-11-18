@@ -1,0 +1,36 @@
+diffFiles
+Descripció:
+Objectius: Comprueba si dos ficheros son idénticos
+Entrada: -
+Sortida: ".lzss"
+Resultat de la prova: ok
+
+TestA
+Descripció: Comprueba el funcionamiento del compresor y decompresor
+Objectius: Comprobar que funciona bien en el caso extremo en que el algoritmo
+           solo se encuentra con coincidecias de tamaño máximo (18).
+Entrada: maxdesp.txt
+Sortida: maxdesp_decompressed.txt
+Resultat de la prova: ok
+
+TestB
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar que funciona bien en el caso extremo en que no se encuantra con
+           ninguna coincidencia.
+Entrada: nocoinc.txt
+Sortida: nocoinc_decompressed.txt
+Resultat de la prova: ok
+
+TestC
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar si el algoritmo funciona bien con ficheros grandes
+Entrada: 500kb.txt
+Sortida: 500kb_decompressed.txt
+Resultat de la prova: ok
+
+TestD
+Descripció: Comprueba el funcionamiento del compressor y decompressor
+Objectius: Comprobar si el algoritmo funciona bien con ficheros muy grandes
+Entrada: 1M.txt
+Sortida: 1M_decompressed.txt
+Resultat de la prova: ok

@@ -59,10 +59,11 @@
  * \section install_sec Instalacion
  *
  * Para instalar el programa se debe ejecutar el comando:
- *
- * make tatata
- *
- *
- *
- * etc...
+ *  make
+ * Para ejecutar el programa principal se debe ejecutar el comando:
+ *  make run
+ * Para ejecutar cualquier otro Driver o Test se utiliza el compando:
+ *  make -cp "bin/" nombre_de_la_clase
+ * Para borrar todos los ejecutables se utiliza el comando>:
+ * make clean
  */

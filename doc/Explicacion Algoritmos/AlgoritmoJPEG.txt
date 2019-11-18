@@ -37,7 +37,7 @@ recuperar los valor iniciales que teniamos anteriormente. En este proceso
 y en el proceso anterior de la DCT para comprimir es donde se pierden los
 datos, ya que redondeamos al entero más próximo. Una vez echo esto ya
 sumamos los 128 que anteriormente restamos y ya volvemos a tener los
-pixeles originales. Echo esto, solo nos falta generar la cabecera en ASCII
+pixeles originales. Hecho esto, solo nos falta generar la cabecera en ASCII
 del archivo (que puedo generar ya que los primeros enteros que
 descomprimimos con Huffman son el nivel de compressión, la anchura y la 
 altura de la foto) y pasar los enteros de cada pixel a bytes siguiendo el

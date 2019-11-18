@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /*!
  *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-78.
- *  \details
+ *  \details   Mediante la controladora, lee un archivo comprimido mediante el algoritmo LZ78 y lo descomprime, escribiendo el resultado en un archivo de salida también a través de la controladora. Para cada entrada recibida, de par índice-byte, es añadida al diccionario para futuras referencias a la misma a la vez que toda cadena descomprimida es añadida al fichero destino por orden de aparición.
  *  \author    Edgar Perez
  */
 public class Decompressor_LZ78 extends Decompressor {
@@ -12,25 +12,26 @@ public class Decompressor_LZ78 extends Decompressor {
     public ArrayList<byte[]> getDictionary() {
         return dictionary;
     }
-
     public void setDictionary(ArrayList<byte[]> dictionary) {
         this.dictionary = dictionary;
     }
-
-    ArrayList<byte[]> dictionary;
+    ArrayList<byte[]> dictionary; ///< Archivo sobre el que se escribe la descompresión actual.
 
     public int getLength() {
         return length;
     }
-
     public void setLength(int length) {
         this.length = length;
     }
-
-    int length;
+    int length; ///< Numero de entradas que contendra dictionary.
 
     public Decompressor_LZ78() {}
 
+    /**
+     * Función encargada de controlar la descompresión. A medida que va obteniendo datos, va decidiendo que cantidades leer en funcion de lo leido hasta el momento y va trantando las entradas recibidas, incluyendolas en el diccionario y escribiendolas directamente en el fichero de salida a traves de la controladora.
+     * @pre El controlador del descompresor existe.
+     * @post El archivo de entrada se ha descomprimido y ha sido escrito a traves de la controladora.
+     */
     public void decompress() {
 
         byte[] singleByte = new byte[1], index = new byte[4];
@@ -64,6 +65,16 @@ public class Decompressor_LZ78 extends Decompressor {
 
     }
 
+    /**
+     * Descomprime el par de entrada índice-byte que entra por parámetro.
+     *
+     * @pre El diccionario esta inicializado.
+     * @post Retorna la cadena de bytes referente al par de entrada que ha recibido como parámetro. Además de haber incluido en el diccionario de la clase la referencia a la cadena retornada.
+     *
+     * @param indexB Indice de la entrada leida.
+     * @param offset Byte offset de la entrada leida.
+     * @return Retorna la cadena de bytes referente al par de entrada que ha recibido como parametro.
+     */
     public byte[] decompress(byte[] indexB, byte offset) {
 
         int index = new BigInteger(indexB).intValue();

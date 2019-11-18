@@ -3,6 +3,7 @@ import dominio.Compressor_Controller;
 import dominio.Decompressor_Controller;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Application {
@@ -82,7 +83,10 @@ public class Application {
             }
             while (!valid);
         }
-        else if (route == 2) outputPath = "./../src/persistencia/out/";
+        else if (route == 2) {
+            outputPath = Paths.get("./../src/persistencia/out/").toString();
+            System.out.println(outputPath);
+        }
 
         if (mode == 0) { // Comprimir
 

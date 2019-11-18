@@ -49,6 +49,8 @@ public class Huffman {
 
     /**
      * Funcion para comprimir usando Huffman el array file.
+     * @pre La cadena bits está vacia. File contiene el archivo a codificar
+     * @bits Bits contiene el archivo codificado con Huffman.
      * @param file Array de enteros que vamos a comprimir usando Huffman.
      * @param bits Cadena de bits representados por enteros que representa el array de enteros comprimido con Huffman.
      */
@@ -106,6 +108,8 @@ public class Huffman {
 
     /**
      * Funcion que nos dice si el la posición index del array de enteros bits empieza un separador de forma 011111111111111110.
+     * @pre Bits contiene el archivo en una cadena de bits. index < bits.length
+     * @post -
      * @param bits Cadena de bits representados en un array de enteros.
      * @param index Posición que queremos comprobar.
      * @return Valor booleano que nos dice si hay un separador o no.
@@ -121,6 +125,8 @@ public class Huffman {
 
     /**
      * Descomprime una cadena de bits comprimidos con Huffman en un arrayList de enteros.
+     * @pre File contiene el archivo en una cadena de bits. Valors és un arraylist vacio.
+     * @post Valors contiene los valores enteros del archivo después de descomprimirlo.
      * @param file Cadena de bits representados en un array de enteros.
      * @param valors Valores enteros que conseguimos al descomprimir la cadena de bits con Huffman.
      */
@@ -173,6 +179,8 @@ public class Huffman {
 
     /**
      * Funcion que añade un separador a la cadena de bits.
+     * @pre Bits contiene el archivo comprimido hasta ahora.
+     * @post Se añade un separador de la forma 011111111111111110 al final de la cadena.
      * @param bits Cadena de bits a la que le añadiremos el separador.
      */
     private void addSeparador(LinkedList<Integer> bits) {
@@ -183,10 +191,11 @@ public class Huffman {
 
     /**
      * Funcion que añade el diccionario de Huffman utilizado para comprimir al principio de una cadena de bits.
+     * @pre Ya se ha calculado el diccionario.
+     * @post Se añade el diccionario a la cadena de bits.
      * @param bits Cadena de bits representada en una LinkedList de enteros.
      */
     private void addDictionary(LinkedList<Integer> bits) {
-
         for (Map.Entry<Integer, String> entry : dictionary.entrySet()) {
             int c = entry.getKey();
             String code = entry.getValue();
@@ -210,9 +219,11 @@ public class Huffman {
 
     /**
      * Funcion que recorre recursivamente el arbol para crear los codigos de Huffman i añadirlos al diccionario.
+     * @pre Se ha generado el arbol de Huffman.
+     * @post El atributo dictionary contiene una pareja clave-codigo Huffman por cada entero del archivo.
      * @param root Raíz del arbol de Huffman que hemos creado.
      * @param s String donde se va añadiendo 0s o 1s al ir recorriendo el arbol y que termina conteniendo el codigo
-     *          Huffman de cada hoja cuando llegas a ella.
+     * Huffman de cada hoja cuando llegas a ella.
      */
     private void makeDict(Node root, String s) {
         if (root.left == null && root.right == null && root.c != 999999) {
@@ -226,6 +237,7 @@ public class Huffman {
 
     /**
      * Función que recorre el array de enteros y calcula la frequéncia con la que aparecen los enteros.
+     * @pre File contains all the integers of the file
      * @param file Cadena de enteros que se recorre y de la que se calculan las frequéncias.
      * @return Diccionario con cada entero y la frequéncia con la que aparece en el array.
      */

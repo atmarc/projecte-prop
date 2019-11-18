@@ -31,7 +31,7 @@ public class Compressor_LZSSTest {
         Compressor_Controller compressor_lzss = new Compressor_Controller(1);
         Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
 
-        String file = "./src/persistencia/testing_files/txt/sample1";
+        String file = "./src/persistencia/testing_files/txt/maxdesp";
         compressor_lzss.startCompression(file + ".txt", null);
         decompressor_lzss.startDecompression(file + ".lzss", null);
         assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
@@ -44,7 +44,7 @@ public class Compressor_LZSSTest {
         Compressor_Controller compressor_lzss = new Compressor_Controller(1);
         Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
 
-        String file = "./src/persistencia/testing_files/txt/500kb";
+        String file = "./src/persistencia/testing_files/txt/maxcoinc    ";
         compressor_lzss.startCompression(file + ".txt", null);
         decompressor_lzss.startDecompression(file + ".lzss", null);
         assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
@@ -71,19 +71,6 @@ public class Compressor_LZSSTest {
         Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
 
         String file = "./src/persistencia/testing_files/txt/sample2";
-        compressor_lzss.startCompression(file + ".txt", null);
-        decompressor_lzss.startDecompression(file + ".lzss", null);
-        assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));
-
-    }
-
-    @Test
-    public void testE() throws IOException {
-
-        Compressor_Controller compressor_lzss = new Compressor_Controller(1);
-        Decompressor_Controller decompressor_lzss = new Decompressor_Controller("lzss");
-
-        String file = "./src/persistencia/testing_files/txt/sample3";
         compressor_lzss.startCompression(file + ".txt", null);
         decompressor_lzss.startDecompression(file + ".lzss", null);
         assertTrue(diffFiles(file+".txt", file + "_decompressed.txt"));

@@ -1,0 +1,18 @@
+digraph "Huffman.encode"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node18 [label="Huffman.encode",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node18 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node19 [label="Huffman.addDictionary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a29ce4c723807d824352ed56bb65a7bea",tooltip="Funcion que añade el diccionario de Huffman utilizado para comprimir al principio de una cadena de bi..."];
+  Node19 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node20 [label="Huffman.addSeparador",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a6b6f8f107be3ee9f4dbbee917762c708",tooltip="Funcion que añade un separador a la cadena de bits. "];
+  Node18 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node21 [label="Huffman.calculateFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a0f3834d2b863989bef479ab69a11a2cb",tooltip="Función que recorre el array de enteros y calcula la frequéncia con la que aparecen los enteros..."];
+  Node18 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node22 [label="Huffman.makeDict",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a0a7e832d56a66d17978c81544a0a8d62",tooltip="Funcion que recorre recursivamente el arbol para crear los codigos de Huffman i añadirlos al dicciona..."];
+  Node18 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node23 [label="Huffman.Node.Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman_1_1_node.html#ad6cc8f3b14bbc57f816bb3d5161f54b7"];
+}

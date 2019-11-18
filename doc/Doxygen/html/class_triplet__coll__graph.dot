@@ -1,0 +1,6 @@
+digraph "Triplet&lt; E, T, A &gt;"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="{Triplet\< E, T, A \>\n|- first\l- second\l- third\l|+ Triplet()\l+ Triplet()\l+ print()\l+ getFirst()\l+ setFirst()\l+ getSecond()\l+ setSecond()\l+ getThird()\l+ setThird()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+}

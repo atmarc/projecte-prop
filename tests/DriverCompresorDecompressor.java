@@ -34,13 +34,13 @@ public class DriverCompresorDecompressor {
 				"testing_files/big",
 				"testing_files/quicksort"
 		));
-		Compressor compressor = new Compressor_LZW();
-		Decompressor decompressor = new Decompressor_LZW();
+		Compressor_Controller compressor = new Compressor_Controller(2);
+		Decompressor_Controller decompressor = new Decompressor_Controller("lzw");
 		for (String file : files) {
 			System.out.println("File: " + file);
 			compressor.startCompression(file+".txt");
 			System.out.println("----------");
-			decompressor.startDecompression(file+".zero");
+			decompressor.startDecompression(file+".lzw");
 			System.out.println("Verdict: " + (diffFiles(file+"_decompressed.txt", file+".txt")
 					? "\u001B[32m" + "OK! Files are equal." + "\u001B[0m"
 					: "\u001B[31m" + "Wrong!!!" + "\u001B[0m"));

@@ -1,164 +1,26 @@
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+/**
+ * Clase con metodos abstractos para implementar un compresor. Contiene una variable que hace referencia a su controlador para poder comunicarse con otras capas.
+ */
 public abstract class Compressor {
 
-    private File inputFile;
-    private File outputFile;
-    private BufferedInputStream in;
-    private BufferedOutputStream out;
-    private long time;
-
-    // Auxiliar PreCompression Methods
-
-    public void selectFiles(String inputPath, String outputPath) {
-        try {
-            inputFile = new File(inputPath);
-
-            if (outputPath == null) outputFile = new File(getCompressedName(inputFile));
-            else outputFile = new File(outputPath + getCompressedName(inputFile.getName()));
-
-            in = new BufferedInputStream(new FileInputStream(inputFile));
-            out = new BufferedOutputStream(new FileOutputStream(outputFile));
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichero no encontrado!");
-            e.printStackTrace();
-        }
+    /**
+     * Setter de la controladora.
+     * @param controller Controladora del compresor.
+     */
+    public void setController(Compressor_Controller controller) {
+        this.controller = controller;
     }
 
+    protected Compressor_Controller controller; ///< Controlador del compresor.
+
+    /**
+     * Retorna la extension del archivo comprimido (depende del tipo de algoritmo utilizado).
+     * @return Retorna la extension del archivo comprimido.
+     */
     abstract String getExtension();
+    /**
+     * Funcion encargada de comprimir el archivo proporcionado por la controladora y escribirlo en el archivo de salida tambien a traves de la controladora.
+     */
+    abstract void compress();
 
-    private String getCompressedName(String fileName) {
-        int pos = fileName.lastIndexOf('.');
-        String compressedFileName;
-        if (pos != -1) compressedFileName = fileName.substring(0, pos);
-        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-        return compressedFileName + getExtension();
-    }
-
-    private String getCompressedName(File file) {
-        return getCompressedName(file.getPath());
-    }
-
-    // Compression
-
-    public void startCompression(String inputPath, String outputPath) {
-
-        selectFiles(inputPath, outputPath);
-        System.out.println("Compression IN PROGRESS");
-
-        time = System.currentTimeMillis();
-        compress();
-        time = System.currentTimeMillis() - time;
-
-        closeReader();
-        closeWriter();
-
-        System.out.println("Compression DONE");
-        System.out.println("Time: " + this.getTime() + " ms");
-        System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
-    }
-
-    public void startCompression(String inputPath) {
-        startCompression(inputPath, getCompressedName(inputPath));
-    }
-
-    protected abstract void compress();
-
-    // Post-Compression Consultants
-
-    public long getTime() {
-        return time;
-    }
-    public long getOriginalSize() {
-        return inputFile.length();
-    }
-    public long getCompressedSize() {
-        return outputFile.length();
-    }
-    public double getCompressionRatio() {
-        return (double)getCompressedSize()/(double)getOriginalSize();
-    }
-
-    // Lectura
-
-    protected int readByte() {
-        try {
-            return in.read();
-        }
-        catch (IOException e) {
-            System.out.println("Error Lectura\n" + e.getMessage());
-            return -1;
-        }
-    }
-    protected byte[] readNBytes(int n) {
-        try {
-            byte[] word = new byte[n];
-            if (in.read(word) < 0) return new byte[0];
-            return word;
-        }
-        catch (IOException e) {
-            System.out.println("Error Lectura\n" + e.getMessage());
-            return new byte[0]; // -1
-        }
-    }
-    protected void closeReader() {
-        try {
-            if (in != null) in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    protected byte[] readAllBytes() {
-        byte[] b = new byte[0];
-        try {
-            b = Files.readAllBytes(Paths.get(inputFile.getPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return b;
-    }
-    protected String readFileString() {
-        StringBuffer outString = new StringBuffer();
-        try {
-            FileReader reader = new FileReader(inputFile.getPath());
-            BufferedReader bufferedReader = new BufferedReader(reader);
-
-            int readByte;
-            while ((readByte = bufferedReader.read()) != -1) {
-                outString.append((char) readByte);
-            }
-            bufferedReader.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return outString.toString();
-    }
-
-    // Escritura
-
-    protected void writeByte(byte B) {
-        try {
-            out.write(B);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    protected void writeBytes(byte[] word) {
-        try {
-            out.write(word);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    protected void closeWriter() {
-        try {
-            if (out != null) out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

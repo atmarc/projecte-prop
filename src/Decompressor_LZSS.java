@@ -12,15 +12,15 @@ public class Decompressor_LZSS extends Decompressor {
     /**
      * @return La extension del fichero descomprimido
      */
-    String getExtension() {
-        return ".txt";
+    protected String getExtension() {
+        return "_decompressed.txt";
     }
 
     /**
      * Descomprime un fichero codificado con el algoritmo LZSS
      */
     protected void decompress() {
-        byte item[] = readAllBytes();
+        byte item[] = controller.readAllBytes();
 
         Queue<Byte> noCoincQ = new LinkedList<>();
         Queue<Character> coincQ = new LinkedList<>();
@@ -135,7 +135,7 @@ public class Decompressor_LZSS extends Decompressor {
         }
 
         byte[] res = arrListToArray(result);
-        writeBytes(res);
+        controller.writeBytes(res);
     }
 
     /**

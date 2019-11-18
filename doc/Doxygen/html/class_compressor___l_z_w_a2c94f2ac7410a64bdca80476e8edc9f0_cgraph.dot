@@ -1,0 +1,22 @@
+digraph "Compressor_LZW.compress"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node4 [label="Compressor_LZW.compress",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Compressor_LZW.concatenate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a5ef6be9f65e5168cb6f68a79a9c043ad",tooltip="Concatena un byte array con un byte. "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Tree.find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a9599bf3c092d99a641d07beeded19931",tooltip="Busca recursivamente una palabra (cadena de bytes) en el arbol de busqueda. "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Compressor_LZW.inicializar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a038913598990af083b30b06c4ca1dbd3",tooltip="Inicializa el diccionario del compresor al diccionario básico. "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#afd3ea70c21482a796b827db97b4625cb",tooltip="Inserta una palabra (cadena de bytes) en el arbol de busqueda. "];
+  Node4 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="Compressor_Controller.readByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#aa0ca3899ae939c88651425f80ca54929"];
+  Node4 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="Compressor_LZW.toByteArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a6ad011df1ba0554a6b1d27d5ee0efe86",tooltip="Convierte un ArrayList de Bytes en un byte array. "];
+  Node4 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="Compressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a57f5eb8e74b80f2fb85a058e6e6f10f9"];
+}

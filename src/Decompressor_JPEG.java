@@ -3,16 +3,19 @@ import java.util.ArrayList;
 /*!
  *  \brief     Extension de la clase Decompressor mediante el algoritmo JPEG.
  *  \details
- *  \author    Marc Amoros
+ *  \author    Marc Amorós
  */
 public class Decompressor_JPEG extends Decompressor {
 
+    /**
+     * Funcion abstracta de Decompresor que comprime el archivo
+     */
     public void decompress() {
 
-        byte s [] = readAllBytes();
+        byte s [] = controller.readAllBytes();
 
         int[] bits = new int[s.length * 8];
-        charToBinString(s, bits);
+        byteToBin(s, bits);
         Huffman huffman = new Huffman();
         ArrayList<Integer> valors = new ArrayList<>();
         huffman.decode(bits, valors);
@@ -57,6 +60,7 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
+        @SuppressWarnings("unchecked")
         Triplet<Byte, Byte, Byte> Pixels [][] = new Triplet[nBlocksY*8][nBlocksX*8];
 
         for (int y = 0; y < nBlocksY; ++y) {
@@ -96,18 +100,22 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
-        writeBytes(returnData);
+        controller.writeBytes(returnData);
     }
 
+    /**
+     * @return Extension del archivo descomprimido
+     */
     public String getExtension() {
-        return ".ppm";
+        return "_decompressed.ppm";
     }
 
-    /*
-
-    R = Y+ 1.402 (Cr-128)
-    G = Y - 0.34414 (Cb-128) - 0.71414 (Cr-128)
-    B = Y + 1.772 (Cb-128)
+    /**
+     * Funcion para canviar de YCbCr a base de colores RGB.
+     * @param Y Componente Y del pixel.
+     * @param Cb Componente Cb del pixel.
+     * @param Cr Componente Cr del pixel.
+     * @return Devuelve el valor del pixel en la base de colores RGB en una tripleta.
      */
     private Triplet<Byte, Byte, Byte> YCbCrToRGB(int Y, int Cb, int Cr) {
         Triplet<Integer, Integer, Integer> retorn = new Triplet<Integer, Integer, Integer>();
@@ -124,7 +132,12 @@ public class Decompressor_JPEG extends Decompressor {
         return new Triplet<Byte, Byte, Byte>((byte)R, (byte)G, (byte)B);
     }
 
-    private static void charToBinString(byte[] s, int[] bits) {
+    /**
+     * Función que convierte un array de bytes a una cadena de bits representada con enteros.
+     * @param s Array de bytes.
+     * @param bits Cadena de bits representada con un array de enteros.
+     */
+    private static void byteToBin(byte[] s, int[] bits) {
         int index = 0;
         for (int i = 0; i < s.length; ++i) {
             for (int j = 0; j < 8; ++j) {
@@ -135,22 +148,16 @@ public class Decompressor_JPEG extends Decompressor {
         }
     }
 
-    // TODO: Pensar com posar que comencen els 0s
+    /**
+     * Funcion que lee un bloque.
+     * @param data Array de la que se leen los datos.
+     * @param i Indice del array en el que se empieza a leer.
+     * @param tipus Tipo de bloque que vamos a leer.
+     * @return Devuelve el bloque con todos los valores leidos de data.
+     */
     private static Block readBlock(ArrayList<Integer> data, int i, String tipus) {
         Block blockY = new Block(8,8, tipus);
         blockY.zigzagInvers(data, i);
         return blockY;
-    }
-
-    private static void sumDC (Block [][] arrayBlock, int x, int y) {
-        int value;
-        if (x > 0) {
-            value = arrayBlock[y][x - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
-            arrayBlock[x][y].setDCTValue(0,0, value);
-        }
-        else if (y > 0) {
-            value = arrayBlock[y - 1][arrayBlock[0].length - 1].getDCTValue(0,0) + arrayBlock[y][x].getDCTValue(0,0);
-            arrayBlock[x][y].setDCTValue(0,0, value);
-        }
     }
 }

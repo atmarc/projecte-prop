@@ -1,0 +1,48 @@
+digraph "Compressor_JPEG.compress"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="Compressor_JPEG.compress",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node1 [label="Block.DCT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#a6880beff3750771b89550ad0ce94daa4",tooltip="Función que aplica la trasformada discreta del coseno a los valores del bloque y guarda su resultado ..."];
+  Node0 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="Huffman.encode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#aa0204e72cec9f48342217fc71fd7c90c",tooltip="Funcion para comprimir usando Huffman el array file. "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="Huffman.calculateFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a0f3834d2b863989bef479ab69a11a2cb",tooltip="Función que recorre el array de enteros y calcula la frequéncia con la que aparecen los enteros..."];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="Huffman.Node.Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman_1_1_node.html#ad6cc8f3b14bbc57f816bb3d5161f54b7"];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Huffman.makeDict",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a0a7e832d56a66d17978c81544a0a8d62",tooltip="Funcion que recorre recursivamente el arbol para crear los codigos de Huffman i añadirlos al dicciona..."];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Huffman.addDictionary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a29ce4c723807d824352ed56bb65a7bea",tooltip="Funcion que añade el diccionario de Huffman utilizado para comprimir al principio de una cadena de bi..."];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Huffman.addSeparador",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a6b6f8f107be3ee9f4dbbee917762c708",tooltip="Funcion que añade un separador a la cadena de bits. "];
+  Node2 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node0 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="Triplet.getFirst",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#abf9c5901a5cb17b9a4b53a7d01873058"];
+  Node0 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="Triplet.getSecond",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#a02483747c8f966687ddcd0983dd25865"];
+  Node0 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="Triplet.getThird",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#a49f3586756cf80b28f6b821aaa98a5a0"];
+  Node0 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="Compressor_Controller.read\lAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a8338478b1e9befa9ad0e166fa814e701"];
+  Node0 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node12 [label="Compressor_JPEG.readHeaders",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#aa8286bec1c8e4169307eaefe305d9063",tooltip="Funcion que lee los headers del ppm y ignora los comentarios. "];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="Triplet.setFirst",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#adf2f07847c7bc9c990e6d8ef92ae9891"];
+  Node12 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="Triplet.setSecond",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#a9554ffca0b2464de34cba1a46b61911e"];
+  Node12 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node15 [label="Triplet.setThird",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#aa12b00a0d09bfc6ed38ef33a0f9b7f7b"];
+  Node0 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node16 [label="Compressor_JPEG.RGBtoYCbCr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a6aa45f7f763f9a81476f010ced84e33c",tooltip="Función para pasar de RGB a la base de color YCbCr usando las formulas del estandard de Jfif..."];
+  Node0 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node17 [label="Block.setValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#a2cf81c1e04f0d9f5c4d027f38892bbbc"];
+  Node0 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 [label="Compressor_JPEG.stringBin\lToByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a5b8ab151b531202c83939addf4814a2b",tooltip="Función que por cada 8 enteros que representan 8 bits, crea un byte y lo añade a arrayBytes. "];
+  Node0 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node19 [label="Compressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___controller.html#a57f5eb8e74b80f2fb85a058e6e6f10f9"];
+  Node0 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node20 [label="Block.zigzag",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#ab5d1406e2c70d2b57ad929c417ec87b2",tooltip="Guarda en el array file a partir del índice los valores de DCTvalors recorridos en zigzag..."];
+}

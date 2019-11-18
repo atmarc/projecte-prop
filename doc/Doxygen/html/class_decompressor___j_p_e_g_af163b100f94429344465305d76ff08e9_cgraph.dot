@@ -1,0 +1,37 @@
+digraph "Decompressor_JPEG.decompress"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node3 [label="Decompressor_JPEG.decompress",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="Decompressor_JPEG.byteToBin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#ab1183fbda988c0dbd125337baaa9aedd",tooltip="Función que convierte un array de bytes a una cadena de bits representada con enteros. "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Huffman.decode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a4d40c3902852b2571630e04b930014ec",tooltip="Descomprime una cadena de bits comprimidos con Huffman en un arrayList de enteros. "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Huffman.isSeparador",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#aea1f62a2cf1dc8dde04190ff32706b1b",tooltip="Funcion que nos dice si el la posición index del array de enteros bits empieza un separador de forma ..."];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Block.getDCTValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#aead60d834b4897118bcc1238a2124e54"];
+  Node3 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="Triplet.getFirst",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#abf9c5901a5cb17b9a4b53a7d01873058"];
+  Node3 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="Triplet.getSecond",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#a02483747c8f966687ddcd0983dd25865"];
+  Node3 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="Triplet.getThird",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_triplet.html#a49f3586756cf80b28f6b821aaa98a5a0"];
+  Node3 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="Block.inverseDCT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#aa3bfcbe15597c057077a694d55d56bac",tooltip="Función que aplica la trasformada discreta del coseno inversa a los valores del bloque y guarda su re..."];
+  Node3 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node12 [label="Block.inverseQuantizationC",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#a3104c9ba8e8715829ed3394a0abe4dd1",tooltip="Multiplica cada valor por la tabla de cuantization de crominancia. "];
+  Node3 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="Block.inverseQuantizationY",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#affa25308109765ddce8dff89d2e4135b",tooltip="Multiplica cada valor por la tabla de cuantization de lumincancia. "];
+  Node3 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="Decompressor_Controller.read\lAllBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#a609269200ffa33af53c6d91e747497b2"];
+  Node3 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node15 [label="Decompressor_JPEG.readBlock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#a288ec8ca34be258afa9073c6927119eb",tooltip="Funcion que lee un bloque. "];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node16 [label="Block.zigzagInvers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#a5fe5c8a7f90d2f9c51f375ed4844f7e9",tooltip="Guarda en DCTvalors el contenido de arr recorriendo DCTvalors en zigzag. "];
+  Node3 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node17 [label="Decompressor_Controller.write\lBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___controller.html#a2ea1b06ed37f0f413e193c571efdaed0"];
+  Node3 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 [label="Decompressor_JPEG.YCbCrToRGB",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#a3466bce611f7a6ac5f2d175383a57fc8",tooltip="Funcion para canviar de YCbCr a base de colores RGB. "];
+}

@@ -1,0 +1,16 @@
+digraph "Tree.insert"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node39 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node39 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node40 [label="Compressor_LZW.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a2c94f2ac7410a64bdca80476e8edc9f0",tooltip="Comprime un fichero mediante el algoritmo LZW. "];
+  Node39 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node41 [label="Compressor_LZW.inicializar",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a038913598990af083b30b06c4ca1dbd3",tooltip="Inicializa el diccionario del compresor al diccionario básico. "];
+  Node41 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node42 [label="Compressor_LZW.Compressor_LZW",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a9e648892c0028f94c93d559c65d4f350",tooltip="Crea un objecto compressor con el diccionario básico. "];
+  Node41 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node39 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node43 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#aa0b442e14c7f124c0de481f79ff5f7db",tooltip="Inserta recursivamente (byte a byte) una palabra (cadena de bytes) en el arbol de busqueda..."];
+}

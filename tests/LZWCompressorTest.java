@@ -6,8 +6,8 @@ public class LZWCompressorTest {
 
 	@Test
 	public void compress() {
-		Compressor compressor = new Compressor_LZW();
-		compressor.startCompression("testing_files/quicksort.txt");
+		Compressor_Controller cc = new Compressor_Controller(2);
+		cc.startCompression("testing_files/quicksort.txt");
 	}
 
 	@Test

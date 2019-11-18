@@ -1,0 +1,11 @@
+digraph "Block.getDCTValue"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node8 [label="Block.getDCTValue",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="Compressor_JPEG.getDiff",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a75e5c16a25ba7a0ac25cfb49e840b35d",tooltip="Función que devuelve la diferència entre el valor AC del bloque del arrayBlock[y][x] y el anterior..."];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="Decompressor_JPEG.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#af163b100f94429344465305d76ff08e9",tooltip="Funcion abstracta de Decompresor que comprime el archivo. "];
+}

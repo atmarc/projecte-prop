@@ -8,15 +8,15 @@ import java.util.ArrayList;
  */
 public class Decompressor_LZ78 extends Decompressor {
 
-    private ArrayList<byte[]> dictionary;
-    private int length;
+    ArrayList<byte[]> dictionary;
+    int length;
 
     public Decompressor_LZ78() {}
 
-    public void decompress() {
+    void decompress() {
 
         byte[] singleByte = new byte[1], index = new byte[4];
-        readNBytes(index);
+        controller.readNBytes(index);
 
         int i = 1;
         length = new BigInteger(index).intValue();
@@ -26,27 +26,27 @@ public class Decompressor_LZ78 extends Decompressor {
 
         // 1 + 1 Byte
         index = new byte[1];
-        for (; i < 128 && readNBytes(index) >= 0 && readNBytes(singleByte) >= 0; i++)
-            writeBytes(decompress(index, singleByte[0]));
+        for (; i < 128 && controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
         // 2 + 1 Byte
         index = new byte[2];
-        for (; i < 32768 && readNBytes(index) >= 0 && readNBytes(singleByte) >= 0; i++)
-            writeBytes(decompress(index, singleByte[0]));
+        for (; i < 32768 && controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
         // 3 + 1 Byte
         index = new byte[3];
-        for (; i < 8388608 && readNBytes(index) >= 0 && readNBytes(singleByte) >= 0; i++)
-            writeBytes(decompress(index, singleByte[0]));
+        for (; i < 8388608 && controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
         // 4 + 1 Byte
         index = new byte[4];
-        for (; readNBytes(index) >= 0 && readNBytes(singleByte) >= 0; i++)
-            writeBytes(decompress(index, singleByte[0]));
+        for (; controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
+            controller.writeBytes(decompress(index, singleByte[0]));
 
-        closeReader();
-        closeWriter();
+        controller.closeReader();
+        controller.closeWriter();
 
     }
 
-    private byte[] decompress(byte[] indexB, byte offset) {
+    byte[] decompress(byte[] indexB, byte offset) {
 
         int index = new BigInteger(indexB).intValue();
 
@@ -71,7 +71,7 @@ public class Decompressor_LZ78 extends Decompressor {
     }
 
     String getExtension() {
-        return ".txt";
+        return "_decompressed.txt";
     }
 
 }

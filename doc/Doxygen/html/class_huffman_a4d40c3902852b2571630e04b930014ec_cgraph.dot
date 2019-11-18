@@ -1,0 +1,9 @@
+digraph "Huffman.decode"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node14 [label="Huffman.decode",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node15 [label="Huffman.isSeparador",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#aea1f62a2cf1dc8dde04190ff32706b1b",tooltip="Funcion que nos dice si el la posición index del array de enteros bits empieza un separador de forma ..."];
+}

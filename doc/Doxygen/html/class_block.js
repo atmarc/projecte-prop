@@ -1,0 +1,25 @@
+var class_block =
+[
+    [ "Block", "class_block.html#aab31c5e09fd4db42afed1db44b5e4771", null ],
+    [ "Block", "class_block.html#abafffc91822758f7e28002ab5c45d5ae", null ],
+    [ "DCT", "class_block.html#a6880beff3750771b89550ad0ce94daa4", null ],
+    [ "getDCTValue", "class_block.html#aead60d834b4897118bcc1238a2124e54", null ],
+    [ "getHeight", "class_block.html#a3185e71260e413d27e2cc13cdb6cc697", null ],
+    [ "getValue", "class_block.html#a63131af78b8674f871e3b947d47f0e22", null ],
+    [ "getWidth", "class_block.html#a9aa594eb9fed112b9633cdfaaf9bcf0c", null ],
+    [ "inverseDCT", "class_block.html#aa3bfcbe15597c057077a694d55d56bac", null ],
+    [ "inverseQuantizationC", "class_block.html#a3104c9ba8e8715829ed3394a0abe4dd1", null ],
+    [ "inverseQuantizationY", "class_block.html#affa25308109765ddce8dff89d2e4135b", null ],
+    [ "print", "class_block.html#adbe71afd2409ef4c3bca9bde1c5e7b98", null ],
+    [ "printBlock", "class_block.html#a7422280e2bb02222f8ee44afc718702a", null ],
+    [ "printBlockDCT", "class_block.html#a3b758adb4fe1f6acc779cdbecf52c6a9", null ],
+    [ "setDCTValue", "class_block.html#a726854a3eb02d92888ba98fd76b8556c", null ],
+    [ "setValue", "class_block.html#a2cf81c1e04f0d9f5c4d027f38892bbbc", null ],
+    [ "zigzag", "class_block.html#ab5d1406e2c70d2b57ad929c417ec87b2", null ],
+    [ "zigzagInvers", "class_block.html#a5fe5c8a7f90d2f9c51f375ed4844f7e9", null ],
+    [ "DCTvalors", "class_block.html#a98ca6cf0e81dc7a16e85ff229bdc3f3a", null ],
+    [ "height", "class_block.html#a5561b5286f7d067ae6ca91634efccf70", null ],
+    [ "type", "class_block.html#a053a4d1d7f136a2e3ea8ebd821073e82", null ],
+    [ "valors", "class_block.html#a420bf8b8d9d1d7f2f51914a379a68f32", null ],
+    [ "width", "class_block.html#a93e22af0862e44db0bdf209ab9a50c10", null ]
+];

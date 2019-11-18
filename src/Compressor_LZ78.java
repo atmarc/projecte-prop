@@ -49,9 +49,6 @@ public class Compressor_LZ78 extends Compressor {
 
         if (!new_searching) compress((byte) 0x00, tree, false);
 
-        // Set del tamano total del archivo comprimido
-        comp_file.set(0, new Pair(comp_file.size() - 1, (byte) 0x00));
-
         write_compressed_file();
     }
 

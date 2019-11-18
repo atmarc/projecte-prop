@@ -1,0 +1,13 @@
+digraph "Tree.Node"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="{Tree.Node\n|- id\l- index\l|+ Node()\l+ getId()\l+ setId()\l+ areYou()\l+ getIndex()\l+ setIndex()\l+ getSons()\l+ setSons()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -sons" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node2 [label="{Tree\n|- next_index\l|+ Tree()\l+ find()\l+ insert()\l+ clear()\l+ getNode()\l+ progressive_find()\l- Tree()\l- find()\l- insert()\l- putNodeIfAbsent()\l- findNextByte()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html",tooltip="Arbol de busqueda utilizado para agilizar la compresion en los algoritmos LZ-78 y LZ-W..."];
+  Node1 -> Node2 [color="grey25",fontsize="10",style="solid",label=" -last_visited_node" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node3 -> Node2 [color="grey25",fontsize="10",style="solid",label=" -sons" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node3 [label="{List\< Tree.Node \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node4 -> Node3 [dir="back",color="orange",fontsize="10",style="solid",label=" \< Tree::Node \>" ,fontname="FreeSans"];
+  Node4 [label="{List\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+}

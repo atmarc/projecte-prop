@@ -1,0 +1,9 @@
+digraph "Block.inverseDCT"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node18 [label="Block.inverseDCT",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node19 [label="Decompressor_JPEG.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#af163b100f94429344465305d76ff08e9",tooltip="Funcion abstracta de Decompresor que comprime el archivo. "];
+}

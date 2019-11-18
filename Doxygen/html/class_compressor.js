@@ -1,0 +1,26 @@
+var class_compressor =
+[
+    [ "closeReader", "class_compressor.html#a4bfed2a2fa86b7e66bfd9ca125ee7e8c", null ],
+    [ "closeWriter", "class_compressor.html#a9d30df78cd1136f2b6b75fb8f98fe14b", null ],
+    [ "compress", "class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90", null ],
+    [ "getCompressedName", "class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb", null ],
+    [ "getCompressedName", "class_compressor.html#a279d09ac721a4aeeb17980cd91076034", null ],
+    [ "getCompressedSize", "class_compressor.html#a5684d1b8b78aa4b10d2484979e7b5278", null ],
+    [ "getCompressionRatio", "class_compressor.html#a6b30207ecc08993f863588719a681f9b", null ],
+    [ "getOriginalSize", "class_compressor.html#a1f2aac1c4046a45dc6293ceef13d81bd", null ],
+    [ "getTime", "class_compressor.html#a183902861246f33ad9dc2f3f2710e21c", null ],
+    [ "readAllBytes", "class_compressor.html#ae16be32e1f9932d51f132de65015280e", null ],
+    [ "readByte", "class_compressor.html#af90efb69949b51f4fa3be86cdd9e2a08", null ],
+    [ "readFileString", "class_compressor.html#a7ed4be911f856209ac4491b767fe3c83", null ],
+    [ "readNBytes", "class_compressor.html#a9ad244f12fa2a23c1a47029b2bb24d9e", null ],
+    [ "selectFiles", "class_compressor.html#ab543704088332634aad6f16c81a589a0", null ],
+    [ "startCompression", "class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd", null ],
+    [ "startCompression", "class_compressor.html#ab908f4b96276f6e2c3d52b75d1a57926", null ],
+    [ "writeByte", "class_compressor.html#aa1aad5c65cb968fc602fa3542217b36c", null ],
+    [ "writeBytes", "class_compressor.html#a5977ed901c196653ef36cf8c14a71bee", null ],
+    [ "in", "class_compressor.html#a7829666e03b6b7a21ee796993515dab2", null ],
+    [ "inputFile", "class_compressor.html#a517d1d5a352d2202a911ab8804bf32a3", null ],
+    [ "out", "class_compressor.html#a84297928c15ed8493df06a4c705439f7", null ],
+    [ "outputFile", "class_compressor.html#a6e7cacfc9805efed29ee91339bb0fde1", null ],
+    [ "time", "class_compressor.html#ae08957f6c8fd8536fc174df99de0e625", null ]
+];

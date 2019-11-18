@@ -1,0 +1,18 @@
+digraph "Compressor.getCompressedName"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node19 [label="Compressor.getCompressedName",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node19 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node20 [label="Compressor.selectFiles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#ab543704088332634aad6f16c81a589a0"];
+  Node20 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node21 [label="Compressor.startCompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd"];
+  Node21 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node22 [label="Application.main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_application.html#a64d4bdb810895ffc94d6df6545333417"];
+  Node21 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node23 [label="Compressor.startCompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#ab908f4b96276f6e2c3d52b75d1a57926"];
+  Node19 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node24 [label="Compressor.getCompressedName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a279d09ac721a4aeeb17980cd91076034"];
+  Node19 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+}

@@ -1,0 +1,6 @@
+digraph "Block"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="{Block\n|~ PI\l~ sqrt2\l~ QTY\l~ QTCr\l- valors\l- DCTvalors\l- width\l- height\l- type\l|+ Block()\l+ Block()\l+ getValue()\l+ getDCTValue()\l+ setValue()\l+ setDCTValue()\l+ getWidth()\l+ getHeight()\l+ DCT()\l+ inverseDCT()\ly 7 más...\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+}

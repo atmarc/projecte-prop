@@ -1,0 +1,14 @@
+digraph "Huffman.addSeparador"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node6 [label="Huffman.addSeparador",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Huffman.encode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#aa0204e72cec9f48342217fc71fd7c90c",tooltip="Funcion para comprimir usando Huffman el array file. "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="Compressor_JPEG.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a35a67903423fece8310ed766fd0d937b"];
+  Node6 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="Huffman.addDictionary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a29ce4c723807d824352ed56bb65a7bea",tooltip="Funcion que añade el diccionario de Huffman utilizado para comprimir al principio de una cadena de bi..."];
+  Node9 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+}

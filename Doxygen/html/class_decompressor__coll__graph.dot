@@ -1,0 +1,6 @@
+digraph "Decompressor"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node5 [label="{Decompressor\n|- inputFile\l- outputFile\l- in\l- out\l- time\l|+ selectFiles()\l+ startDecompression()\l+ startDecompression()\l+ getTime()\l~ getExtension()\l# decompress()\l# readByte()\l# readNBytes()\l# closeReader()\l# readAllBytes()\l# writeByte()\l# writeBytes()\l# closeWriter()\l- getCompressedName()\l- getCompressedName()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+}

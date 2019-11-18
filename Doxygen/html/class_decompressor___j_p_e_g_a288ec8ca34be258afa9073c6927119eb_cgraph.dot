@@ -1,0 +1,9 @@
+digraph "Decompressor_JPEG.readBlock"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node22 [label="Decompressor_JPEG.readBlock",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node22 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node23 [label="Block.zigzagInvers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_block.html#a5fe5c8a7f90d2f9c51f375ed4844f7e9",tooltip="Guarda en DCTvalors el contenido de arr recorriendo DCTvalors en zigzag. "];
+}

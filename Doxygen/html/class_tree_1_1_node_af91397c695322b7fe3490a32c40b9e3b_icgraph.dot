@@ -1,0 +1,18 @@
+digraph "Tree.Node.Node"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Tree.Node.Node",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#aa0b442e14c7f124c0de481f79ff5f7db",tooltip="Inserta recursivamente (byte a byte) una palabra (cadena de bytes) en el arbol de busqueda..."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="Tree.putNodeIfAbsent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a6d7872aef1141b001a50a98851ed26ca",tooltip="Busca el nodo con id = B. "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="Tree.progressive_find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#ac3b622ffcc245646e2d98ea9ccd064aa",tooltip="El funcionamiento varia segun el valor de restart: "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Compressor_LZ78.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78.html#aa48470b1df3b1a4223a2f3d1d4094c2a"];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Tree.findNextByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#af3fe3f1ed1787f9810bcf8c5ffeaa376",tooltip="Funcion auxiliar de la funcion \"progressive_find\". "];
+  Node6 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+}

@@ -1,0 +1,15 @@
+digraph "Compressor.getOriginalSize"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node42 [label="Compressor.getOriginalSize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node42 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node43 [label="Compressor.getCompression\lRatio",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a6b30207ecc08993f863588719a681f9b"];
+  Node43 -> Node44 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node44 [label="Compressor.startCompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd"];
+  Node44 -> Node45 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node45 [label="Application.main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_application.html#a64d4bdb810895ffc94d6df6545333417"];
+  Node44 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node46 [label="Compressor.startCompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#ab908f4b96276f6e2c3d52b75d1a57926"];
+}

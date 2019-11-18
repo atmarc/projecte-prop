@@ -1,0 +1,22 @@
+digraph "Tree.progressive_find"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node52 [label="Tree.progressive_find",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node52 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node53 [label="Tree.findNextByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#af3fe3f1ed1787f9810bcf8c5ffeaa376",tooltip="Funcion auxiliar de la funcion \"progressive_find\". "];
+  Node53 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node54 [label="Tree.Node.getSons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#a1af5827829ebf9c652cdd48c0f8f2d00",tooltip="Getter de la variable sons (Arbol que contiene a sus hijos). "];
+  Node53 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node55 [label="Tree.putNodeIfAbsent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a6d7872aef1141b001a50a98851ed26ca",tooltip="Busca el nodo con id = B. "];
+  Node55 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node56 [label="Tree.getNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a0825bbc33ef78c01a3bc1674ce7be9f8",tooltip="Funcion que busca y retorna el nodo con id = B si existe. "];
+  Node55 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node57 [label="Tree.Node.Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#af91397c695322b7fe3490a32c40b9e3b",tooltip="Constructora de la clase nodo. "];
+  Node55 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node58 [label="Tree.Tree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a207c06111ed2f0d99ab87d4a2e248f32",tooltip="Inicializa el arbol con una lista de hijos vacia sin cambiar ninguna variable estatica (last_visited_..."];
+  Node52 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node59 [label="Tree.Node.getIndex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#a0062c0d3870c4d37e6092bd97dc77dfa",tooltip="Getter de la variable index. "];
+  Node52 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+}

@@ -1,0 +1,21 @@
+digraph "Compressor_LZW"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node2 [label="{Compressor_LZW\n|- nextIndex\l- codewordSize\l- extension\l- BYTE_SIZE\l|+ Compressor_LZW()\l+ compress()\l~ getExtension()\l- getCompressedName()\l- toByteArray()\l- concatenate()\l- toByteArray()\l- inicializar()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans"];
+  Node3 [label="{Compressor\n|- inputFile\l- outputFile\l- in\l- out\l- time\l|+ selectFiles()\l+ startCompression()\l+ startCompression()\l+ getTime()\l+ getOriginalSize()\l+ getCompressedSize()\l+ getCompressionRatio()\l~ getExtension()\l# compress()\l# readByte()\l# readNBytes()\l# closeReader()\l# readAllBytes()\l# readFileString()\l# writeByte()\l# writeBytes()\l# closeWriter()\l- getCompressedName()\l- getCompressedName()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html"];
+  Node4 -> Node2 [color="grey25",fontsize="10",style="solid",label=" -pattern" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node4 [label="{ArrayList\< Byte \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node5 -> Node4 [dir="back",color="orange",fontsize="10",style="solid",label=" \< Byte \>" ,fontname="FreeSans"];
+  Node5 [label="{ArrayList\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node6 -> Node2 [color="grey25",fontsize="10",style="solid",label=" -dictionary" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node6 [label="{Tree\n|- next_index\l|+ Tree()\l+ find()\l+ insert()\l+ clear()\l+ getNode()\l+ progressive_find()\l- Tree()\l- find()\l- insert()\l- putNodeIfAbsent()\l- findNextByte()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html",tooltip="Arbol de busqueda utilizado para agilizar la compresion en los algoritmos LZ-78 y LZ-W..."];
+  Node7 -> Node6 [color="grey25",fontsize="10",style="solid",label=" -last_visited_node" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node7 [label="{Tree.Node\n|- id\l- index\l|+ Node()\l+ getId()\l+ setId()\l+ areYou()\l+ getIndex()\l+ setIndex()\l+ getSons()\l+ setSons()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html",tooltip="Clase contenedora de datos y sub-arboles para la clase Tree. "];
+  Node6 -> Node7 [color="grey25",fontsize="10",style="solid",label=" -sons" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node8 -> Node6 [color="grey25",fontsize="10",style="solid",label=" -sons" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node8 [label="{List\< Tree.Node \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node9 -> Node8 [dir="back",color="orange",fontsize="10",style="solid",label=" \< Tree::Node \>" ,fontname="FreeSans"];
+  Node9 [label="{List\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+}

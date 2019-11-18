@@ -1,0 +1,9 @@
+digraph "Triplet.print"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node17 [label="Triplet.print",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node17 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 [label="Compressor_JPEG.printPixels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a7c17d163f1e504d2328e8543e3801347",tooltip="Función para imprimir una matriz de tripletas, usada para debugar. "];
+}

@@ -1,0 +1,17 @@
+digraph "Tree.Node.getSons"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node18 [label="Tree.Node.getSons",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node19 [label="Tree.find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a32bc9bd858f09fc36e1a879d46a169d6",tooltip="Funcion recursiva sobre la que se relizan las busquedas comprobando byte a byte. "];
+  Node18 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node20 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#aa0b442e14c7f124c0de481f79ff5f7db",tooltip="Inserta recursivamente (byte a byte) una palabra (cadena de bytes) en el arbol de busqueda..."];
+  Node18 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node21 [label="Tree.findNextByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#af3fe3f1ed1787f9810bcf8c5ffeaa376",tooltip="Funcion auxiliar de la funcion \"progressive_find\". "];
+  Node21 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node22 [label="Tree.progressive_find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#ac3b622ffcc245646e2d98ea9ccd064aa",tooltip="El funcionamiento varia segun el valor de restart: "];
+  Node22 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node23 [label="Compressor_LZ78.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78.html#aa48470b1df3b1a4223a2f3d1d4094c2a"];
+}

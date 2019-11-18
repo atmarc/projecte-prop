@@ -1,0 +1,11 @@
+digraph "Huffman.Node.Node"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Huffman.Node.Node",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="Huffman.encode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#aa0204e72cec9f48342217fc71fd7c90c",tooltip="Funcion para comprimir usando Huffman el array file. "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="Compressor_JPEG.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a35a67903423fece8310ed766fd0d937b"];
+}

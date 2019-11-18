@@ -6,6 +6,12 @@ import java.util.HashMap;
 
 public class Decompressor_LZSS extends Decompressor {
 
+    /*!
+     *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-SS.
+     *  \details
+     *  \author    Nico Camerlynck
+     */
+
     String getExtension() {
         return ".txt";
     }

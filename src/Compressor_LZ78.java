@@ -2,7 +2,7 @@ import java.util.ArrayList;
 /*!
  *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-78.
  *  \details
- *  \author    Edgar Perez Blanco
+ *  \author    Edgar Perez
  */
 public class Compressor_LZ78 extends Compressor {
 

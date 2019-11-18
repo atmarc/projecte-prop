@@ -1,6 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/*!
+ *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-W.
+ *  \details
+ *  \author    Andrei Mihalache
+ */
 public class Compressor_LZW extends Compressor {
 	private static final String extension = ".lzw";
 	private static final int BYTE_SIZE = 8;

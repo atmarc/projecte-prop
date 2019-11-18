@@ -35,11 +35,11 @@ public class Compressor_JPEGTest {
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
 
         String[] files = {
-                "../testing_files/ppm_images/boxes_1",
-                "../testing_files/ppm_images/image",
-                "../testing_files/ppm_images/house_1",
-                "../testing_files/ppm_images/west_1",
-                "../testing_files/ppm_images/france-wallpaper"
+                "./src/persistencia/testing_files/ppm/boxes_1",
+                "./src/persistencia/testing_files/ppm/image",
+                "./src/persistencia/testing_files/ppm/house_1",
+                "./src/persistencia/testing_files/ppm/west_1",
+                "./src/persistencia/testing_files/ppm/france-wallpaper"
         };
 
         for (int i = 0; i < files.length; ++i) {

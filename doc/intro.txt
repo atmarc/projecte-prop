@@ -178,7 +178,6 @@
  * altura de la foto) y pasar los enteros de cada pixel a bytes siguiendo el
  * estandard de los archivos ppm.
  *
- *
  * \section install_sec Instalacion
  *
  * Para instalar el programa se debe ejecutar el comando:<br>

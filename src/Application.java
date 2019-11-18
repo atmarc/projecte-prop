@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Application {
@@ -7,6 +8,11 @@ public class Application {
         int i = path.lastIndexOf('.');
         if (i > 0) return path.substring(i+1);
         return null;
+    }
+
+    private static boolean existsFile(String path) {
+        File file = new File(path);
+        return file.exists();
     }
 
     public static void main(String[] args) throws IllegalArgumentException {
@@ -35,8 +41,8 @@ public class Application {
             do {
                 inputPath = in.next();
                 extension = getPathExtension(inputPath);
-                valid = (extension != null && (extension.equals("txt") || extension.equals("ppm")));
-                if (!valid) System.out.println("El archivo proporcionado no es ni un .txt ni un .ppm .\nIntroduzca una ruta a un archivo valido:");
+                valid = (extension != null && (extension.equals("txt") || extension.equals("ppm"))) && existsFile(inputPath);
+                if (!valid) System.out.println("O bien el archivo proporcionado no existe, o bien no es ni un .txt ni un .ppm .\nIntroduzca una ruta a un archivo valido:");
             }
             while(!valid);
         }

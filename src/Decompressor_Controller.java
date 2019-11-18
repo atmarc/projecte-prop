@@ -2,9 +2,19 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/*!
+ *  \brief     Clase encargada de comunicar los descompresores con otras capas (presentacion y persistencia). Proporciona metodos de entrada y salida ademas realizar el calculo de las estadisticas.
+ *  \details
+ *  \author    Edgar Perez
+ */
 public class Decompressor_Controller {
 
-    private Decompressor decompressor;
+    private Decompressor decompressor; ///< Objeto descompresor
+
+    /**
+     * Constructora que en base al tipo de archivo de comprimido, crea un tipo de descompresor u otro.
+     * @param extension Extension del archivo comprimido sobre el que se desea realizar una descompresion.
+     */
     public Decompressor_Controller(String extension) {
 
         switch (extension){
@@ -27,11 +37,11 @@ public class Decompressor_Controller {
         decompressor.setController(this);
     }
 
-    private File inputFile;
-    private File outputFile;
-    private BufferedInputStream in;
-    private BufferedOutputStream out;
-    private long time;
+    private File inputFile;             ///< Referencia al archivo origen.
+    private File outputFile;            ///< Referencia al archivo destino.
+    private BufferedInputStream in;     ///< Buffer de lectura.
+    private BufferedOutputStream out;   ///< Buffer de escritura.
+    private long time;                  ///< Tiempo transcurrido durante la descompresion.
 
     // Auxiliar PreCompression Methods
     public void selectFiles(String inputPath, String outputPath) {
@@ -50,6 +60,11 @@ public class Decompressor_Controller {
             e.printStackTrace();
         }
     }
+    /**
+     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
+     * @param file Fichero que referencia al fichero original.
+     * @return Path del fichero destino.
+     */
     private String getCompressedName(File file) {
         String fileName = file.getPath();
         int pos = fileName.lastIndexOf('.');
@@ -58,6 +73,11 @@ public class Decompressor_Controller {
         else throw new IllegalArgumentException("Nombre de fichero incorrecto");
         return compressedFileName + decompressor.getExtension();
     }
+    /**
+     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
+     * @param fileName Path del archivo original.
+     * @return Path del fichero destino.
+     */
     private String getCompressedName(String fileName) {
         int pos = fileName.lastIndexOf('.');
         String compressedFileName;
@@ -67,6 +87,12 @@ public class Decompressor_Controller {
     }
 
     // Compression
+
+    /**
+     * Inicia la descompresion del archivo referenciado por el path inputPath hacia un nuevo archivo en outputPath
+     * @param inputPath Path del archivo comprimido.
+     * @param outputPath Path del directorio donde se creara el archivo descomprimido.
+     */
     public void startDecompression(String inputPath, String outputPath) {
 
         selectFiles(inputPath, outputPath);
@@ -83,16 +109,30 @@ public class Decompressor_Controller {
         System.out.println("Time: " + this.getTime() + " ms");
 
     }
+    /**
+     * Inicia la descompresion del archivo referenciado por el path inputPath hacia un nuevo archivo localizado en el mismo directorio que el original.
+     * @param inputPath Path del archivo comprimido.
+     */
     public void startDecompression(String inputPath) {
         startDecompression(inputPath, getCompressedName(inputPath));
     }
 
     // Post-Compression Consultants
+
+    /**
+     * Getter del tiempo transcurrido en milisegundos.
+     * @return Tiempo transcurrido en milisegundos.
+     */
     public long getTime() {
         return time;
     }
 
     // Lectura
+
+    /**
+     * Lee un byte del fichero origen.
+     * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
+     */
     protected int readByte() {
         try {
             return in.read();
@@ -101,6 +141,11 @@ public class Decompressor_Controller {
             return -1;
         }
     }
+    /**
+     * Lee N bytes del fichero origen en una cadena de bytes que se le pasa por parametro.
+     * @param word Cadena de bytes sobre la que se introducira la lectura.
+     * @return Cantidad de bytes leida o -1 si no habia nada que leer.
+     */
     protected int readNBytes(byte[] word) {
         try {
             return in.read(word);
@@ -109,6 +154,9 @@ public class Decompressor_Controller {
             return -1;
         }
     }
+    /**
+     * Cierra el buffer de lectura.
+     */
     protected void closeReader() {
         try {
             if (in != null) in.close();
@@ -116,6 +164,10 @@ public class Decompressor_Controller {
             e.printStackTrace();
         }
     }
+    /**
+     * Lee todos los bytes del fichero origen y los guarda en una cadena.
+     * @return Cadena de bytes con todos los bytes del fichero origen.
+     */
     protected byte[] readAllBytes() {
         byte[] b = new byte[0];
         try {
@@ -127,6 +179,11 @@ public class Decompressor_Controller {
     }
 
     // Escritura
+
+    /**
+     * Escribe un byte en fichero de salida.
+     * @param B Byte que se desea escribir en el fichero de salida.
+     */
     protected void writeByte(byte B) {
         try {
             out.write(B);
@@ -134,6 +191,10 @@ public class Decompressor_Controller {
             e.printStackTrace();
         }
     }
+    /**
+     * Escribe una cadena de bytes en el fichero de salida.
+     * @param word Cadena de bytes que se desea escribir en el fichero de salida.
+     */
     protected void writeBytes(byte[] word) {
         try {
             out.write(word);
@@ -141,6 +202,9 @@ public class Decompressor_Controller {
             e.printStackTrace();
         }
     }
+    /**
+     * Cierra buffer de escritura.
+     */
     protected void closeWriter() {
         try {
             if (out != null) out.close();

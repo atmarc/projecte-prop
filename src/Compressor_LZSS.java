@@ -5,7 +5,7 @@ import java.util.Queue;
 /*!
  *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-SS.
  *  \details
- *  \author    Nico Camerlynck
+ *  \author    Nicolas Camerlynck
  */
 public class Compressor_LZSS extends Compressor {
 

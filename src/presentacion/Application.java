@@ -3,6 +3,7 @@ import dominio.Compressor_Controller;
 import dominio.Decompressor_Controller;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
@@ -82,10 +83,10 @@ public class Application {
                 if (!valid) System.out.println("Ruta no valida, debe terminar en '/' ");
             }
             while (!valid);
+            outputPath = FileSystems.getDefault().getPath(outputPath).normalize().toAbsolutePath().toString() + "/";
         }
         else if (route == 2) {
-            outputPath = Paths.get("./../src/persistencia/out/").toString();
-            System.out.println(outputPath);
+            outputPath = FileSystems.getDefault().getPath("./src/persistencia/out/").normalize().toAbsolutePath().toString() + "/";
         }
 
         if (mode == 0) { // Comprimir

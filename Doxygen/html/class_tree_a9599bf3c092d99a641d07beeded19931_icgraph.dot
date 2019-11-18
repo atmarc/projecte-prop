@@ -1,0 +1,11 @@
+digraph "Tree.find"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node12 [label="Tree.find",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node12 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="Compressor_LZW.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a2c94f2ac7410a64bdca80476e8edc9f0",tooltip="Comprime un fichero mediante el algoritmo LZW. "];
+  Node12 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="Tree.find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a32bc9bd858f09fc36e1a879d46a169d6",tooltip="Funcion recursiva sobre la que se relizan las busquedas comprobando byte a byte. "];
+}

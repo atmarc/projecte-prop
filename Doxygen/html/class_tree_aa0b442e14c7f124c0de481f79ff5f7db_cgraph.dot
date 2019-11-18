@@ -1,0 +1,19 @@
+digraph "Tree.insert"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node44 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node44 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node45 [label="Tree.Node.getIndex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#a0062c0d3870c4d37e6092bd97dc77dfa",tooltip="Getter de la variable index. "];
+  Node44 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node46 [label="Tree.getNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a0825bbc33ef78c01a3bc1674ce7be9f8",tooltip="Funcion que busca y retorna el nodo con id = B si existe. "];
+  Node44 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node47 [label="Tree.Node.getSons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#a1af5827829ebf9c652cdd48c0f8f2d00",tooltip="Getter de la variable sons (Arbol que contiene a sus hijos). "];
+  Node44 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node48 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#afd3ea70c21482a796b827db97b4625cb",tooltip="Inserta una palabra (cadena de bytes) en el arbol de busqueda. "];
+  Node44 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node49 [label="Tree.Node.Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#af91397c695322b7fe3490a32c40b9e3b",tooltip="Constructora de la clase nodo. "];
+  Node44 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node50 [label="Tree.Tree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a207c06111ed2f0d99ab87d4a2e248f32",tooltip="Inicializa el arbol con una lista de hijos vacia sin cambiar ninguna variable estatica (last_visited_..."];
+}

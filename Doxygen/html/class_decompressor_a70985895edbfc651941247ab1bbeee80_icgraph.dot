@@ -1,0 +1,13 @@
+digraph "Decompressor.writeBytes"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node69 [label="Decompressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node69 -> Node70 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node70 [label="Decompressor_JPEG.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#af163b100f94429344465305d76ff08e9",tooltip="Funcion abstracta de Decompresor que comprime el archivo. "];
+  Node69 -> Node71 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node71 [label="Decompressor_LZ78.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___l_z78.html#acfce03bfc26c504baac3d11c7a14d668"];
+  Node69 -> Node72 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node72 [label="Decompressor_LZSS.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___l_z_s_s.html#acae49578cdc8c4c5b7af8dfad2e85918",tooltip="Descomprime un fichero codificado con el algoritmo LZSS. "];
+}

@@ -1,0 +1,14 @@
+digraph "Tree.putNodeIfAbsent"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node66 [label="Tree.putNodeIfAbsent",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node66 -> Node67 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node67 [label="Tree.progressive_find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#ac3b622ffcc245646e2d98ea9ccd064aa",tooltip="El funcionamiento varia segun el valor de restart: "];
+  Node67 -> Node68 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node68 [label="Compressor_LZ78.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78.html#aa48470b1df3b1a4223a2f3d1d4094c2a"];
+  Node66 -> Node69 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node69 [label="Tree.findNextByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#af3fe3f1ed1787f9810bcf8c5ffeaa376",tooltip="Funcion auxiliar de la funcion \"progressive_find\". "];
+  Node69 -> Node67 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+}

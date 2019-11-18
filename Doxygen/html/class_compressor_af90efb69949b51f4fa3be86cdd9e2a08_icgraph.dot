@@ -1,0 +1,11 @@
+digraph "Compressor.readByte"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node57 [label="Compressor.readByte",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node57 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node58 [label="Compressor.readFileString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a7ed4be911f856209ac4491b767fe3c83"];
+  Node57 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node59 [label="Compressor_LZW.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a2c94f2ac7410a64bdca80476e8edc9f0",tooltip="Comprime un fichero mediante el algoritmo LZW. "];
+}

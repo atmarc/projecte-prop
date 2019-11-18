@@ -1,0 +1,43 @@
+digraph "Application.main"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node3 [label="Application.main",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="Application.getPathExtension",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_application.html#ab4807e22545ab728f442b664351f56da"];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Compressor.startCompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a7599d0290ea9f31c6241bee2eefa2edd"];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Compressor.selectFiles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#ab543704088332634aad6f16c81a589a0"];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Compressor.getCompressedName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a0bf0f0aa1e2700643f5ae663afd1eacb"];
+  Node5 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="Compressor.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a63f63747a032ecdf027c98cc4afa8b90"];
+  Node5 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="Compressor.closeReader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a4bfed2a2fa86b7e66bfd9ca125ee7e8c"];
+  Node5 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="Compressor.closeWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a9d30df78cd1136f2b6b75fb8f98fe14b"];
+  Node5 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="Compressor.getTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a183902861246f33ad9dc2f3f2710e21c"];
+  Node5 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node12 [label="Compressor.getCompression\lRatio",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a6b30207ecc08993f863588719a681f9b"];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="Compressor.getCompressedSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a5684d1b8b78aa4b10d2484979e7b5278"];
+  Node12 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="Compressor.getOriginalSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html#a1f2aac1c4046a45dc6293ceef13d81bd"];
+  Node3 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node15 [label="Decompressor.startDecompression",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#ad982f1bde8eb4cb076a7ca6d035ad9d8"];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node16 [label="Decompressor.selectFiles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a21932db92500ca52cfb1bfaed6b556c8"];
+  Node16 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node17 [label="Decompressor.getCompressedName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#ac412fbb89ad3fd0637cdb1feaea9241c"];
+  Node15 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 [label="Decompressor.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a23f82c84afb13ee44b30e38dbeda6d1a"];
+  Node15 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node19 [label="Decompressor.closeReader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a1e9f0226a83f178072324fa363a66977"];
+  Node15 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node20 [label="Decompressor.closeWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#aac28ac799caa1348ca7cbacf5e31a8f0"];
+  Node15 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node21 [label="Decompressor.getTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor.html#a63e28b5b3afa8978005c27675fdf4784"];
+}

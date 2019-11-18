@@ -1,0 +1,17 @@
+digraph "Compressor.writeBytes"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node99 [label="Compressor.writeBytes",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node99 -> Node100 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node100 [label="Compressor_JPEG.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a35a67903423fece8310ed766fd0d937b"];
+  Node99 -> Node101 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node101 [label="Compressor_LZ78.write\l_compressed_file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78.html#a0f0ccdb84f843ebff67b4dbd07093a5f"];
+  Node101 -> Node102 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node102 [label="Compressor_LZ78.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78.html#a8a9f1be6a1850abd1e78f8fe47ea9538"];
+  Node99 -> Node103 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node103 [label="Compressor_LZSS.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_s_s.html#ae9070f7fd34fddb9332bc8fe6ed541a9",tooltip="Comprime un fichero mediante el algoritmo LZSS. "];
+  Node99 -> Node104 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node104 [label="Compressor_LZW.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z_w.html#a2c94f2ac7410a64bdca80476e8edc9f0",tooltip="Comprime un fichero mediante el algoritmo LZW. "];
+}

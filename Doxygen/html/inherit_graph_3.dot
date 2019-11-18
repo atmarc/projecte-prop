@@ -1,0 +1,7 @@
+digraph "Representación gráfica de la clase"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="Compressor_LZ78.Pair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78_1_1_pair.html",tooltip="Clase auxiliar para la implementacion del diccionario del compresor mediante el algortimo LZ-78..."];
+}

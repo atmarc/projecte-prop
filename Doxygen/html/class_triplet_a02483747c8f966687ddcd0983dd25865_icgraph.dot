@@ -1,0 +1,11 @@
+digraph "Triplet.getSecond"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node9 [label="Triplet.getSecond",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="Compressor_JPEG.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___j_p_e_g.html#a35a67903423fece8310ed766fd0d937b"];
+  Node9 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="Decompressor_JPEG.decompress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_decompressor___j_p_e_g.html#af163b100f94429344465305d76ff08e9",tooltip="Funcion abstracta de Decompresor que comprime el archivo. "];
+}

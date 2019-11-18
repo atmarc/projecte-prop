@@ -1,0 +1,9 @@
+digraph "Huffman.addDictionary"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="Huffman.addDictionary",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node1 [label="Huffman.addSeparador",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_huffman.html#a6b6f8f107be3ee9f4dbbee917762c708",tooltip="Funcion que añade un separador a la cadena de bits. "];
+}

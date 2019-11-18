@@ -1,0 +1,15 @@
+digraph "Compressor_LZ78"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node2 [label="{Compressor_LZ78\n|- next_index\l|~ Compressor_LZ78()\l# getExtension()\l# compress()\l- add_comp_file()\l- compress()\l- write_compressed_file()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans"];
+  Node3 [label="{Compressor\n|- inputFile\l- outputFile\l- in\l- out\l- time\l|+ selectFiles()\l+ startCompression()\l+ startCompression()\l+ getTime()\l+ getOriginalSize()\l+ getCompressedSize()\l+ getCompressionRatio()\l~ getExtension()\l# compress()\l# readByte()\l# readNBytes()\l# closeReader()\l# readAllBytes()\l# readFileString()\l# writeByte()\l# writeBytes()\l# closeWriter()\l- getCompressedName()\l- getCompressedName()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor.html"];
+  Node4 -> Node2 [color="grey25",fontsize="10",style="solid",label=" -files" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node4 [label="{ArrayList\< ArrayList\l\< Compressor_LZ78.Pair \> \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node5 -> Node4 [dir="back",color="orange",fontsize="10",style="solid",label=" \< ArrayList\< Compressor\l_LZ78::Pair \> \>" ,fontname="FreeSans"];
+  Node5 [label="{ArrayList\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node6 -> Node2 [color="grey25",fontsize="10",style="solid",label=" -comp_file" ,arrowhead="odiamond",fontname="FreeSans"];
+  Node6 [label="{ArrayList\< Compressor\l_LZ78.Pair \>\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node5 -> Node6 [dir="back",color="orange",fontsize="10",style="solid",label=" \< Compressor_LZ78::\lPair \>" ,fontname="FreeSans"];
+}

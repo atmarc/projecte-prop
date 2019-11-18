@@ -1,0 +1,20 @@
+digraph "Tree.getNode"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node31 [label="Tree.getNode",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node31 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node32 [label="Tree.find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a32bc9bd858f09fc36e1a879d46a169d6",tooltip="Funcion recursiva sobre la que se relizan las busquedas comprobando byte a byte. "];
+  Node31 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node33 [label="Tree.insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#aa0b442e14c7f124c0de481f79ff5f7db",tooltip="Inserta recursivamente (byte a byte) una palabra (cadena de bytes) en el arbol de busqueda..."];
+  Node31 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node34 [label="Tree.putNodeIfAbsent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a6d7872aef1141b001a50a98851ed26ca",tooltip="Busca el nodo con id = B. "];
+  Node34 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node35 [label="Tree.progressive_find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#ac3b622ffcc245646e2d98ea9ccd064aa",tooltip="El funcionamiento varia segun el valor de restart: "];
+  Node35 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node36 [label="Compressor_LZ78.compress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_compressor___l_z78.html#aa48470b1df3b1a4223a2f3d1d4094c2a"];
+  Node34 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node37 [label="Tree.findNextByte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#af3fe3f1ed1787f9810bcf8c5ffeaa376",tooltip="Funcion auxiliar de la funcion \"progressive_find\". "];
+  Node37 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+}

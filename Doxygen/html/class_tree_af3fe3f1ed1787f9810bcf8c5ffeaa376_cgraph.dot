@@ -1,0 +1,17 @@
+digraph "Tree.findNextByte"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node21 [label="Tree.findNextByte",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node21 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node22 [label="Tree.Node.getSons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#a1af5827829ebf9c652cdd48c0f8f2d00",tooltip="Getter de la variable sons (Arbol que contiene a sus hijos). "];
+  Node21 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node23 [label="Tree.putNodeIfAbsent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a6d7872aef1141b001a50a98851ed26ca",tooltip="Busca el nodo con id = B. "];
+  Node23 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node24 [label="Tree.getNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a0825bbc33ef78c01a3bc1674ce7be9f8",tooltip="Funcion que busca y retorna el nodo con id = B si existe. "];
+  Node23 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node25 [label="Tree.Node.Node",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree_1_1_node.html#af91397c695322b7fe3490a32c40b9e3b",tooltip="Constructora de la clase nodo. "];
+  Node23 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node26 [label="Tree.Tree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tree.html#a207c06111ed2f0d99ab87d4a2e248f32",tooltip="Inicializa el arbol con una lista de hijos vacia sin cambiar ninguna variable estatica (last_visited_..."];
+}

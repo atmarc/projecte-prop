@@ -19,7 +19,6 @@ public class Compressor_LZ78Test {
     private ArrayList<Compressor_LZ78.Pair> resultA, resultB;
 
 
-
     @Before
     public void setUp() throws Exception {
 

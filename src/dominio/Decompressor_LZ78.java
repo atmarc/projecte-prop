@@ -1,3 +1,4 @@
+package dominio;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
@@ -8,12 +9,29 @@ import java.util.ArrayList;
  */
 public class Decompressor_LZ78 extends Decompressor {
 
+    public ArrayList<byte[]> getDictionary() {
+        return dictionary;
+    }
+
+    public void setDictionary(ArrayList<byte[]> dictionary) {
+        this.dictionary = dictionary;
+    }
+
     ArrayList<byte[]> dictionary;
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     int length;
 
     public Decompressor_LZ78() {}
 
-    void decompress() {
+    public void decompress() {
 
         byte[] singleByte = new byte[1], index = new byte[4];
         controller.readNBytes(index);
@@ -46,7 +64,7 @@ public class Decompressor_LZ78 extends Decompressor {
 
     }
 
-    byte[] decompress(byte[] indexB, byte offset) {
+    public byte[] decompress(byte[] indexB, byte offset) {
 
         int index = new BigInteger(indexB).intValue();
 
@@ -70,7 +88,7 @@ public class Decompressor_LZ78 extends Decompressor {
         return word;
     }
 
-    String getExtension() {
+    public String getExtension() {
         return "_decompressed.txt";
     }
 

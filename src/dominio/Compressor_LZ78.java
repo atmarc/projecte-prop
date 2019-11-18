@@ -1,3 +1,4 @@
+package dominio;
 import java.util.ArrayList;
 /*!
  *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-78.
@@ -5,6 +6,10 @@ import java.util.ArrayList;
  *  \author    Edgar Perez
  */
 public class Compressor_LZ78 extends Compressor {
+
+    public ArrayList<Pair> getComp_file() {
+        return comp_file;
+    }
 
     ArrayList<Pair> comp_file;                  ///< Archivo sobre el que se escribe la compresion actual
     int next_index;                             ///< Siguiente indice que se debe utilizar como referencia en el diccionario.
@@ -26,16 +31,22 @@ public class Compressor_LZ78 extends Compressor {
 
     }
     
-    Compressor_LZ78() {
+    public Compressor_LZ78() {
         comp_file = new ArrayList<>();
         comp_file.add(new Pair(0, (byte) 0x00));
     }
 
-    protected String getExtension() {
+    public Compressor_LZ78(int i) {
+        comp_file = new ArrayList<>();
+        comp_file.add(new Pair(0, (byte) 0x00));
+        next_index = i;
+    }
+
+    public String getExtension() {
         return ".lz78";
     }
 
-    void compress() {
+    public void compress() {
 
         int B;
         Tree tree = new Tree(1);
@@ -66,7 +77,7 @@ public class Compressor_LZ78 extends Compressor {
      *  - true  -> Se ha anadido un mote nuevo. La siguiente entrada empezara a buscar desde arriba en el arbol.
      *  - false -> El mote buscado existe. Se solicita otro byte para continuar buscando en la actual altura del arbol.
      */
-    boolean compress(byte B, Tree tree, boolean top_search) {
+    public boolean compress(byte B, Tree tree, boolean top_search) {
 
         int index = tree.progressive_find(B, top_search);
 
@@ -83,7 +94,7 @@ public class Compressor_LZ78 extends Compressor {
     /**
      * Escribe en el fichero de salida mediante la controladora del compresor el diccionario comprimido.
      */
-    void write_compressed_file() {
+    private void write_compressed_file() {
 
         int i = 1;
         byte[] buffer = new byte[4];
@@ -131,15 +142,5 @@ public class Compressor_LZ78 extends Compressor {
         }
         controller.closeWriter();
     }
-
-
-
-
-
-
-
-
-
-
 
 }

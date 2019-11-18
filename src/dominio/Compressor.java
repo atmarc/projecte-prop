@@ -1,3 +1,4 @@
+package dominio;
 /**
  * Clase con metodos abstractos para implementar un compresor. Contiene una variable que hace referencia a su controlador para poder comunicarse con otras capas.
  */
@@ -17,10 +18,10 @@ public abstract class Compressor {
      * Retorna la extension del archivo comprimido (depende del tipo de algoritmo utilizado).
      * @return Retorna la extension del archivo comprimido.
      */
-    abstract String getExtension();
+    public abstract String getExtension();
     /**
      * Funcion encargada de comprimir el archivo proporcionado por la controladora y escribirlo en el archivo de salida tambien a traves de la controladora.
      */
-    abstract void compress();
+    public abstract void compress();
 
 }

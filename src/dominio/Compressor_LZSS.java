@@ -1,3 +1,4 @@
+package dominio;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,7 +14,7 @@ public class Compressor_LZSS extends Compressor {
      * Retorna la extension de los ficheros comprimidos con esta clase
      * @return la extension de los ficheros comprimidos
      */
-    protected String getExtension() {
+    public String getExtension() {
         return ".lzss";
     }
 
@@ -153,17 +154,6 @@ public class Compressor_LZSS extends Compressor {
 
         controller.writeBytes(arrFinal);
 
-    }
-
-    /**
-     * Pasa de un char a byte
-     * @param a Es el carácter que se tiene que pasar a Byte
-     * @return Un byte b que corresponde a los 8 bits inferiores del char a
-     */
-    private byte charToByte(char a) {
-        char aux = (char) (a & 0x00FF);
-        byte ret = (byte) aux;
-        return ret;
     }
 
     /**

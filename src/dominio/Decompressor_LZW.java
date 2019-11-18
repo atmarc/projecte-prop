@@ -1,4 +1,4 @@
-import java.io.*;
+package dominio;
 import java.util.ArrayList;
 
 /*!
@@ -24,11 +24,10 @@ public class Decompressor_LZW extends Decompressor {
         codewordSize =  16;
     }
 
-
     /**
      * @return La extencion del fichero descomprimido
      */
-    protected String getExtension() {
+    public String getExtension() {
         return "_decompressed.txt";
     }
 

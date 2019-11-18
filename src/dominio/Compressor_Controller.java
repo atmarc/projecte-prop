@@ -1,3 +1,4 @@
+package dominio;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,7 +11,7 @@ import java.nio.file.Paths;
  */
 public class Compressor_Controller {
 
-    private Compressor compressor; ///< Objeto compresor
+    public Compressor compressor; ///< Objeto compresor
 
     /**
      * Constructora que en base al tipo de algoritmo de compresion escogido, crea un tipo de compresor u otro.
@@ -71,7 +72,7 @@ public class Compressor_Controller {
      * @param fileName Path del archivo original.
      * @return Path del fichero destino.
      */
-    private String getCompressedName(String fileName) {
+    public String getCompressedName(String fileName) {
         int pos = fileName.lastIndexOf('.');
         String compressedFileName;
         if (pos != -1) compressedFileName = fileName.substring(0, pos);
@@ -84,7 +85,7 @@ public class Compressor_Controller {
      * @param file Fichero que referencia al fichero original.
      * @return Path del fichero destino.
      */
-    private String getCompressedName(File file) {
+    public String getCompressedName(File file) {
         return getCompressedName(file.getPath());
     }
 

@@ -2,10 +2,11 @@ package dominio;
 
 import java.util.ArrayList;
 
-/*!
- *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-W.
- *  \details
- *  \author    Andrei Mihalache
+/**
+ *  @brief     	Extension de la clase Compressor mediante el algoritmo LZ-W.
+ *  @details   	La clase que implementa la compression de un fichero mediante el
+ *  			algoritmo LZW
+ *  @author    	Andrei Mihalache
  */
 public class Compressor_LZW extends Compressor {
 	private static final String extension = ".lzw";
@@ -16,14 +17,14 @@ public class Compressor_LZW extends Compressor {
 	private int codewordSize;   // la longitud en bits para escribir la codificación
 
 	/**
-	 * Crea un objecto compressor con el diccionario básico.
+	 * @brief Crea un objecto compressor con el diccionario básico.
 	 */
 	public Compressor_LZW() {
 		inicializar();
 	}
 
 	/**
-	 * Retorna la extension de los ficheros comprimidos con esta clase
+	 * @brief Retorna la extension de los ficheros comprimidos con esta clase
 	 * @return la extension de los ficheros comprimidos
 	 */
 	public String getExtension() {
@@ -31,7 +32,15 @@ public class Compressor_LZW extends Compressor {
 	}
 
 	/**
-	 * Comprime un fichero mediante el algoritmo LZW
+	 * @brief 	Comprime un fichero mediante el algoritmo LZW
+	 * @details La funcion lee byte a byte desde el fichero a comprimir mediante
+	 * 			el controlador, y construye la palabra mas grande de bytes seguides que no esta
+	 * 			en el diccionario hastael momento. Cuando la encuentra, la añade al diccionario
+	 * 			con el menor indice no utilizado, escribe el código de esta palabra menos el último
+	 * 			carácter en la salida y empieza a buscar otra empezando con el ultimo carácter leído.
+	 * @pre		El input stream reader y el output stream reader estan creados e inicializados
+	 * 			con los los ficheros de entrada y salida respectivamente
+	 * @post	El fichero de salida contiene el contenido comprimido del fichero de la entrada
 	 */
 	public void compress() {
 		inicializar();
@@ -52,20 +61,19 @@ public class Compressor_LZW extends Compressor {
 				}
 				pattern = new ArrayList<>();
 				pattern.add(B);
-			}
-			else pattern.add(B);
+			} else pattern.add(B);
 		}
 		if (pattern.size() > 0) {
-		codeword = dictionary.find(toByteArray(pattern));
-		byte[] codewordAsByteArray = toByteArray(codeword);
-		controller.writeBytes(codewordAsByteArray);
+			codeword = dictionary.find(toByteArray(pattern));
+			byte[] codewordAsByteArray = toByteArray(codeword);
+			controller.writeBytes(codewordAsByteArray);
 		}
 	}
 
 	/**
-	 * Convierte un ArrayList de Bytes en un byte array
 	 * @param p el ArrayList a convertir
-	 * @return	el byte array equivalente a {@code p}
+	 * @brief Convierte un ArrayList de Bytes en un byte array
+	 * @return el byte array equivalente a {@code p}
 	 */
 	private byte[] toByteArray(ArrayList<Byte> p) {
 		byte[] res = new byte[p.size()];
@@ -74,25 +82,24 @@ public class Compressor_LZW extends Compressor {
 	}
 
 	/**
-	 * Concatena un byte array con un byte
+	 * @brief Concatena un byte array con un byte
 	 * @param p el byte array a concatenar
 	 * @param b el byte a concatenar
 	 * @return un byte array que representa la
 	 * concatenacion de {@code p} y {@code b}
 	 */
 	private byte[] concatenate(ArrayList<Byte> p, byte b) {
-		byte[] res = new byte[p.size()+1];
+		byte[] res = new byte[p.size() + 1];
 		for (int i = 0; i < p.size(); ++i) res[i] = p.get(i);
 		res[p.size()] = b;
 		return res;
 	}
 
 	/**
-	 * Convierte un int en un array con elementos de 8 bits
+	 * @brief Convierte un int en un array con elementos de 8 bits
 	 * (Es igual a pasar un integer desde la base 10 a base 256)
-	 *
 	 * @param codeword número a convertir
-	 * @return un array con la representación de {@code codeword}
+	 * @return un array con la representación de {@code codeword} en base 256
 	 */
 	private byte[] toByteArray(int codeword) {
 		byte[] codewordAsByte = new byte[codewordSize / BYTE_SIZE];
@@ -104,7 +111,11 @@ public class Compressor_LZW extends Compressor {
 	}
 
 	/**
-	 * Inicializa el diccionario del compresor al diccionario básico
+	 * @brief Inicializa el diccionario del compresor
+	 * @details Inserta todos los caracteres de ASCII extendido en el
+	 * diccionario del compressor. Esto forma el diccionario basico.
+	 * Ademas, establece la longitud de los codigos a escribir a 16 bits
+	 * y reinicia la palabra acumulada
 	 */
 	private void inicializar() {
 		nextIndex = 0;

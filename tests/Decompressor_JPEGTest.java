@@ -35,11 +35,11 @@ public class Decompressor_JPEGTest {
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
 
         String[] files = {
-                "../src/persistencia/ppm_images/boxes_1",
-                "../src/persistencia/ppm_images/image",
-                "../src/persistencia/ppm_images/house_1",
-                "../src/persistencia/ppm_images/west_1",
-                "../src/persistencia/ppm_images/france-wallpaper"
+                "./src/persistencia/ppm_images/boxes_1",
+                "./src/persistencia/ppm_images/image",
+                "./src/persistencia/ppm_images/house_1",
+                "./src/persistencia/ppm_images/west_1",
+                "./src/persistencia/ppm_images/france-wallpaper"
         };
 
         for (int i = 0; i < files.length; ++i) {

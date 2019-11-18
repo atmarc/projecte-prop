@@ -25,7 +25,7 @@ Resultat de la prova: ok
 compress2
 Descripció: Comprueba el funcionamiento del compressor y decompressor
 Objectius: Comprobar si los algoritmos de compression y decompresion funcionan
-no solo con letras del alfabeto ingles.
+no solo con letras del alfabeto ingles. Y el rendimiento con ficherospequenos.
 Entrada: emoji.txt japones.txt
 Sortida: emoji_decompressed.txt japones_decompressed.txt
 Resultat de la prova: ok

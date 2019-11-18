@@ -56,7 +56,7 @@ public class Decompressor_LZ78 extends Decompressor {
             word = new byte[1];
             word[0] = offset;
         }
-        else if (dictionary.size() == length - 1){
+        else if (dictionary.size() == length - 1 && offset == (byte) 0){
             word = dictionary.get(index);
         }
         else {

@@ -1,25 +1,10 @@
 package dominio;
 
+import persistencia.Persistence_Controller;
+
 class Domain_Controller {
 
-    private persistencia.Domain_Controller persistence_controller;
-
-    // File info
-    /**
-     * Getter del tamano en Bytes del fichero original.
-     * @return Tamano en Bytes del fichero original.
-     */
-    public long getInFileSize() {
-        return persistence_controller.getInFileSize();
-    }
-
-    /**
-     * Getter del tamano en Bytes del fichero comprimido.
-     * @return Tamano en Bytes del fichero comprimido.
-     */
-    public long getOutFileSize() {
-        return persistence_controller.getOutFileSize();
-    }
+    private Persistence_Controller persistence_controller;
 
     // Lectura
 
@@ -88,7 +73,8 @@ class Domain_Controller {
     void closeWriter() {
         persistence_controller.closeWriter();
     }
-}
 
-
+    public long getFileSize(int id) {
+        persistence_controller.getFileSize(id);
+    }
 }

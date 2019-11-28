@@ -3,38 +3,43 @@ package persistencia;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
-public class Domain_Controller {
+public class Persistence_Controller {
 
-    private File inputFile;             ///< Referencia al archivo origen.
-    private File outputFile;            ///< Referencia al archivo destino.
-    private BufferedInputStream in;     ///< Buffer de lectura.
-    private BufferedOutputStream out;   ///< Buffer de escritura.
+    private ArrayList<File> readFiles;  ///< Referencia al archivo origen.
+    private ArrayList<File> writeFiles; ///< Referencia al archivo destino.
 
+    private ArrayList<BufferedInputStream> in;  ///< Buffer de lectura.
+    private ArrayList<BufferedInputStream> out; ///< Buffer de escritura.
 
-    // File Set-Up
-    public void selectFiles(String inputPath, String outputPath, String extension) {
-        try {
-
-            inputFile = new File(inputPath);
-
-            if (outputPath == null) outputFile = new File(getCompressedName(inputFile, extension));
-            else outputFile = new File(outputPath + getCompressedName(inputFile.getName(), extension));
-
-            in = new BufferedInputStream(new FileInputStream(inputFile));
-            out = new BufferedOutputStream(new FileOutputStream(outputFile));
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichero no encontrado!");
-            e.printStackTrace();
-        }
+    public Persistence_Controller() {
+        readFiles = new ArrayList<>();
+        writeFiles = new ArrayList<>();
     }
+    public int newInputFile(String path) {
+        File aux = new File(path);
+        readFiles.add(aux);
+        return readFiles.indexOf(aux);
+    }
+    public int newOutputFile(String path, String newFileName) {
+
+        // preguntar sobre el nombre del archivo, vendra con el path, o por separado???
+        File aux = new File(path);
+        writeFiles.add(aux);
+        return writeFiles.indexOf(aux);
+    }
+
 
     /**
      * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
      * @param file Fichero que referencia al fichero original.
      * @return Path del fichero destino.
      */
+    public String getName(int id) {
+        return readFiles.get(id).getName();
+    }
+
     public String getName(File file) {
         String fileName = file.getPath();
         int pos = fileName.lastIndexOf('.');

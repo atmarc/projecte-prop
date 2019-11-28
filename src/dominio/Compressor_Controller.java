@@ -9,9 +9,26 @@ import java.io.*;
  */
 public class Compressor_Controller {
 
-    public Compressor compressor; ///< Objeto compresor
-    private Domain_Controller domain_controller;
-    private Item item;
+    private Compressor compressor;                  ///< Objeto compresor
+    private Domain_Controller domain_controller;    ///< Referencia a la controladora del dominio
+    private long time;                  ///< Tiempo transcurrido durante la compresion.
+    private int inputFile;      ///< Identificador del archivo original a comprimir.
+    private int outputFile;     ///< Identificador del archivo sobre el que escribir la compresion.
+
+    /**
+     * Setter del atributo inputFile.
+     * @param inputFile Identificador del archivo que se desea establecer como archivo a comprimir.
+     */
+    public void setInputFile(int inputFile) {
+        this.inputFile = inputFile;
+    }
+    /**
+     * Setter del atributo outputFile.
+     * @param outputFile Identificador del archivo que se desea establecer como archivo a comprimir.
+     */
+    public void setOutputFile(int outputFile) {
+        this.outputFile = outputFile;
+    }
 
     /**
      * Constructora que en base al tipo de algoritmo de compresion escogido, crea un tipo de compresor u otro.
@@ -38,48 +55,18 @@ public class Compressor_Controller {
         compressor.setController(this);
     }
 
-
-    private long time;                  ///< Tiempo transcurrido durante la compresion.
-
-    // Auxiliar PreCompression Methods
-
-    /**
-     * Establece cuales seran los ficheros de origen y destino.
-     * @param inputPath Path del fichero origen.
-     * @param outputPath Path del fichero destino
-     */
-    private void selectFiles(String inputPath, String outputPath) {
-        domain_controller.selectFiles(inputPath, outputPath, ".egg");
-    }
-
-    /**
-     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
-     * @param fileName Path del archivo original.
-     * @return Path del fichero destino.
-     */
-    private String getCompressedName(String fileName) {
-        domain_controller.getCompressed
-    }
-
-    /**
-     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
-     * @param file Fichero que referencia al fichero original.
-     * @return Path del fichero destino.
-     */
-    private String getCompressedName(File file) {
-        return getCompressedName(file.getPath());
-    }
-
     // Compression
 
     /**
      * Inicia la compresion del archivo referenciado por el path inputPath hacia un nuevo archivo en outputPath
-     * @param inputPath Path del archivo original.
-     * @param outputPath Path del directorio donde se creara el archivo comprimido.
+     * @param in Identificador del archivo a comprimir.
+     * @param out Identificador del archivo sobre el que escribir la compresion.
      */
-    public void startCompression(String inputPath, String outputPath) {
+    public void startCompression(int in, int out) {
 
-        selectFiles(inputPath, outputPath);
+        setInputFile(in);
+        setOutputFile(out);
+
         System.out.println("Compression IN PROGRESS");
 
         time = System.currentTimeMillis();
@@ -109,7 +96,7 @@ public class Compressor_Controller {
      * @return Ratio de compresion absoluto de la compresion realizada.
      */
     public double getCompressionRatio() {
-        return (double) domain_controller.getOutFileSize()/(double) domain_controller.getInFileSize();
+        return (double) domain_controller.getFileSize(outputFile)/(double) domain_controller.getFileSize(inputFile);
     }
 
 }

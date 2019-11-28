@@ -3,7 +3,7 @@ package dominio;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Item {
+public class Compressed_Item {
 
     private Domain_Controller domain_controller;
 

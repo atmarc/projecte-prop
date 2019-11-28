@@ -7,76 +7,50 @@ import java.util.ArrayList;
 
 public class Persistence_Controller {
 
-    private ArrayList<File> readFiles;  ///< Referencia al archivo origen.
-    private ArrayList<File> writeFiles; ///< Referencia al archivo destino.
-
-    private ArrayList<BufferedInputStream> in;  ///< Buffer de lectura.
-    private ArrayList<BufferedInputStream> out; ///< Buffer de escritura.
+    private ArrayList<InputFile> readFiles;  ///< Referencia al archivo origen.
+    private ArrayList<OutputFile> writeFiles; ///< Referencia al archivo destino.
 
     public Persistence_Controller() {
         readFiles = new ArrayList<>();
         writeFiles = new ArrayList<>();
     }
+
+    // File Creation
+
     public int newInputFile(String path) {
-        File aux = new File(path);
+        InputFile aux = new InputFile(path);
         readFiles.add(aux);
         return readFiles.indexOf(aux);
     }
-    public int newOutputFile(String path, String newFileName) {
-
-        // preguntar sobre el nombre del archivo, vendra con el path, o por separado???
-        File aux = new File(path);
+    public int newOutputFile(String path) {
+        OutputFile aux = new OutputFile(path);
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);
     }
 
+    // File info
 
     /**
-     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
-     * @param file Fichero que referencia al fichero original.
-     * @return Path del fichero destino.
+     * Proporciona el nombre del archivo de lectura identificado por el identificador que recibe por parametro .
+     * @param id Identificador del fichero de lectura.
+     * @return Nombre del fichero identificado por el parametro id.
      */
     public String getName(int id) {
         return readFiles.get(id).getName();
     }
-
-    public String getName(File file) {
-        String fileName = file.getPath();
-        int pos = fileName.lastIndexOf('.');
-        String compressedFileName;
-        if (pos != -1) compressedFileName = fileName.substring(0, pos);
-        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-        return compressedFileName + extension;
-    }
-
     /**
-     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
-     * @param fileName Path del archivo original.
-     * @return Path del fichero destino.
-     */
-    public String getCompressedName(String fileName, String extension) {
-        int pos = fileName.lastIndexOf('.');
-        String compressedFileName;
-        if (pos != -1) compressedFileName = fileName.substring(0, pos);
-        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-        return compressedFileName + extension;
-    }
-
-    // File info
-    /**
-     * Getter del tamano en Bytes del fichero original.
+     * Getter del tamano en Bytes de un fichero de lectura.
      * @return Tamano en Bytes del fichero original.
      */
-    public long getInFileSize() {
-        return inputFile.length();
+    public long getInputFileSize(int id) {
+        return readFiles.get(id).length();
     }
-
     /**
      * Getter del tamano en Bytes del fichero comprimido.
      * @return Tamano en Bytes del fichero comprimido.
      */
-    public long getOutFileSize() {
-        return outputFile.length();
+    public long getOutputFileSize(int id) {
+        return writeFiles.get(id).length();
     }
 
     // Lectura
@@ -85,75 +59,46 @@ public class Persistence_Controller {
      * Lee un byte del fichero origen.
      * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
      */
-    public int readByte() {
+    public int readByte(int id) {
         try {
-            return in.read();
+            return readFiles.get(id).getBuffer().read();
         }
         catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
             return -1;
         }
     }
-
     /**
      * Lee N bytes del fichero origen en una cadena de bytes que se le pasa por parametro.
      * @param word Cadena de bytes sobre la que se introducira la lectura.
      * @return Cantidad de bytes leida o -1 si no habia nada que leer.
      */
-    public int readBytes(byte[] word) {
+    public int readBytes(int id, byte[] word) {
         try {
-            return in.read(word);
+            return readFiles.get(id).getBuffer().read(word);
         } catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
             return -1;
         }
     }
-
     /**
      * Cierra el buffer de lectura.
      */
-    public void closeReader() {
-        try {
-            if (in != null) in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void closeReader(int id) throws IOException {
+        readFiles.get(id).closeBuffer();
     }
-
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
-    public byte[] readAllBytes() {
+    public byte[] readAllBytes(int id) {
         byte[] b = new byte[0];
         try {
-            b = Files.readAllBytes(Paths.get(inputFile.getPath()));
+            b = Files.readAllBytes(Paths.get(readFiles.get(id).getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return b;
-    }
-
-    /**
-     * Lee todos los caracteres del fichero origen y los guarda en un String.
-     * @return String con todos los caracteres del fichero origen.
-     */
-    public String readFileString() {
-        StringBuilder outString = new StringBuilder();
-        try {
-            FileReader reader = new FileReader(inputFile.getPath());
-            BufferedReader bufferedReader = new BufferedReader(reader);
-
-            int readByte;
-            while ((readByte = bufferedReader.read()) != -1) {
-                outString.append((char) readByte);
-            }
-            bufferedReader.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return outString.toString();
     }
 
     // Escritura
@@ -162,32 +107,49 @@ public class Persistence_Controller {
      * Escribe un byte en fichero de salida.
      * @param B Byte que se desea escribir en el fichero de salida.
      */
-    public void writeByte(byte B) {
+    public void writeByte(int id, byte B) {
         try {
-            out.write(B);
+            writeFiles.get(id).getBuffer().write(B);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /**
      * Escribe una cadena de bytes en el fichero de salida.
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
-    public void writeBytes(byte[] word) {
+    public void writeBytes(int id, byte[] word) {
         try {
-            out.write(word);
+            writeFiles.get(id).getBuffer().write(word);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /**
      * Cierra buffer de escritura.
      */
-    public void closeWriter() {
+    public void closeWriter(int id) throws IOException {
+        writeFiles.get(id).closeBuffer();
+    }
+
+    /**
+     * @pre El fichero de escritura con identificador id existe, posicion < (fichero.length - 7).
+     * @post Se han cambiado los 8 Bytes de content por los 8 bytes localizados en la posicion position del fichero id.
+     *
+     * Reemplaza los 8 Bytes localizados en la posicion indicada de un fichero y por otros 8 Bytes codificados en un long que se recibe por parametro.
+     * @param id Identificador del fichero a modificar.
+     * @param position Posicion desde la que se quieren modificar los 8 Bytes.
+     * @param content Contenido por el cual se desea cambiar el contenido del fichero.
+     */
+    public void modifyLong(int id, long position, long content) {
         try {
-            if (out != null) out.close();
+            OutputFile file = writeFiles.get(id);
+            if (file.isActive()) file.closeBuffer();
+
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            raf.seek(position);
+            raf.writeLong(content);
+            raf.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

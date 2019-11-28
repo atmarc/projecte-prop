@@ -4,7 +4,6 @@ import dominio.Decompressor_Controller;
 
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Application {
@@ -25,9 +24,10 @@ public class Application {
 
         Scanner in = new Scanner(System.in);
         int mode, route, alg;
-        String inputPath, outputPath = null;
+        String inputPath;
+        String outputPath = null;
 
-        boolean valid = false;
+        boolean valid;
 
         System.out.println(
                 "Que tarea desea realizar?\n" +

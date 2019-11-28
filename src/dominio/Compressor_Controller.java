@@ -9,11 +9,11 @@ import java.io.*;
  */
 public class Compressor_Controller {
 
-    private Compressor compressor;                  ///< Objeto compresor
-    private Domain_Controller domain_controller;    ///< Referencia a la controladora del dominio
-    private long time;                  ///< Tiempo transcurrido durante la compresion.
-    private int inputFile;      ///< Identificador del archivo original a comprimir.
-    private int outputFile;     ///< Identificador del archivo sobre el que escribir la compresion.
+    private Compressor compressor;                  ///< Referencia al objeto compresor.
+    private Domain_Controller domain_controller;    ///< Referencia a la controladora del dominio.
+    private long time;                              ///< Tiempo transcurrido durante la compresion.
+    private int inputFile;                          ///< Identificador del archivo original a comprimir.
+    private int outputFile;                         ///< Identificador del archivo sobre el que escribir la compresion.
 
     /**
      * Setter del atributo inputFile.
@@ -22,12 +22,17 @@ public class Compressor_Controller {
     public void setInputFile(int inputFile) {
         this.inputFile = inputFile;
     }
+
     /**
      * Setter del atributo outputFile.
      * @param outputFile Identificador del archivo que se desea establecer como archivo a comprimir.
      */
     public void setOutputFile(int outputFile) {
         this.outputFile = outputFile;
+    }
+
+    public void setDomain_controller(Domain_Controller domain_controller) {
+        this.domain_controller = domain_controller;
     }
 
     /**
@@ -55,7 +60,9 @@ public class Compressor_Controller {
         compressor.setController(this);
     }
 
-    // Compression
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////   Compression   //////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Inicia la compresion del archivo referenciado por el path inputPath hacia un nuevo archivo en outputPath
@@ -73,15 +80,22 @@ public class Compressor_Controller {
         compressor.compress();
         time = System.currentTimeMillis() - time;
 
-        domain_controller.closeReader();
-        domain_controller.closeWriter();
+        try {
+            domain_controller.closeReader(inputFile);
+            domain_controller.closeWriter(outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
         System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
     }
 
-    // Post-Compression Consultants
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////  Post-Compression Consultants   /////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Getter del tiempo transcurrido en milisegundos.
@@ -90,13 +104,79 @@ public class Compressor_Controller {
     public long getTime() {
         return time;
     }
-
     /**
      * Getter del ratio de compresion absoluto de la compresion realizada.
      * @return Ratio de compresion absoluto de la compresion realizada.
      */
     public double getCompressionRatio() {
-        return (double) domain_controller.getFileSize(outputFile)/(double) domain_controller.getFileSize(inputFile);
+        return (double) domain_controller.getOutputFileSize(outputFile)/(double) domain_controller.getInputFileSize(inputFile);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////  Lectura   ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Lee un byte del fichero origen.
+     * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
+     */
+    protected int readByte() {
+        return domain_controller.readByte(inputFile);
+    }
+    /**
+     * Lee N bytes del fichero origen en una cadena de bytes que se le pasa por parametro.
+     * @param word Cadena de bytes sobre la que se introducira la lectura.
+     * @return Cantidad de bytes leida o -1 si no habia nada que leer.
+     */
+    protected int readNBytes(byte[] word) {
+        return domain_controller.readNBytes(inputFile, word);
+    }
+    /**
+     * Lee todos los bytes del fichero origen y los guarda en una cadena.
+     * @return Cadena de bytes con todos los bytes del fichero origen.
+     */
+    protected byte[] readAllBytes() {
+        return domain_controller.readAllBytes(inputFile);
+    }
+    /**
+     * Cierra el buffer de lectura.
+     */
+    protected void closeReader() {
+        try {
+            domain_controller.closeReader(inputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////  Escritura   ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Escribe un byte en fichero de salida.
+     * @param B Byte que se desea escribir en el fichero de salida.
+     */
+    protected void writeByte(byte B) {
+        domain_controller.writeByte(outputFile, B);
+    }
+    /**
+     * Escribe una cadena de bytes en el fichero de salida.
+     * @param word Cadena de bytes que se desea escribir en el fichero de salida.
+     */
+    protected void writeBytes(byte[] word) {
+        domain_controller.writeBytes(outputFile, word);
+    }
+    /**
+     * Cierra buffer de escritura.
+     */
+    protected void closeWriter() {
+        try {
+            domain_controller.closeWriter(outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

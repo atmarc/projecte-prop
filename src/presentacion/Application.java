@@ -1,6 +1,8 @@
 package presentacion;
 import dominio.Compressor_Controller;
 import dominio.Decompressor_Controller;
+import dominio.Domain_Controller;
+import persistencia.Persistence_Controller;
 
 import java.io.File;
 import java.nio.file.FileSystems;
@@ -21,6 +23,12 @@ public class Application {
     }
 
     public static void main(String[] args) throws IllegalArgumentException {
+
+        Persistence_Controller persistence_controller = new Persistence_Controller();
+        Domain_Controller domain_controller = new Domain_Controller();
+
+        domain_controller.setPersistence_controller(persistence_controller);
+
 
         Scanner in = new Scanner(System.in);
         int mode, route, alg;
@@ -124,13 +132,28 @@ public class Application {
                 default: throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
             }
 
+            // Solucion temporal para que compile
             compressor = new Compressor_Controller(alg);
-            compressor.startCompression(inputPath, outputPath);
+            compressor.setDomain_controller(domain_controller);
+
+            inputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.txt";
+            outputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.eggo";
+
+            int inputFile = persistence_controller.newInputFile(inputPath);
+            int outputFile = persistence_controller.newOutputFile(outputPath);
+
+            compressor.startCompression(inputFile, outputFile);
 
         }
         else { // Descomprimir
+
+            // Solucion temporal para que compile
             Decompressor_Controller decompressor = new Decompressor_Controller(extension);
-            decompressor.startDecompression(inputPath, outputPath);
+            decompressor.setDomain_controller(domain_controller);
+            int inputFile = persistence_controller.newInputFile(inputPath);
+            int outputFile = persistence_controller.newOutputFile(outputPath);
+
+            decompressor.startDecompression(inputFile, outputFile);
         }
     }
 }

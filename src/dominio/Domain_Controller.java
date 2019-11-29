@@ -7,8 +7,17 @@ import java.io.IOException;
 
 public class Domain_Controller {
 
+
+
     private Persistence_Controller persistence_controller;
     private Presentation_Controller presentation_controller;
+
+    public void setPresentation_controller(Presentation_Controller presentation_controller) {
+        this.presentation_controller = presentation_controller;
+    }
+    public void setPersistence_controller(Persistence_Controller persistence_controller) {
+        this.persistence_controller = persistence_controller;
+    }
 
     // Lectura
 

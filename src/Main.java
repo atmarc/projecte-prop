@@ -19,7 +19,7 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
+        /*BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
         byte[] space = new byte[8];
         String message = "Hola";
         out.write(space);
@@ -45,6 +45,7 @@ public class Main {
         System.out.println(S);
         in.close();
         // 2 ^ 62 bytes = 4.611.686 TeraBytes
+        */
     }
 }
 

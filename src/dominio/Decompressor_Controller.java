@@ -10,7 +10,31 @@ import java.nio.file.Paths;
  */
 public class Decompressor_Controller {
 
-    public Decompressor decompressor; ///< Objeto descompresor
+    public Decompressor decompressor;               ///< Referencia al objeto descompresor
+    private Domain_Controller domain_controller;    ///< Referencia a la controladora del dominio.
+    private long time;                              ///< Tiempo transcurrido durante la descompresion.
+    private int inputFile;                          ///< Identificador del archivo original a comprimir.
+    private int outputFile;                         ///< Identificador del archivo sobre el que escribir la compresion.
+
+    /**
+     * Setter del atributo inputFile.
+     * @param inputFile Identificador del archivo que se desea establecer como archivo a comprimir.
+     */
+    public void setInputFile(int inputFile) {
+        this.inputFile = inputFile;
+    }
+
+    /**
+     * Setter del atributo outputFile.
+     * @param outputFile Identificador del archivo que se desea establecer como archivo a comprimir.
+     */
+    public void setOutputFile(int outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public void setDomain_controller(Domain_Controller domain_controller) {
+        this.domain_controller = domain_controller;
+    }
 
     /**
      * Constructora que en base al tipo de archivo de comprimido, crea un tipo de descompresor u otro.
@@ -38,65 +62,20 @@ public class Decompressor_Controller {
         decompressor.setController(this);
     }
 
-    private File inputFile;             ///< Referencia al archivo origen.
-    private File outputFile;            ///< Referencia al archivo destino.
-    private BufferedInputStream in;     ///< Buffer de lectura.
-    private BufferedOutputStream out;   ///< Buffer de escritura.
-    private long time;                  ///< Tiempo transcurrido durante la descompresion.
 
-    // Auxiliar PreCompression Methods
-    public void selectFiles(String inputPath, String outputPath) {
-        try {
-
-            inputFile = new File(inputPath);
-
-            if (outputPath == null) outputFile = new File(getCompressedName(inputFile));
-            else outputFile = new File(outputPath + getCompressedName(inputFile.getName()));
-
-            in = new BufferedInputStream(new FileInputStream(inputFile));
-            out = new BufferedOutputStream(new FileOutputStream(outputFile));
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichero no encontrado!");
-            e.printStackTrace();
-        }
-    }
-    /**
-     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
-     * @param file Fichero que referencia al fichero original.
-     * @return Path del fichero destino.
-     */
-    private String getCompressedName(File file) {
-        String fileName = file.getPath();
-        int pos = fileName.lastIndexOf('.');
-        String compressedFileName;
-        if (pos != -1) compressedFileName = fileName.substring(0, pos);
-        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-        return compressedFileName + decompressor.getExtension();
-    }
-    /**
-     * Proporciona el path de un archivo destino en base a su archivo origen, con el objetivo que vayan a parar ambos al mismo directorio, con el mismo nombre, pero diferente extension.
-     * @param fileName Path del archivo original.
-     * @return Path del fichero destino.
-     */
-    private String getCompressedName(String fileName) {
-        int pos = fileName.lastIndexOf('.');
-        String compressedFileName;
-        if (pos != -1) compressedFileName = fileName.substring(0, pos);
-        else throw new IllegalArgumentException("Nombre de fichero incorrecto");
-        return compressedFileName + decompressor.getExtension();
-    }
-
-    // Compression
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////   Decompression   //////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Inicia la descompresion del archivo referenciado por el path inputPath hacia un nuevo archivo en outputPath
-     * @param inputPath Path del archivo comprimido.
-     * @param outputPath Path del directorio donde se creara el archivo descomprimido.
+     * Inicia la descompresion del archivo referenciado por el identificador
+     * @param in Identificador del archivo a descomprimir.
+     * @param out Identificador del archivo sobre el que escribir la compresion.
      */
-    public void startDecompression(String inputPath, String outputPath) {
+    public void startDecompression(int in, int out) {
 
-        selectFiles(inputPath, outputPath);
+        setInputFile(in);
+        setOutputFile(out);
         System.out.println("Decompression IN PROGRESS");
 
         time = System.currentTimeMillis();
@@ -110,15 +89,10 @@ public class Decompressor_Controller {
         System.out.println("Time: " + this.getTime() + " ms");
 
     }
-    /**
-     * Inicia la descompresion del archivo referenciado por el path inputPath hacia un nuevo archivo localizado en el mismo directorio que el original.
-     * @param inputPath Path del archivo comprimido.
-     */
-    public void startDecompression(String inputPath) {
-        startDecompression(inputPath, getCompressedName(inputPath));
-    }
 
-    // Post-Compression Consultants
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////  Post-Decompression Consultants   /////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Getter del tiempo transcurrido en milisegundos.
@@ -128,19 +102,16 @@ public class Decompressor_Controller {
         return time;
     }
 
-    // Lectura
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////  Lectura   ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Lee un byte del fichero origen.
      * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
      */
     protected int readByte() {
-        try {
-            return in.read();
-        } catch (IOException e) {
-            System.out.println("Error Lectura\n" + e.getMessage());
-            return -1;
-        }
+        return domain_controller.readByte(inputFile);
     }
     /**
      * Lee N bytes del fichero origen en una cadena de bytes que se le pasa por parametro.
@@ -148,67 +119,51 @@ public class Decompressor_Controller {
      * @return Cantidad de bytes leida o -1 si no habia nada que leer.
      */
     protected int readNBytes(byte[] word) {
-        try {
-            return in.read(word);
-        } catch (IOException e) {
-            System.out.println("Error Lectura\n" + e.getMessage());
-            return -1;
-        }
-    }
-    /**
-     * Cierra el buffer de lectura.
-     */
-    protected void closeReader() {
-        try {
-            if (in != null) in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return domain_controller.readNBytes(inputFile, word);
     }
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
     protected byte[] readAllBytes() {
-        byte[] b = new byte[0];
+        return domain_controller.readAllBytes(inputFile);
+    }
+    /**
+     * Cierra el buffer de lectura.
+     */
+    protected void closeReader() {
         try {
-            b = Files.readAllBytes(Paths.get(inputFile.getPath()));
+            domain_controller.closeReader(inputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return b;
     }
 
-    // Escritura
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////  Escritura   ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Escribe un byte en fichero de salida.
      * @param B Byte que se desea escribir en el fichero de salida.
      */
     protected void writeByte(byte B) {
-        try {
-            out.write(B);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        domain_controller.writeByte(outputFile, B);
     }
     /**
      * Escribe una cadena de bytes en el fichero de salida.
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
     protected void writeBytes(byte[] word) {
-        try {
-            out.write(word);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        domain_controller.writeBytes(outputFile, word);
     }
     /**
      * Cierra buffer de escritura.
      */
     protected void closeWriter() {
         try {
-            if (out != null) out.close();
+            domain_controller.closeWriter(outputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

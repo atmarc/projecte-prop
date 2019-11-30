@@ -33,7 +33,7 @@ public class Decompressor_JPEGTest {
 
         String file = "./src/persistencia/testing_files/ppm/boxes_1";
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
-        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
 
     }
@@ -43,7 +43,7 @@ public class Decompressor_JPEGTest {
 
         String file = "./src/persistencia/testing_files/ppm/image";
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
-        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
 
@@ -52,7 +52,7 @@ public class Decompressor_JPEGTest {
 
         String file = "./src/persistencia/testing_files/ppm/house_1";
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
-        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
 
@@ -61,7 +61,7 @@ public class Decompressor_JPEGTest {
 
         String file = "./src/persistencia/testing_files/ppm/west_1";
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
-        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
 
@@ -70,7 +70,7 @@ public class Decompressor_JPEGTest {
 
         String file = "./src/persistencia/testing_files/ppm/france-wallpaper";
         Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
-        decompressor_jpeg.startDecompression(file + ".jpeg", null);
+        //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
 

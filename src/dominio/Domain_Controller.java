@@ -4,10 +4,9 @@ import persistencia.Persistence_Controller;
 import presentacion.Presentation_Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Domain_Controller {
-
-
 
     private Persistence_Controller persistence_controller;
     private Presentation_Controller presentation_controller;
@@ -20,7 +19,6 @@ public class Domain_Controller {
     }
 
     // Lectura
-
     /**
      * Lee un byte del fichero origen.
      * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
@@ -70,16 +68,30 @@ public class Domain_Controller {
     /**
      * Cierra buffer de escritura.
      */
-    void closeWriter(int id) throws IOException {
-        persistence_controller.closeWriter(id);
-    }
+    void closeWriter(int id) throws IOException { persistence_controller.closeWriter(id); }
 
     // File Info
     public long getInputFileSize(int id) {
         return persistence_controller.getInputFileSize(id);
     }
+
     public long getOutputFileSize(int id) {
         return persistence_controller.getOutputFileSize(id);
     }
 
+    public void startCompression (int in, int out, int alg) {
+        Compressor_Controller compressor_controller = new Compressor_Controller(alg);
+        compressor_controller.setDomain_controller(this);
+        compressor_controller.startCompression(in, out);
+    }
+
+    public void startDecompression(ArrayList<Integer> in, ArrayList<Integer>  out, String extension) {
+        Decompressor_Controller decompressor_controller = new Decompressor_Controller(extension);
+        decompressor_controller.setDomain_controller(this);
+        // Si és un sol arxiu
+        if (in.size() == 1) decompressor_controller.startDecompression(in.get(0), out.get(0));
+        else {
+
+        }
+    }
 }

@@ -1,17 +1,15 @@
 package presentacion;
-import dominio.Compressor_Controller;
-import dominio.Decompressor_Controller;
 import dominio.Domain_Controller;
 import persistencia.Persistence_Controller;
 
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Application {
 
     private static String getPathExtension(String path) {
-
         int i = path.lastIndexOf('.');
         if (i > 0) return path.substring(i+1);
         return null;
@@ -28,7 +26,6 @@ public class Application {
         Domain_Controller domain_controller = new Domain_Controller();
 
         domain_controller.setPersistence_controller(persistence_controller);
-
 
         Scanner in = new Scanner(System.in);
         int mode, route, alg;
@@ -99,8 +96,6 @@ public class Application {
 
         if (mode == 0) { // Comprimir
 
-            Compressor_Controller compressor;
-
             switch (extension) {
                 case "txt":
                     System.out.println(
@@ -133,8 +128,6 @@ public class Application {
             }
 
             // Solucion temporal para que compile
-            compressor = new Compressor_Controller(alg);
-            compressor.setDomain_controller(domain_controller);
 
             inputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.txt";
             outputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.eggo";
@@ -142,18 +135,19 @@ public class Application {
             int inputFile = persistence_controller.newInputFile(inputPath);
             int outputFile = persistence_controller.newOutputFile(outputPath);
 
-            compressor.startCompression(inputFile, outputFile);
-
+            domain_controller.startCompression(inputFile, outputFile, alg);
         }
         else { // Descomprimir
 
             // Solucion temporal para que compile
-            Decompressor_Controller decompressor = new Decompressor_Controller(extension);
-            decompressor.setDomain_controller(domain_controller);
             int inputFile = persistence_controller.newInputFile(inputPath);
             int outputFile = persistence_controller.newOutputFile(outputPath);
 
-            decompressor.startDecompression(inputFile, outputFile);
+            ArrayList<Integer> inArr = new ArrayList<>();
+            inArr.add(inputFile);
+            ArrayList<Integer> outArr = new ArrayList<>();
+            outArr.add(outputFile);
+            domain_controller.startDecompression(inArr, outArr, extension);
         }
     }
 }

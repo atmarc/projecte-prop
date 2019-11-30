@@ -1,12 +1,10 @@
 import dominio.Compressor_Controller;
-import dominio.Decompressor_Controller;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
@@ -33,7 +31,7 @@ public class Compressor_JPEGTest {
 
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
         String file = "./src/persistencia/testing_files/ppm/boxes_1";
-        compressor_jpeg.startCompression(file + ".ppm", null);
+        //compressor_jpeg.startCompression(file + ".ppm", null);
         assertTrue(diffFiles(file+"_test.jpeg", file + ".jpeg"));
 
     }
@@ -43,7 +41,7 @@ public class Compressor_JPEGTest {
 
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
         String file = "./src/persistencia/testing_files/ppm/image";
-        compressor_jpeg.startCompression(file + ".ppm", null);
+        //compressor_jpeg.startCompression(file + ".ppm", null);
         assertTrue(diffFiles(file+"_test.jpeg", file + ".jpeg"));
     }
 
@@ -52,7 +50,7 @@ public class Compressor_JPEGTest {
 
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
         String file = "./src/persistencia/testing_files/ppm/house_1";
-        compressor_jpeg.startCompression(file + ".ppm", null);
+        //compressor_jpeg.startCompression(file + ".ppm", null);
         assertTrue(diffFiles(file+"_test.jpeg", file + ".jpeg"));
     }
 
@@ -61,7 +59,7 @@ public class Compressor_JPEGTest {
 
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
         String file = "./src/persistencia/testing_files/ppm/west_1";
-        compressor_jpeg.startCompression(file + ".ppm", null);
+        //compressor_jpeg.startCompression(file + ".ppm", null);
         assertTrue(diffFiles(file+"_test.jpeg", file + ".jpeg"));
     }
 
@@ -70,7 +68,7 @@ public class Compressor_JPEGTest {
 
         Compressor_Controller compressor_jpeg = new Compressor_Controller(3);
         String file = "./src/persistencia/testing_files/ppm/france-wallpaper";
-        compressor_jpeg.startCompression(file + ".ppm", null);
+        //compressor_jpeg.startCompression(file + ".ppm", null);
         assertTrue(diffFiles(file+"_test.jpeg", file + ".jpeg"));
     }
 

@@ -1,3 +1,7 @@
+import dominio.Domain_Controller;
+import persistencia.Persistence_Controller;
+import presentacion.Presentation_Controller;
+
 import java.io.*;
 
 public class Main {
@@ -19,6 +23,12 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+
+        Domain_Controller domain_controller = new Domain_Controller();
+        Persistence_Controller persistence_controller = new Persistence_Controller();
+        domain_controller.setPersistence_controller(persistence_controller);
+        domain_controller.compressFolder(0,0);
+
         /*BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
         byte[] space = new byte[8];
         String message = "Hola";

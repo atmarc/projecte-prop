@@ -155,4 +155,14 @@ public class Persistence_Controller {
         }
     }
 
+    // Implementació d'exemple per fer testing
+    public boolean isFolder (int f) {return (f == 0);}
+
+    // Implementació d'exemple per fer testing
+    public ArrayList<Integer> getFilesFromFolder (int f) {
+        ArrayList<Integer> example = new ArrayList<>();
+        example.add(11); example.add(12); example.add(13);
+        return example;
+    }
+
 }

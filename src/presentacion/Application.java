@@ -143,11 +143,7 @@ public class Application {
             int inputFile = persistence_controller.newInputFile(inputPath);
             int outputFile = persistence_controller.newOutputFile(outputPath);
 
-            ArrayList<Integer> inArr = new ArrayList<>();
-            inArr.add(inputFile);
-            ArrayList<Integer> outArr = new ArrayList<>();
-            outArr.add(outputFile);
-            domain_controller.startDecompression(inArr, outArr, extension);
+            domain_controller.startDecompression(inputFile, outputFile, extension);
         }
     }
 }

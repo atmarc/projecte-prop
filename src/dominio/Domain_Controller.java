@@ -79,19 +79,57 @@ public class Domain_Controller {
         return persistence_controller.getOutputFileSize(id);
     }
 
-    public void startCompression (int in, int out, int alg) {
+    public void startCompression(int in, int out, int alg) {
         Compressor_Controller compressor_controller = new Compressor_Controller(alg);
         compressor_controller.setDomain_controller(this);
         compressor_controller.startCompression(in, out);
     }
 
-    public void startDecompression(ArrayList<Integer> in, ArrayList<Integer>  out, String extension) {
+    public void startDecompression(int in, int  out, String extension) {
         Decompressor_Controller decompressor_controller = new Decompressor_Controller(extension);
         decompressor_controller.setDomain_controller(this);
         // Si és un sol arxiu
-        if (in.size() == 1) decompressor_controller.startDecompression(in.get(0), out.get(0));
-        else {
+        decompressor_controller.startDecompression(in, out);
+    }
 
+    // Crea la jerarquia llegint "l'arbre d'arxius" en preordre, i després de cada fulla posa un -1
+    // El faig en bytes, per tant podrem tenir fins a 2^16 fitxers
+    private void makeHierarchy(ArrayList<Byte> hierarchy, ArrayList<Integer> files) {
+        for (int f : files) {
+            if (persistence_controller.isFolder(f)) {
+                hierarchy.add((byte) f);
+                makeHierarchy(hierarchy, persistence_controller.getFilesFromFolder(f));
+                hierarchy.add((byte) -1);
+            }
+            else {
+                hierarchy.add((byte) f);
+                hierarchy.add((byte) -1);
+            }
         }
     }
+
+    public void compressFolder(int in, int out) {
+        /*ArrayList<Integer> files = new ArrayList<>();
+        files.add(1); files.add(3); files.add(2); files.add(0);*/
+
+        ArrayList<Integer> files = persistence_controller.getFilesFromFolder(in);
+        ArrayList<Byte> jerarquia = new ArrayList<>();
+        makeHierarchy(jerarquia, files);
+
+        // Posem un -1 per indicar el final de la jerarqui
+        jerarquia.add((byte) -1);
+
+        String nameFolder = persistence_controller.getName(in);
+
+        for (byte file : jerarquia) {
+            persistence_controller.writeByte(out, file);
+        }
+        
+
+    }
+
+    public void decompressFolder(int in, int out) {
+
+    }
+
 }

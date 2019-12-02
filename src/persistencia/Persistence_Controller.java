@@ -155,14 +155,22 @@ public class Persistence_Controller {
         }
     }
 
-    // Implementació d'exemple per fer testing
-    public boolean isFolder (int f) {return (f == 0);}
 
-    // Implementació d'exemple per fer testing
+    public boolean isFolder (int f) {
+        return readFiles.get(f).isDirectory();
+    }
+
+
     public ArrayList<Integer> getFilesFromFolder (int f) {
-        ArrayList<Integer> example = new ArrayList<>();
-        example.add(11); example.add(12); example.add(13);
-        return example;
+        File dir = readFiles.get(f);
+        ArrayList<Integer> identifiers = new ArrayList<>();
+
+        File[] dirFiles = dir.listFiles();
+        for (File file : dirFiles) {
+            identifiers.add(newInputFile(file.getAbsolutePath()));
+        }
+
+        return identifiers;
     }
 
 }

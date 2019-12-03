@@ -166,6 +166,8 @@ public class Persistence_Controller {
         ArrayList<Integer> identifiers = new ArrayList<>();
 
         File[] dirFiles = dir.listFiles();
+
+        assert dirFiles != null;
         for (File file : dirFiles) {
             identifiers.add(newInputFile(file.getAbsolutePath()));
         }

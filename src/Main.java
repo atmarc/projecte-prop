@@ -1,4 +1,8 @@
+import presentacion.Formprova;
+
+import javax.swing.*;
 import java.io.*;
+import java.text.Normalizer;
 
 public class Main {
 
@@ -19,7 +23,15 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
+
+
+        JFrame frame = new JFrame("App");
+        frame.setContentPane(new Formprova().getPanel1());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+        /*BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
         byte[] space = new byte[8];
         String message = "Hola";
         out.write(space);
@@ -45,7 +57,7 @@ public class Main {
         System.out.println(S);
         in.close();
         // 2 ^ 62 bytes = 4.611.686 TeraBytes
-    }
+    }*/
 }
 
 // Que se abre el finder con el fichero comprimido

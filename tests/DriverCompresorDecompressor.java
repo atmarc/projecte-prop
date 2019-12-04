@@ -34,9 +34,9 @@ public class DriverCompresorDecompressor {
 		Decompressor_Controller decompressor = new Decompressor_Controller("lzw");
 		for (String file : files) {
 			System.out.println("File: " + file);
-			compressor.startCompression(file+".txt", null);
+			//compressor.startCompression(file+".txt", null);
 			System.out.println("----------");
-			decompressor.startDecompression(file+".lzw", null);
+			//decompressor.startDecompression(file+".lzw", null);
 			System.out.println("Verdict: " + (diffFiles(file+"_decompressed.txt", file+".txt")
 					? "\u001B[32m" + "OK! Files are equal." + "\u001B[0m"
 					: "\u001B[31m" + "Wrong!!!" + "\u001B[0m"));

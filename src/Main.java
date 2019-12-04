@@ -1,6 +1,10 @@
 import presentacion.Formprova;
 
 import javax.swing.*;
+import dominio.Domain_Controller;
+import persistencia.Persistence_Controller;
+import presentacion.Presentation_Controller;
+
 import java.io.*;
 import java.text.Normalizer;
 
@@ -24,13 +28,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        Presentation_Controller presentation_controller = new Presentation_Controller();
+        Domain_Controller domain_controller = new Domain_Controller();
 
-        JFrame frame = new JFrame("App");
-        frame.setContentPane(new Formprova().getPanel1());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        presentation_controller.setDomain_controller(domain_controller);
+        domain_controller.setPresentation_controller(presentation_controller);
+
+        presentation_controller.initializeInterface();
     }
+
         /*BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
         byte[] space = new byte[8];
         String message = "Hola";

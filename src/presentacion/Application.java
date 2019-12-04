@@ -1,16 +1,15 @@
 package presentacion;
-import dominio.Compressor_Controller;
-import dominio.Decompressor_Controller;
+import dominio.Domain_Controller;
+import persistencia.Persistence_Controller;
 
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Application {
 
     private static String getPathExtension(String path) {
-
         int i = path.lastIndexOf('.');
         if (i > 0) return path.substring(i+1);
         return null;
@@ -23,11 +22,17 @@ public class Application {
 
     public static void main(String[] args) throws IllegalArgumentException {
 
+        Persistence_Controller persistence_controller = new Persistence_Controller();
+        Domain_Controller domain_controller = new Domain_Controller();
+
+        domain_controller.setPersistence_controller(persistence_controller);
+
         Scanner in = new Scanner(System.in);
         int mode, route, alg;
-        String inputPath, outputPath = null;
+        String inputPath;
+        String outputPath = null;
 
-        boolean valid = false;
+        boolean valid;
 
         System.out.println(
                 "Que tarea desea realizar?\n" +
@@ -91,8 +96,6 @@ public class Application {
 
         if (mode == 0) { // Comprimir
 
-            Compressor_Controller compressor;
-
             switch (extension) {
                 case "txt":
                     System.out.println(
@@ -124,13 +127,23 @@ public class Application {
                 default: throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
             }
 
-            compressor = new Compressor_Controller(alg);
-            compressor.startCompression(inputPath, outputPath);
+            // Solucion temporal para que compile
 
+            inputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.txt";
+            outputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.eggo";
+
+            int inputFile = persistence_controller.newInputFile(inputPath);
+            int outputFile = persistence_controller.newOutputFile(outputPath);
+
+            domain_controller.startCompression(inputFile, outputFile, alg);
         }
         else { // Descomprimir
-            Decompressor_Controller decompressor = new Decompressor_Controller(extension);
-            decompressor.startDecompression(inputPath, outputPath);
+
+            // Solucion temporal para que compile
+            int inputFile = persistence_controller.newInputFile(inputPath);
+            int outputFile = persistence_controller.newOutputFile(outputPath);
+
+            domain_controller.startDecompression(inputFile, outputFile, extension);
         }
     }
 }

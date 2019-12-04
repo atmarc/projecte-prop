@@ -4,7 +4,18 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /*!
- *  \brief     Extension de la clase Decompressor mediante el algoritmo LZ-SS.
+ *  \brief     Clase que realiza la decompresión de un texto comprimido mediante el algoritmo LZSS. El comportamiento
+ *             consiste en leer byte a byte el texto comprimido y separarlo en 3 partes: la primera son los bytes
+ *             que contienen los bits que representan coincidencia (1) o no coincidencia (0). La segunda parte son
+ *             los bytes que corresponden a los carácteres con los que no hemos encontrado coincidencia. Y la tercera
+ *             son los carácteres codificados con 12 bits de offset y 4 de desplazamiento. Para diferenciar las partes
+ *             usamos como separador dos bytes con valor FF. Una vez hayamos recogido las partes y las hayamos puesto
+ *             en colas, iteraremos por cada elemento de la cola de booleanos (que corresponde a la primera parte).
+ *             Si en la iteración actual encontramos un valor false (0), miraremos el elemento top de la cola de no
+ *             coincidencias y la escribiremos en un array de resultado. Si encontramos un valor true (1), miraremos el
+ *             elemento top de la cola de coincidencias y descodificaremos el elemento, cogiendo los 12 bits de mas peso
+ *             como offset y los 4 de menos peso como desplazamiento, y buscaremos los carácteres correspondientes en el
+ *             array de resultado.
  *  \details
  *  \author    Nicolas Camerlynck
  */

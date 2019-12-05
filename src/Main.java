@@ -1,8 +1,12 @@
+import presentacion.Formprova;
+
+import javax.swing.*;
 import dominio.Domain_Controller;
 import persistencia.Persistence_Controller;
 import presentacion.Presentation_Controller;
 
 import java.io.*;
+import java.text.Normalizer;
 
 public class Main {
 
@@ -21,7 +25,6 @@ public class Main {
         else return  META | fileSize;
     }
 
-
     public static void main(String[] args) throws IOException {
         /*
         Marc Testing:
@@ -30,6 +33,15 @@ public class Main {
         domain_controller.setPersistence_controller(persistence_controller);
         domain_controller.compressFolder(0,0);
         */
+
+        Presentation_Controller presentation_controller = new Presentation_Controller();
+        Domain_Controller domain_controller = new Domain_Controller();
+
+        presentation_controller.setDomain_controller(domain_controller);
+        domain_controller.setPresentation_controller(presentation_controller);
+
+        presentation_controller.initializeInterface();
+    }
 
         /*BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("file.txt"));
         byte[] space = new byte[8];
@@ -57,8 +69,7 @@ public class Main {
         System.out.println(S);
         in.close();
         // 2 ^ 62 bytes = 4.611.686 TeraBytes
-        */
-    }
+    }*/
 }
 
 // Que se abre el finder con el fichero comprimido

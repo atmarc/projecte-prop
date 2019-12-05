@@ -1,10 +1,18 @@
 package dominio;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /*!
- *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-SS.
+ *  \brief     Clase que realiza la compresión del texto. El comportamiento consiste en acceder iterativamente a cada
+ *             carácter del texto original. Para cada carácter, mirará en un search Buffer (que sera una copia de los
+ *             carácteres encontrados hasta el momento) si encuentra coincidencias con el carácter actual y, como
+ *             mínimo, con los 2 carácteres siguientes. También añadiremos a cada iteración el carácter al search Buffer
+ *             para mantenerlo actualizado. Si encontramos coincidencia guardaremos el offset hasta la posición en que hay
+ *             la coincidencia mas larga (con el numero de carácteres seguidos máximo) y el desplazamiento (el numero de
+ *             carácteres). En caso que no encontremos coincidencia, guararemos el carácter. Paralelamente guardaremos
+ *             en una cola de booleanos un valor true si hay coincidencia y un valor false si no la hay. Para acabar,
+ *             escribiremos la cola de booleanos en forma de bits agrupados en bytes, seguido de los elementos que no
+ *             coinciden y las coincidencias codificadas en chars (los 12 bits de mas peso offset y los 4 de menos peso
+ *             de desplazamiento).
  *  \details
  *  \author    Nicolas Camerlynck
  */
@@ -32,6 +40,8 @@ public class Compressor_LZSS extends Compressor {
         Queue<Character> coincQ = new LinkedList<>();
         Queue<Boolean> bitQ = new LinkedList<>();
         HashMap<Integer, Byte> searchB = new HashMap<>();
+        HashMap<Byte, Set<Integer>> searchB2 = new HashMap<>();
+
 
         for (int i = 0; i < itemSize; i++) {
 
@@ -39,7 +49,18 @@ public class Compressor_LZSS extends Compressor {
             boolean small = false;
             if (i < 4) small = true;
 
-            searchB.put(i, item.get(i));
+            //searchB.put(i, item.get(i));
+            if (searchB2.containsKey(item.get(i))) {
+
+            }
+            else {
+                //TODO: UNCOMMENT
+                /*Set<Integer> a = new Set<Integer>;
+                a.add(i);
+                searchB2.put(item.get(i), a);*/
+
+
+            } //idjewoi
             /*getOut.add(i);
             if (getOut.size() >= 4096) {
                 int elim = getOut.peek();
@@ -51,7 +72,7 @@ public class Compressor_LZSS extends Compressor {
 
             int posSearch = min(4095, searchB.size());
 
-            for (int j = 1; j < posSearch && !small; ++j) {
+            /*for (int j = 1; j < posSearch && !small; ++j) {
                 //Bucle que mirarà les 4095 posicions anteriors al searchbuffer buscant coincidencies d'almenys 3 nums seguits
                 if (i - j < 0 || (i - j) <= (i-4095)) break;
 
@@ -78,7 +99,7 @@ public class Compressor_LZSS extends Compressor {
                         maxcoincpointer = j;
                     }
                 }
-            }
+            }*/
 
             if (!coinc) { //no tenim coincidencia
                 bitQ.add(false);
@@ -292,5 +313,70 @@ public class Compressor_LZSS extends Compressor {
         }
 
         return aux;
+    }
+
+    /**
+     *
+     * @param i
+     * @param j
+     * @param item
+     * @param searchB2
+     * @return
+     */
+    private short coincidence2(int i, int j, HashMap<Integer,Byte> item, HashMap<Byte, Set<Integer>> searchB2) {
+
+        int aux = item.get(i);
+        int desp = 0;
+        int maxdesp = 0;
+        int offs;
+        int maxoffs = 0;
+        if (searchB2.containsKey(aux)) {
+            Iterator it = (Iterator) searchB2.get(aux);
+            while (it.hasNext()) {
+                desp = 1;
+                boolean end = false;
+                int element = (int) it.next(); // TODO: CHECK
+                offs = element;
+                for (int h = i+1; !end; ++h) {
+                    if (searchB2.get(item.get(h)).contains(element + 1)) {
+                        desp++;
+                        element++;
+                        if (desp == 15) break;
+                    }
+                    else end = true;
+                }
+                if (desp > maxdesp) {
+                    maxdesp = desp;
+                    maxoffs = offs;
+                }
+            }
+        }
+        else return 0x0000;
+
+        if (maxdesp < 3) return 0x0000;
+        else {
+
+            maxoffs = i - maxoffs;
+            short os = (short) maxoffs;
+            os = (short) (os << 4);
+            os = (short) (os & 0xFFF0);
+
+            short d = (short) maxdesp;
+            d = (short) (d & 0x000F);
+
+            short res = (short) (os | d);
+
+            return res;
+        }
+    }
+
+    /**
+     * Borra un elemento del Hashmap
+     * @param key
+     * @param value
+     * @param searchB
+     */
+    private void deleteValue(byte key, int value, HashMap<Byte, Set<Integer>> searchB) {
+
     }
 }

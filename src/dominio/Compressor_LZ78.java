@@ -49,7 +49,7 @@ public class Compressor_LZ78 extends Compressor {
      *  \details    Dado que la compresion se basa en pares de indice y valor, esta clase representa cada entrada del diccionario generado.
      *  \author     Edgar Perez
      */
-    public static class Pair {
+    private static class Pair {
 
         public int index;   ///< Indice referente a su antecesor (es igual a 0 en caso de no tener antecesor).
         public byte offset; ///< Byte que concatenado con los bytes de todos sus antecesores, forma la cadena de bytes representada por una entrada de este tipo.

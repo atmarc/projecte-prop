@@ -38,7 +38,7 @@ public class Main {
         Domain_Controller domain_controller = new Domain_Controller();
 
         presentation_controller.setDomain_controller(domain_controller);
-        domain_controller.setPresentation_controller(presentation_controller);
+        //domain_controller.setPresentation_controller(presentation_controller);
 
         presentation_controller.initializeInterface();
     }

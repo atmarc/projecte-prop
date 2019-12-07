@@ -44,6 +44,7 @@ public class Main {
         decompressor.startDecompression(0,0);
 
         System.out.println("Finish decompression");
+        //domain_controller.setPresentation_controller(presentation_controller);
 
     }
 

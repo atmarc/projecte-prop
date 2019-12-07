@@ -28,7 +28,7 @@ public class Presentation_Controller {
     }
 
     public void sendPath(String s) {
-        domain_controller.sendPath(s);
+        //domain_controller.sendPath(s);
     }
 
 }

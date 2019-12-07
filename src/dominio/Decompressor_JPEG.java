@@ -1,4 +1,8 @@
 package dominio;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /*!
@@ -17,15 +21,22 @@ public class Decompressor_JPEG extends Decompressor {
      */
     public void decompress() {
 
-        byte s [] = controller.readAllBytes();
+        //byte s [] = controller.readAllBytes();
+        byte s [] = new byte[0];
+        try {
+            s = Files.readAllBytes(Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA.jpeg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         int[] bits = new int[s.length * 8];
         byteToBin(s, bits);
+
         Huffman huffman = new Huffman();
         ArrayList<Integer> valors = new ArrayList<>();
         huffman.decode(bits, valors);
 
-        final int nivellCompressio = valors.get(0);
+        final int COMPRESS_RATIO = valors.get(0);
         final int nBlocksX = valors.get(1);
         final int nBlocksY = valors.get(2);
         final int HEIGHT = valors.get(3);
@@ -39,20 +50,21 @@ public class Decompressor_JPEG extends Decompressor {
         int bi = 0, bj = 0;
 
         // TODO: Tornar a sumar diferència
+
         while (index < valors.size()) {
-            Block blockY = readBlock(valors, index, "Y");
+            Block blockY = readBlock(valors, index, "Y", COMPRESS_RATIO);
             blockY.inverseQuantizationY();
             blockY.inverseDCT();
             arrayOfBlocksY[bi][bj] = blockY;
             index += 64;
 
-            Block blockCb = readBlock(valors, index, "Cb");
+            Block blockCb = readBlock(valors, index, "Cb", COMPRESS_RATIO);
             blockCb.inverseQuantizationC();
             blockCb.inverseDCT();
             arrayOfBlocksCb[bi][bj] = blockCb;
             index += 64;
 
-            Block blockCr = readBlock(valors, index, "Cr");
+            Block blockCr = readBlock(valors, index, "Cr", COMPRESS_RATIO);
             blockCr.inverseQuantizationC();
             blockCr.inverseDCT();
             arrayOfBlocksCr[bi][bj] = blockCr;
@@ -105,7 +117,12 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
-        controller.writeBytes(returnData);
+        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA_out.ppm");
+        try {
+            Files.write(p, returnData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -167,8 +184,8 @@ public class Decompressor_JPEG extends Decompressor {
      * @param tipus Tipo de bloque que vamos a leer.
      * @return Devuelve el bloque con todos los valores leidos de data.
      */
-    private static Block readBlock(ArrayList<Integer> data, int i, String tipus) {
-        Block blockY = new Block(8,8, tipus);
+    private static Block readBlock(ArrayList<Integer> data, int i, String tipus, int nivellCompress) {
+        Block blockY = new Block(8,8, tipus, nivellCompress);
         blockY.zigzagInvers(data, i);
         return blockY;
     }

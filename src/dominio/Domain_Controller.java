@@ -4,6 +4,7 @@ import persistencia.Persistence_Controller;
 import presentacion.Presentation_Controller;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class Domain_Controller {
@@ -89,7 +90,7 @@ public class Domain_Controller {
     }
 
     // Crea la jerarquia llegint "l'arbre d'arxius" en preordre, i després de cada fulla posa un -1
-    // El faig en bytes, per tant podrem tenir fins a 2^16 fitxers
+    // El faig en bytes, per tant podrem tenir fins a 2^8 fitxers
     // Exemple: a,b(c,d),e(f,g) --> [a, -1, b, c, -1, d, -1, -1, e, f, -1, g, -1, -1]
     private void makeHierarchy(ArrayList<Byte> hierarchy, ArrayList<Integer> files) {
         for (int f : files) {
@@ -116,8 +117,21 @@ public class Domain_Controller {
                     Compressor_Controller compressor = new Compressor_Controller(getBestCompressor(file));
                     // TODO: 8 bytes pel size potser és massa
                     long fileSize = persistence_controller.getOutputFileSize(file);
+                    byte [] space = new byte[8];
+                    for (int j = 0; j < space.length; ++j) space[j] = 0;
+
+                    persistence_controller.writeBytes(file, space);
                     persistence_controller.writeBytes(file, longToByteArr(fileSize));
-                    compressor.startCompression(file, out); //TODO: Parlar de com fer el output bé
+
+                    long compressedSize = persistence_controller.getOutputFileSize(out);
+                    compressor.startCompression(file, out);
+                    compressedSize = persistence_controller.getOutputFileSize(out) - compressedSize;
+
+                    try {
+                        persistence_controller.randomAccesWriteLong(out, index, compressedSize);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             // Si hi ha dos -1 seguits vol dir que ja ha sortit de la carpeta
@@ -125,7 +139,6 @@ public class Domain_Controller {
         }
     }
 
-    //TODO: Arreglar aquesta fun
     public byte[] longToByteArr(long l) {
         byte[] arr = new byte[8];
         for (int i = 0; i < 8; ++i) {
@@ -157,10 +170,8 @@ public class Domain_Controller {
         // Posem un -1 per indicar el final de la jerarqui
         jerarquia.add((byte) -1);
 
-        String nameFolder = persistence_controller.getName(in);
-
         ArrayList<String> fileNames = new ArrayList<>();
-        fileNames.add(nameFolder);
+
         for (byte fileId : jerarquia) {
             persistence_controller.writeByte(out, fileId);
             if (fileId != -1) {
@@ -176,7 +187,6 @@ public class Domain_Controller {
         persistence_controller.writeByte(out, (byte) -1);
 
         writeFiles(out, jerarquia, 0);
-
     }
 
     private int getBestCompressor(int file) {
@@ -185,6 +195,15 @@ public class Domain_Controller {
 
     public void decompressFolder(int in, int out) {
 
+    }
+
+    public void passPath(String path, String out) {
+        int pathIn = persistence_controller.passPathIn(path);
+        int pathOut = persistence_controller.passPathOut(out);
+
+        if (persistence_controller.isFolder(pathIn))
+            compressFolder(pathIn, pathOut);
+        else startCompression(pathIn, pathOut, getBestCompressor(pathIn));
     }
 
 }

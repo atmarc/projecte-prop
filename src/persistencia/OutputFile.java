@@ -6,6 +6,7 @@ public class OutputFile extends File {
 
     private BufferedOutputStream out;
     boolean active;
+    long num;            ///< Contador de cuantos btes se han escrito
 
     public boolean isActive() {
         return active;
@@ -14,6 +15,7 @@ public class OutputFile extends File {
     public OutputFile(String pathname) {
         super(pathname);
         active = false;
+        num = 0;
     }
 
     BufferedOutputStream getBuffer() throws FileNotFoundException {
@@ -31,4 +33,10 @@ public class OutputFile extends File {
         }
     }
 
+    public void sumNum(int i) {
+        num += i;
+    }
+
+    public long getNum() { return num; }
+    public void setNum(long num) { this.num = num; }
 }

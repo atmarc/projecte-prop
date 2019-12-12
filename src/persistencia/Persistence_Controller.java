@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
@@ -38,6 +39,19 @@ public class Persistence_Controller {
         return writeFiles.indexOf(aux);
     }
 
+    public int newDir(String path) throws Exception {
+        OutputFile aux = new OutputFile(path);
+
+        if (aux.exists()) throw new FileAlreadyExistsException("Este directorio ya existe.");
+        if (!aux.mkdir()) throw new Exception("No se ha podido crear el directorio " + path);
+        writeFiles.add(aux);
+        return writeFiles.indexOf(aux);
+    }
+
+    public int newDir(String name, int padre) throws Exception {
+        return newDir(writeFiles.get(padre).getAbsolutePath() + '/' + name);
+    }
+
     // File info
 
     /**
@@ -62,6 +76,7 @@ public class Persistence_Controller {
     public long getOutputFileSize(int id) {
         return writeFiles.get(id).length();
     }
+    public long getWrittenBytes(int id) { return writeFiles.get(id).getNum(); }
 
     /**
      * Funcion que retorna la jerarquia completa de ficheros a partir del path pasado por parametro.
@@ -157,7 +172,9 @@ public class Persistence_Controller {
      */
     public void writeByte(int id, byte B) {
         try {
-            writeFiles.get(id).getBuffer().write(B);
+            OutputFile of = writeFiles.get(id);
+            of.sumNum(1);
+            of.getBuffer().write(B);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,7 +185,9 @@ public class Persistence_Controller {
      */
     public void writeBytes(int id, byte[] word) {
         try {
-            writeFiles.get(id).getBuffer().write(word);
+            OutputFile of = writeFiles.get(id);
+            of.sumNum(word.length);
+            of.getBuffer().write(word);
         } catch (IOException e) {
             e.printStackTrace();
         }

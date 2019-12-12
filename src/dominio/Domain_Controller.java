@@ -1,7 +1,6 @@
 package dominio;
 
 import persistencia.Persistence_Controller;
-import presentacion.Presentation_Controller;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -180,66 +179,61 @@ public class Domain_Controller {
 
     private class Hierarchy {
         private int root;
+        private int[][] m;
         ArrayList<ArrayList<Integer> > rep;
 
+        public ArrayList<Integer> getFilesList() {
+            ArrayList<Integer> res = new ArrayList<>();
+            for (int i = 0; i < res.size(); ++i) 
+                res.add(i);
+            return res;
+        }
+
         public Hierarchy(int[][] src) {
-           for (int i = 0; i < src.length; ++i) {
-               if (src[i][1] == i) root = i;
-               rep.get(src[i][0]).add(i);
-           }
-        }
-        
-        public Hierarchy(String src) throws Exception {
-            StringBuilder name = new StringBuilder();
-            int i = 0;
-            while (i < src.length() && src.charAt(i) != '(') {
-                name.append(src.charAt(i));
-                ++i;
+            m = src;
+            int len = src[0].length;
+            rep = new ArrayList<>();
+            for (int i = 0; i < len; ++i) {
+                rep.add(new ArrayList<>());
             }
-            ++i;
-            root = GD.newDir(name.toString());
-            Stack<Integer> padre = new Stack<Integer>();
-            StringBuilder path = new StringBuilder(name.toString());
-            padre.push(root);
-            name = new StringBuilder();
-            for (; i < src.length(); ++i) {
-                char crr = src.charAt(i);
-                if (crr == '(') {
-                    int id = GD.newDir(path.toString() + name.toString(), padre.peek());
-                    padre.push(id);
-                    path.append("/" + name.toString());
-                }
-                else if (crr == ')') {
-                    int id = GD.newOutputFile(path.toString() + "/" + name);
-                    rep.get(padre.peek()).add(id);
-                    padre.pop();
-                    while(path.length() > 0 && path.charAt(path.length()-1) != '/')
-                        path.deleteCharAt(path.length()-1);
-                }
-                else if (crr == ' ') {
-                    int id = GD.newOutputFile(path.toString() + "/" + name);
-                    rep.get(padre.peek()).add(id);
-                }
-                else name.append(crr);
+            for (int i = 0; i < len; ++i) {
+                if (src[1][i] == i)
+                    root = i;
+                else
+                    rep.get(src[1][i]).add(i);
             }
         }
 
-        public String toString() {
-            return toStringAux(root) + "###";
-        }
+        byte[] toByteArray() {
+            int nr = m[0].length;
+            int headerSize = 6 + nr * 2 + (int) Math.ceil(nr / 8.0);
+            byte[] res = new byte[headerSize];
+            for (byte i : res)
+                i = 0;
+            res[3] = (byte) (headerSize & 0xFF);
+            res[2] = (byte) ((headerSize >> 8) & 0xFF);
+            res[1] = (byte) ((headerSize >> 16) & 0xFF);
+            res[0] = (byte) ((headerSize >> 24) & 0xFF);
+            res[5] = (byte) (nr & 0xFF);
+            res[4] = (byte) ((nr >> 8) & 0xFF);
 
-        private String toStringAux(int f) {
-            ArrayList<Integer> crr = rep.get(f);
-            if (crr.isEmpty()) return GD.getName(f);
-            else {
-                StringBuilder res = new StringBuilder();
-                res.append('(');
-                for (Integer v : crr) {
-                    res.append(toStringAux(v));
+            int pos = 6;
+            byte b = 0;
+            for (int i = 0; i < rep.size(); ++i) {
+                if (i % 8 == 0 && i > 1) {
+                    res[pos++] = b;
+                    b = 0;
                 }
-                res.append(')');
-                return res.toString();
+                if (!rep.get(i).isEmpty())
+                    b |= (1 << (7 - (i % 8)));
             }
+            if (rep.size() % 8 != 0)
+                res[pos++] = b;
+            for (int i = 0; i < nr; ++i) {
+                res[pos++] = (byte) m[0][i];
+                res[pos++] = (byte) m[1][i];
+            }
+            return res;
         }
 
         ArrayList<Integer> dfs() {
@@ -265,7 +259,7 @@ public class Domain_Controller {
         int out = GD.newOutputFile(outputPath);
         if (GD.isFolder(in)) {
             Hierarchy H = new Hierarchy(GD.makeHierarchy(inputPath)); // TODO Se podria y del identificador
-            GD.writeBytes(out, H.toString().getBytes());
+            writeFolderMetadata(in, H);
             for (int id : H.dfs()) {
                 Compressor compressor = getBestCompressor(id, alg);
                 long cursor_ini = GD.getWrittenBytes(id);
@@ -274,6 +268,16 @@ public class Domain_Controller {
                 GD.modifyLong(id, cursor_ini, encodeMeta(compressor, cursor_fi-cursor_ini));
             }
         }
+    }
+
+    private void writeFolderMetadata(int id, Hierarchy h) {
+        GD.writeBytes(id, h.toByteArray());
+
+        for (int i : h.getFilesList()) {
+            GD.writeBytes(id, GD.getName(id).getBytes());
+            GD.writeByte(id, (byte) '\n');
+        }
+
     }
 
     private long encodeMeta(Compressor compressor, long i) {

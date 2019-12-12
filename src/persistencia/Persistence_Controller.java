@@ -3,6 +3,7 @@ package persistencia;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Persistence_Controller {
@@ -16,12 +17,21 @@ public class Persistence_Controller {
     }
 
     // File Creation
-
+    /**
+     * Anade al sistema un fichero (puede ser directorio) sobre el que se pueden realizar lecturas y se la asocia un identificador.
+     * @param path Ruta del fichero sobre el que se quieren realizar lecturas.
+     * @return Identificador asociado al fichero.
+     */
     public int newInputFile(String path) {
         InputFile aux = new InputFile(path);
         readFiles.add(aux);
         return readFiles.indexOf(aux);
     }
+    /**
+     * Anade al sistema un fichero (puede ser directorio) sobre el que se pueden realizar escrituras y se la asocia un identificador.
+     * @param path Ruta del fichero sobre el que se quieren realizar escrituras.
+     * @return Identificador asociado al fichero.
+     */
     public int newOutputFile(String path) {
         OutputFile aux = new OutputFile(path);
         writeFiles.add(aux);
@@ -51,6 +61,44 @@ public class Persistence_Controller {
      */
     public long getOutputFileSize(int id) {
         return writeFiles.get(id).length();
+    }
+
+    /**
+     * Funcion que retorna la jerarquia completa de ficheros a partir del path pasado por parametro.
+     * @param path Ruta absoluta del fichero del que se quiere obtener la jerarquia.
+     * @return Matriz de 2xN donde N es el numero de identificadores/ficheros que hay dentro del path. Cada uno de los
+     * identificadores se corresponde con las columnas de la matriz.
+     *  - Fila 0: Contiene 1 si el fichero es un directorio, o 0 si no lo es.
+     *  - Fila 1: Contiene el identificador del directorio padre del fichero. (El mismo en el caso de la raiz).
+     */
+    public int[][] makeHierarchy(String path) {
+
+        assert readFiles.size() == 0;
+
+        int root = newInputFile(path);
+        if (!isFolder(root))
+            return new int[][] {{0}, {0}};
+
+        int father;
+        ArrayList<Integer> hierarchy = new ArrayList<>(); hierarchy.add(0);
+        ArrayDeque<Integer> folders = new ArrayDeque<>(); folders.add(0);
+
+        while (!folders.isEmpty()) {
+            father = folders.pollLast();
+            ArrayList<Integer> files = getFilesFromFolder(father);
+            for (Integer file : files) {
+                if (isFolder(file)) folders.addFirst(file);
+                hierarchy.add(father);
+            }
+        }
+
+        int n = hierarchy.size();
+
+        int[][] res = new int[2][n];
+        for (int i = 0; i < n; i++) res[1][i] = hierarchy.get(i);
+        for (int i = 0; i < n; i++) res[0][i] = isFolder(i)? 1:0;
+
+        return res;
     }
 
     // Lectura
@@ -155,12 +203,23 @@ public class Persistence_Controller {
         }
     }
 
-
+    /**
+     * Funcion que dice si un fichero es directorio o no lo es.
+     * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles)
+     * @param f Identificador del item a inspeccionar.
+     * @return Retorna true en caso de ser un directorio o falso en caso contrario.
+     */
     public boolean isFolder (int f) {
         return readFiles.get(f).isDirectory();
     }
 
-
+    /**
+     * Funcion que retorna una lista con todos los ficheros que contiene una carpeta.
+     * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles) y este es un directorio.
+     * @post Todos sus ficheros han sido anadidos al sistema y estos estan asociados a un identificador.
+     * @param f Identificador del directorio.
+     * @return Retorna una lista que contiene los identificadores que referencian a los archivos que contenia el directorio referenciado por el parametro.
+     */
     public ArrayList<Integer> getFilesFromFolder (int f) {
         File dir = readFiles.get(f);
         ArrayList<Integer> identifiers = new ArrayList<>();
@@ -174,5 +233,7 @@ public class Persistence_Controller {
 
         return identifiers;
     }
+
+
 
 }

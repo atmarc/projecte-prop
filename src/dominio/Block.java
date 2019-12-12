@@ -37,6 +37,11 @@ public class Block {
      */
     private String type;
 
+    /**
+     * Nivel de compressión.
+     */
+    private int nivellCompress;
+
     final double PI = Math.PI;
     final double sqrt2 = sqrt(2);
 
@@ -80,12 +85,19 @@ public class Block {
      * @param height Número de filas del bloque.
      * @param type Tipo de bloque
      */
-    public Block(int width, int height, String type) {
+    public Block(int width, int height, String type, int nivellCompress) {
         this.valors = new int[width][height];
         this.DCTvalors = new int[width][height];
         this.height = height;
         this.width = width;
         this.type = type;
+        this.nivellCompress = nivellCompress;
+
+        for (int i = 0; i < QTY.length; ++i)
+            for (int j = 0; j < QTY[0].length; ++j) {
+                QTY[i][j] *= (nivellCompress/5.0);
+                QTCr[i][j] *= (nivellCompress/5.0);
+            }
     }
 
 

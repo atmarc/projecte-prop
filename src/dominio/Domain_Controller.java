@@ -4,16 +4,13 @@ import persistencia.Persistence_Controller;
 import presentacion.Presentation_Controller;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class Domain_Controller {
 
     private Persistence_Controller persistence_controller;
-    private Presentation_Controller presentation_controller;
 
-    public void setPresentation_controller(Presentation_Controller presentation_controller) {
-        this.presentation_controller = presentation_controller;
-    }
     public void setPersistence_controller(Persistence_Controller persistence_controller) {
         this.persistence_controller = persistence_controller;
     }
@@ -93,7 +90,8 @@ public class Domain_Controller {
     }
 
     // Crea la jerarquia llegint "l'arbre d'arxius" en preordre, i després de cada fulla posa un -1
-    // El faig en bytes, per tant podrem tenir fins a 2^16 fitxers
+    // El faig en bytes, per tant podrem tenir fins a 2^8 fitxers
+    // Exemple: a,b(c,d),e(f,g) --> [a, -1, b, c, -1, d, -1, -1, e, f, -1, g, -1, -1]
     private void makeHierarchy(ArrayList<Byte> hierarchy, ArrayList<Integer> files) {
         for (int f : files) {
             if (persistence_controller.isFolder(f)) {
@@ -108,6 +106,59 @@ public class Domain_Controller {
         }
     }
 
+    private void writeFiles(int out, ArrayList<Byte> files, int index) {
+        for (int i = index; i < files.size(); ++i) {
+            int file = files.get(i);
+            if (file != (byte)-1) {
+                if (persistence_controller.isFolder(file)) {
+                    writeFiles(file, files, i + 1);
+                }
+                else {
+                    Compressor_Controller compressor = new Compressor_Controller(getBestCompressor(file));
+                    // TODO: 8 bytes pel size potser és massa
+                    long fileSize = persistence_controller.getOutputFileSize(file);
+                    byte [] space = new byte[8];
+                    for (int j = 0; j < space.length; ++j) space[j] = 0;
+
+                    persistence_controller.writeBytes(file, space);
+                    persistence_controller.writeBytes(file, longToByteArr(fileSize));
+
+                    long compressedSize = persistence_controller.getOutputFileSize(out);
+                    compressor.startCompression(file, out);
+                    compressedSize = persistence_controller.getOutputFileSize(out) - compressedSize;
+
+                    try {
+                        persistence_controller.randomAccesWriteLong(out, index, compressedSize);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            // Si hi ha dos -1 seguits vol dir que ja ha sortit de la carpeta
+            else if (i + 1 < files.size() && files.get(i + 1) == (byte)-1) break;
+        }
+    }
+
+    public byte[] longToByteArr(long l) {
+        byte[] arr = new byte[8];
+        for (int i = 0; i < 8; ++i) {
+            arr[i] = (byte) l;
+            l = l >> 8;
+        }
+        return arr;
+    }
+
+    public long byteArrToLong(byte[] b) {
+        long l = 0;
+        for (int i = 0; i < b.length; ++i) {
+            long num = b[i];
+            if (num < 0) num += 256;
+            long aux = num << 8 * i;
+            l += aux;
+        }
+        return l;
+    }
+
     public void compressFolder(int in, int out) {
         /*ArrayList<Integer> files = new ArrayList<>();
         files.add(1); files.add(3); files.add(2); files.add(0);*/
@@ -119,17 +170,40 @@ public class Domain_Controller {
         // Posem un -1 per indicar el final de la jerarqui
         jerarquia.add((byte) -1);
 
-        String nameFolder = persistence_controller.getName(in);
+        ArrayList<String> fileNames = new ArrayList<>();
 
-        for (byte file : jerarquia) {
-            persistence_controller.writeByte(out, file);
+        for (byte fileId : jerarquia) {
+            persistence_controller.writeByte(out, fileId);
+            if (fileId != -1) {
+                fileNames.add(persistence_controller.getName(fileId));
+            }
         }
-        
+        // Escrivim cada nom amb el mateix ordre i un separador (-1) entre cada un
+        for (String name : fileNames) {
+            persistence_controller.writeBytes(out, name.getBytes());
+            persistence_controller.writeByte(out, (byte) -1);
+        }
+        // Un -1 indicant que hem acabat els noms, no hauria de ser necessari
+        persistence_controller.writeByte(out, (byte) -1);
 
+        writeFiles(out, jerarquia, 0);
+    }
+
+    private int getBestCompressor(int file) {
+        return 0;
     }
 
     public void decompressFolder(int in, int out) {
 
+    }
+
+    public void passPath(String path, String out) {
+        int pathIn = persistence_controller.passPathIn(path);
+        int pathOut = persistence_controller.passPathOut(out);
+
+        if (persistence_controller.isFolder(pathIn))
+            compressFolder(pathIn, pathOut);
+        else startCompression(pathIn, pathOut, getBestCompressor(pathIn));
     }
 
 }

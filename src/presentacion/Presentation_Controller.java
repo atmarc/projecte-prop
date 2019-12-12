@@ -46,10 +46,11 @@ public class Presentation_Controller {
     public void sendPath(String s) {
 
         path = s;
-        domain_controller.sendPath(s);
+        //domain_controller.sendPath(s);
+        //domain_controller.sendPath(s);
     }
 
-    public void sendJPEGvalue(int a) {domain_controller.sendJPEGvalue(a);}
+    //public void sendJPEGvalue(int a) {domain_controller.sendJPEGvalue(a);}
 
     public void switchToMetodoCompresion () {
 

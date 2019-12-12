@@ -1,4 +1,8 @@
 package dominio;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -33,7 +37,14 @@ public class Compressor_JPEG extends Compressor {
      */
     public void compress() {
 
-        byte[] s = controller.readAllBytes();
+        byte s [] = new byte[0];
+        try {
+            s = Files.readAllBytes(Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/france-wallpaper.ppm"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // s = controller.readAllBytes();
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
 
@@ -41,6 +52,7 @@ public class Compressor_JPEG extends Compressor {
         final int WIDTH = headers.getFirst();
         final int HEIGHT = headers.getSecond();
         final float MAX_VAL_COLOR = headers.getThird();
+        final int COMPRESS_RATIO = 5;
 
         ArrayList <Integer> data = new ArrayList<>();
 
@@ -117,21 +129,26 @@ public class Compressor_JPEG extends Compressor {
 
                 int marginX = x * 8;
                 int marginY = y * 8;
-                Block blockY = new Block(8, 8, "Y");
-                Block blockCb = new Block(8, 8, "Cb");
-                Block blockCr = new Block(8, 8, "Cr");
+                Block blockY = new Block(8, 8, "Y", COMPRESS_RATIO);
+                Block blockCb = new Block(8, 8, "Cb", COMPRESS_RATIO);
+                Block blockCr = new Block(8, 8, "Cr", COMPRESS_RATIO);
 
                 for (int i = 0; i < 8; ++i) {
                     for (int j = 0; j < 8 && j + marginX < WIDTH; ++j) {
                         if (i + marginY >= HEIGHT || j + marginX >= WIDTH) {
                             // Quan la foto no és múltiple de 8
-                            blockY.setValue(i, j, -128);
-                            blockCb.setValue(i, j, -128);
-                            blockCr.setValue(i, j, -128);
+                            int jAux = j;
+                            if (j > 0) jAux = j - 1;
+                            int value = Pixels[i - 1][jAux].getFirst() - 128;
+                            blockY.setValue(i, j, value);
+                            value = Pixels[i - 1][jAux].getSecond() - 128;
+                            blockCb.setValue(i, j, value);
+                            value = Pixels[i - 1][jAux].getThird() - 128;
+                            blockCr.setValue(i, j, value);
                         }
                         else {
                             // Aprofitem i centrem els valors a 0
-                                int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
+                            int value = Pixels[i + marginY][j + marginX].getFirst() - 128;
                             blockY.setValue(i, j, value);
 
                             value = Pixels[i + marginY][j + marginX].getSecond() - 128;
@@ -143,29 +160,20 @@ public class Compressor_JPEG extends Compressor {
                     }
                 }
 
-                // TODO: arreglar el diff
                 blockY.DCT(); // Apliquem DCT a cada bloc
                 BlocksArrayY[y][x] = blockY;
-                //int diff = getDiff(BlocksArrayY, x, y); // Calculem el DC com la diferència amb la del bloc anterior
-                //BlocksArrayY[y][x].setDCTValue(0,0, diff);
 
                 blockCb.DCT();
                 BlocksArrayCb[y][x] = blockCb;
-                //diff = getDiff(BlocksArrayCb, x, y);
-                //BlocksArrayCb[y][x].setDCTValue(0,0, diff);
 
                 blockCr.DCT();
                 BlocksArrayCr[y][x] = blockCr;
-                //diff = getDiff(BlocksArrayCr, x, y);
-                //BlocksArrayCr[y][x].setDCTValue(0,0, diff);
             }
         }
 
-        int nivellCompressio = 0;
-
         int file[] = new int [5 + nBlocksX * nBlocksY * 64 * 3];
 
-        file[0] = nivellCompressio;
+        file[0] = COMPRESS_RATIO;
         file[1] = nBlocksX;
         file[2] = nBlocksY;
         file[3] = HEIGHT;
@@ -198,7 +206,14 @@ public class Compressor_JPEG extends Compressor {
             bytes[i] = arrayBytes.get(i);
         }
 
-        controller.writeBytes(bytes);
+        // controller.writeBytes(bytes);
+
+        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA.jpeg");
+        try {
+            Files.write(p, bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

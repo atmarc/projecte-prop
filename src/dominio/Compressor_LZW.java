@@ -28,7 +28,7 @@ public class Compressor_LZW extends Compressor {
 	 * @return la extension de los ficheros comprimidos
 	 */
 	public String getExtension() {
-		return ".lzw";
+		return extension;
 	}
 
 	/**

@@ -11,14 +11,14 @@ import java.util.Stack;
 
 public class Domain_Controller {
 
-    private Persistence_Controller GD;
+    private Persistence_Controller persistence_controller;
 
     Domain_Controller() {
-        GD = new Persistence_Controller();
+        persistence_controller = new Persistence_Controller();
     }
 
     public void setPersistence_controller(Persistence_Controller persistence_controller) {
-        this.GD = persistence_controller;
+        this.persistence_controller = persistence_controller;
     }
 
     // Lectura
@@ -28,7 +28,7 @@ public class Domain_Controller {
      * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
      */
     int readByte(int id) {
-        return GD.readByte(id);
+        return persistence_controller.readByte(id);
     }
 
     /**
@@ -38,13 +38,13 @@ public class Domain_Controller {
      * @return Cantidad de bytes leida o -1 si no habia nada que leer.
      */
     int readNBytes(int id, byte[] word) {
-        return GD.readBytes(id, word);
+        return persistence_controller.readBytes(id, word);
     }
     /**
      * Cierra el buffer de lectura.
      */
     void closeReader(int id) throws IOException {
-        GD.closeReader(id);
+        persistence_controller.closeReader(id);
         // TO DO: Tal vez no hace falta y se gestiona tododesde la persistencia
     }
     /**
@@ -52,7 +52,7 @@ public class Domain_Controller {
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
     byte[] readAllBytes(int id) {
-        return GD.readAllBytes(id);
+        return persistence_controller.readAllBytes(id);
     }
 
 
@@ -63,31 +63,31 @@ public class Domain_Controller {
      * @param B Byte que se desea escribir en el fichero de salida.
      */
     void writeByte(int id, byte B) {
-        GD.writeByte(id, B);
+        persistence_controller.writeByte(id, B);
     }
     /**
      * Escribe una cadena de bytes en el fichero de salida.
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
     void writeBytes(int id, byte[] word) {
-        GD.writeBytes(id, word);
+        persistence_controller.writeBytes(id, word);
     }
     /**
      * Cierra buffer de escritura.
      */
-    void closeWriter(int id) throws IOException { GD.closeWriter(id); }
+    void closeWriter(int id) throws IOException { persistence_controller.closeWriter(id); }
 
     // File Info
     public long getInputFileSize(int id) {
-        return GD.getInputFileSize(id);
+        return persistence_controller.getInputFileSize(id);
     }
 
     public long getOutputFileSize(int id) {
-        return GD.getOutputFileSize(id);
+        return persistence_controller.getOutputFileSize(id);
     }
 
     public void startCompression(int in, int out, int alg) {
-        Compressor_Controller compressor_controller = new Compressor_Controller(alg);
+        Compressor_Controller compressor_controller = new Compressor_Controller(getBestCompressor(in, alg));
         compressor_controller.setDomain_controller(this);
         compressor_controller.startCompression(in, out);
     }
@@ -104,9 +104,9 @@ public class Domain_Controller {
     // Exemple: a,b(c,d),e(f,g) --> [a, -1, b, c, -1, d, -1, -1, e, f, -1, g, -1, -1]
     private void makeHierarchy(ArrayList<Byte> hierarchy, ArrayList<Integer> files) {
         for (int f : files) {
-            if (GD.isFolder(f)) {
+            if (persistence_controller.isFolder(f)) {
                 hierarchy.add((byte) f);
-                makeHierarchy(hierarchy, GD.getFilesFromFolder(f));
+                makeHierarchy(hierarchy, persistence_controller.getFilesFromFolder(f));
                 hierarchy.add((byte) -1);
             }
             else {
@@ -120,28 +120,24 @@ public class Domain_Controller {
         for (int i = index; i < files.size(); ++i) {
             int file = files.get(i);
             if (file != (byte)-1) {
-                if (GD.isFolder(file)) {
+                if (persistence_controller.isFolder(file)) {
                     writeFiles(file, files, i + 1);
                 }
                 else {
                     Compressor_Controller compressor = new Compressor_Controller(getBestCompressor(file));
                     // TODO: 8 bytes pel size potser és massa
-                    long fileSize = GD.getOutputFileSize(file);
+                    long fileSize = persistence_controller.getOutputFileSize(file);
                     byte [] space = new byte[8];
                     for (int j = 0; j < space.length; ++j) space[j] = 0;
 
-                    GD.writeBytes(file, space);
-                    GD.writeBytes(file, longToByteArr(fileSize));
+                    persistence_controller.writeBytes(file, space);
+                    persistence_controller.writeBytes(file, longToByteArr(fileSize));
 
-                    long compressedSize = GD.getOutputFileSize(out);
+                    long compressedSize = persistence_controller.getOutputFileSize(out);
                     compressor.startCompression(file, out);
-                    compressedSize = GD.getOutputFileSize(out) - compressedSize;
+                    compressedSize = persistence_controller.getOutputFileSize(out) - compressedSize;
 
-                    try {
-                        GD.randomAccesWriteLong(out, index, compressedSize);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    persistence_controller.modifyLong(out, index, compressedSize);
                 }
             }
             // Si hi ha dos -1 seguits vol dir que ja ha sortit de la carpeta
@@ -159,19 +155,35 @@ public class Domain_Controller {
     // Retorna el mejor compresor para comprimir el fichero in
     // si el algoritmo es -1 u otra cosa no en [0, 2] entonces
     // assigna el mejor algoritmo para el fichero
-    private Compressor getBestCompressor(int in, int alg) {
-        String ext = GD.getExtension(in);
+    private Compressor getBestCompressor1(int in, int alg) {
+        String ext = persistence_controller.getExtension(in);
         if (ext.equals("ppm")) return new Compressor_JPEG();
         else if (ext.equals("txt")) {
             if (alg == 0) return new Compressor_LZ78();
             else if(alg == 1) return new Compressor_LZSS();
             else if(alg == 2) return new Compressor_LZW();
             else {
-                long size = GD.getInputFileSize(in);
+                long size = persistence_controller.getInputFileSize(in);
                 if (size < 100L) throw new IllegalArgumentException("FicheroDemasiadoPequeno");
                 if (size <= 50000L) return new Compressor_LZSS();
                 else if (size <= 1000000L) return new Compressor_LZW();
                 else return new Compressor_LZ78();
+            }
+        }
+        else throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
+    }
+
+    private int getBestCompressor(int in, int alg) {
+        String ext = persistence_controller.getExtension(in);
+        if (ext.equals("ppm")) return 3;
+        else if (ext.equals("txt")) {
+            if (alg >= 0 && alg <= 2) return alg;
+            else {
+                long size = persistence_controller.getInputFileSize(in);
+                if (size < 100L) throw new IllegalArgumentException("FicheroDemasiadoPequeno");
+                if (size <= 50000L) return 1;
+                else if (size <= 1000000L) return 2;
+                else return 3;
             }
         }
         else throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
@@ -255,43 +267,39 @@ public class Domain_Controller {
     }
     
     public void compress(String inputPath, String outputPath, int alg) {
-        int in  = GD.newInputFile(inputPath);
-        int out = GD.newOutputFile(outputPath);
-        if (GD.isFolder(in)) {
-            Hierarchy H = new Hierarchy(GD.makeHierarchy(inputPath)); // TODO Se podria y del identificador
+        int in  = persistence_controller.newInputFile(inputPath);
+        int out = persistence_controller.newOutputFile(outputPath);
+        if (persistence_controller.isFolder(in)) {
+            Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath)); // TODO Se podria y del identificador
             writeFolderMetadata(in, H);
             for (int id : H.dfs()) {
-                Compressor compressor = getBestCompressor(id, alg);
-                long cursor_ini = GD.getWrittenBytes(id);
-                compressor.compress();
-                long cursor_fi = GD.getWrittenBytes(id);
-                GD.modifyLong(id, cursor_ini, encodeMeta(compressor, cursor_fi-cursor_ini));
+                int bestCompressor = getBestCompressor(in, alg);
+                Compressor_Controller cc = new Compressor_Controller(bestCompressor);
+                long cursor_ini = persistence_controller.getWrittenBytes(id);
+                cc.startCompression(in, out);
+                long cursor_fi = persistence_controller.getWrittenBytes(id);
+                persistence_controller.modifyLong(id, cursor_ini, encodeMeta(bestCompressor, cursor_fi-cursor_ini));
             }
         }
     }
 
     private void writeFolderMetadata(int id, Hierarchy h) {
-        GD.writeBytes(id, h.toByteArray());
+        persistence_controller.writeBytes(id, h.toByteArray());
 
         for (int i : h.getFilesList()) {
-            GD.writeBytes(id, GD.getName(id).getBytes());
-            GD.writeByte(id, (byte) '\n');
+            persistence_controller.writeBytes(id, persistence_controller.getName(id).getBytes());
+            persistence_controller.writeByte(id, (byte) '\n');
         }
 
     }
 
-    private long encodeMeta(Compressor compressor, long i) {
+    private long encodeMeta(long compressor, long i) {
         long res = 0L;
         // por default esta Compressor_LZ78
-        if (compressor instanceof Compressor_LZSS)
-            res |= (1L << 62);
-        if (compressor instanceof Compressor_LZW)
-            res |= (2L << 62);
-        if (compressor instanceof Compressor_JPEG)
-            res |= (3L << 62);
+        if (compressor >= 0 && compressor <= 3) res |= (compressor << 62);
         if (i >= (1L << 62))
             throw new IllegalArgumentException("LongitudFicheroDemasiadoGrande");
-        return res;
+        return res | i;
     }
 
     public byte[] longToByteArr(long l) {
@@ -318,7 +326,7 @@ public class Domain_Controller {
         /*ArrayList<Integer> files = new ArrayList<>();
         files.add(1); files.add(3); files.add(2); files.add(0);*/
 
-        ArrayList<Integer> files = GD.getFilesFromFolder(in);
+        ArrayList<Integer> files = persistence_controller.getFilesFromFolder(in);
         ArrayList<Byte> jerarquia = new ArrayList<>();
         makeHierarchy(jerarquia, files);
 
@@ -328,18 +336,18 @@ public class Domain_Controller {
         ArrayList<String> fileNames = new ArrayList<>();
 
         for (byte fileId : jerarquia) {
-            GD.writeByte(out, fileId);
+            persistence_controller.writeByte(out, fileId);
             if (fileId != -1) {
-                fileNames.add(GD.getName(fileId));
+                fileNames.add(persistence_controller.getName(fileId));
             }
         }
         // Escrivim cada nom amb el mateix ordre i un separador (-1) entre cada un
         for (String name : fileNames) {
-            GD.writeBytes(out, name.getBytes());
-            GD.writeByte(out, (byte) -1);
+            persistence_controller.writeBytes(out, name.getBytes());
+            persistence_controller.writeByte(out, (byte) -1);
         }
         // Un -1 indicant que hem acabat els noms, no hauria de ser necessari
-        GD.writeByte(out, (byte) -1);
+        persistence_controller.writeByte(out, (byte) -1);
 
         writeFiles(out, jerarquia, 0);
     }

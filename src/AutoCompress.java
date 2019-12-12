@@ -46,10 +46,7 @@ public class AutoCompress {
                 Domain_Controller domain_controller = new Domain_Controller();
                 domain_controller.setPersistence_controller(persistence_controller);
 
-                int inputFile = persistence_controller.newInputFile(inputPath);
-                int outputFile = persistence_controller.newOutputFile(outputPath);
-
-                domain_controller.compress(inputFile, outputFile, j);
+                domain_controller.compress(inputPath, outputPath, j);
             }
         }
     }

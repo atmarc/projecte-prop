@@ -68,7 +68,7 @@ public class Persistence_Controller {
      * @return Nombre del fichero identificado por el parametro id.
      */
     public String getExtension(int id) {
-        return "ppm";
+        return "txt";
         // TODO para Edgar
     }
     /**

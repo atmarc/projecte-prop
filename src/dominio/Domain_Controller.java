@@ -3,17 +3,13 @@ package dominio;
 import persistencia.Persistence_Controller;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
 
 public class Domain_Controller {
 
     private Persistence_Controller persistence_controller;
 
-    Domain_Controller() {
+    public Domain_Controller() {
         persistence_controller = new Persistence_Controller();
     }
 
@@ -196,7 +192,7 @@ public class Domain_Controller {
 
         public ArrayList<Integer> getFilesList() {
             ArrayList<Integer> res = new ArrayList<>();
-            for (int i = 0; i < res.size(); ++i) 
+            for (int i = 0; i < rep.size(); ++i) 
                 res.add(i);
             return res;
         }
@@ -220,8 +216,7 @@ public class Domain_Controller {
             int nr = m[0].length;
             int headerSize = 6 + nr * 2 + (int) Math.ceil(nr / 8.0);
             byte[] res = new byte[headerSize];
-            for (byte i : res)
-                i = 0;
+            for (int i = 0; i < res.length; ++i) res[i] = 0;
             res[3] = (byte) (headerSize & 0xFF);
             res[2] = (byte) ((headerSize >> 8) & 0xFF);
             res[1] = (byte) ((headerSize >> 16) & 0xFF);
@@ -270,6 +265,7 @@ public class Domain_Controller {
         int in  = persistence_controller.newInputFile(inputPath);
         int out = persistence_controller.newOutputFile(outputPath);
         if (persistence_controller.isFolder(in)) {
+            int[][] temp = persistence_controller.makeHierarchy(inputPath);
             Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath)); // TODO Se podria y del identificador
             writeFolderMetadata(in, H);
             for (int id : H.dfs()) {
@@ -282,12 +278,31 @@ public class Domain_Controller {
             }
         }
     }
+    // No llamar a estos por ahora
+    // public void compress(String in) {
+    //     compress(in, getOnlyPathName(in) + ".egg", -1);
+    // }
 
+    // public void compress(String in, int alg) {
+    //     compress(in, getOnlyPathName(in) + ".egg", alg);
+    // }
+
+    // public void compress(String in, String out) {
+    //     compress(in, out, -1);
+    // }
+
+    // ejemplo: folder1/folder2/fichero.txt --> folder1/folder2/fichero
+    private String getOnlyPathName(String file) {
+        if (file == null) throw new IllegalArgumentException("El nombre del fichero es nulo");
+        int i = file.lastIndexOf('.');
+        if (i <= 0) throw new IllegalArgumentException("Fichero sin extension");
+        return file.substring(0, i-1);
+    }
     private void writeFolderMetadata(int id, Hierarchy h) {
         persistence_controller.writeBytes(id, h.toByteArray());
 
         for (int i : h.getFilesList()) {
-            persistence_controller.writeBytes(id, persistence_controller.getName(id).getBytes());
+            persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
             persistence_controller.writeByte(id, (byte) '\n');
         }
 

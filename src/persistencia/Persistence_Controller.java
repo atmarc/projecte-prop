@@ -63,6 +63,15 @@ public class Persistence_Controller {
         return readFiles.get(id).getName();
     }
     /**
+     * Proporciona la extencion del archivo de lectura identificado por el identificador que recibe por parametro .
+     * @param id Identificador del fichero de lectura.
+     * @return Nombre del fichero identificado por el parametro id.
+     */
+    public String getExtension(int id) {
+        return "ppm";
+        // TODO para Edgar
+    }
+    /**
      * Getter del tamano en Bytes de un fichero de lectura.
      * @return Tamano en Bytes del fichero original.
      */

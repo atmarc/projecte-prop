@@ -214,6 +214,7 @@ public class Domain_Controller {
 
         byte[] toByteArray() {
             int nr = m[0].length;
+            if (nr == 1) return new byte[]{0, 0, 0, 0};
             int headerSize = 6 + nr + (int) Math.ceil(nr / 8.0);
             byte[] res = new byte[headerSize];
             for (int i = 0; i < res.length; ++i) res[i] = 0;
@@ -261,35 +262,38 @@ public class Domain_Controller {
             return root;
         }
 
+        public boolean isFile() {
+            return m[0].length == 1;
+        }
+
     }
-    
+
     public void compress(String inputPath, String outputPath, int alg) {
         Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = H.getRoot();
         int out = persistence_controller.newOutputFile(outputPath);
-        if (persistence_controller.isFolder(in)) {
-            int[][] temp = persistence_controller.makeHierarchy(inputPath);
-            for (int i = 0; i < temp[1].length; ++i) {
-                System.out.printf("id = %d -> name: %s\n", i, persistence_controller.getName(i));
-            }
-            in = H.getRoot();
-            writeFolderMetadata(in, H);
-            ArrayList<Integer> temp1 = H.dfs();
-            for (int id : H.dfs()) {
-                int bestCompressor = getBestCompressor(in, alg);
-                Compressor_Controller cc = new Compressor_Controller(bestCompressor);
-                cc.setDomain_controller(this);
-                long cursor_ini = persistence_controller.getWrittenBytes(out);
-                persistence_controller.writeBytes(out, new byte[8]);
-                cc.startCompression(id, out);
-                long cursor_fi = persistence_controller.getWrittenBytes(out);
-                // persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor, cursor_fi-cursor_ini));
-            }
-            try {
-                persistence_controller.closeWriter(out);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        int[][] temp = persistence_controller.makeHierarchy(inputPath);
+        for (int i = 0; i < temp[1].length; ++i) {
+            System.out.printf("id = %d -> name: %s\n", i, persistence_controller.getName(i));
+        }
+        in = H.getRoot();
+
+        writeFolderMetadata(in, H);
+        for (int id : H.dfs()) {
+            int bestCompressor = getBestCompressor(in, alg);
+            Compressor_Controller cc = new Compressor_Controller(bestCompressor);
+            cc.setDomain_controller(this);
+            long cursor_ini = persistence_controller.getWrittenBytes(out);
+            persistence_controller.writeBytes(out, new byte[8]);
+            cc.startCompression(id, out);
+            long cursor_fi = persistence_controller.getWrittenBytes(out);
+            // persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor,
+            // cursor_fi-cursor_ini));
+        }
+        try {
+            persistence_controller.closeWriter(out);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     // No llamar a estos por ahora
@@ -312,14 +316,15 @@ public class Domain_Controller {
         if (i <= 0) throw new IllegalArgumentException("Fichero sin extension");
         return file.substring(0, i-1);
     }
+
     private void writeFolderMetadata(int id, Hierarchy h) {
         persistence_controller.writeBytes(id, h.toByteArray());
-
-        for (int i : h.getFilesList()) {
-            persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
-            persistence_controller.writeByte(id, (byte) '\n');
+        if (!h.isFile()) {
+            for (int i : h.getFilesList()) {
+                persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
+                persistence_controller.writeByte(id, (byte) '\n');
+            }
         }
-
     }
 
     private long encodeMeta(long compressor, long i) {

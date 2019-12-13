@@ -7,14 +7,31 @@ import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+/*!
+ *  \brief     Controladora de la capa de persistencia, encargada de todos los procesos de entrada y salida.
+ *  \details   La comunicacion para los operaciones de entrada y salida con el dominio va ligada siempre a un identificador asociado un fichero de sobre el que se desea leer/escribir. Todos los proceso de lectura y escritura se realizan mediante buffers. Tambien incluye metodos para obtener informacion de archivos y directorios (nombre, tamano, etc.)
+ *  \author    Edgar Perez
+ */
 public class Persistence_Controller {
 
-    private ArrayList<InputFile> readFiles;  ///< Referencia al archivo origen.
-    private ArrayList<OutputFile> writeFiles; ///< Referencia al archivo destino.
+    private ArrayList<InputFile> readFiles;  ///< Referencia a los archivos/directorios origen.
+    private ArrayList<OutputFile> writeFiles; ///< Referencia a los archivos/directorios destino.
+    private static Persistence_Controller persistence_controller = new Persistence_Controller(); ///< Referencia a la unica instancia de la Controladora de Persistencia
 
-    public Persistence_Controller() {
+    /**
+     * Creadora privada para evitar mas de una instanciacion. (Patron singleton)
+     */
+    private Persistence_Controller() {
         readFiles = new ArrayList<>();
         writeFiles = new ArrayList<>();
+    }
+
+    /**
+     * Getter de la unica instancia de la Controladora de Persistencia.
+     * @return Retorna la instancia de la Controladora de Persistencia.
+     */
+    public static Persistence_Controller getPersistence_controller() {
+        return persistence_controller;
     }
 
     // File Creation

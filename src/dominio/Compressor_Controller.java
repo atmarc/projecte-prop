@@ -82,7 +82,7 @@ public class Compressor_Controller {
 
         try {
             domain_controller.closeReader(inputFile);
-            domain_controller.closeWriter(outputFile);
+            // domain_controller.closeWriter(outputFile); TODO: No hace falta esto, peligroso en la compresion de ficheros
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -214,7 +214,7 @@ public class Domain_Controller {
 
         byte[] toByteArray() {
             int nr = m[0].length;
-            int headerSize = 6 + nr * 2 + (int) Math.ceil(nr / 8.0);
+            int headerSize = 6 + nr + (int) Math.ceil(nr / 8.0);
             byte[] res = new byte[headerSize];
             for (int i = 0; i < res.length; ++i) res[i] = 0;
             res[3] = (byte) (headerSize & 0xFF);
@@ -236,10 +236,8 @@ public class Domain_Controller {
             }
             if (rep.size() % 8 != 0)
                 res[pos++] = b;
-            for (int i = 0; i < nr; ++i) {
-                res[pos++] = (byte) m[0][i];
-                res[pos++] = (byte) m[1][i];
-            }
+            for (int i : m[1])
+                res[pos++] = (byte) i;
             return res;
         }
 
@@ -259,22 +257,38 @@ public class Domain_Controller {
             return res;
         }
 
+        public int getRoot() {
+            return root;
+        }
+
     }
     
     public void compress(String inputPath, String outputPath, int alg) {
-        int in  = persistence_controller.newInputFile(inputPath);
+        Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
+        int in = H.getRoot();
         int out = persistence_controller.newOutputFile(outputPath);
         if (persistence_controller.isFolder(in)) {
             int[][] temp = persistence_controller.makeHierarchy(inputPath);
-            Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath)); // TODO Se podria y del identificador
+            for (int i = 0; i < temp[1].length; ++i) {
+                System.out.printf("id = %d -> name: %s\n", i, persistence_controller.getName(i));
+            }
+            in = H.getRoot();
             writeFolderMetadata(in, H);
+            ArrayList<Integer> temp1 = H.dfs();
             for (int id : H.dfs()) {
                 int bestCompressor = getBestCompressor(in, alg);
                 Compressor_Controller cc = new Compressor_Controller(bestCompressor);
-                long cursor_ini = persistence_controller.getWrittenBytes(id);
-                cc.startCompression(in, out);
-                long cursor_fi = persistence_controller.getWrittenBytes(id);
-                persistence_controller.modifyLong(id, cursor_ini, encodeMeta(bestCompressor, cursor_fi-cursor_ini));
+                cc.setDomain_controller(this);
+                long cursor_ini = persistence_controller.getWrittenBytes(out);
+                persistence_controller.writeBytes(out, new byte[8]);
+                cc.startCompression(id, out);
+                long cursor_fi = persistence_controller.getWrittenBytes(out);
+                // persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor, cursor_fi-cursor_ini));
+            }
+            try {
+                persistence_controller.closeWriter(out);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

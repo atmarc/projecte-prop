@@ -1,16 +1,8 @@
 import dominio.Compressor_Controller;
 import dominio.Decompressor_Controller;
-import presentacion.Formprova;
-
-import javax.swing.*;
 import dominio.Domain_Controller;
 import persistencia.Persistence_Controller;
-import presentacion.Presentation_Controller;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.Normalizer;
 
 public class Main {
 

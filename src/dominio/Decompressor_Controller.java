@@ -1,7 +1,6 @@
 package dominio;
+
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /*!
  *  \brief     Clase encargada de comunicar los descompresores con otras capas (presentacion y persistencia). Proporciona metodos de entrada y salida ademas realizar el calculo de las estadisticas.
@@ -82,7 +81,7 @@ public class Decompressor_Controller {
         decompressor.decompress();
         time = System.currentTimeMillis() - time;
 
-        closeReader();
+        // closeReader(); // Perillos
         closeWriter();
 
         System.out.println("Decompression DONE");

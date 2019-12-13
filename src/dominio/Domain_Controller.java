@@ -242,17 +242,17 @@ public class Domain_Controller {
             return res;
         }
 
-        ArrayList<Integer> dfs() {
-            return dfsAux(root);
+        ArrayList<Integer> getLeafs() {
+            return getLeafsAux(root);
         }
 
-        ArrayList<Integer> dfsAux(int i) {
+        ArrayList<Integer> getLeafsAux(int i) {
             ArrayList<Integer> crr = rep.get(i);
             ArrayList<Integer> res = new ArrayList<>();
             if (crr.isEmpty()) res.add(i);
             else {
                 for (Integer v : crr) {
-                    res.addAll(dfsAux(v));
+                    res.addAll(getLeafsAux(v));
                 }
             }
             return res;
@@ -264,6 +264,26 @@ public class Domain_Controller {
 
         public boolean isFile() {
             return m[0].length == 1;
+        }
+
+        public ArrayList<Integer> getNodes() {
+            return getNodesAux(root);
+        }
+
+        ArrayList<Integer> getNodesAux(int i) {
+            ArrayList<Integer> crr = rep.get(i);
+            ArrayList<Integer> res = new ArrayList<>();
+            res.add(i);
+            if (!crr.isEmpty()) {
+                for (Integer v : crr) {
+                    res.addAll(getNodesAux(v));
+                }
+            }
+            return res;
+        }
+
+        public void setRoot(int root) {
+            this.root = root;
         }
 
     }
@@ -279,7 +299,7 @@ public class Domain_Controller {
         in = H.getRoot();
 
         writeFolderMetadata(in, H);
-        for (int id : H.dfs()) {
+        for (int id : H.getLeafs()) {
             int bestCompressor = getBestCompressor(in, alg);
             Compressor_Controller cc = new Compressor_Controller(bestCompressor);
             cc.setDomain_controller(this);
@@ -321,8 +341,10 @@ public class Domain_Controller {
         persistence_controller.writeBytes(id, h.toByteArray());
         if (!h.isFile()) {
             for (int i : h.getFilesList()) {
-                persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
-                persistence_controller.writeByte(id, (byte) '\n');
+                if (i != h.getRoot()) {
+                    persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
+                    persistence_controller.writeByte(id, (byte) '\n');
+                }
             }
         }
     }
@@ -334,6 +356,76 @@ public class Domain_Controller {
         if (i >= (1L << 62))
             throw new IllegalArgumentException("LongitudFicheroDemasiadoGrande");
         return res | i;
+    }
+
+    public void decompress(String inputPath, String outputPath) {
+        int in = persistence_controller.newInputFile(inputPath);
+        Hierarchy H = new Hierarchy(makeHierarchy(in, outputPath));
+        for (int id : H.getNodes()) {
+            int alg = 0;
+            int size = 10;
+            Decompressor_Controller dc = new Decompressor_Controller("alg"); // va cambiar -> sin param
+            // o se dara el algoritmo y el tamano del fichero a descomprimir o lo hara el mismo,
+            // se tiene que dcidir
+            dc.startDecompression(in, id);
+        }
+        try {
+            persistence_controller.closeReader(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Do Not Use The Functions Bellow
+    // public void decompress(String in) {
+    //     decompress(in, getOnlyPathName(in) + ".txt"); // TODO: to change for JPEG
+    // }
+
+    private int[][] makeHierarchy(int in, String outputPath) {
+        byte[] aux = new byte[4];
+        persistence_controller.readBytes(in, aux);
+        int headerSize = toInt(aux);
+        int nrFiles;
+        if (headerSize == 0) nrFiles = 1;
+        else {
+           aux = new byte[2]; 
+           persistence_controller.readBytes(in, aux);
+           nrFiles = toInt(aux);
+        }
+        int[][] res = new int[2][nrFiles];
+        aux = new byte[(int)Math.ceil(nrFiles/8.0)];
+        persistence_controller.readBytes(in, aux);
+        for (int i = 0; i < nrFiles; ++i) {
+            res[0][i] = ((aux[i/8] & (1 << (7 - i%8))) != 0) ? 1 : 0;
+            res[1][i] = persistence_controller.readByte(in);
+        }
+        int[] corr = new int[nrFiles];
+        int pos = 0;
+
+        corr[pos++] = persistence_controller.newOutputFile(outputPath);
+        for (int i = 0; i < nrFiles-1; ++i) {
+            StringBuilder fileName = new StringBuilder();
+            char c;
+            while ((c = (char)persistence_controller.readByte(in)) != '\n') fileName.append(c);
+            corr[pos++] = persistence_controller.newOutputFile(fileName.toString());
+        }
+        for (int i = 0; i < nrFiles; ++i) {
+            res[1][i] = corr[res[1][i]];
+        }
+        return res;
+    }
+
+    private int toInt(byte[] aux) {
+        int res = 0, j = aux.length-1;
+        for (byte i : aux)
+            res |= (i << (8*j--));
+        return res;
+    }
+
+    private long toLong(byte[] aux) {
+        long res = 0, j = 0;
+        for (byte i : aux) res |= (i << j++);
+        return res;
     }
 
     public byte[] longToByteArr(long l) {
@@ -395,10 +487,10 @@ public class Domain_Controller {
     }
 
     // public void passPath(String path, String out) {
-    //     int pathIn = GD.passPathIn(path);
-    //     int pathOut = GD.passPathOut(out);
+    //     int pathIn = persistence_controller.passPathIn(path);
+    //     int pathOut = persistence_controller.passPathOut(out);
 
-    //     if (GD.isFolder(pathIn))
+    //     if (persistence_controller.isFolder(pathIn))
     //         compressFolder(pathIn, pathOut);
     //     else startCompression(pathIn, pathOut, getBestCompressor(pathIn));
     // }

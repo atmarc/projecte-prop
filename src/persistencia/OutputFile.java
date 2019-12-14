@@ -20,7 +20,7 @@ public class OutputFile extends File {
 
     BufferedOutputStream getBuffer() throws FileNotFoundException {
         if (!active) {
-            out = new BufferedOutputStream(new FileOutputStream(this));
+            out = new BufferedOutputStream(new FileOutputStream(this, true));
             active = true;
         }
         return out;

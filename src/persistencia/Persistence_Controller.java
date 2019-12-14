@@ -40,7 +40,7 @@ public class Persistence_Controller {
      * @param path Ruta del fichero sobre el que se quieren realizar lecturas.
      * @return Identificador asociado al fichero.
      */
-    public int newInputFile(String path) {
+    private int newInputFile(String path) {
         InputFile aux = new InputFile(path);
         readFiles.add(aux);
         return readFiles.indexOf(aux);

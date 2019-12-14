@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 
 public class OutputFile extends File {
 
@@ -12,8 +13,9 @@ public class OutputFile extends File {
         return active;
     }
 
-    public OutputFile(String pathname) {
+    public OutputFile(String pathname) throws FileAlreadyExistsException {
         super(pathname);
+        if (this.isFile()) throw new FileAlreadyExistsException("Este fichero de salida ya existe.");
         active = false;
         num = 0;
     }

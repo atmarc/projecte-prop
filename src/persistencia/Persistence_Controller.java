@@ -50,7 +50,7 @@ public class Persistence_Controller {
      * @param path Ruta del fichero sobre el que se quieren realizar escrituras.
      * @return Identificador asociado al fichero.
      */
-    public int newOutputFile(String path) {
+    public int newOutputFile(String path) throws FileAlreadyExistsException {
         OutputFile aux = new OutputFile(path);
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);

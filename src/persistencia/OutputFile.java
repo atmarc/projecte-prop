@@ -41,4 +41,8 @@ public class OutputFile extends File {
 
     public long getNum() { return num; }
     public void setNum(long num) { this.num = num; }
+
+	public void flushBuffer() throws IOException {
+        out.flush();
+	}
 }

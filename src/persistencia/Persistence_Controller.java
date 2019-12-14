@@ -85,8 +85,12 @@ public class Persistence_Controller {
      * @return Nombre del fichero identificado por el parametro id.
      */
     public String getExtension(int id) {
-        return "txt";
-        // TODO para Edgar
+        // Lo he implementado yo puedes cambiar lo que no te parece ok
+        String file = getName(id);
+        assert file != null : "El nombre del fichero es nulo";
+        int i = file.lastIndexOf('.');
+        assert i > 0 : "Fichero sin extension";
+        return file.substring(i + 1);
     }
     /**
      * Getter del tamano en Bytes de un fichero de lectura.
@@ -237,7 +241,8 @@ public class Persistence_Controller {
     public void modifyLong(int id, long position, long content) {
         try {
             OutputFile file = writeFiles.get(id);
-            if (file.isActive()) file.closeBuffer();
+            file.flushBuffer();
+            // if (file.isActive()) file.closeBuffer();
 
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
             raf.seek(position);

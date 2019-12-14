@@ -3,6 +3,7 @@ package dominio;
 import persistencia.Persistence_Controller;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 
 public class Domain_Controller {
@@ -10,7 +11,7 @@ public class Domain_Controller {
     private Persistence_Controller persistence_controller;
 
     public Domain_Controller() {
-        persistence_controller = new Persistence_Controller();
+        persistence_controller = Persistence_Controller.getPersistence_controller();
     }
 
     public void setPersistence_controller(Persistence_Controller persistence_controller) {
@@ -30,12 +31,14 @@ public class Domain_Controller {
     /**
      * Lee N bytes del fichero origen en una cadena de bytes que se le pasa por
      * parametro.
+     * 
      * @param word Cadena de bytes sobre la que se introducira la lectura.
      * @return Cantidad de bytes leida o -1 si no habia nada que leer.
      */
     int readNBytes(int id, byte[] word) {
         return persistence_controller.readBytes(id, word);
     }
+
     /**
      * Cierra el buffer de lectura.
      */
@@ -43,35 +46,42 @@ public class Domain_Controller {
         persistence_controller.closeReader(id);
         // TO DO: Tal vez no hace falta y se gestiona tododesde la persistencia
     }
+
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
+     * 
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
     byte[] readAllBytes(int id) {
         return persistence_controller.readAllBytes(id);
     }
 
-
     // Escritura
 
     /**
      * Escribe un byte en fichero de salida.
+     * 
      * @param B Byte que se desea escribir en el fichero de salida.
      */
     void writeByte(int id, byte B) {
         persistence_controller.writeByte(id, B);
     }
+
     /**
      * Escribe una cadena de bytes en el fichero de salida.
+     * 
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
     void writeBytes(int id, byte[] word) {
         persistence_controller.writeBytes(id, word);
     }
+
     /**
      * Cierra buffer de escritura.
      */
-    void closeWriter(int id) throws IOException { persistence_controller.closeWriter(id); }
+    void closeWriter(int id) throws IOException {
+        persistence_controller.closeWriter(id);
+    }
 
     // File Info
     public long getInputFileSize(int id) {
@@ -88,24 +98,25 @@ public class Domain_Controller {
         compressor_controller.startCompression(in, out);
     }
 
-    public void startDecompression(int in, int  out, String extension) {
+    public void startDecompression(int in, int out, String extension) {
         Decompressor_Controller decompressor_controller = new Decompressor_Controller(extension);
         decompressor_controller.setDomain_controller(this);
         // Si és un sol arxiu
         decompressor_controller.startDecompression(in, out);
     }
 
-    // Crea la jerarquia llegint "l'arbre d'arxius" en preordre, i després de cada fulla posa un -1
+    // Crea la jerarquia llegint "l'arbre d'arxius" en preordre, i després de cada
+    // fulla posa un -1
     // El faig en bytes, per tant podrem tenir fins a 2^8 fitxers
-    // Exemple: a,b(c,d),e(f,g) --> [a, -1, b, c, -1, d, -1, -1, e, f, -1, g, -1, -1]
+    // Exemple: a,b(c,d),e(f,g) --> [a, -1, b, c, -1, d, -1, -1, e, f, -1, g, -1,
+    // -1]
     private void makeHierarchy(ArrayList<Byte> hierarchy, ArrayList<Integer> files) {
         for (int f : files) {
             if (persistence_controller.isFolder(f)) {
                 hierarchy.add((byte) f);
                 makeHierarchy(hierarchy, persistence_controller.getFilesFromFolder(f));
                 hierarchy.add((byte) -1);
-            }
-            else {
+            } else {
                 hierarchy.add((byte) f);
                 hierarchy.add((byte) -1);
             }
@@ -115,16 +126,16 @@ public class Domain_Controller {
     private void writeFiles(int out, ArrayList<Byte> files, int index) {
         for (int i = index; i < files.size(); ++i) {
             int file = files.get(i);
-            if (file != (byte)-1) {
+            if (file != (byte) -1) {
                 if (persistence_controller.isFolder(file)) {
                     writeFiles(file, files, i + 1);
-                }
-                else {
+                } else {
                     Compressor_Controller compressor = new Compressor_Controller(getBestCompressor(file));
                     // TODO: 8 bytes pel size potser és massa
                     long fileSize = persistence_controller.getOutputFileSize(file);
-                    byte [] space = new byte[8];
-                    for (int j = 0; j < space.length; ++j) space[j] = 0;
+                    byte[] space = new byte[8];
+                    for (int j = 0; j < space.length; ++j)
+                        space[j] = 0;
 
                     persistence_controller.writeBytes(file, space);
                     persistence_controller.writeBytes(file, longToByteArr(fileSize));
@@ -137,15 +148,9 @@ public class Domain_Controller {
                 }
             }
             // Si hi ha dos -1 seguits vol dir que ja ha sortit de la carpeta
-            else if (i + 1 < files.size() && files.get(i + 1) == (byte)-1) break;
+            else if (i + 1 < files.size() && files.get(i + 1) == (byte) -1)
+                break;
         }
-    }
-
-    private String getFileExtension(String file) {
-        assert file != null : "El nombre del fichero es nulo";  // TODO: Throw new [FileWithoutExtension] ?
-        int i = file.lastIndexOf('.');
-        assert i > 0 : "Fichero sin extension"; // TODO: Throw nwe [FileWithoutExtension] ?
-        return file.substring(i+1);
     }
 
     // Retorna el mejor compresor para comprimir el fichero in
@@ -153,46 +158,60 @@ public class Domain_Controller {
     // assigna el mejor algoritmo para el fichero
     private Compressor getBestCompressor1(int in, int alg) {
         String ext = persistence_controller.getExtension(in);
-        if (ext.equals("ppm")) return new Compressor_JPEG();
+        if (ext.equals("ppm"))
+            return new Compressor_JPEG();
         else if (ext.equals("txt")) {
-            if (alg == 0) return new Compressor_LZ78();
-            else if(alg == 1) return new Compressor_LZSS();
-            else if(alg == 2) return new Compressor_LZW();
+            if (alg == 0)
+                return new Compressor_LZ78();
+            else if (alg == 1)
+                return new Compressor_LZSS();
+            else if (alg == 2)
+                return new Compressor_LZW();
             else {
                 long size = persistence_controller.getInputFileSize(in);
-                if (size < 100L) throw new IllegalArgumentException("FicheroDemasiadoPequeno");
-                if (size <= 50000L) return new Compressor_LZSS();
-                else if (size <= 1000000L) return new Compressor_LZW();
-                else return new Compressor_LZ78();
+                if (size < 100L)
+                    throw new IllegalArgumentException("FicheroDemasiadoPequeno");
+                if (size <= 50000L)
+                    return new Compressor_LZSS();
+                else if (size <= 1000000L)
+                    return new Compressor_LZW();
+                else
+                    return new Compressor_LZ78();
             }
-        }
-        else throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
+        } else
+            throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
     }
 
     private int getBestCompressor(int in, int alg) {
         String ext = persistence_controller.getExtension(in);
-        if (ext.equals("ppm")) return 3;
+        if (ext.equals("ppm"))
+            return 3;
         else if (ext.equals("txt")) {
-            if (alg >= 0 && alg <= 2) return alg;
+            if (alg >= 0 && alg <= 2)
+                return alg;
             else {
                 long size = persistence_controller.getInputFileSize(in);
-                if (size < 100L) throw new IllegalArgumentException("FicheroDemasiadoPequeno");
-                if (size <= 50000L) return 1;
-                else if (size <= 1000000L) return 2;
-                else return 3;
+                if (size < 100L)
+                    throw new IllegalArgumentException("FicheroDemasiadoPequeno");
+                if (size <= 50000L)
+                    return 1;
+                else if (size <= 1000000L)
+                    return 2;
+                else
+                    return 3;
             }
-        }
-        else throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
+        } else
+            throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
     }
 
     private class Hierarchy {
         private int root;
         private int[][] m;
-        ArrayList<ArrayList<Integer> > rep;
+        ArrayList<ArrayList<Integer>> rep;
 
         public ArrayList<Integer> getFilesList() {
             ArrayList<Integer> res = new ArrayList<>();
-            for (int i = 0; i < rep.size(); ++i) 
+            for (int i = 0; i < rep.size(); ++i)
                 res.add(i);
             return res;
         }
@@ -214,10 +233,12 @@ public class Domain_Controller {
 
         byte[] toByteArray() {
             int nr = m[0].length;
-            if (nr == 1) return new byte[]{0, 0, 0, 0};
+            if (nr == 1)
+                return new byte[] { 0, 0, 0, 0 };
             int headerSize = 6 + nr + (int) Math.ceil(nr / 8.0);
             byte[] res = new byte[headerSize];
-            for (int i = 0; i < res.length; ++i) res[i] = 0;
+            for (int i = 0; i < res.length; ++i)
+                res[i] = 0;
             res[3] = (byte) (headerSize & 0xFF);
             res[2] = (byte) ((headerSize >> 8) & 0xFF);
             res[1] = (byte) ((headerSize >> 16) & 0xFF);
@@ -249,7 +270,8 @@ public class Domain_Controller {
         ArrayList<Integer> getLeafsAux(int i) {
             ArrayList<Integer> crr = rep.get(i);
             ArrayList<Integer> res = new ArrayList<>();
-            if (crr.isEmpty()) res.add(i);
+            if (crr.isEmpty())
+                res.add(i);
             else {
                 for (Integer v : crr) {
                     res.addAll(getLeafsAux(v));
@@ -288,14 +310,14 @@ public class Domain_Controller {
 
     }
 
-    public void compress(String inputPath, String outputPath, int alg) {
+    public void compress(String inputPath, String outputPath, int alg) throws FileAlreadyExistsException {
         Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = H.getRoot();
         int out = persistence_controller.newOutputFile(outputPath);
-        int[][] temp = persistence_controller.makeHierarchy(inputPath);
-        for (int i = 0; i < temp[1].length; ++i) {
-            System.out.printf("id = %d -> name: %s\n", i, persistence_controller.getName(i));
-        }
+        // int[][] temp = persistence_controller.makeHierarchy(inputPath);
+        // for (int i = 0; i < temp[1].length; ++i) {
+        //     System.out.printf("id = %d -> name: %s\n", i, persistence_controller.getName(i));
+        // }
         in = H.getRoot();
 
         writeFolderMetadata(in, H);
@@ -307,8 +329,8 @@ public class Domain_Controller {
             persistence_controller.writeBytes(out, new byte[8]);
             cc.startCompression(id, out);
             long cursor_fi = persistence_controller.getWrittenBytes(out);
-            // persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor,
-            // cursor_fi-cursor_ini));
+            persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor,
+            cursor_fi-cursor_ini-8));
         }
         try {
             persistence_controller.closeWriter(out);
@@ -358,10 +380,10 @@ public class Domain_Controller {
         return res | i;
     }
 
-    public void decompress(String inputPath, String outputPath) {
-        int in = persistence_controller.newInputFile(inputPath);
-        Hierarchy H = new Hierarchy(makeHierarchy(in, outputPath));
-        for (int id : H.getNodes()) {
+    public void decompress(String inputPath, String outputPath) throws FileAlreadyExistsException {
+        Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath));
+        int in = H.getRoot();
+        for (int id : H.getLeafs()) {
             int alg = 0;
             int size = 10;
             Decompressor_Controller dc = new Decompressor_Controller("alg"); // va cambiar -> sin param
@@ -381,17 +403,24 @@ public class Domain_Controller {
     //     decompress(in, getOnlyPathName(in) + ".txt"); // TODO: to change for JPEG
     // }
 
-    private int[][] makeHierarchy(int in, String outputPath) {
+    private int[][] makeHierarchy(String inputPath, String outputPath) throws Exception {
+        Hierarchy h = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
+        int in = h.getRoot();
+        // Calcular el tamano del 'folder' header
         byte[] aux = new byte[4];
         persistence_controller.readBytes(in, aux);
         int headerSize = toInt(aux);
+        // Calcular el numero de ficheros comprmimdos en el fichero de entrada
         int nrFiles;
-        if (headerSize == 0) nrFiles = 1;
-        else {
-           aux = new byte[2]; 
-           persistence_controller.readBytes(in, aux);
-           nrFiles = toInt(aux);
+        if (headerSize == 0) {
+            // Si es un solo fichero el header se acaba aqui
+            nrFiles = 1;
+            return new int[][]{{in},{in}};
         }
+        aux = new byte[2];
+        persistence_controller.readBytes(in, aux);
+        nrFiles = toInt(aux);
+        // Calcular la estructura de la carpeta que fue comprimida
         int[][] res = new int[2][nrFiles];
         aux = new byte[(int)Math.ceil(nrFiles/8.0)];
         persistence_controller.readBytes(in, aux);
@@ -402,12 +431,13 @@ public class Domain_Controller {
         int[] corr = new int[nrFiles];
         int pos = 0;
 
-        corr[pos++] = persistence_controller.newOutputFile(outputPath);
+        corr[pos++] = persistence_controller.newDir(outputPath);
         for (int i = 0; i < nrFiles-1; ++i) {
             StringBuilder fileName = new StringBuilder();
             char c;
             while ((c = (char)persistence_controller.readByte(in)) != '\n') fileName.append(c);
-            corr[pos++] = persistence_controller.newOutputFile(fileName.toString());
+            if (res[0][i] == 1) corr[pos++] = persistence_controller.newDir(fileName.toString(), res[1][i]);
+            else corr[pos++] = persistence_controller.newOutputFile(fileName.toString());
         }
         for (int i = 0; i < nrFiles; ++i) {
             res[1][i] = corr[res[1][i]];

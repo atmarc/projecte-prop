@@ -69,6 +69,10 @@ public class Persistence_Controller {
         return newDir(writeFiles.get(padre).getAbsolutePath() + '/' + name);
     }
 
+    public int newOutputFile(String name, int padre) throws Exception {
+        return newOutputFile(writeFiles.get(padre).getAbsolutePath() + '/' + name);
+    }
+
     // File info
 
     /**

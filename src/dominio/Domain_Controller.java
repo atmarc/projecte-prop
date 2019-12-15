@@ -380,15 +380,18 @@ public class Domain_Controller {
         return res | i;
     }
 
-    public void decompress(String inputPath, String outputPath) throws FileAlreadyExistsException {
+    public void decompress(String inputPath, String outputPath) throws Exception {
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath));
         int in = H.getRoot();
         for (int id : H.getLeafs()) {
             int alg = 0;
             int size = 10;
-            Decompressor_Controller dc = new Decompressor_Controller("alg"); // va cambiar -> sin param
+            byte[] aux = new byte[8];
+            persistence_controller.readBytes(in, aux);
+            Decompressor_Controller dc = new Decompressor_Controller("lzw"); // va cambiar -> sin param
             // o se dara el algoritmo y el tamano del fichero a descomprimir o lo hara el mismo,
             // se tiene que dcidir
+            dc.setDomain_controller(this);
             dc.startDecompression(in, id);
         }
         try {
@@ -415,7 +418,8 @@ public class Domain_Controller {
         if (headerSize == 0) {
             // Si es un solo fichero el header se acaba aqui
             nrFiles = 1;
-            return new int[][]{{in},{in}};
+            int out = persistence_controller.newOutputFile(outputPath);
+            return new int[][]{{0},{out}};
         }
         aux = new byte[2];
         persistence_controller.readBytes(in, aux);
@@ -432,12 +436,12 @@ public class Domain_Controller {
         int pos = 0;
 
         corr[pos++] = persistence_controller.newDir(outputPath);
-        for (int i = 0; i < nrFiles-1; ++i) {
+        for (int i = 1; i < nrFiles; ++i) {
             StringBuilder fileName = new StringBuilder();
             char c;
             while ((c = (char)persistence_controller.readByte(in)) != '\n') fileName.append(c);
             if (res[0][i] == 1) corr[pos++] = persistence_controller.newDir(fileName.toString(), res[1][i]);
-            else corr[pos++] = persistence_controller.newOutputFile(fileName.toString());
+            else corr[pos++] = persistence_controller.newOutputFile(fileName.toString(), res[1][i]);
         }
         for (int i = 0; i < nrFiles; ++i) {
             res[1][i] = corr[res[1][i]];

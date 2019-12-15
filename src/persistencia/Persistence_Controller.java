@@ -158,7 +158,9 @@ public class Persistence_Controller {
      */
     public int readByte(int id) {
         try {
-            return readFiles.get(id).getBuffer().read();
+            InputFile in = readFiles.get(id);
+            if (in.subNum(1) > 0) return in.getBuffer().read();
+            return -1;
         }
         catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
@@ -172,7 +174,13 @@ public class Persistence_Controller {
      */
     public int readBytes(int id, byte[] word) {
         try {
-            return readFiles.get(id).getBuffer().read(word);
+            InputFile in = readFiles.get(id);
+            int n = in.subNum(word.length);
+            if (n != word.length) {
+                if (n > 0) word = new byte[n];
+                else return -1;
+            }
+            return in.getBuffer().read(word);
         } catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
             return -1;
@@ -191,7 +199,11 @@ public class Persistence_Controller {
     public byte[] readAllBytes(int id) {
         byte[] b = new byte[0];
         try {
-            b = Files.readAllBytes(Paths.get(readFiles.get(id).getPath()));
+            InputFile in = readFiles.get(id);
+            byte[] res = new byte[(int) in.getNum()];
+            in.setNum(0);
+            in.getBuffer().read(res);
+            return res;
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -71,7 +71,7 @@ public class Persistence_ControllerTest {
         carpeta.put("15.txt", 0);
 
         String path = ".\\src\\persistencia\\testing_files\\testing_path";
-        Persistence_Controller pc = new Persistence_Controller();
+        Persistence_Controller pc = Persistence_Controller.getPersistence_controller();
 
         int[][] out = pc.makeHierarchy(path);
         boolean control = true;

@@ -7,7 +7,7 @@ public class OutputFile extends File {
 
     private BufferedOutputStream out;
     boolean active;
-    long num;            ///< Contador de cuantos btes se han escrito
+    long num;            ///< Contador de cuantos bytes se han escrito
 
     public boolean isActive() {
         return active;

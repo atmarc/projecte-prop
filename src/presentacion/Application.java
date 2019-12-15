@@ -22,7 +22,7 @@ public class Application {
 
     public static void main(String[] args) throws IllegalArgumentException {
 
-        Persistence_Controller persistence_controller = new Persistence_Controller();
+        Persistence_Controller persistence_controller = Persistence_Controller.getPersistence_controller();
         Domain_Controller domain_controller = new Domain_Controller();
 
         domain_controller.setPersistence_controller(persistence_controller);
@@ -132,18 +132,18 @@ public class Application {
             inputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.txt";
             outputPath = "C:\\Users\\Edgar\\IdeaProjects\\projecte-prop\\testing_files\\big.eggo";
 
-            int inputFile = persistence_controller.newInputFile(inputPath);
-            int outputFile = persistence_controller.newOutputFile(outputPath);
+            //int inputFile = persistence_controller.newInputFile(inputPath);
+            //int outputFile = persistence_controller.newOutputFile(outputPath);
 
-            domain_controller.startCompression(inputFile, outputFile, alg);
+            //domain_controller.startCompression(inputFile, outputFile, alg);
         }
         else { // Descomprimir
 
             // Solucion temporal para que compile
-            int inputFile = persistence_controller.newInputFile(inputPath);
-            int outputFile = persistence_controller.newOutputFile(outputPath);
+            //int inputFile = persistence_controller.newInputFile(inputPath);
+            //int outputFile = persistence_controller.newOutputFile(outputPath);
 
-            domain_controller.startDecompression(inputFile, outputFile, extension);
+            //domain_controller.startDecompression(inputFile, outputFile, extension);
         }
     }
 }

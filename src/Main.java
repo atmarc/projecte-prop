@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         Domain_Controller domain_controller = new Domain_Controller();
-        Persistence_Controller persistence_controller = new Persistence_Controller();
+        Persistence_Controller persistence_controller = Persistence_Controller.getPersistence_controller();
         domain_controller.setPersistence_controller(persistence_controller);
 
         Compressor_Controller compressor = new Compressor_Controller(3);

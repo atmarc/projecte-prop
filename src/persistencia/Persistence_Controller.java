@@ -56,6 +56,13 @@ public class Persistence_Controller {
         return writeFiles.indexOf(aux);
     }
 
+    public void setMaxBytes(int id, long num) {
+        readFiles.get(id).setNum(num);
+    }
+    public long getMaxBytes(int id) {
+        return readFiles.get(id).getNum();
+    }
+
     public int newDir(String path) throws Exception {
         OutputFile aux = new OutputFile(path);
 

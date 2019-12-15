@@ -6,10 +6,21 @@ public class InputFile extends File {
 
     private BufferedInputStream in;
     boolean active;
+    boolean limited = false;        ///< Control de si las lecturas son con limite de bytes o no
     long num;            ///< Contador de cuantos bytes quedan por leer
 
     public long getNum() { return num; }
-    public void setNum(long num) { this.num = num; }
+    public void setNum(long num) {
+        limited = true;
+        this.num = num;
+    }
+
+    public boolean isLimited() {
+        return limited;
+    }
+    public void setLimited(boolean limited) {
+        this.limited = limited;
+    }
 
 
     public int subNum(int n) {
@@ -18,6 +29,7 @@ public class InputFile extends File {
             return n;
         }
         if (num > 0) return subNum((int) num);
+        limited = false;
         num = -1;
         return -1;
     }

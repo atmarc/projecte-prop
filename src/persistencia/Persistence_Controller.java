@@ -166,8 +166,11 @@ public class Persistence_Controller {
     public int readByte(int id) {
         try {
             InputFile in = readFiles.get(id);
-            if (in.subNum(1) > 0) return in.getBuffer().read();
-            return -1;
+            if (in.isLimited()) {
+                if (in.subNum(1) > 0) return in.getBuffer().read();
+                return -1;
+            }
+            return in.getBuffer().read();
         }
         catch (IOException e) {
             System.out.println("Error Lectura\n" + e.getMessage());
@@ -182,10 +185,13 @@ public class Persistence_Controller {
     public int readBytes(int id, byte[] word) {
         try {
             InputFile in = readFiles.get(id);
-            int n = in.subNum(word.length);
-            if (n != word.length) {
-                if (n > 0) word = new byte[n];
-                else return -1;
+            if (in.isLimited()) {
+                int n = in.subNum(word.length);
+                if (n != word.length) {
+                    if (n > 0) word = new byte[n];
+                    else return -1;
+                }
+                return in.getBuffer().read(word);
             }
             return in.getBuffer().read(word);
         } catch (IOException e) {
@@ -203,18 +209,17 @@ public class Persistence_Controller {
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
-    public byte[] readAllBytes(int id) {
-        byte[] b = new byte[0];
-        try {
-            InputFile in = readFiles.get(id);
+    public byte[] readAllBytes(int id) throws IOException {
+        InputFile in = readFiles.get(id);
+
+        if (in.isLimited()) {
             byte[] res = new byte[(int) in.getNum()];
             in.setNum(0);
             in.getBuffer().read(res);
             return res;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return b;
+
+        return Files.readAllBytes(Paths.get(in.getPath()));
     }
 
     // Escritura

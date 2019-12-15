@@ -22,10 +22,8 @@ public class Persistence_Controller {
      * Creadora privada para evitar mas de una instanciacion. (Patron singleton)
      */
     private Persistence_Controller() {
-        readFiles = new ArrayList<>();
-        writeFiles = new ArrayList<>();
+        clear();
     }
-
     /**
      * Getter de la unica instancia de la Controladora de Persistencia.
      * @return Retorna la instancia de la Controladora de Persistencia.
@@ -35,6 +33,7 @@ public class Persistence_Controller {
     }
 
     // File Creation
+
     /**
      * Anade al sistema un fichero (puede ser directorio) sobre el que se pueden realizar lecturas y se la asocia un identificador.
      * @param path Ruta del fichero sobre el que se quieren realizar lecturas.
@@ -55,29 +54,31 @@ public class Persistence_Controller {
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);
     }
+    public int newOutputFile(String name, int padre) throws Exception {
+        return newOutputFile(writeFiles.get(padre).getAbsolutePath() + '/' + name);
+    }
+
+    public int newDir(String path) throws Exception {
+        OutputFile aux = new OutputFile(path);
+        if (aux.exists()) throw new FileAlreadyExistsException("Este directorio ya existe.");
+        if (!aux.mkdir()) throw new Exception("No se ha podido crear el directorio " + path);
+        writeFiles.add(aux);
+        return writeFiles.indexOf(aux);
+    }
+    public int newDir(String name, int padre) throws Exception {
+        return newDir(writeFiles.get(padre).getAbsolutePath() + '/' + name);
+    }
+
+    public void clear() {
+        readFiles = new ArrayList<>();
+        writeFiles = new ArrayList<>();
+    }
 
     public void setMaxBytes(int id, long num) {
         readFiles.get(id).setNum(num);
     }
     public long getMaxBytes(int id) {
         return readFiles.get(id).getNum();
-    }
-
-    public int newDir(String path) throws Exception {
-        OutputFile aux = new OutputFile(path);
-
-        if (aux.exists()) throw new FileAlreadyExistsException("Este directorio ya existe.");
-        if (!aux.mkdir()) throw new Exception("No se ha podido crear el directorio " + path);
-        writeFiles.add(aux);
-        return writeFiles.indexOf(aux);
-    }
-
-    public int newDir(String name, int padre) throws Exception {
-        return newDir(writeFiles.get(padre).getAbsolutePath() + '/' + name);
-    }
-
-    public int newOutputFile(String name, int padre) throws Exception {
-        return newOutputFile(writeFiles.get(padre).getAbsolutePath() + '/' + name);
     }
 
     // File info
@@ -117,45 +118,11 @@ public class Persistence_Controller {
     public long getOutputFileSize(int id) {
         return writeFiles.get(id).length();
     }
-    public long getWrittenBytes(int id) { return writeFiles.get(id).getNum(); }
-
-    /**
-     * Funcion que retorna la jerarquia completa de ficheros a partir del path pasado por parametro.
-     * @param path Ruta absoluta del fichero del que se quiere obtener la jerarquia.
-     * @return Matriz de 2xN donde N es el numero de identificadores/ficheros que hay dentro del path. Cada uno de los
-     * identificadores se corresponde con las columnas de la matriz.
-     *  - Fila 0: Contiene 1 si el fichero es un directorio, o 0 si no lo es.
-     *  - Fila 1: Contiene el identificador del directorio padre del fichero. (El mismo en el caso de la raiz).
-     */
-    public int[][] makeHierarchy(String path) {
-
-        assert readFiles.size() == 0;
-
-        int root = newInputFile(path);
-        if (!isFolder(root))
-            return new int[][] {{0}, {0}};
-
-        int father;
-        ArrayList<Integer> hierarchy = new ArrayList<>(); hierarchy.add(0);
-        ArrayDeque<Integer> folders = new ArrayDeque<>(); folders.add(0);
-
-        while (!folders.isEmpty()) {
-            father = folders.pollLast();
-            ArrayList<Integer> files = getFilesFromFolder(father);
-            for (Integer file : files) {
-                if (isFolder(file)) folders.addFirst(file);
-                hierarchy.add(father);
-            }
-        }
-
-        int n = hierarchy.size();
-
-        int[][] res = new int[2][n];
-        for (int i = 0; i < n; i++) res[1][i] = hierarchy.get(i);
-        for (int i = 0; i < n; i++) res[0][i] = isFolder(i)? 1:0;
-
-        return res;
+    public long getWrittenBytes(int id) {
+        return writeFiles.get(id).getNum();
     }
+
+
 
     // Lectura
 
@@ -281,6 +248,8 @@ public class Persistence_Controller {
         }
     }
 
+    // Carpetas
+
     /**
      * Funcion que dice si un fichero es directorio o no lo es.
      * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles)
@@ -290,7 +259,6 @@ public class Persistence_Controller {
     public boolean isFolder (int f) {
         return readFiles.get(f).isDirectory();
     }
-
     /**
      * Funcion que retorna una lista con todos los ficheros que contiene una carpeta.
      * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles) y este es un directorio.
@@ -311,7 +279,43 @@ public class Persistence_Controller {
 
         return identifiers;
     }
+    /**
+     * Funcion que retorna la jerarquia completa de ficheros a partir del path pasado por parametro.
+     * @param path Ruta absoluta del fichero del que se quiere obtener la jerarquia.
+     * @return Matriz de 2xN donde N es el numero de identificadores/ficheros que hay dentro del path. Cada uno de los
+     * identificadores se corresponde con las columnas de la matriz.
+     *  - Fila 0: Contiene 1 si el fichero es un directorio, o 0 si no lo es.
+     *  - Fila 1: Contiene el identificador del directorio padre del fichero. (El mismo en el caso de la raiz).
+     */
+    public int[][] makeHierarchy(String path) {
 
+        assert readFiles.size() == 0;
+
+        int root = newInputFile(path);
+        if (!isFolder(root))
+            return new int[][] {{0}, {0}};
+
+        int father;
+        ArrayList<Integer> hierarchy = new ArrayList<>(); hierarchy.add(0);
+        ArrayDeque<Integer> folders = new ArrayDeque<>(); folders.add(0);
+
+        while (!folders.isEmpty()) {
+            father = folders.pollLast();
+            ArrayList<Integer> files = getFilesFromFolder(father);
+            for (Integer file : files) {
+                if (isFolder(file)) folders.addFirst(file);
+                hierarchy.add(father);
+            }
+        }
+
+        int n = hierarchy.size();
+
+        int[][] res = new int[2][n];
+        for (int i = 0; i < n; i++) res[1][i] = hierarchy.get(i);
+        for (int i = 0; i < n; i++) res[0][i] = isFolder(i)? 1:0;
+
+        return res;
+    }
 
 
 }

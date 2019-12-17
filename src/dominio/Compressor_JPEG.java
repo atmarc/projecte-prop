@@ -39,12 +39,10 @@ public class Compressor_JPEG extends Compressor {
 
         byte s [] = new byte[0];
         try {
-            s = Files.readAllBytes(Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/france-wallpaper.ppm"));
-        } catch (IOException e) {
+            s = controller.readAllBytes();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // s = controller.readAllBytes();
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
 
@@ -202,14 +200,8 @@ public class Compressor_JPEG extends Compressor {
             bytes[i] = arrayBytes.get(i);
         }
 
-        // controller.writeBytes(bytes);
+        controller.writeBytes(bytes);
 
-        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA.jpeg");
-        try {
-            Files.write(p, bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

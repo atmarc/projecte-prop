@@ -21,11 +21,10 @@ public class Decompressor_JPEG extends Decompressor {
      */
     public void decompress() {
 
-        //byte s [] = controller.readAllBytes();
         byte s [] = new byte[0];
         try {
-            s = Files.readAllBytes(Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA.jpeg"));
-        } catch (IOException e) {
+            s = controller.readAllBytes();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -117,12 +116,7 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
-        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA_out2.ppm");
-        try {
-            Files.write(p, returnData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        controller.writeBytes(returnData);
     }
 
     /**

@@ -52,23 +52,23 @@ public class Decompressor_JPEG extends Decompressor {
         // TODO: Tornar a sumar diferència
 
         while (index < valors.size()) {
-            Block blockY = readBlock(valors, index, "Y", COMPRESS_RATIO);
+            Block blockY = new Block(8, 8, "Y", COMPRESS_RATIO);
+            index += readBlock(blockY, valors, index);
             blockY.inverseQuantizationY();
             blockY.inverseDCT();
             arrayOfBlocksY[bi][bj] = blockY;
-            index += 64;
 
-            Block blockCb = readBlock(valors, index, "Cb", COMPRESS_RATIO);
+            Block blockCb = new Block(8, 8, "Cb", COMPRESS_RATIO);
+            index += readBlock(blockCb, valors, index);
             blockCb.inverseQuantizationC();
             blockCb.inverseDCT();
             arrayOfBlocksCb[bi][bj] = blockCb;
-            index += 64;
 
-            Block blockCr = readBlock(valors, index, "Cr", COMPRESS_RATIO);
+            Block blockCr = new Block(8, 8, "Cr", COMPRESS_RATIO);
+            index += readBlock(blockCr, valors, index);
             blockCr.inverseQuantizationC();
             blockCr.inverseDCT();
             arrayOfBlocksCr[bi][bj] = blockCr;
-            index += 64;
 
             ++bj;
             if (bj >= nBlocksX && bi < nBlocksY) {
@@ -117,7 +117,7 @@ public class Decompressor_JPEG extends Decompressor {
             }
         }
 
-        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA_out.ppm");
+        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA_out2.ppm");
         try {
             Files.write(p, returnData);
         } catch (IOException e) {
@@ -184,9 +184,7 @@ public class Decompressor_JPEG extends Decompressor {
      * @param tipus Tipo de bloque que vamos a leer.
      * @return Devuelve el bloque con todos los valores leidos de data.
      */
-    private static Block readBlock(ArrayList<Integer> data, int i, String tipus, int nivellCompress) {
-        Block blockY = new Block(8,8, tipus, nivellCompress);
-        blockY.zigzagInvers(data, i);
-        return blockY;
+    private static int readBlock(Block block, ArrayList<Integer> data, int i) {
+        return block.zigzagInvers(data, i);
     }
 }

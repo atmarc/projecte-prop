@@ -113,7 +113,6 @@ public class Compressor_JPEG extends Compressor {
         // TODO: Downsampling
 
         // Block splitting
-
         // Tenim en compte si el nombre de pixels és múltiple de 8
         int nBlocksX = (WIDTH % 8 == 0) ? WIDTH/8 : WIDTH/8 + 1;
         int nBlocksY = (HEIGHT % 8 == 0) ? HEIGHT/8 : HEIGHT/8 + 1;
@@ -171,23 +170,20 @@ public class Compressor_JPEG extends Compressor {
             }
         }
 
-        int file[] = new int [5 + nBlocksX * nBlocksY * 64 * 3];
+        LinkedList<Integer> file = new LinkedList<>();
 
-        file[0] = COMPRESS_RATIO;
-        file[1] = nBlocksX;
-        file[2] = nBlocksY;
-        file[3] = HEIGHT;
-        file[4] = WIDTH;
+        file.add(COMPRESS_RATIO);
+        file.add(nBlocksX);
+        file.add(nBlocksY);
+        file.add(HEIGHT);
+        file.add(WIDTH);
 
         index = 5;
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
-                BlocksArrayY[y][x].zigzag(file, index);
-                index += 64;
-                BlocksArrayCb[y][x].zigzag(file, index);
-                index += 64;
-                BlocksArrayCr[y][x].zigzag(file, index);
-                index += 64;
+                BlocksArrayY[y][x].zigzag(file);
+                BlocksArrayCb[y][x].zigzag(file);
+                BlocksArrayCr[y][x].zigzag(file);
             }
         }
 

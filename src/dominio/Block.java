@@ -1,5 +1,7 @@
 package dominio;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static java.lang.Math.*;
 
@@ -12,6 +14,8 @@ import static java.lang.Math.*;
  */
 public class Block {
 
+    static final int beginZeros = 32767;
+    static int countador = 0;
     /**
      * Valores originales del bloque
      */
@@ -99,7 +103,6 @@ public class Block {
                 QTCr[i][j] *= (nivellCompress/5.0);
             }
     }
-
 
     public int getValue(int i, int j) {
         return valors[i][j];
@@ -195,22 +198,18 @@ public class Block {
      * @pre El atributo DCTvalors contiene los valores después de aplicar la DCT.
      * @post File contiene los valores de DCTvalors haciendo zigzag.
      * @param file Array donde se van guardando los valores. Tiene tamaño mínimo 8 x 8
-     * @param ind Índice del file a partir del cual se empieza a escribir. ind < file.lenght
      */
-    public void zigzag(int [] file, int ind) {
+    public void zigzag(LinkedList<Integer> file) {
         int row = 0, col = 0;
         boolean row_inc = false;
         int m = height;
         int n = width;
-        int index = ind;
         int mn = Math.min(m, n);
-
 
         for (int len = 1; len <= mn; ++len) {
             for (int i = 0; i < len; ++i) {
 
-                file[index] = DCTvalors[row][col];
-                ++index;
+                file.add(DCTvalors[row][col]);
 
                 if (i + 1 == len)
                     break;
@@ -259,8 +258,7 @@ public class Block {
                 len = diag;
 
             for (int i = 0; i < len; ++i) {
-                file[index] = DCTvalors[row][col];
-                ++index;
+                file.add(DCTvalors[row][col]);
 
                 if (i + 1 == len)
                     break;
@@ -290,6 +288,15 @@ public class Block {
                     ++row;
 
                 row_inc = false;
+            }
+        }
+        if (file.getLast() == 0) {
+            for (int i = file.size() - 1; i >= 0; --i) {
+                if (file.getLast() != 0) {
+                    file.add(beginZeros);
+                    break;
+                }
+                else file.removeLast();
             }
         }
     }
@@ -301,7 +308,7 @@ public class Block {
      * @param arr Array de donde se leen los valores.
      * @param index Indice a partir del cual se empieza a leer de arr.
      */
-    public void zigzagInvers(ArrayList<Integer> arr, int index) {
+    public int zigzagInvers(ArrayList<Integer> arr, int index) {
         int row = 0, col = 0;
         boolean row_inc = false;
         int m = height;
@@ -309,12 +316,29 @@ public class Block {
         int mn = Math.min(m, n);
 
         String retorn = "";
+        int dataIndex = 0;
+        ArrayList<Integer> data = new ArrayList<>();
+        // Tornem a possar els zeros
+        boolean zeros = false;
+        int indexTamDades = 0;
+        for (int i = 0; i < m * n; ++i) {
+            if (zeros) data.add(0);
+            else if (arr.get(i + index) == beginZeros) {
+                zeros = true;
+                indexTamDades = i + 1;
+                data.add(0);
+            }
+            else {
+                data.add(arr.get(i + index));
+            }
+        }
+
+        if (!zeros) indexTamDades = 65;
 
         for (int len = 1; len <= mn; ++len) {
             for (int i = 0; i < len; ++i) {
-
-                DCTvalors[row][col] = arr.get(index);
-                ++index;
+                DCTvalors[row][col] = data.get(dataIndex);
+                ++dataIndex;
 
                 if (i + 1 == len)
                     break;
@@ -363,8 +387,9 @@ public class Block {
                 len = diag;
 
             for (int i = 0; i < len; ++i) {
-                DCTvalors[row][col] = arr.get(index);
-                ++index;
+
+                DCTvalors[row][col] = data.get(dataIndex);
+                ++dataIndex;
 
                 if (i + 1 == len)
                     break;
@@ -396,7 +421,7 @@ public class Block {
                 row_inc = false;
             }
         }
-
+        return indexTamDades;
     }
 
     /**
@@ -410,7 +435,6 @@ public class Block {
                 if (i == 0) aux += valors[x][y] + " ";
                 if (i == 1) aux += DCTvalors[x][y] + " ";
             }
-            System.out.println(aux);
         }
     }
 

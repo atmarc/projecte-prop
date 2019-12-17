@@ -191,14 +191,14 @@ public class Domain_Controller {
                 return alg;
             else {
                 long size = persistence_controller.getInputFileSize(in);
-                if (size < 100L)
-                    throw new IllegalArgumentException("FicheroDemasiadoPequeno");
+                // if (size < 100L)
+                //     throw new IllegalArgumentException("FicheroDemasiadoPequeno");
                 if (size <= 50000L)
                     return 1;
                 else if (size <= 1000000L)
                     return 2;
                 else
-                    return 3;
+                    return 0;
             }
         } else
             throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
@@ -324,6 +324,7 @@ public class Domain_Controller {
         writeFolderMetadata(in, H);
         for (int id : H.getLeafs()) {
             int bestCompressor = getBestCompressor(id, alg);
+            System.out.println("Compresor: " + bestCompressor);
             Compressor_Controller cc = new Compressor_Controller(bestCompressor);
             cc.setDomain_controller(this);
             long cursor_ini = persistence_controller.getWrittenBytes(out);

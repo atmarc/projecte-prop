@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class Persistence_Controller {
 
-    private ArrayList<InputFile> readFiles;  ///< Referencia a los archivos/directorios origen.
-    private ArrayList<OutputFile> writeFiles; ///< Referencia a los archivos/directorios destino.
+    private ArrayList<InputFile> readFiles;             ///< Referencia a los archivos/directorios origen.
+    private ArrayList<OutputFile> writeFiles;           ///< Referencia a los archivos/directorios destino.
     private static Persistence_Controller persistence_controller = new Persistence_Controller(); ///< Referencia a la unica instancia de la Controladora de Persistencia
 
     /**
@@ -54,10 +54,23 @@ public class Persistence_Controller {
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);
     }
+    /**
+     * Anade al sistema un fichero (puede ser directorio) sobre el que se pueden realizar escrituras, se la asocia un identificador y una ruta = ruta del fichero padre + nombre
+     * @param name Nombre del nuevo fichero.
+     * @param padre Identificador asociado al fichero padre del cual se extraera la ruta.
+     * @return Identificador asociado al nuevo fichero.
+     */
     public int newOutputFile(String name, int padre) throws Exception {
         return newOutputFile(writeFiles.get(padre).getAbsolutePath() + '/' + name);
     }
 
+    // Dir Creation
+
+    /**
+     * Anade al sistema un nuevo directorio.
+     * @param path Path del directorio que se desea anadir al sistema.
+     * @return Identificador asociado al directorio anadido.
+     */
     public int newDir(String path) throws Exception {
         OutputFile aux = new OutputFile(path);
         if (aux.exists()) throw new FileAlreadyExistsException("Este directorio ya existe.");
@@ -65,25 +78,50 @@ public class Persistence_Controller {
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);
     }
+    /**
+     * Anade al sistema un nuevo directorio.
+     * @param padre Identificador del directorio padre del directorio que se desea anadir al sistema.
+     * @param name Nombre del directorio que se desea anadir al sistema.
+     * @return Identificador asociado al directorio anadido.
+     */
     public int newDir(String name, int padre) throws Exception {
         return newDir(writeFiles.get(padre).getAbsolutePath() + '/' + name);
     }
 
+    /**
+     * Funcion que restaura al completo la persistencia. Elimina todas las referencias a archivos, tanto de lectura como de escritura.
+     */
     public void clear() {
         readFiles = new ArrayList<>();
         writeFiles = new ArrayList<>();
     }
 
+    // Read Limits
+
+    /**
+     * Establece un limite virtual de bytes a leer de un archivo. A partir de establecer un limite, todas las funciones de lectura trabajan en funcion de este mismo.
+     * @param id Identificador del fichero de lectura.
+     * @param num Cantidad que se desea establecer como limite de lectura.
+     */
     public void setReadLimit(int id, long num) {
         readFiles.get(id).setNum(num);
     }
+    /**
+     * Elimina el limite virtual, volviendo asi todas las funciones de lectura a su estado natural de funcionamiento.
+     * @param id Identificador del fichero de lectura.
+     */
     public void rmReadLimit(int id) {
         readFiles.get(id).rmNum();
     }
+    /**
+     * Getter de la cantidad de bytes restantes por leer segun el limite establecido. En caso de no estar establecido o este haberse agotado, se retorna un -1.
+     * @param id Identificador del fichero de lectura.
+     * @return Retorna la cantidad de bytes por leer respecto al limite, o -1 si este no esta definido.
+     */
     public long getReadLimit(int id) {
+        if (!readFiles.get(id).isLimited()) return -1;
         return readFiles.get(id).getNum();
     }
-
 
     // File info
 
@@ -122,10 +160,14 @@ public class Persistence_Controller {
     public long getOutputFileSize(int id) {
         return writeFiles.get(id).length();
     }
+    /**
+     * Getter de la cantidad de bytes escritos has el momento en un archivo referenciado por id.
+     * @param id Identificador que referencia al archivo de escritura sobre el que hacemos el get.
+     * @return Retorna la cantidad de bytes escritos en el fichero referenciado por id.
+     */
     public long getWrittenBytes(int id) {
         return writeFiles.get(id).getNum();
     }
-
 
 
     // Lectura
@@ -180,13 +222,13 @@ public class Persistence_Controller {
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
-    public byte[] readAllBytes(int id) throws IOException {
+    public byte[] readAllBytes(int id) throws Exception {
         InputFile in = readFiles.get(id);
 
         if (in.isLimited()) {
             byte[] res = new byte[(int) in.getNum()];
             in.setNum(0);
-            in.getBuffer().read(res);
+            if (in.getBuffer().read(res) < 0) throw new Exception("No hay mas que leer. Algo ha salido mal.");
             return res;
         }
 

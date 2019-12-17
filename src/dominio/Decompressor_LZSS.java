@@ -1,4 +1,5 @@
 package dominio;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -34,7 +35,7 @@ public class Decompressor_LZSS extends Decompressor {
     /**
      * Descomprime un fichero codificado con el algoritmo LZSS
      */
-    public void decompress() {
+    public void decompress() throws Exception {
         byte item[] = controller.readAllBytes();
 
         Queue<Byte> noCoincQ = new LinkedList<>();

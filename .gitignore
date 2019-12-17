@@ -5,3 +5,5 @@
 *decompressed.txt
 *.DS_Store
 out/
+persistencia
+presentacion

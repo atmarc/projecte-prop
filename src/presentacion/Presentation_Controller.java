@@ -88,5 +88,7 @@ public class Presentation_Controller {
     }
 
 
+    void sendJPEGvalue(int value) {
 
+    }
 }

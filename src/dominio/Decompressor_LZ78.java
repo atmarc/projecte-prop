@@ -60,9 +60,6 @@ public class Decompressor_LZ78 extends Decompressor {
         for (; controller.readNBytes(index) >= 0 && controller.readNBytes(singleByte) >= 0; i++)
             controller.writeBytes(decompress(index, singleByte[0]));
 
-        controller.closeReader();
-        controller.closeWriter();
-
     }
 
     /**

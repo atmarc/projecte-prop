@@ -31,7 +31,7 @@ public class DriverCompresorDecompressor {
 				"src/persistencia/testing_files/txt/quicksort"
 		));
 		Compressor_Controller compressor = new Compressor_Controller(2);
-		Decompressor_Controller decompressor = new Decompressor_Controller("lzw");
+		Decompressor_Controller decompressor = new Decompressor_Controller(2);
 		for (String file : files) {
 			System.out.println("File: " + file);
 			//compressor.startCompression(file+".txt", null);

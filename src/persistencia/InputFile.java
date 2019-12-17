@@ -57,7 +57,6 @@ public class InputFile extends File {
             return n;
         }
         if (num > 0) return subNum((int) num);
-        limited = false;
         num = -1;
         return -1;
     }

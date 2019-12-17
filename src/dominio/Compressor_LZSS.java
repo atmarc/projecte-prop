@@ -1,4 +1,5 @@
 package dominio;
+import java.io.IOException;
 import java.util.*;
 
 /*!
@@ -31,7 +32,7 @@ public class Compressor_LZSS extends Compressor {
     /**
      * Comprime un fichero mediante el algoritmo LZSS
      */
-    public void compress () {
+    public void compress () throws Exception {
         byte[] itemb = controller.readAllBytes();
         HashMap<Integer, Byte> item = byteArrayToHashMap(itemb);
         int itemSize = item.size();

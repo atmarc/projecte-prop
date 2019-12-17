@@ -32,7 +32,7 @@ public class Decompressor_JPEGTest {
     public void testA() throws IOException {
 
         String file = "./src/persistencia/testing_files/ppm/boxes_1";
-        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller(3);
         //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
 
@@ -42,7 +42,7 @@ public class Decompressor_JPEGTest {
     public void testB() throws IOException {
 
         String file = "./src/persistencia/testing_files/ppm/image";
-        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller(3);
         //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
@@ -51,7 +51,7 @@ public class Decompressor_JPEGTest {
     public void testC() throws IOException {
 
         String file = "./src/persistencia/testing_files/ppm/house_1";
-        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller(3);
         //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
@@ -60,7 +60,7 @@ public class Decompressor_JPEGTest {
     public void testD() throws IOException {
 
         String file = "./src/persistencia/testing_files/ppm/west_1";
-        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller(3);
         //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }
@@ -69,7 +69,7 @@ public class Decompressor_JPEGTest {
     public void testE() throws IOException {
 
         String file = "./src/persistencia/testing_files/ppm/france-wallpaper";
-        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller("jpeg");
+        Decompressor_Controller decompressor_jpeg = new Decompressor_Controller(3);
         //decompressor_jpeg.startDecompression(file + ".jpeg", null);
         assertTrue(diffFiles(file+"_decompressed_test.ppm", file + "_decompressed.ppm"));
     }

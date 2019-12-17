@@ -61,6 +61,31 @@ public class Decompressor_Controller {
         decompressor.setController(this);
     }
 
+    /**
+     * Constructora que en base al tipo de archivo de comprimido, crea un tipo de descompresor u otro.
+     * @param alg Extension del archivo comprimido sobre el que se desea realizar una descompresion.
+     */
+    public Decompressor_Controller(int alg) {
+
+        switch (alg){
+            case 0:
+                decompressor = new Decompressor_LZ78();
+                break;
+            case 1:
+                decompressor = new Decompressor_LZSS();
+                break;
+            case 2:
+                decompressor = new Decompressor_LZW();
+                break;
+            case 3:
+                decompressor = new Decompressor_JPEG();
+                break;
+            default:
+                throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
+        }
+
+        decompressor.setController(this);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////   Decompression   //////////////////////////////////////////////////
@@ -71,7 +96,7 @@ public class Decompressor_Controller {
      * @param in Identificador del archivo a descomprimir.
      * @param out Identificador del archivo sobre el que escribir la compresion.
      */
-    public void startDecompression(int in, int out) {
+    public void startDecompression(int in, int out) throws Exception {
 
         setInputFile(in);
         setOutputFile(out);
@@ -120,11 +145,14 @@ public class Decompressor_Controller {
     protected int readNBytes(byte[] word) {
         return domain_controller.readNBytes(inputFile, word);
     }
+    
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
+     * 
      * @return Cadena de bytes con todos los bytes del fichero origen.
+     * @throws IOException
      */
-    protected byte[] readAllBytes() {
+    protected byte[] readAllBytes() throws Exception {
         return domain_controller.readAllBytes(inputFile);
     }
     /**

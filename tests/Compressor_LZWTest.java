@@ -25,7 +25,7 @@ public class Compressor_LZWTest {
 		Compressor_Controller cc = new Compressor_Controller(2);
 		//cc.startCompression("src/persistencia/testing_files/txt/good_one.txt",
 		//		"src/persistencia/testing_files/txt/");
-		Decompressor_Controller dc = new Decompressor_Controller("lzw");
+		Decompressor_Controller dc = new Decompressor_Controller(2);
 		//dc.startDecompression("src/persistencia/testing_files/txt/good_one.lzw",
 		//		"src/persistencia/testing_files/txt/");
 		assertTrue(diffFiles("src/persistencia/testing_files/txt/good_one_decompressed.txt",
@@ -37,7 +37,7 @@ public class Compressor_LZWTest {
 		Compressor_Controller cc = new Compressor_Controller(2);
 		//cc.startCompression("src/persistencia/testing_files/txt/big.txt",
 		//		"src/persistencia/testing_files/txt/");
-		Decompressor_Controller dc = new Decompressor_Controller("lzw");
+		Decompressor_Controller dc = new Decompressor_Controller(2);
 		//dc.startDecompression("src/persistencia/testing_files/txt/big.lzw",
 		//		"src/persistencia/testing_files/txt/");
 		assertTrue(diffFiles("src/persistencia/testing_files/txt/big_decompressed.txt",
@@ -49,7 +49,7 @@ public class Compressor_LZWTest {
 		Compressor_Controller cc = new Compressor_Controller(2);
 		//cc.startCompression("src/persistencia/testing_files/txt/emoji.txt",
 		//		"src/persistencia/testing_files/txt/");
-		Decompressor_Controller dc = new Decompressor_Controller("lzw");
+		Decompressor_Controller dc = new Decompressor_Controller(2);
 		//dc.startDecompression("src/persistencia/testing_files/txt/emoji.lzw",
 		//		"src/persistencia/testing_files/txt/");
 		boolean r1 = diffFiles("src/persistencia/testing_files/txt/emoji_decompressed.txt",

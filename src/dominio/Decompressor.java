@@ -1,4 +1,7 @@
 package dominio;
+
+import java.io.IOException;
+
 /**
  * Clase con metodos abstractos para implementar un descompresor. Contiene una variable que hace referencia a su controlador para poder comunicarse con otras capas.
  */
@@ -22,6 +25,6 @@ public abstract class Decompressor {
     /**
      * Funcion encargada de descomprimir el archivo proporcionado por la controladora y escribirlo en el archivo de salida tambien a traves de la controladora.
      */
-    public abstract void decompress();
+    public abstract void decompress() throws Exception;
 
 }

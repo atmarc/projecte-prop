@@ -3,7 +3,6 @@ package dominio;
 import persistencia.Persistence_Controller;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 
 public class Domain_Controller {
@@ -51,8 +50,9 @@ public class Domain_Controller {
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
      * 
      * @return Cadena de bytes con todos los bytes del fichero origen.
+     * @throws Exception
      */
-    byte[] readAllBytes(int id) {
+    byte[] readAllBytes(int id) throws Exception {
         return persistence_controller.readAllBytes(id);
     }
 
@@ -92,14 +92,14 @@ public class Domain_Controller {
         return persistence_controller.getOutputFileSize(id);
     }
 
-    public void startCompression(int in, int out, int alg) {
+    public void startCompression(int in, int out, int alg) throws Exception {
         Compressor_Controller compressor_controller = new Compressor_Controller(getBestCompressor(in, alg));
         compressor_controller.setDomain_controller(this);
         compressor_controller.startCompression(in, out);
     }
 
-    public void startDecompression(int in, int out, String extension) {
-        Decompressor_Controller decompressor_controller = new Decompressor_Controller(extension);
+    public void startDecompression(int in, int out, int alg) throws Exception {
+        Decompressor_Controller decompressor_controller = new Decompressor_Controller(alg);
         decompressor_controller.setDomain_controller(this);
         // Si és un sol arxiu
         decompressor_controller.startDecompression(in, out);
@@ -123,7 +123,7 @@ public class Domain_Controller {
         }
     }
 
-    private void writeFiles(int out, ArrayList<Byte> files, int index) {
+    private void writeFiles(int out, ArrayList<Byte> files, int index) throws Exception {
         for (int i = index; i < files.size(); ++i) {
             int file = files.get(i);
             if (file != (byte) -1) {
@@ -310,7 +310,8 @@ public class Domain_Controller {
 
     }
 
-    public void compress(String inputPath, String outputPath, int alg) throws FileAlreadyExistsException {
+    public void compress(String inputPath, String outputPath, int alg) throws Exception {
+        persistence_controller.clear();
         Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = H.getRoot();
         int out = persistence_controller.newOutputFile(outputPath);
@@ -322,7 +323,7 @@ public class Domain_Controller {
 
         writeFolderMetadata(in, H);
         for (int id : H.getLeafs()) {
-            int bestCompressor = getBestCompressor(in, alg);
+            int bestCompressor = getBestCompressor(id, alg);
             Compressor_Controller cc = new Compressor_Controller(bestCompressor);
             cc.setDomain_controller(this);
             long cursor_ini = persistence_controller.getWrittenBytes(out);
@@ -338,26 +339,44 @@ public class Domain_Controller {
             e.printStackTrace();
         }
     }
-    // No llamar a estos por ahora
-    // public void compress(String in) {
-    //     compress(in, getOnlyPathName(in) + ".egg", -1);
-    // }
 
-    // public void compress(String in, int alg) {
-    //     compress(in, getOnlyPathName(in) + ".egg", alg);
-    // }
+    public void compress(String in) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", -1);
+    }
 
-    // public void compress(String in, String out) {
-    //     compress(in, out, -1);
-    // }
+    public void compress(String in, int alg) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", alg);
+    }
+
+    public void compress(String in, String out) throws Exception {
+        compress(in, out, -1);
+    }
 
     // ejemplo: folder1/folder2/fichero.txt --> folder1/folder2/fichero
-    private String getOnlyPathName(String file) {
+    private String getPathAndName(String file) {
         if (file == null) throw new IllegalArgumentException("El nombre del fichero es nulo");
         int i = file.lastIndexOf('.');
         if (i <= 0) throw new IllegalArgumentException("Fichero sin extension");
         return file.substring(0, i-1);
     }
+
+    // public int subNum(int n) {
+    //     // n < 0 throw some error
+    //     if (n == 0)
+    //         return 0;
+    //     if (num <= 0) { // n > 0 and num <= 0
+    //         limited = false;
+    //         return -1;
+    //     }
+    //     if (num >= n) { // n > 0 and mum > 0 and num >= n
+    //         num = num - n; // actualizamos el #bits que se pueden leer
+    //         return n;
+    //     }
+    //     // n > 0 and mum > 0 and num < n
+    //     int old_num = (int) num;
+    //     num = 0;
+    //     return old_num;
+    // }
 
     private void writeFolderMetadata(int id, Hierarchy h) {
         persistence_controller.writeBytes(id, h.toByteArray());
@@ -381,18 +400,20 @@ public class Domain_Controller {
     }
 
     public void decompress(String inputPath, String outputPath) throws Exception {
+        persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath));
         int in = H.getRoot();
         for (int id : H.getLeafs()) {
-            int alg = 0;
-            int size = 10;
             byte[] aux = new byte[8];
             persistence_controller.readBytes(in, aux);
-            Decompressor_Controller dc = new Decompressor_Controller("lzw"); // va cambiar -> sin param
-            // o se dara el algoritmo y el tamano del fichero a descomprimir o lo hara el mismo,
-            // se tiene que dcidir
+            int alg = (aux[0] & 0xFF) >>> 6;
+            aux[0] &= 0x3F;
+            long size = toLong(aux);
+            persistence_controller.setReadLimit(in, size);
+            Decompressor_Controller dc = new Decompressor_Controller(alg);
             dc.setDomain_controller(this);
             dc.startDecompression(in, id);
+            persistence_controller.rmReadLimit(in);
         }
         try {
             persistence_controller.closeReader(in);
@@ -457,8 +478,9 @@ public class Domain_Controller {
     }
 
     private long toLong(byte[] aux) {
-        long res = 0, j = 0;
-        for (byte i : aux) res |= (i << j++);
+        long res = 0, j = aux.length-1;
+        for (byte i : aux)
+            res |= (i << (8*j--));
         return res;
     }
 
@@ -482,7 +504,7 @@ public class Domain_Controller {
         return l;
     }
 
-    public void compressFolder(int in, int out) {
+    public void compressFolder(int in, int out) throws Exception {
         /*ArrayList<Integer> files = new ArrayList<>();
         files.add(1); files.add(3); files.add(2); files.add(0);*/
 

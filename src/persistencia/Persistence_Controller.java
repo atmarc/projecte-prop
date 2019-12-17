@@ -74,12 +74,16 @@ public class Persistence_Controller {
         writeFiles = new ArrayList<>();
     }
 
-    public void setMaxBytes(int id, long num) {
+    public void setReadLimit(int id, long num) {
         readFiles.get(id).setNum(num);
     }
-    public long getMaxBytes(int id) {
+    public void rmReadLimit(int id) {
+        readFiles.get(id).rmNum();
+    }
+    public long getReadLimit(int id) {
         return readFiles.get(id).getNum();
     }
+
 
     // File info
 
@@ -223,7 +227,6 @@ public class Persistence_Controller {
     public void closeWriter(int id) throws IOException {
         writeFiles.get(id).closeBuffer();
     }
-
     /**
      * @pre El fichero de escritura con identificador id existe, posicion < (fichero.length - 7).
      * @post Se han cambiado los 8 Bytes de content por los 8 bytes localizados en la posicion position del fichero id.

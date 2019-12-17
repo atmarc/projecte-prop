@@ -14,6 +14,10 @@ public class InputFile extends File {
         limited = true;
         this.num = num;
     }
+    public void rmNum() {
+        limited = false;
+        num = -1;
+    }
 
     public boolean isLimited() {
         return limited;

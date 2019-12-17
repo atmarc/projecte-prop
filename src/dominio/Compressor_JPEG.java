@@ -20,6 +20,7 @@ import static java.lang.Integer.parseInt;
  */
 public class Compressor_JPEG extends Compressor {
 
+
     /**
      * Función abstracta de la clase Compresor que devuelve la extension del archivo.
      * @pre -
@@ -29,6 +30,11 @@ public class Compressor_JPEG extends Compressor {
         return ".jpeg";
     }
 
+    final int COMPRESS_RATIO;
+
+    public Compressor_JPEG(int compress_ratio) {
+        this.COMPRESS_RATIO = compress_ratio;
+    }
 
     /**
      * Implementación de la función abstracta de la clase Compressor utilizando el algoritmo JPEG.
@@ -50,7 +56,6 @@ public class Compressor_JPEG extends Compressor {
         final int WIDTH = headers.getFirst();
         final int HEIGHT = headers.getSecond();
         final float MAX_VAL_COLOR = headers.getThird();
-        final int COMPRESS_RATIO = 5;
 
         ArrayList <Integer> data = new ArrayList<>();
 

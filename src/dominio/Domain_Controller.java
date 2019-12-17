@@ -403,6 +403,7 @@ public class Domain_Controller {
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath));
         int in = H.getRoot();
+        ArrayList<Integer> q = H.getLeafs();
         for (int id : H.getLeafs()) {
             byte[] aux = new byte[8];
             persistence_controller.readBytes(in, aux);
@@ -473,14 +474,14 @@ public class Domain_Controller {
     private int toInt(byte[] aux) {
         int res = 0, j = aux.length-1;
         for (byte i : aux)
-            res |= (i << (8*j--));
+            res |= ((i&0xFF) << (8*j--));
         return res;
     }
 
-    private long toLong(byte[] aux) {
+    public long toLong(byte[] aux) {
         long res = 0, j = aux.length-1;
         for (byte i : aux)
-            res |= (i << (8*j--));
+            res |= ((i&0xFF) << (8*j--));
         return res;
     }
 

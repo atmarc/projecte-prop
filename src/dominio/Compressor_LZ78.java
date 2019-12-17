@@ -223,7 +223,6 @@ public class Compressor_LZ78 extends Compressor {
             buffer[4] = comp_file.get(i).offset;
             controller.writeBytes(buffer);
         }
-        controller.closeWriter();
     }
 
 }

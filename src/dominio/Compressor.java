@@ -25,6 +25,15 @@ public abstract class Compressor {
     /**
      * Funcion encargada de comprimir el archivo proporcionado por la controladora y escribirlo en el archivo de salida tambien a traves de la controladora.
      */
-    public abstract void compress() throws Exception;
+    public abstract void compress();
+
+    public void compress(int ratio) {
+        setCompressRatio(ratio);
+        compress();
+    }
+
+    public void setCompressRatio(int ratio) {
+        System.out.println("Implementado en JPEG");
+    }
 
 }

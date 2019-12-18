@@ -1,7 +1,9 @@
 *.idea
 *.iml
-.vscode/launch.json
+.vscode
 *.zero
 *decompressed.txt
 *.DS_Store
 out/
+persistencia
+presentacion

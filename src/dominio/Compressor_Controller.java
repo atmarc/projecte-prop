@@ -69,7 +69,7 @@ public class Compressor_Controller {
      * @param in Identificador del archivo a comprimir.
      * @param out Identificador del archivo sobre el que escribir la compresion.
      */
-    public void startCompression(int in, int out) {
+    public void startCompression(int in, int out) throws Exception {
 
         setInputFile(in);
         setOutputFile(out);
@@ -82,7 +82,7 @@ public class Compressor_Controller {
 
         try {
             domain_controller.closeReader(inputFile);
-            domain_controller.closeWriter(outputFile);
+            // domain_controller.closeWriter(outputFile); // No hace falta esto, peligroso en la compresion de ficheros
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,11 +131,14 @@ public class Compressor_Controller {
     protected int readNBytes(byte[] word) {
         return domain_controller.readNBytes(inputFile, word);
     }
+    
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
+     * 
      * @return Cadena de bytes con todos los bytes del fichero origen.
+     * @throws IOException
      */
-    protected byte[] readAllBytes() {
+    protected byte[] readAllBytes() throws Exception {
         return domain_controller.readAllBytes(inputFile);
     }
     /**

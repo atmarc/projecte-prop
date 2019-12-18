@@ -1,8 +1,28 @@
-Marc: Block, Compressor_JPEG, Decompressor_JPEG, Huffman, Triplet, Compressor_JPEGTest, Decompressor_JPEGTest
+Marc:
+    Entrega 1:
+        Block, Compressor_JPEG, Decompressor_JPEG, Huffman, Triplet, Compressor_JPEGTest, Decompressor_JPEGTest
 
-Nicolas: Compressor_LZSS, Decompressor_LZSS, Compressor_LZSSTest
+    Entrega 2:
 
-Andrei: Compressor_LZW, Decompressor_LZW, Compressor_LZWTest, Decompressor_LZW, DriverCompresorDecompresor
 
-Edgar: Compressor_LZ78, Decompressor_LZ78, Compressor_LZ78Test, Decompressor_LZ78Test, Compressor,
-Compressor_Controller, Decompressor, Decompressor_Controller, Tree, Application
+Nicolas:
+    Entrega 1:
+        Compressor_LZSS, Decompressor_LZSS, Compressor_LZSSTest
+
+    Entrega 2:
+
+
+Andrei:
+    Entrega 1:
+        Compressor_LZW, Decompressor_LZW, Compressor_LZWTest, Decompressor_LZW, DriverCompresorDecompresor
+
+    Entrega 2:
+
+
+Edgar:
+    Entrega 1:
+        Compressor_LZ78, Decompressor_LZ78, Compressor_LZ78Test, Decompressor_LZ78Test, Compressor,
+        Compressor_Controller, Decompressor, Decompressor_Controller, Tree, Application
+
+    Entrega 2:
+        Persistence_Controller, OutputFile, InputFile

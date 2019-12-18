@@ -1,8 +1,4 @@
 package dominio;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /*!
@@ -41,7 +37,12 @@ public class Compressor_LZSS extends Compressor {
      */
     public void compress () {
 
-        byte[] itemb = controller.readAllBytes();
+        byte[] itemb = new byte[0];
+        try {
+            itemb = controller.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         ArrayList<Byte> result = new ArrayList<>();
 

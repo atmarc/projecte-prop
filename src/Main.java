@@ -1,16 +1,8 @@
 import dominio.Compressor_Controller;
 import dominio.Decompressor_Controller;
-import presentacion.Formprova;
-
-import javax.swing.*;
 import dominio.Domain_Controller;
 import persistencia.Persistence_Controller;
-import presentacion.Presentation_Controller;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.Normalizer;
 
 public class Main {
 
@@ -29,17 +21,17 @@ public class Main {
         else return  META | fileSize;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         Domain_Controller domain_controller = new Domain_Controller();
-        Persistence_Controller persistence_controller = new Persistence_Controller();
+        Persistence_Controller persistence_controller = Persistence_Controller.getPersistence_controller();
         domain_controller.setPersistence_controller(persistence_controller);
 
         Compressor_Controller compressor = new Compressor_Controller(3);
         compressor.setDomain_controller(domain_controller);
         System.out.println("Start decompression");
         compressor.startCompression(0,0);
-        Decompressor_Controller decompressor = new Decompressor_Controller("jpeg");
+        Decompressor_Controller decompressor = new Decompressor_Controller(3);
         decompressor.setDomain_controller(domain_controller);
         decompressor.startDecompression(0,0);
 

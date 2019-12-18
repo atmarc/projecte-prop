@@ -4,6 +4,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /*!
  *  \brief     Clase que realiza la decompresión de un texto comprimido mediante el algoritmo LZSS. El comportamiento
@@ -37,7 +40,12 @@ public class Decompressor_LZSS extends Decompressor {
      * Descomprime un fichero codificado con el algoritmo LZSS
      */
     public void decompress() {
-        byte item[] = readAllBytes();
+        byte item[] = new byte[0];
+        try {
+            item = controller.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //writeBytes(item);
         /*System.out.println();
         System.out.print("Array comprimit: ");

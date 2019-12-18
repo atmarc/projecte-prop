@@ -59,7 +59,7 @@ public class Huffman {
      * @param file Array de enteros que vamos a comprimir usando Huffman.
      * @param bits Cadena de bits representados por enteros que representa el array de enteros comprimido con Huffman.
      */
-    public void encode(int[] file, LinkedList<Integer> bits) {
+    public void encode(LinkedList<Integer> file, LinkedList<Integer> bits) {
 
         LinkedHashMap<Integer, Integer> lhm = calculateFreq(file);
         PriorityQueue<Node> pQ = new PriorityQueue<>(lhm.size(), new NodeComparator());
@@ -93,10 +93,11 @@ public class Huffman {
         addDictionary(bits);
         addSeparador(bits);
         //String comprimit = "1" + addDictionary() + "011111111111111110";
-
-        for (int i = 0; i < file.length; ++i) {
-            for (int j = 0; j < dictionary.get(file[i]).length(); ++j) {
-                if (dictionary.get(file[i]).charAt(j) == '1')
+        Iterator<Integer> it = file.iterator();
+        while (it.hasNext()) {
+            int key = it.next();
+            for (int j = 0; j < dictionary.get(key).length(); ++j) {
+                if (dictionary.get(key).charAt(j) == '1')
                     bits.add(1);
                 else bits.add(0);
             }
@@ -246,12 +247,13 @@ public class Huffman {
      * @param file Cadena de enteros que se recorre y de la que se calculan las frequéncias.
      * @return Diccionario con cada entero y la frequéncia con la que aparece en el array.
      */
-    private LinkedHashMap<Integer, Integer> calculateFreq(int[] file) {
+    private LinkedHashMap<Integer, Integer> calculateFreq(LinkedList<Integer> file) {
 
         LinkedHashMap<Integer, Integer> dic = new LinkedHashMap<>();
-        for (int i = 0; i < file.length; ++i) {
+        Iterator<Integer> it = file.iterator();
+        while (it.hasNext()) {
 
-            int key = file[i];
+            int key = it.next();
 
             if (dic.containsKey(key)) {
                 dic.replace(key, dic.get(key) + 1);

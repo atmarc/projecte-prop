@@ -71,7 +71,7 @@ public class Persistence_ControllerTest {
         carpeta.put("15.txt", 0);
 
         String path = ".\\src\\persistencia\\testing_files\\testing_path";
-        Persistence_Controller pc = new Persistence_Controller();
+        Persistence_Controller pc = Persistence_Controller.getPersistence_controller();
 
         int[][] out = pc.makeHierarchy(path);
         boolean control = true;
@@ -91,20 +91,20 @@ public class Persistence_ControllerTest {
             control = control && sample.get(pc.getName(i)).equals(entry);
             if (!control) break;
         }
-       /*
-        PRINTING
+
+        //PRINTING
         int[] ints = out[1];
         for (int i = 0; i < ints.length; i++) {
 
             int efe = ints[i];
             System.out.println("Nombre: " + pc.getName(i));
             System.out.println("padre: " + pc.getName(efe));
-            String carpeta = (out[0][i] == 1)?"Si":"No";
-            System.out.println("carpeta: " + carpeta );
+            String c = (out[0][i] == 1)?"Si":"No";
+            System.out.println("carpeta: " + c );
             System.out.println("ID: " + i);
             System.out.println("--------------------");
         }
-        */
+
         assertTrue(control);
     }
 

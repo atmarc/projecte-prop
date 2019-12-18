@@ -20,6 +20,7 @@ import static java.lang.Integer.parseInt;
  */
 public class Compressor_JPEG extends Compressor {
 
+
     /**
      * Función abstracta de la clase Compresor que devuelve la extension del archivo.
      * @pre -
@@ -29,6 +30,11 @@ public class Compressor_JPEG extends Compressor {
         return ".jpeg";
     }
 
+    final int COMPRESS_RATIO;
+
+    public Compressor_JPEG(int compress_ratio) {
+        this.COMPRESS_RATIO = compress_ratio;
+    }
 
     /**
      * Implementación de la función abstracta de la clase Compressor utilizando el algoritmo JPEG.
@@ -39,12 +45,10 @@ public class Compressor_JPEG extends Compressor {
 
         byte s [] = new byte[0];
         try {
-            s = Files.readAllBytes(Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/france-wallpaper.ppm"));
-        } catch (IOException e) {
+            s = controller.readAllBytes();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // s = controller.readAllBytes();
 
         Triplet<Integer, Integer, Float> headers = readHeaders(s);
 
@@ -52,7 +56,6 @@ public class Compressor_JPEG extends Compressor {
         final int WIDTH = headers.getFirst();
         final int HEIGHT = headers.getSecond();
         final float MAX_VAL_COLOR = headers.getThird();
-        final int COMPRESS_RATIO = 5;
 
         ArrayList <Integer> data = new ArrayList<>();
 
@@ -113,7 +116,6 @@ public class Compressor_JPEG extends Compressor {
         // TODO: Downsampling
 
         // Block splitting
-
         // Tenim en compte si el nombre de pixels és múltiple de 8
         int nBlocksX = (WIDTH % 8 == 0) ? WIDTH/8 : WIDTH/8 + 1;
         int nBlocksY = (HEIGHT % 8 == 0) ? HEIGHT/8 : HEIGHT/8 + 1;
@@ -171,23 +173,20 @@ public class Compressor_JPEG extends Compressor {
             }
         }
 
-        int file[] = new int [5 + nBlocksX * nBlocksY * 64 * 3];
+        LinkedList<Integer> file = new LinkedList<>();
 
-        file[0] = COMPRESS_RATIO;
-        file[1] = nBlocksX;
-        file[2] = nBlocksY;
-        file[3] = HEIGHT;
-        file[4] = WIDTH;
+        file.add(COMPRESS_RATIO);
+        file.add(nBlocksX);
+        file.add(nBlocksY);
+        file.add(HEIGHT);
+        file.add(WIDTH);
 
         index = 5;
         for (int y = 0; y < nBlocksY; ++y) {
             for (int x = 0; x < nBlocksX; ++x) {
-                BlocksArrayY[y][x].zigzag(file, index);
-                index += 64;
-                BlocksArrayCb[y][x].zigzag(file, index);
-                index += 64;
-                BlocksArrayCr[y][x].zigzag(file, index);
-                index += 64;
+                BlocksArrayY[y][x].zigzag(file);
+                BlocksArrayCb[y][x].zigzag(file);
+                BlocksArrayCr[y][x].zigzag(file);
             }
         }
 
@@ -206,14 +205,8 @@ public class Compressor_JPEG extends Compressor {
             bytes[i] = arrayBytes.get(i);
         }
 
-        // controller.writeBytes(bytes);
+        controller.writeBytes(bytes);
 
-        Path p = Paths.get("/home/usuario/Escritorio/3r-1r/PROP/projecte-prop/testing_files/ppm_images/AAAA.jpeg");
-        try {
-            Files.write(p, bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

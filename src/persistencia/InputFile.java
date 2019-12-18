@@ -30,19 +30,19 @@ public class InputFile extends File {
      * Getter del limite actual (cantidad restante) de bytes que se pueden leer.
      * @return Numero de bytes que se pueden leer segun el limite establecido.
      */
-    long getNum() { return num; }
+    public long getNum() { return num; }
     /**
      * Setter del limite de bytes que se pueden leer.
      * @param num Cantidad de bytes que se desea establecer como limite.
      */
-    void setNum(long num) {
+    public void setNum(long num) {
         limited = true;
         this.num = num;
     }
     /**
      * Desactiva el numero limite de bytes de lectura.
      */
-    void rmNum() {
+    public void rmNum() {
         limited = false;
         num = -1;
     }
@@ -51,7 +51,7 @@ public class InputFile extends File {
      * @param n Cantidad de bytes a decrementar.
      * @return Cantidad de bytes decrementada = min(n, num).
      */
-    int subNum(int n) {
+    public int subNum(int n) {
         if (num >= n) {
             num = num - n;
             return n;
@@ -81,7 +81,7 @@ public class InputFile extends File {
      * Retorna el buffer de lectura. Si este no esta activo, lo activa.
      * @return Retorna el buffer de lectura.
      */
-    BufferedInputStream getBuffer() throws FileNotFoundException {
+    public BufferedInputStream getBuffer() throws FileNotFoundException {
         if (!active) {
             in = new BufferedInputStream(new FileInputStream(this));
             active = true;
@@ -92,7 +92,7 @@ public class InputFile extends File {
      * Cierra el buffer de lectura.
      * @throws IOException
      */
-    void closeBuffer() throws IOException {
+    public void closeBuffer() throws IOException {
         if (active) {
             in.close();
             active = false;

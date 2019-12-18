@@ -23,7 +23,7 @@ public class OutputFile extends File {
      * @post Se ha creado un fichero nuevo en el path pasado por parametro.
      * @param pathname Path del item asociado al File.
      */
-    OutputFile(String pathname) throws FileAlreadyExistsException {
+    public OutputFile(String pathname) throws FileAlreadyExistsException {
         super(pathname);
         if (this.isFile()) throw new FileAlreadyExistsException("Este fichero de salida ya existe.");
         active = false;
@@ -37,7 +37,7 @@ public class OutputFile extends File {
      * Incrementa el contador de bytes escritos.
      * @param i Cantidad que se incrementa el contador.
      */
-    void sumNum(int i) {
+    public void sumNum(int i) {
         num += i;
     }
 
@@ -45,7 +45,7 @@ public class OutputFile extends File {
      * Getter del contador de cuantos bytes se han escrito.
      * @return Cantidad de bytes escritos hasta el momento.
      */
-    long getNum() { return num; }
+    public long getNum() { return num; }
 
 
     // Buffer de escritura
@@ -54,7 +54,7 @@ public class OutputFile extends File {
      * Retorna el buffer de escritura. Si este no esta activo, lo activa.
      * @return Retorna el buffer de escritura.
      */
-    BufferedOutputStream getBuffer() throws FileNotFoundException {
+    public BufferedOutputStream getBuffer() throws FileNotFoundException {
         if (!active) {
             out = new BufferedOutputStream(new FileOutputStream(this, true));
             active = true;
@@ -73,7 +73,7 @@ public class OutputFile extends File {
     /**
      * Cierra el buffer se escritura.
      */
-    void closeBuffer() throws IOException {
+    public void closeBuffer() throws IOException {
         if (active) {
             out.close();
             active = false;
@@ -83,7 +83,7 @@ public class OutputFile extends File {
     /**
      * Realiza un flush del buffer de escritura.
      */
-	void flushBuffer() throws IOException {
+    public void flushBuffer() throws IOException {
         out.flush();
 	}
 }

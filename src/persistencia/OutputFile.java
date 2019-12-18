@@ -30,6 +30,7 @@ public class OutputFile extends File {
         num = 0;
     }
 
+
     // Contador Num
 
     /**
@@ -39,11 +40,13 @@ public class OutputFile extends File {
     void sumNum(int i) {
         num += i;
     }
+
     /**
      * Getter del contador de cuantos bytes se han escrito.
      * @return Cantidad de bytes escritos hasta el momento.
      */
     long getNum() { return num; }
+
 
     // Buffer de escritura
 
@@ -58,6 +61,7 @@ public class OutputFile extends File {
         }
         return out;
     }
+
     /**
      * Funcion que consulta si el buffer de escritura esta activo o no.
      * @return Retorna un booleano que indica si el buffer de escritura esta abierto o no.
@@ -65,6 +69,7 @@ public class OutputFile extends File {
     public boolean isActive() {
         return active;
     }
+
     /**
      * Cierra el buffer se escritura.
      */
@@ -74,6 +79,7 @@ public class OutputFile extends File {
             active = false;
         }
     }
+
     /**
      * Realiza un flush del buffer de escritura.
      */

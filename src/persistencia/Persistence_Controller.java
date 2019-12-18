@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class Persistence_Controller {
 
-    private ArrayList<InputFile> readFiles;             ///< Referencia a los archivos/directorios origen.
-    private ArrayList<OutputFile> writeFiles;           ///< Referencia a los archivos/directorios destino.
+    private ArrayList<InputFile> readFiles;             ///< Lista de archivos/directorios para realizar operaciones de lectura (la posición en la lista es el identificador asociado al mismo).
+    private ArrayList<OutputFile> writeFiles;           ///< Lista de archivos/directorios para realizar operaciones de escritura (la posición en la lista es el identificador asociado al mismo).
     private static Persistence_Controller persistence_controller = new Persistence_Controller(); ///< Referencia a la unica instancia de la Controladora de Persistencia
 
     /**
@@ -136,7 +136,7 @@ public class Persistence_Controller {
     /**
      * Proporciona la extencion del archivo de lectura identificado por el identificador que recibe por parametro .
      * @param id Identificador del fichero de lectura.
-     * @return Nombre del fichero identificado por el parametro id.
+     * @return Extension del fichero (si la tiene).
      */
     public String getExtension(int id) {
         // Lo he implementado yo puedes cambiar lo que no te parece ok
@@ -174,6 +174,7 @@ public class Persistence_Controller {
 
     /**
      * Lee un byte del fichero origen.
+     * @param id Identificador del fichero de escritura.
      * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
      */
     public int readByte(int id) {
@@ -192,6 +193,7 @@ public class Persistence_Controller {
     }
     /**
      * Lee N bytes del fichero origen en una cadena de bytes que se le pasa por parametro.
+     * @param id Identificador del fichero de escritura.
      * @param word Cadena de bytes sobre la que se introducira la lectura.
      * @return Cantidad de bytes leida o -1 si no habia nada que leer.
      */
@@ -213,6 +215,7 @@ public class Persistence_Controller {
         }
     }
     /**
+     * @param id Identificador del fichero de escritura.
      * Cierra el buffer de lectura.
      */
     public void closeReader(int id) throws IOException {
@@ -220,6 +223,7 @@ public class Persistence_Controller {
     }
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
+     * @param id Identificador del fichero de escritura.
      * @return Cadena de bytes con todos los bytes del fichero origen.
      */
     public byte[] readAllBytes(int id) throws Exception {
@@ -239,6 +243,7 @@ public class Persistence_Controller {
 
     /**
      * Escribe un byte en fichero de salida.
+     * @param id
      * @param B Byte que se desea escribir en el fichero de salida.
      */
     public void writeByte(int id, byte B) {
@@ -252,6 +257,7 @@ public class Persistence_Controller {
     }
     /**
      * Escribe una cadena de bytes en el fichero de salida.
+     * @param id Identificador del fichero de escritura.
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
     public void writeBytes(int id, byte[] word) {
@@ -264,6 +270,7 @@ public class Persistence_Controller {
         }
     }
     /**
+     * @param id Identificador del fichero de escritura.
      * Cierra buffer de escritura.
      */
     public void closeWriter(int id) throws IOException {
@@ -298,21 +305,21 @@ public class Persistence_Controller {
     /**
      * Funcion que dice si un fichero es directorio o no lo es.
      * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles)
-     * @param f Identificador del item a inspeccionar.
+     * @param id Identificador del item a inspeccionar.
      * @return Retorna true en caso de ser un directorio o falso en caso contrario.
      */
-    public boolean isFolder (int f) {
-        return readFiles.get(f).isDirectory();
+    public boolean isFolder (int id) {
+        return readFiles.get(id).isDirectory();
     }
     /**
      * Funcion que retorna una lista con todos los ficheros que contiene una carpeta.
      * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles) y este es un directorio.
      * @post Todos sus ficheros han sido anadidos al sistema y estos estan asociados a un identificador.
-     * @param f Identificador del directorio.
+     * @param id Identificador del directorio.
      * @return Retorna una lista que contiene los identificadores que referencian a los archivos que contenia el directorio referenciado por el parametro.
      */
-    public ArrayList<Integer> getFilesFromFolder (int f) {
-        File dir = readFiles.get(f);
+    public ArrayList<Integer> getFilesFromFolder (int id) {
+        File dir = readFiles.get(id);
         ArrayList<Integer> identifiers = new ArrayList<>();
 
         File[] dirFiles = dir.listFiles();

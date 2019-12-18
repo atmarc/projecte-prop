@@ -19,7 +19,7 @@ public class InputFile extends File {
      * Constructora modificada que crea un File con el path pasado por parametro.
      * @param pathname Path del item asociado al File.
      */
-    InputFile(String pathname) {
+    public InputFile(String pathname) {
         super(pathname);
         active = false;
     }

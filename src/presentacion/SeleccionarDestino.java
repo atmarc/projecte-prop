@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.JOptionPane;
 
 public class SeleccionarDestino {
@@ -13,7 +14,7 @@ public class SeleccionarDestino {
     private JTextArea SELECCIONELACARPETADONDETextArea;
     private JTextField textField1;
     private JButton browseButton;
-    private JButton button1;
+    private JButton OK;
 
     private String path;
 
@@ -59,27 +60,23 @@ public class SeleccionarDestino {
                 browseButton.setVisible(false);
             }
         });
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        button1.addActionListener(new ActionListener() {
+        OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (radioButton1.isSelected()) {
-                    path = presentation_controller.samePath();
+                    File file = new File(presentation_controller.getSourcePath());
+                    path = file.getParent();
+                    presentation_controller.setOutPath(path);
                 }
                 else {
                     path = textField1.getText();
-                    presentation_controller.sendPath(path);
+                    presentation_controller.setOutPath(path);
+
                 }
 
-                String message = "Tu archivo se ha guardado en " + path;
-                JOptionPane.showMessageDialog(null, message);
-                
+                presentation_controller.sendInfo();
 
+                presentation_controller.switchToEnd();
             }
         });
     }

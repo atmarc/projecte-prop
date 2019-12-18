@@ -3,6 +3,8 @@ package presentacion;
 import dominio.Domain_Controller;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Random;
 
 public class Presentation_Controller {
 
@@ -12,31 +14,37 @@ public class Presentation_Controller {
     private JFrame frame;
 
     private Domain_Controller domain_controller;
-    Formprova formprova;
-    MetodoCompresion metodoCompresion;
-    SeleccionarDestino seleccionarDestino;
-    JPEGselect jpeGselect;
-    private String path;
+    private SeleccionarArchivo seleccionarArchivo;
+    private MetodoCompresion metodoCompresion;
+    private SeleccionarDestino seleccionarDestino;
+    private JPEGselect jpeGselect;
+    private Loading loading;
+    private Welcome welcome;
+    private End end;
+
+    private Integer action = 0; // 0 -> Comprimir, 1 -> Descomprimir
+    private Integer algorithm; // 0 -> JPEG, 1 -> LZ78, 2 -> LZW, 3 -> LZSS, 4 -> Auto (nomes per txt)
+    private boolean carpeta = false;
+    private String SourcePath;
+    private String OutPath;
+    private boolean acabado = true;
+    private int JPEGratio = 5;
+
     public Presentation_Controller () {
 
-        formprova = new Formprova(this);
-        metodoCompresion = new MetodoCompresion(this);
-        seleccionarDestino = new SeleccionarDestino(this);
-        jpeGselect = new JPEGselect(this);
+
     }
 
     public void initializeInterface() {
+        welcome = new Welcome(this);
+
         frame = new JFrame("Egg");
-        frame.setContentPane(formprova.getPanel1());
+        frame.setContentPane(welcome.getPanel1());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        /*frame.setContentPane(metodoCompresion.getPanel1());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);*/
     }
 
     public void setDomain_controller(Domain_Controller domain_controller) {
@@ -44,49 +52,159 @@ public class Presentation_Controller {
     }
 
     public void sendPath(String s) {
-
-        path = s;
-        //domain_controller.sendPath(s);
-        //domain_controller.sendPath(s);
+        SourcePath = s;
     }
 
     //public void sendJPEGvalue(int a) {domain_controller.sendJPEGvalue(a);}
 
     public void switchToMetodoCompresion () {
 
+        metodoCompresion = new MetodoCompresion(this);
         frame.setVisible(false);
-        frame = new JFrame("Egg");
         frame.setContentPane(metodoCompresion.getPanel1());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     public void switchToSeleccionarDestino() {
+
+        seleccionarDestino = new SeleccionarDestino(this);
         frame.setVisible(false);
-        frame = new JFrame("Egg");
         frame.setContentPane(seleccionarDestino.getPanel1());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     public void switchToJPEGselect() {
+
+        jpeGselect = new JPEGselect(this);
+
         frame.setVisible(false);
-        frame = new JFrame("Egg");
         frame.setContentPane(jpeGselect.getPanel1());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    public String samePath() {
-        return path;
+    public void switchToLoading() {
+
+        loading = new Loading(this);
+
+        frame.setVisible(false);
+        frame.setContentPane(loading.getPanel1());
+        frame.setVisible(true);
     }
 
+    public void setFrame(Label label) {
+        frame.getContentPane().add(label);
+    }
 
+    public ImageIcon getIcon() {
+        Random rand = new Random();
+        int upperbound = 13;
+        int random = rand.nextInt(upperbound);
+        ImageIcon icon;
 
+        switch (random) {
+            default:
+                return icon = new ImageIcon(getClass().getResource("egg/1.gif"));
+
+            case 1:
+                return icon = new ImageIcon(getClass().getResource("egg/2.gif"));
+
+            case 2:
+                return icon = new ImageIcon(getClass().getResource("egg/3.gif"));
+
+            case 3:
+                return icon = new ImageIcon(getClass().getResource("egg/4.gif"));
+
+            case 4:
+                return icon = new ImageIcon(getClass().getResource("egg/5.gif"));
+
+            case 5:
+                return icon = new ImageIcon(getClass().getResource("egg/6.gif"));
+
+            case 6:
+                return icon = new ImageIcon(getClass().getResource("egg/7.gif"));
+
+            case 7:
+                return icon = new ImageIcon(getClass().getResource("egg/8.gif"));
+
+            case 8:
+                return icon = new ImageIcon(getClass().getResource("egg/9.gif"));
+
+            case 9:
+                return icon = new ImageIcon(getClass().getResource("egg/10.gif"));
+
+            case 10:
+                return icon = new ImageIcon(getClass().getResource("egg/11.gif"));
+
+            case 11:
+                return icon = new ImageIcon(getClass().getResource("egg/12.gif"));
+
+            case 12:
+                return icon = new ImageIcon(getClass().getResource("egg/13.gif"));
+
+        }
+    }
+
+    public void switchToWelcome() {
+        frame.setVisible(false);
+        frame.setContentPane(welcome.getPanel1());
+        frame.setVisible(true);
+    }
+
+    public void setAction(int a) {
+        action = a;
+    }
+
+    public void switchToSeleccionarArchivo() {
+
+        seleccionarArchivo = new SeleccionarArchivo(this);
+        frame.setVisible(false);
+        frame.setContentPane(seleccionarArchivo.getPanel1());
+        frame.setVisible(true);
+    }
+
+    public void setAlgorithm(int a) {
+        algorithm = a;
+    }
+
+    public Integer getAction() {
+        return action;
+    }
+
+    public void setCarpeta() {
+        carpeta = true;
+    }
+
+    public void setOutPath(String path) {
+
+        System.out.println(path);
+        OutPath = path;
+    }
+
+    public String getSourcePath() {
+        return SourcePath;
+    }
+
+    public void sendInfo() {
+
+    }
+
+    public boolean getAcabado() {
+        return acabado;
+    }
+
+    public String getOutPath() {
+        return OutPath;
+    }
+
+    public void switchToEnd() {
+
+        end = new End(this);
+        frame.setVisible(false);
+        frame.setContentPane(end.getPanel1());
+        frame.setVisible(true);
+    }
+
+    public void setJPEGratio(int a) {
+        JPEGratio = a;
+    }
 }

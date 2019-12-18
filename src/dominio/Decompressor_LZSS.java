@@ -1,7 +1,9 @@
 package dominio;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 /*!
  *  \brief     Clase que realiza la decompresión de un texto comprimido mediante el algoritmo LZSS. El comportamiento
@@ -35,122 +37,145 @@ public class Decompressor_LZSS extends Decompressor {
      * Descomprime un fichero codificado con el algoritmo LZSS
      */
     public void decompress() {
-        byte item[] = controller.readAllBytes();
+        byte item[] = readAllBytes();
+        //writeBytes(item);
+        /*System.out.println();
+        System.out.print("Array comprimit: ");
+        printByteArray(item);
+        System.out.println();
 
-        Queue<Byte> noCoincQ = new LinkedList<>();
-        Queue<Character> coincQ = new LinkedList<>();
-        Queue<Boolean> bitQ = new LinkedList<>();
+         */
 
-        //primer llegim els bits
-        //bits d'aliniament
-        boolean start = false;
-        boolean endstart = false;
-        int i = 7;
-        while (!start) {
-            if (item[0] == 0x01) {
-                start = true;
-                endstart = true;
-            }
-            else {
-                byte aux = (byte) (item[0] >> i);
+        ArrayList<Boolean> bits = new ArrayList<>();
+
+        byte first = item[0];
+        int begin = -1;
+        if (first != 0x01) {
+            for (int i = 7; i >= 0; --i) {
+                byte aux = (byte) (first >> i);
                 aux = (byte) (aux & 0x01);
-                if (aux == 1) start = true;
-                i--;
-            }
-        }
-        while(i >= 0 && !endstart) {
-            byte aux = (byte) (item[0] >> i);
-            aux = (byte) (aux & 0x01);
-            if (aux == 1) bitQ.add(true);
-            else bitQ.add(false);
-            i--;
-        }
 
-
-        boolean endbBits = false;
-        i = 1;
-        while(!endbBits) {
-            if (item[i] == -1 && item[i+1] == -1) {
-                endbBits = true;
-                i++;
-            }
-            else {
-                byte aux = item[i];
-
-                for (int j = 0; j < 8; j++) {
-                    byte bit = (byte) (aux >> (7-j));
-                    bit = (byte) (bit & 0x01);
-                    if (bit == 1) bitQ.add(true);
-                    else bitQ.add(false);
+                if (aux == 0x01) {
+                    begin = i;
+                    break;
                 }
             }
-            i++;
-        }
-        boolean endNoCoinc = false;
 
-        while(!endNoCoinc) {
-            if (item[i] == -1 && item[i+1] == -1) {
-                endNoCoinc = true;
-                i++;
+            for (int j = begin - 1; j >= 0; --j) {
+                byte aux = (byte) (first >> j);
+                aux = (byte) (aux & 0x01);
+
+                if (aux == 0x00) {
+                    bits.add(false);
+                }
+                else bits.add(true);
+            }
+        }
+        int i = 1;
+        for (; item[i] != -1 || item[i+1] != -1; ++i) {
+
+            byte element = item[i];
+
+            for (int j = 7; j >= 0; --j) {
+                byte aux = (byte) (element >> j);
+                aux = (byte) (aux & 0x01);
+
+                if (aux == 0x00) {
+                    bits.add(false);
+                }
+                else bits.add(true);
+            }
+        }
+        i  += 2;
+
+        /*System.out.print("Bits al decompress: ");
+        printBitArray(arrListBoolToArray(bits));
+        System.out.println();*/
+
+        byte[] chrs = Arrays.copyOfRange(item, i, item.length);
+/*
+        System.out.print("Codificat al decompress: ");
+        printByteArray(chrs);
+
+ */
+
+        int size = bits.size();
+
+        byte[] result = new byte[size];
+        int itchrs = 0;
+
+        for (int j = 0; j < size; ++j) {
+            if (!bits.get(j)) {
+                result[j] = chrs[itchrs];
+                itchrs++;
             }
             else {
-                byte aux = item[i];
-                noCoincQ.add(aux);
+                char a = convert(chrs[itchrs], chrs[itchrs + 1]);
+                itchrs += 2;
+
+                char offset = (char) (a >> 4);
+                offset = (char) (offset & 0x0FFF);
+
+                char d = (char) (a & 0x000F);
+
+                int desp = d + 0;
+                int point = j;
+
+                for(int k = 0; k < desp; k++) {
+                    byte b = result[point - offset + k];
+                    result[j] = b;
+                    j++;
+                }
+                j--;
             }
-            i++;
         }
+        /*
+        System.out.println();
+
+        System.out.print("Final: ");
+        printByteArray(result);
+        System.out.println();
+        System.out.println();
+
+         */
+
+        writeBytes(result);
+
+        //boolean[] bits = bitQtoBitSet(bitQ);
+        /*printBitArray(bits);
 
 
-        while(i < item.length) {
-            char a = (char) item[i];
-            a = (char) (a << 8);
-            a = (char) (a & 0xFF00);
-            char b = (char) item[i+1];
-            b = (char) (b & 0x00FF);
-            a = (char) (a | b);
-            coincQ.add(a);
-            i += 2;
-        }
+        byte[] chars = Arrays.copyOfRange(item, i, item.length);
+        byte[] resultat = new byte[bits.length];
+        int l = 0;
 
-        ArrayList<Byte> result = new ArrayList<>();
+        //escrivim el resultat
+        for (int h = 0; h < bits.length; ++h) {
+            if (bits[h]) {
+                byte high = chars[l];
+                byte low = chars[l+1];
+                char a =  decrypt(high, low);
 
-        /*byte a1[] = byteQtoByteArray(noCoincQ);
-        byte b1[] = charQtoByteArray(coincQ);
-        byte c1[] = boolQtoByteArray(bitQ);
-
-        System.out.println(a1);
-        System.out.println(b1);
-        System.out.println(c1);*/
-
-        //int i = 0;
-
-        while (!bitQ.isEmpty()) {
-
-            boolean aux = bitQ.remove();
-            if (!aux) {
-                result.add(noCoincQ.remove());
-
-            }
-            else {
-                char a = coincQ.remove();
                 char offset = (char) (a >> 4);
                 offset = (char) (offset & 0x0FFF);
                 char d = (char) (a & 0x000F);
-                int desp = d + 3;
+                int desp = d + 0;
                 for(int j = 0; j < desp; j++) {
-                    byte b = result.get(result.size() - offset);
-                    result.add(b);
+                    byte b = resultat[offset + j];
+                    resultat[h] = b;
                 }
-                for(int j = 0; j < desp - 1; j++) {
-
-                    bitQ.remove();
-                }
-
+                h += desp;
+                l++;
             }
+            else {
+                resultat[h] = chars[l];
+            }
+            l++;
         }
 
-        byte[] res = arrListToArray(result);
-        controller.writeBytes(res);
+        System.out.println(resultat);
+
+        //writeBytes(resultat);*/
     }
 
     /**
@@ -170,6 +195,92 @@ public class Decompressor_LZSS extends Decompressor {
         }
 
         return aux;
+    }
+
+    private boolean[] arrListBoolToArray (ArrayList<Boolean> a) {
+
+        int size = a.size();
+        boolean[] aux = new boolean[size];
+
+        for (int i = 0; i < size; ++i) {
+            aux[i] = a.get(i);
+        }
+
+        return aux;
+    }
+
+    public boolean[] bitQtoBitSet (Queue<Boolean> a) {
+
+        boolean[] bits = new boolean[a.size()];
+        int i = 0;
+        boolean aux;
+        while (!a.isEmpty()) {
+            aux = a.remove();
+            if (aux) {
+                bits[i] = true;
+            }
+            else {
+                bits[i] = false;
+            }
+            i++;
+        }
+
+        return bits;
+    }
+
+    public char convert(byte high, byte low) {
+        char h = (char) high;
+        h = (char) (h << 8);
+        h = (char) (h & 0xFF00);
+
+        char l = (char) low;
+        l = (char) (l & 0x00FF);
+
+        char a = (char) (h | l);
+        return a;
+    }
+
+    public byte[] readAllBytes() {
+        byte[] b = new byte[0];
+        try {
+            b = Files.readAllBytes(Paths.get("testing_files/nicompressed.lzss"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
+
+    public void writeBytes(byte[] bytes) {
+        Path p = Paths.get("testing_files/nico1.txt");
+        try {
+            Files.write(p, bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printBitArray (boolean[] a) {
+
+        int j = a.length;
+
+        for (int i = 0; i < j; ++i) {
+            if(a[i]) {
+                System.out.print("1");
+            }
+            else System.out.print("0");
+        }
+
+    }
+
+    public void printByteArray (byte[] a) {
+
+        int j = a.length;
+
+        for (int i = 0; i < j; ++i) {
+            System.out.print(a[i]);
+            System.out.print(" ");
+        }
+
     }
 
 }

@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Normalizer;
 
-public class Formprova {
+public class SeleccionarArchivo {
 
 
     private JPanel panel1;
@@ -20,19 +20,22 @@ public class Formprova {
 
     private String path;
 
-    public Formprova(Presentation_Controller presentation_controller) {
+    public SeleccionarArchivo(Presentation_Controller presentation_controller) {
 
         panel1.setPreferredSize(new Dimension(700, 400));
 
-        panel1.setBackground(Color.decode("#F7F7F7"));
+        System.out.println(presentation_controller.getAction());
 
+        if (presentation_controller.getAction() == 0) {
+            textField1.setText("Selecciona el fichero o carpeta a comprimir");
+        }
+        else if (presentation_controller.getAction() == 1){
+            textField1.setText("Selecciona el fichero o carpeta a descomprimir");
 
-        this.presentation_controller = presentation_controller;
-        textField1.setText("Selecciona un fichero a comprimir o descomprimir");
+        }
         textField1.setEditable(false);
 
         EGGCOMPRESSORTextArea.setEditable(false);
-        EGGCOMPRESSORTextArea.setBackground(Color.decode("#F7F7F7"));
 
         //button1.setBorderPainted(false);
         //button1.setFocusPainted(false);
@@ -46,7 +49,7 @@ public class Formprova {
                 JFileChooser fc = new JFileChooser();
                 fc.showOpenDialog(panel1);
                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                //fc.showSaveDialog(panel1);
+
                 path = fc.getSelectedFile().toString();
                 textField1.setText(path);
 
@@ -56,17 +59,21 @@ public class Formprova {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                presentation_controller.sendPath(path);
+
                 if (path.endsWith(".txt")) {
-                    presentation_controller.sendPath(path);
                     presentation_controller.switchToMetodoCompresion();
                 }
-                else if (path != null) {
-                    presentation_controller.sendPath(path);
+                else if (path.endsWith(".ppm")) {
+                    presentation_controller.setAlgorithm(0);
                     presentation_controller.switchToJPEGselect();
                 }
-                else {
+                else { //carpeta
+                    presentation_controller.setCarpeta();
+                    presentation_controller.switchToSeleccionarDestino();
 
                 }
+
 
             }
         });
@@ -74,5 +81,9 @@ public class Formprova {
 
     public JPanel getPanel1() {
         return panel1;
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }

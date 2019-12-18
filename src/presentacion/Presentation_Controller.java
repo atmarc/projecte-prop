@@ -1,6 +1,7 @@
 package presentacion;
 
 import dominio.Domain_Controller;
+import persistencia.Persistence_Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class Presentation_Controller {
     private End end;
 
     private Integer action = 0; // 0 -> Comprimir, 1 -> Descomprimir
-    private Integer algorithm; // 0 -> JPEG, 1 -> LZ78, 2 -> LZW, 3 -> LZSS, 4 -> Auto (nomes per txt)
+    private Integer algorithm; // 0 -> LZ78, 1 -> LZSS, 2 -> LZW, 3 -> JPEG, 4 -> Auto (nomes per txt)
     private boolean carpeta = false;
     private String SourcePath;
     private String OutPath;
@@ -31,8 +32,9 @@ public class Presentation_Controller {
     private int JPEGratio = 5;
 
     public Presentation_Controller () {
-
-
+        this.domain_controller = new Domain_Controller();
+        Persistence_Controller persistence_controller = Persistence_Controller.getPersistence_controller();
+        domain_controller.setPersistence_controller(persistence_controller);
     }
 
     public void initializeInterface() {
@@ -88,6 +90,22 @@ public class Presentation_Controller {
 
         frame.setVisible(false);
         frame.setContentPane(loading.getPanel1());
+        frame.setVisible(true);
+    }
+
+    public void switchToSeleccionarArchivo() {
+
+        seleccionarArchivo = new SeleccionarArchivo(this);
+        frame.setVisible(false);
+        frame.setContentPane(seleccionarArchivo.getPanel1());
+        frame.setVisible(true);
+    }
+
+    public void switchToEnd() {
+
+        end = new End(this);
+        frame.setVisible(false);
+        frame.setContentPane(end.getPanel1());
         frame.setVisible(true);
     }
 
@@ -154,14 +172,6 @@ public class Presentation_Controller {
         action = a;
     }
 
-    public void switchToSeleccionarArchivo() {
-
-        seleccionarArchivo = new SeleccionarArchivo(this);
-        frame.setVisible(false);
-        frame.setContentPane(seleccionarArchivo.getPanel1());
-        frame.setVisible(true);
-    }
-
     public void setAlgorithm(int a) {
         algorithm = a;
     }
@@ -185,7 +195,46 @@ public class Presentation_Controller {
     }
 
     public void sendInfo() {
+        if (action == 0) { //Comprimir
+            if (algorithm == 0) {
+                try {
+                    domain_controller.compress(SourcePath, OutPath, 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (algorithm == 1) {
+                try {
+                    domain_controller.compress(SourcePath, OutPath, 1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (algorithm == 2) {
+                try {
+                    domain_controller.compress(SourcePath, OutPath, 2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (algorithm == 3) { //falta ratio
+                try {
+                    domain_controller.compress(SourcePath, OutPath, 3);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (algorithm == 4) {
+                try {
+                    domain_controller.compress(SourcePath, OutPath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else { //Descomprimir
 
+        }
     }
 
     public boolean getAcabado() {
@@ -194,14 +243,6 @@ public class Presentation_Controller {
 
     public String getOutPath() {
         return OutPath;
-    }
-
-    public void switchToEnd() {
-
-        end = new End(this);
-        frame.setVisible(false);
-        frame.setContentPane(end.getPanel1());
-        frame.setVisible(true);
     }
 
     public void setJPEGratio(int a) {

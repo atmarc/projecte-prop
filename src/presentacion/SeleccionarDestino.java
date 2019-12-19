@@ -94,6 +94,7 @@ public class SeleccionarDestino {
                     //path = presentation_controller.getSourcePath();
                     path = textField1.getText();
                     int lastbarra = path.lastIndexOf("\\");
+                    if (lastbarra < 0) lastbarra = path.lastIndexOf("/");
                     path = path.substring(0, lastbarra);
                     System.out.println(path);
                     String archivo = nombreTextField.getText();

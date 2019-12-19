@@ -60,6 +60,10 @@ public class Compressor_Controller {
         compressor.setController(this);
     }
 
+    public Compressor_Controller(Compressor cmp) {
+        compressor = cmp;
+        compressor.setController(this);
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////   Compression   //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +74,10 @@ public class Compressor_Controller {
      * @param out Identificador del archivo sobre el que escribir la compresion.
      */
     public void startCompression(int in, int out) throws Exception {
+        startCompression(in, out, (byte) -1);
+    }
+
+    public void startCompression(int in, int out, byte ratio) throws Exception {
 
         setInputFile(in);
         setOutputFile(out);
@@ -77,15 +85,11 @@ public class Compressor_Controller {
         System.out.println("Compression IN PROGRESS");
 
         time = System.currentTimeMillis();
-        compressor.compress();
+        if (ratio != -1) compressor.compress();
+        else compressor.compress(ratio);
         time = System.currentTimeMillis() - time;
 
-        try {
-            domain_controller.closeReader(inputFile);
-            // domain_controller.closeWriter(outputFile); // No hace falta esto, peligroso en la compresion de ficheros
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        domain_controller.closeReader(inputFile);
 
 
         System.out.println("Compression DONE");

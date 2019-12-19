@@ -200,19 +200,19 @@ public class Presentation_Controller {
         System.out.println(OutPath);
         if (action == 0) { //Comprimir
             if (algorithm == 0) {
-                domain_controller.compress(SourcePath, OutPath, 0);
+                domain_controller.compress(SourcePath, OutPath, 0, sobreEscribir);
             }
             if (algorithm == 1) {
-                domain_controller.compress(SourcePath, OutPath, 1);
+                domain_controller.compress(SourcePath, OutPath, 1, sobreEscribir);
             }
             if (algorithm == 2) {
-                domain_controller.compress(SourcePath, OutPath, 2);
+                domain_controller.compress(SourcePath, OutPath, 2, sobreEscribir);
             }
             if (algorithm == 3) { //falta ratio
-                domain_controller.compress(SourcePath, OutPath, 3);
+                domain_controller.compress(SourcePath, OutPath, 3, (byte) JPEGratio ,sobreEscribir);
             }
             if (algorithm == 4) {
-                domain_controller.compress(SourcePath, OutPath);
+                domain_controller.compress(SourcePath, OutPath, sobreEscribir);
             }
         }
         else { //Descomprimir

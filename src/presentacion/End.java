@@ -1,6 +1,7 @@
 package presentacion;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +13,9 @@ public class End {
 
 
     public End(Presentation_Controller presentation_controller) {
+
+
+        panel1.setPreferredSize(new Dimension(700, 400));
 
         System.out.println("hola2");
         String path = presentation_controller.getOutPath();

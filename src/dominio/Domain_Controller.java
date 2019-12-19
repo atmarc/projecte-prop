@@ -398,6 +398,10 @@ public class Domain_Controller {
         compress(in, getPathAndName(in) + ".egg", alg, ratio);
     }
 
+    public void compress(String in, String out) throws Exception {
+        compress(in, out, -1, (byte) -1);
+    }
+
     public void compress(String in, String out, byte ratio) throws Exception {
         compress(in, out, -1, ratio);
     }

@@ -6,6 +6,7 @@ TT:
 General:
 	javac -cp "src/:./lib/*"  src/*/*/*.java -d bin/
 	javac -cp "src/:./lib/*"  src/Main.java -d bin/
+	javac -cp "src/:./lib/*"  tests/* -d bin/
 
 run:
 	java -cp "bin/:bin/presentation:src/:./lib/*" -Djavax.accessibility.assistive_technologies=" " Main

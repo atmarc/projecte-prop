@@ -10,9 +10,10 @@ import java.nio.file.FileAlreadyExistsException;
  */
 public class OutputFile extends File {
 
-    private BufferedOutputStream out;   ///< Buffer de escritura del archivo asociado.
-    private boolean active;             ///< Control sobre el buffer del escritura. Si esta activo o no.
-    private long num;                   ///< Contador de cuantos bytes se han escrito
+    private BufferedOutputStream out;        ///< Buffer de escritura del archivo asociado.
+    private boolean active = false;         ///< Control sobre el buffer del escritura. Si esta activo o no.
+    private boolean append = false;          ///< Control sobre la primera vez que se escribe
+    private long num = 0;                   ///< Contador de cuantos bytes se han escrito
 
 
     // Constructora
@@ -25,9 +26,7 @@ public class OutputFile extends File {
      */
     public OutputFile(String pathname, boolean sobreescribir) throws FileAlreadyExistsException {
         super(pathname);
-        if (!sobreescribir && this.isFile()) throw new FileAlreadyExistsException("Este fichero de salida ya existe.");
-        active = false;
-        num = 0;
+        if (!sobreescribir && (this.isFile())) throw new FileAlreadyExistsException("Este fichero de salida ya existe.");
     }
 
 
@@ -51,12 +50,13 @@ public class OutputFile extends File {
     // Buffer de escritura
 
     /**
-     * Retorna el buffer de escritura. Si este no esta activo, lo activa.
+     * Retorna el buffer de escritura. Si este no esta activo, lo activa. La primera vez que se ejecuta, estara en modo no append. A partir de esta, se pondra en modo append.
      * @return Retorna el buffer de escritura.
      */
     public BufferedOutputStream getBuffer() throws FileNotFoundException {
         if (!active) {
-            out = new BufferedOutputStream(new FileOutputStream(this, true));
+            out = new BufferedOutputStream(new FileOutputStream(this, append));
+            append = true;
             active = true;
         }
         return out;

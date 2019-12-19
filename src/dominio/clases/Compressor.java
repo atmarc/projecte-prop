@@ -1,5 +1,4 @@
 package dominio.clases;
-
 import dominio.controladores.Compressor_Controller;
 
 /**

@@ -11,9 +11,9 @@ import java.nio.file.FileAlreadyExistsException;
 public class OutputFile extends File {
 
     private BufferedOutputStream out;        ///< Buffer de escritura del archivo asociado.
-    private boolean active = false;         ///< Control sobre el buffer del escritura. Si esta activo o no.
-    private boolean append = false;          ///< Control sobre la primera vez que se escribe
-    private long num = 0;                   ///< Contador de cuantos bytes se han escrito
+    private boolean active = false;          ///< Control sobre el buffer del escritura. Si esta activo o no.
+    private boolean append = false;          ///< Control sobre la primera vez que se escribe.
+    private long num = 0;                    ///< Contador de cuantos bytes se han escrito
 
 
     // Constructora

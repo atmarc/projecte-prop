@@ -51,6 +51,7 @@ public class Persistence_Controller {
      * @return Identificador asociado al fichero.
      */
     public int newOutputFile(String path, boolean sobreescribir) throws FileAlreadyExistsException {
+        if (sobreescribir) deleteFile(path);
         OutputFile aux = new OutputFile(path, sobreescribir);
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);
@@ -321,6 +322,19 @@ public class Persistence_Controller {
 
     // Carpetas
 
+    private void deleteFile(String path) {
+        File file = new File(path);
+        if (file.isDirectory()) recursiveDelete(file.listFiles());
+        file.delete();
+    }
+    private void recursiveDelete(File[] files) {
+        if (files == null || files.length == 0) return;
+        for (File file : files) {
+            if (file.isDirectory()) recursiveDelete(file.listFiles());
+            file.delete();
+        }
+
+    }
     /**
      * Funcion que dice si un fichero es directorio o no lo es.
      * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles)

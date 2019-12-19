@@ -30,7 +30,11 @@ public class Compressor_JPEG extends Compressor {
         return ".jpeg";
     }
 
-    int COMPRESS_RATIO;
+    private int COMPRESS_RATIO;
+
+    public Compressor_JPEG () {
+        this.COMPRESS_RATIO = 5;
+    }
 
     public void setCompressRatio(int ratio) {
         this.COMPRESS_RATIO = ratio;

@@ -113,11 +113,15 @@ public class SeleccionarDestino {
         Back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (presentation_controller.getAlgorithm() != 3) {
-                    presentation_controller.switchToMetodoCompresion();
+                if (presentation_controller.getAction() == 0) {
+                    if (presentation_controller.getAlgorithm() != 3) {
+                        presentation_controller.switchToMetodoCompresion();
+                    } else {
+                        presentation_controller.switchToJPEGselect();
+                    }
                 }
                 else {
-                    presentation_controller.switchToJPEGselect();
+                    presentation_controller.switchToSeleccionarArchivo();
                 }
             }
         });

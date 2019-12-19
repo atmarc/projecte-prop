@@ -236,7 +236,7 @@ public class Presentation_Controller {
     }
 
     public void setVariables() {
-
+        sobreEscribir = false;
     }
 
     public void setSobreEscribir(boolean a) {

@@ -85,8 +85,8 @@ public class Compressor_Controller {
         System.out.println("Compression IN PROGRESS");
 
         time = System.currentTimeMillis();
-        if (ratio != -1) compressor.compress();
-        else compressor.compress(ratio);
+        if (ratio != -1) compressor.compress(ratio);
+        else compressor.compress();
         time = System.currentTimeMillis() - time;
 
         domain_controller.closeReader(inputFile);

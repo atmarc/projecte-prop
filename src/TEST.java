@@ -10,8 +10,8 @@ class TEST {
        Domain_Controller DC = new Domain_Controller();
 //        DC.compress("auto/pseudo_ansi", "auto/pseudo_ansi.egg", 1);
 //        DC.compress("auto/pseudo_ansi.txt", "auto/pseudo_ansi.egg", 2);
-       DC.compress("auto/pseudo_ansi", "auto/pseudo_ansi.egg", 1, false);
-       DC.decompress("auto/pseudo_ansi.egg", "auto/pseudo_ansi_dec", false);
+       DC.compress("auto/1TB.txt", "auto/1TB.egg", 0, true);
+       DC.decompress("auto/1TB.egg", "auto/1TB_dec", true);
 //        DC.decompress("auto/pseudo_ansi.egg", "auto/pseudo_ansi_dec");
 //        DC.compress("auto/pseudo_ansi", "auto/pseudo_ansi.egg", 0);
 //        DC.decompress("auto/pseudo_ansi.egg", "auto/pseudo_ansi_dec");

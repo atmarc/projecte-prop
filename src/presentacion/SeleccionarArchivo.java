@@ -37,12 +37,6 @@ public class SeleccionarArchivo {
 
         EGGCOMPRESSORTextArea.setEditable(false);
 
-        //button1.setBorderPainted(false);
-        //button1.setFocusPainted(false);
-        //button1.setContentAreaFilled(false);
-
-        //button1.setBackground(Color.);
-
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,8 +44,10 @@ public class SeleccionarArchivo {
                 fc.showOpenDialog(panel1);
                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-                path = fc.getSelectedFile().toString();
-                textField1.setText(path);
+                if (fc.getSelectedFile() != null) {
+                    path = fc.getSelectedFile().toString();
+                    textField1.setText(path);
+                }
 
             }
         });
@@ -59,22 +55,35 @@ public class SeleccionarArchivo {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                presentation_controller.sendPath(path);
-
-                if (path.endsWith(".txt")) {
-                    presentation_controller.switchToMetodoCompresion();
+                if (presentation_controller.getAction() == 0) { //estamos comprimiendo
+                    presentation_controller.sendPath(path);
+                    if (path.endsWith(".txt")) {
+                        presentation_controller.switchToMetodoCompresion();
+                    } else if (path.endsWith(".ppm")) {
+                        presentation_controller.setAlgorithm(3);
+                        presentation_controller.switchToJPEGselect();
+                    } else  if (presentation_controller.isFolder(path)){ //carpeta (o no)
+                        presentation_controller.setCarpeta();
+                        presentation_controller.switchToSeleccionarDestino();
+                    }
+                    else {
+                        if (presentation_controller.getAction() == 0) {
+                            JOptionPane.showMessageDialog(null, "Debes seleccionar un archivo .txt, .ppm o una carpeta");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Debes seleccionar un archivo .egg");
+                        }
+                    }
                 }
-                else if (path.endsWith(".ppm")) {
-                    presentation_controller.setAlgorithm(0);
-                    presentation_controller.switchToJPEGselect();
+                else { //estamos descomprimiendo
+                    if (path.endsWith(".egg")) {
+                        presentation_controller.sendPath(path);
+                        presentation_controller.switchToSeleccionarDestino();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "El fichero a descomprimir tiene que ser un .egg!");
+                    }
                 }
-                else { //carpeta
-                    presentation_controller.setCarpeta();
-                    presentation_controller.switchToSeleccionarDestino();
-
-                }
-
-
             }
         });
     }

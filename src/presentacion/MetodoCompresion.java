@@ -24,7 +24,7 @@ public class MetodoCompresion {
         LZ78Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                presentation_controller.setAlgorithm(1);
+                presentation_controller.setAlgorithm(0);
                 presentation_controller.switchToSeleccionarDestino();
             }
         });
@@ -39,7 +39,7 @@ public class MetodoCompresion {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                presentation_controller.setAlgorithm(3);
+                presentation_controller.setAlgorithm(1);
 
                 presentation_controller.switchToSeleccionarDestino();
             }

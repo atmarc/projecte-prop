@@ -138,7 +138,7 @@ public class Domain_Controller {
                 if (persistence_controller.isFolder(file)) {
                     writeFiles(file, files, i + 1);
                 } else {
-                    Compressor_Controller compressor = new Compressor_Controller(getBestCompressor(file));
+                    Compressor_Controller compressor = new Compressor_Controller(getBestCompressor(1, file));
                     // TODO: 8 bytes pel size potser és massa
                     long fileSize = persistence_controller.getOutputFileSize(file);
                     byte[] space = new byte[8];

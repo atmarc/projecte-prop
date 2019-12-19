@@ -410,32 +410,32 @@ public class Domain_Controller {
      * @throws Exception Ilegal argument exception TODO: <- this
      * @post En
      */
-    public void compress(String in) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", -1, (byte) -1, false);
+    public void compress(String in, boolean sobreescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", -1, (byte) -1, sobreescribir);
     }
 
-    public void compress(String in, byte ratio) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", -1, ratio, false);
+    public void compress(String in, byte ratio, boolean sobreescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", -1, ratio, sobreescribir);
     }
 
-    public void compress(String in, int alg) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", alg, (byte) -1, false);
+    public void compress(String in, int alg, boolean sobreescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", alg, (byte) -1, sobreescribir);
     }
 
-    public void compress(String in, int alg, byte ratio) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", alg, ratio, false);
+    public void compress(String in, int alg, byte ratio, boolean sobreescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", alg, ratio, sobreescribir);
     }
 
-    public void compress(String in, String out) throws Exception {
-        compress(in, out, -1, (byte) -1, false);
+    public void compress(String in, String out, boolean sobreescribir) throws Exception {
+        compress(in, out, -1, (byte) -1, sobreescribir);
     }
 
-    public void compress(String in, String out, byte ratio) throws Exception {
-        compress(in, out, -1, ratio, false);
+    public void compress(String in, String out, byte ratio, boolean sobreescribir) throws Exception {
+        compress(in, out, -1, ratio, sobreescribir);
     }
 
-    public void compress(String in, String out, int alg) throws Exception {
-        compress(in, out, alg, (byte) -1, false);
+    public void compress(String in, String out, int alg, boolean sobreescribir) throws Exception {
+        compress(in, out, alg, (byte) -1, sobreescribir);
     }
 
     public void compress(String inputPath, String outputPath, int alg, byte ratio, boolean sobrescribir) throws Exception {

@@ -17,6 +17,7 @@ public class SeleccionarDestino {
     private JTextField textField1;
     private JButton browseButton;
     private JButton OK;
+    private JCheckBox sobreescribirCheckBox;
 
     private String path;
 
@@ -25,6 +26,7 @@ public class SeleccionarDestino {
 
         panel1.setPreferredSize(new Dimension(700, 400));
 
+        sobreescribirCheckBox.setSelected(false);
 
         SELECCIONELACARPETADONDETextArea.setEditable(false);
         SELECCIONELACARPETADONDETextArea.setForeground(Color.black);
@@ -74,8 +76,16 @@ public class SeleccionarDestino {
                     presentation_controller.setOutPath(path);
                 }
                 else {
-                    path = textField1.getText();
-                    presentation_controller.setOutPath(path);
+                    path = presentation_controller.getSourcePath();
+                    path = presentation_controller.getNameNE(path);
+                    /*String sep = "\\\\";
+                    String[] split = path.split(sep);
+                    if (split.length == 1) split = path.split("//");
+                    path = split[split.length - 1];
+                    path = path.substring(0, path.length() - 4);*/
+                    System.out.println(path);
+                    String auxpath = textField1.getText();
+                    presentation_controller.setOutPath(auxpath + "\\" + path + ".egg");
 
                 }
 
@@ -90,6 +100,17 @@ public class SeleccionarDestino {
                 }
 
 
+            }
+        });
+        sobreescribirCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (sobreescribirCheckBox.isSelected()) {
+                    presentation_controller.setSobreEscribir(true);
+                }
+                else {
+                    presentation_controller.setSobreEscribir(false);
+                }
             }
         });
     }

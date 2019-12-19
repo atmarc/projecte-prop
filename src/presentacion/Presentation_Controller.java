@@ -30,6 +30,7 @@ public class Presentation_Controller {
     private String OutPath;
     private boolean acabado = true;
     private int JPEGratio = 5;
+    private boolean sobreEscribir;
 
     public Presentation_Controller () {
         this.domain_controller = new Domain_Controller();
@@ -199,19 +200,19 @@ public class Presentation_Controller {
         System.out.println(OutPath);
         if (action == 0) { //Comprimir
             if (algorithm == 0) {
-                    domain_controller.compress(SourcePath, OutPath + ".egg", 0);
+                domain_controller.compress(SourcePath, OutPath, 0);
             }
             if (algorithm == 1) {
-                    domain_controller.compress(SourcePath, OutPath + ".egg", 1);
+                domain_controller.compress(SourcePath, OutPath, 1);
             }
             if (algorithm == 2) {
-                    domain_controller.compress(SourcePath, OutPath + ".egg", 2);
+                domain_controller.compress(SourcePath, OutPath, 2);
             }
             if (algorithm == 3) { //falta ratio
-                    domain_controller.compress(SourcePath, OutPath + ".egg", 3);
+                domain_controller.compress(SourcePath, OutPath, 3);
             }
             if (algorithm == 4) {
-                    domain_controller.compress(SourcePath, OutPath + ".egg");
+                domain_controller.compress(SourcePath, OutPath);
             }
         }
         else { //Descomprimir
@@ -236,7 +237,18 @@ public class Presentation_Controller {
 
     }
 
+    public void setSobreEscribir(boolean a) {
+        sobreEscribir = a;
+    }
+    public boolean getSobreEscribir() {
+        return sobreEscribir;
+    }
+
     public boolean isFolder(String path) {
         return true;
+    }
+
+    public String getNameNE(String path) {
+        return domain_controller.getNameNE(path);
     }
 }

@@ -41,8 +41,8 @@ public class SeleccionarArchivo {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc = new JFileChooser();
-                fc.showOpenDialog(panel1);
                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                fc.showOpenDialog(panel1);
 
                 if (fc.getSelectedFile() != null) {
                     path = fc.getSelectedFile().toString();

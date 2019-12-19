@@ -10,6 +10,7 @@ public class End {
     private JLabel foto;
     private JTextArea text;
     private JButton inicioButton;
+    private JButton cerrarButton;
 
 
     public End(Presentation_Controller presentation_controller) {
@@ -31,6 +32,12 @@ public class End {
                 presentation_controller.setVariables();
                 presentation_controller.switchToWelcome();
 
+            }
+        });
+        cerrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presentation_controller.close();
             }
         });
     }

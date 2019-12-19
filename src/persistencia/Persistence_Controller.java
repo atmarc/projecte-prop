@@ -142,8 +142,13 @@ public class Persistence_Controller {
      */
     public String getNameNE(String path) {
         String name = new File(path).getName();
-        String[] parts = name.split(".");
-        return parts[0];
+        if (new File(path).isFile()) {
+            int punt = name.lastIndexOf('.');
+            return name.substring(0, punt);
+        }
+        else {
+            return name;
+        }
     }
 
     /**

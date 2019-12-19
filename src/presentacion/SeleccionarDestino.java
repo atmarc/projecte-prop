@@ -18,6 +18,7 @@ public class SeleccionarDestino {
     private JButton browseButton;
     private JButton OK;
     private JCheckBox sobreescribirCheckBox;
+    private JButton Back;
 
     private String path;
 
@@ -77,12 +78,8 @@ public class SeleccionarDestino {
                 }
                 else {
                     path = presentation_controller.getSourcePath();
+                    //if (presentation_controller.get)
                     path = presentation_controller.getNameNE(path);
-                    /*String sep = "\\\\";
-                    String[] split = path.split(sep);
-                    if (split.length == 1) split = path.split("//");
-                    path = split[split.length - 1];
-                    path = path.substring(0, path.length() - 4);*/
                     System.out.println(path);
                     String auxpath = textField1.getText();
                     presentation_controller.setOutPath(auxpath + "\\" + path + ".egg");
@@ -110,6 +107,17 @@ public class SeleccionarDestino {
                 }
                 else {
                     presentation_controller.setSobreEscribir(false);
+                }
+            }
+        });
+        Back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (presentation_controller.getAlgorithm() != 3) {
+                    presentation_controller.switchToMetodoCompresion();
+                }
+                else {
+                    presentation_controller.switchToJPEGselect();
                 }
             }
         });

@@ -47,10 +47,11 @@ public class Persistence_Controller {
     /**
      * Anade al sistema un fichero (puede ser directorio) sobre el que se pueden realizar escrituras y se la asocia un identificador.
      * @param path Ruta del fichero sobre el que se quieren realizar escrituras.
+     * @param sobreescribir Indica si se debe tener en cuenta si el archivo existe o no.
      * @return Identificador asociado al fichero.
      */
-    public int newOutputFile(String path) throws FileAlreadyExistsException {
-        OutputFile aux = new OutputFile(path);
+    public int newOutputFile(String path, boolean sobreescribir) throws FileAlreadyExistsException {
+        OutputFile aux = new OutputFile(path, sobreescribir);
         writeFiles.add(aux);
         return writeFiles.indexOf(aux);
     }
@@ -61,7 +62,7 @@ public class Persistence_Controller {
      * @return Identificador asociado al nuevo fichero.
      */
     public int newOutputFile(String name, int padre) throws Exception {
-        return newOutputFile(writeFiles.get(padre).getAbsolutePath() + '/' + name);
+        return newOutputFile(writeFiles.get(padre).getAbsolutePath() + '/' + name, false);
     }
 
     // Dir Creation
@@ -72,7 +73,7 @@ public class Persistence_Controller {
      * @return Identificador asociado al directorio anadido.
      */
     public int newDir(String path) throws Exception {
-        OutputFile aux = new OutputFile(path);
+        OutputFile aux = new OutputFile(path, false);
         if (aux.exists()) throw new FileAlreadyExistsException("Este directorio ya existe.");
         if (!aux.mkdir()) throw new Exception("No se ha podido crear el directorio " + path);
         writeFiles.add(aux);
@@ -133,6 +134,18 @@ public class Persistence_Controller {
     public String getName(int id) {
         return readFiles.get(id).getName();
     }
+
+    /**
+     * Funcion que calcula el nombre sin extension de un path concreto
+     * @param path Path del que se quiere obtener el nombre.
+     * @return Retorna el nombre del path sin la extension.
+     */
+    public String getNameNE(String path) {
+        String name = new File(path).getName();
+        String[] parts = name.split(".");
+        return parts[0];
+    }
+
     /**
      * Proporciona la extencion del archivo de lectura identificado por el identificador que recibe por parametro .
      * @param id Identificador del fichero de lectura.
@@ -369,5 +382,17 @@ public class Persistence_Controller {
         return res;
     }
 
+
+
+    public boolean containsPPM(String path) {
+
+        int[][] aux = makeHierarchy(path);
+        boolean res = false;
+        for (int i = 0; i < readFiles.size(); i++) {
+            res = res || (!isFolder(i) && getExtension(i) == "ppm");
+        }
+        clear();
+        return res;
+    }
 
 }

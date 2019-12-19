@@ -1,5 +1,6 @@
-### Cosas que tenemos que hacer y cosas que se podrian mejorar
-_Hablemos mañana sobre estos_
+# Cosas que tenemos que hacer y cosas que se podrian mejorar
+
+## _Hablemos mañana sobre estos_
 
 -[x] **Seleccionar carpetas** !!!
 -[ ] Botones para ir atras

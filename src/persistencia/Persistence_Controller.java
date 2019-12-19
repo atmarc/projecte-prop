@@ -133,6 +133,18 @@ public class Persistence_Controller {
     public String getName(int id) {
         return readFiles.get(id).getName();
     }
+
+    /**
+     * Funcion que calcula el nombre sin extension de un path concreto
+     * @param path Path del que se quiere obtener el nombre.
+     * @return Retorna el nombre del path sin la extension.
+     */
+    public String getNameNE(String path) {
+        String name = new File(path).getName();
+        String[] parts = name.split(".");
+        return parts[0];
+    }
+
     /**
      * Proporciona la extencion del archivo de lectura identificado por el identificador que recibe por parametro .
      * @param id Identificador del fichero de lectura.
@@ -368,6 +380,8 @@ public class Persistence_Controller {
 
         return res;
     }
+
+
 
     public boolean containsPPM(String path) {
 

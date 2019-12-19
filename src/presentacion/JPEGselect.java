@@ -10,6 +10,7 @@ public class JPEGselect {
     private JSlider slider1;
     private JButton OKButton;
     private JTextArea seleccioneElRadioDeTextArea;
+    private JButton Back;
 
     public JPEGselect(Presentation_Controller presentation_controller) {
 
@@ -31,6 +32,12 @@ public class JPEGselect {
                 //presentation_controller.sendJPEGvalue(slider1.getValue());
                 presentation_controller.setJPEGratio(slider1.getValue());
                 presentation_controller.switchToSeleccionarDestino();
+            }
+        });
+        Back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presentation_controller.switchToSeleccionarArchivo();
             }
         });
     }

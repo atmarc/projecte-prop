@@ -13,6 +13,7 @@ public class MetodoCompresion {
     private JButton LZWButton;
     private JTextArea MÉTODODECOMPRESIÓNTextArea;
     private JButton LZSSButton;
+    private JButton Back;
 
     public MetodoCompresion(Presentation_Controller presentation_controller) {
 
@@ -51,6 +52,12 @@ public class MetodoCompresion {
                 presentation_controller.setAlgorithm(4);
 
                 presentation_controller.switchToSeleccionarDestino();
+            }
+        });
+        Back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presentation_controller.switchToSeleccionarArchivo();
             }
         });
     }

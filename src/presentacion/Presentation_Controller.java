@@ -5,7 +5,9 @@ import persistencia.Persistence_Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.Random;
+
 
 public class Presentation_Controller {
 
@@ -58,8 +60,6 @@ public class Presentation_Controller {
         SourcePath = s;
     }
 
-    //public void sendJPEGvalue(int a) {domain_controller.sendJPEGvalue(a);}
-
     public void switchToMetodoCompresion () {
 
         metodoCompresion = new MetodoCompresion(this);
@@ -100,6 +100,7 @@ public class Presentation_Controller {
         frame.setVisible(false);
         frame.setContentPane(seleccionarArchivo.getPanel1());
         frame.setVisible(true);
+
     }
 
     public void switchToEnd() {
@@ -110,6 +111,11 @@ public class Presentation_Controller {
         frame.setVisible(true);
     }
 
+    public void switchToWelcome() {
+        frame.setVisible(false);
+        frame.setContentPane(welcome.getPanel1());
+        frame.setVisible(true);
+    }
     public void setFrame(Label label) {
         frame.getContentPane().add(label);
     }
@@ -163,11 +169,6 @@ public class Presentation_Controller {
         }
     }
 
-    public void switchToWelcome() {
-        frame.setVisible(false);
-        frame.setContentPane(welcome.getPanel1());
-        frame.setVisible(true);
-    }
 
     public void setAction(int a) {
         action = a;
@@ -196,6 +197,7 @@ public class Presentation_Controller {
     }
 
     public void sendInfo() throws Exception {
+
         //switchToLoading();
         System.out.println(OutPath);
         if (action == 0) { //Comprimir
@@ -216,7 +218,7 @@ public class Presentation_Controller {
             }
         }
         else { //Descomprimir
-            domain_controller.decompress(SourcePath, OutPath, false);
+            domain_controller.decompress(SourcePath, OutPath, sobreEscribir);
         }
         switchToEnd();
     }
@@ -250,5 +252,17 @@ public class Presentation_Controller {
 
     public String getNameNE(String path) {
         return domain_controller.getNameNE(path);
+    }
+
+    public int getAlgorithm() {
+        return algorithm;
+    }
+
+    public void close() {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+
+    public boolean getIsFolder() {
+        return carpeta;
     }
 }

@@ -15,6 +15,7 @@ public class SeleccionarArchivo {
     private JTextPane EGGCOMPRESSORTextPane;
     private JButton OKButton;
     private JTextArea EGGCOMPRESSORTextArea;
+    private JButton Back;
     private Presentation_Controller presentation_controller;
 
 
@@ -84,6 +85,12 @@ public class SeleccionarArchivo {
                         JOptionPane.showMessageDialog(null, "El fichero a descomprimir tiene que ser un .egg!");
                     }
                 }
+            }
+        });
+        Back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presentation_controller.switchToWelcome();
             }
         });
     }

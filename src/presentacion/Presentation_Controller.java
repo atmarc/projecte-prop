@@ -216,7 +216,7 @@ public class Presentation_Controller {
             }
         }
         else { //Descomprimir
-            domain_controller.decompress(SourcePath, OutPath);
+            domain_controller.decompress(SourcePath, OutPath, false);
         }
         switchToEnd();
     }

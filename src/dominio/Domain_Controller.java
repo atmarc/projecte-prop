@@ -240,7 +240,7 @@ public class Domain_Controller {
         return res | i;
     }
 
-    private int[][] makeHierarchy(String inputPath, String outputPath) throws Exception {
+    private int[][] makeHierarchy(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
         Hierarchy h = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = h.getRoot();
         // Calcular el tamano del 'folder' header
@@ -252,7 +252,7 @@ public class Domain_Controller {
         if (headerSize == 0) {
             // Si es un solo fichero el header se acaba aqui
             nrFiles = 1;
-            int out = persistence_controller.newOutputFile(outputPath);
+            int out = persistence_controller.newOutputFile(outputPath, sobrescribir);
             return new int[][]{{0},{out}};
         }
         aux = new byte[2];
@@ -411,38 +411,38 @@ public class Domain_Controller {
      * @post En
      */
     public void compress(String in) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", -1, (byte) -1);
+        compress(in, getPathAndName(in) + ".egg", -1, (byte) -1, false);
     }
 
     public void compress(String in, byte ratio) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", -1, ratio);
+        compress(in, getPathAndName(in) + ".egg", -1, ratio, false);
     }
 
     public void compress(String in, int alg) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", alg, (byte) -1);
+        compress(in, getPathAndName(in) + ".egg", alg, (byte) -1, false);
     }
 
     public void compress(String in, int alg, byte ratio) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", alg, ratio);
+        compress(in, getPathAndName(in) + ".egg", alg, ratio, false);
     }
 
     public void compress(String in, String out) throws Exception {
-        compress(in, out, -1, (byte) -1);
+        compress(in, out, -1, (byte) -1, false);
     }
 
     public void compress(String in, String out, byte ratio) throws Exception {
-        compress(in, out, -1, ratio);
+        compress(in, out, -1, ratio, false);
     }
 
     public void compress(String in, String out, int alg) throws Exception {
-        compress(in, out, alg, (byte) -1);
+        compress(in, out, alg, (byte) -1, false);
     }
 
-    public void compress(String inputPath, String outputPath, int alg, byte ratio) throws Exception {
+    public void compress(String inputPath, String outputPath, int alg, byte ratio, boolean sobrescribir) throws Exception {
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = H.getRoot();
-        int out = persistence_controller.newOutputFile(outputPath);
+        int out = persistence_controller.newOutputFile(outputPath, sobrescribir);
 
         writeFolderMetadata(in, H);
         for (int id : H.getLeafs()) {
@@ -463,9 +463,9 @@ public class Domain_Controller {
 
     ///////////////////
     // Decompression
-    public void decompress(String inputPath, String outputPath) throws Exception {
+    public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
         persistence_controller.clear();
-        Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath));
+        Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath, sobrescribir));
         int in = H.getRoot();
         ArrayList<Integer> q = H.getLeafs();
         for (int id : H.getLeafs()) {

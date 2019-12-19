@@ -44,8 +44,10 @@ public class SeleccionarArchivo {
                 fc.showOpenDialog(panel1);
                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-                path = fc.getSelectedFile().toString();
-                textField1.setText(path);
+                if (fc.getSelectedFile() != null) {
+                    path = fc.getSelectedFile().toString();
+                    textField1.setText(path);
+                }
 
             }
         });
@@ -60,9 +62,17 @@ public class SeleccionarArchivo {
                     } else if (path.endsWith(".ppm")) {
                         presentation_controller.setAlgorithm(3);
                         presentation_controller.switchToJPEGselect();
-                    } else { //carpeta (o no)
+                    } else  if (presentation_controller.isFolder(path)){ //carpeta (o no)
                         presentation_controller.setCarpeta();
                         presentation_controller.switchToSeleccionarDestino();
+                    }
+                    else {
+                        if (presentation_controller.getAction() == 0) {
+                            JOptionPane.showMessageDialog(null, "Debes seleccionar un archivo .txt, .ppm o una carpeta");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Debes seleccionar un archivo .egg");
+                        }
                     }
                 }
                 else { //estamos descomprimiendo

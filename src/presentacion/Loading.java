@@ -7,12 +7,9 @@ public class Loading {
     private JLabel gifLabel;
 
     public Loading(Presentation_Controller presentation_controller) {
-
+        System.out.println("loading");
         ImageIcon icon = presentation_controller.getIcon();
         gifLabel.setIcon(icon);
-
-
-
     }
 
 

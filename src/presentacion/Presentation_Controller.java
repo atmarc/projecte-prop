@@ -194,47 +194,29 @@ public class Presentation_Controller {
         return SourcePath;
     }
 
-    public void sendInfo() {
+    public void sendInfo() throws Exception {
+        switchToLoading();
         if (action == 0) { //Comprimir
             if (algorithm == 0) {
-                try {
                     domain_controller.compress(SourcePath, OutPath, 0);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
             if (algorithm == 1) {
-                try {
                     domain_controller.compress(SourcePath, OutPath, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
             if (algorithm == 2) {
-                try {
                     domain_controller.compress(SourcePath, OutPath, 2);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
             if (algorithm == 3) { //falta ratio
-                try {
                     domain_controller.compress(SourcePath, OutPath, 3);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
             if (algorithm == 4) {
-                try {
                     domain_controller.compress(SourcePath, OutPath);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         }
         else { //Descomprimir
-
+            domain_controller.decompress(SourcePath, OutPath);
         }
+        switchToEnd();
     }
 
     public boolean getAcabado() {
@@ -247,5 +229,13 @@ public class Presentation_Controller {
 
     public void setJPEGratio(int a) {
         JPEGratio = a;
+    }
+
+    public void setVariables() {
+
+    }
+
+    public boolean isFolder(String path) {
+        return true;
     }
 }

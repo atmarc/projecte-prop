@@ -344,6 +344,9 @@ public class Persistence_Controller {
     public boolean isFolder (int id) {
         return readFiles.get(id).isDirectory();
     }
+    public boolean isFolder(String path) {
+        return new File(path).isDirectory();
+    }
     /**
      * Funcion que retorna una lista con todos los ficheros que contiene una carpeta.
      * @pre El entero que identifica el archivo ya esta introducido en el sistema (readFiles) y este es un directorio.

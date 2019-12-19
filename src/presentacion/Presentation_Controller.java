@@ -236,7 +236,8 @@ public class Presentation_Controller {
     }
 
     public void setVariables() {
-
+        sobreEscribir = false;
+        carpeta = false;
     }
 
     public void setSobreEscribir(boolean a) {
@@ -247,7 +248,7 @@ public class Presentation_Controller {
     }
 
     public boolean isFolder(String path) {
-        return true;
+        return domain_controller.isFolder(path);
     }
 
     public String getNameNE(String path) {

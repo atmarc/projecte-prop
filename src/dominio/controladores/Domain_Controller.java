@@ -113,6 +113,10 @@ public class Domain_Controller {
     public String getNameNE(String path) {
         return persistence_controller.getNameNE(path);
     }
+
+    public boolean isFolder(String path) {
+        return persistence_controller.isFolder(path);
+    }
     ///////////////////////////
     // Metodos auxiliares
 

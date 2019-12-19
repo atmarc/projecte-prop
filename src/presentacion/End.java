@@ -32,6 +32,7 @@ public class End {
                 presentation_controller.setVariables();
                 presentation_controller.switchToWelcome();
 
+
             }
         });
         cerrarButton.addActionListener(new ActionListener() {

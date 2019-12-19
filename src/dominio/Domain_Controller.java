@@ -110,6 +110,9 @@ public class Domain_Controller {
         decompressor_controller.startDecompression(in, out);
     }
 
+    public String getNameNE(String path) {
+        return persistence_controller.getNameNE(path);
+    }
     ///////////////////////////
     // Metodos auxiliares
 

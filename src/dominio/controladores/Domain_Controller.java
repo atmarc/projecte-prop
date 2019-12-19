@@ -373,7 +373,7 @@ public class Domain_Controller {
         ArrayList<Integer> getLeafsAux(int i) {
             ArrayList<Integer> crr = rep.get(i);
             ArrayList<Integer> res = new ArrayList<>();
-            if (crr.isEmpty())
+            if (crr.isEmpty() && m[0][i] == 0)
                 res.add(i);
             else {
                 for (Integer v : crr) {

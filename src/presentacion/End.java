@@ -11,20 +11,30 @@ public class End {
     private JTextArea text;
     private JButton inicioButton;
     private JButton cerrarButton;
+    private JTextArea Estadisticas;
 
 
     public End(Presentation_Controller presentation_controller) {
 
 
-        panel1.setPreferredSize(new Dimension(700, 400));
+        panel1.setSize(new Dimension(400, 700));
 
         System.out.println("hola2");
         String path = presentation_controller.getOutPath();
-        text.append(path);
+        text.append(path + "\n");
         text.setEditable(false);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("egg/resized3.gif"));
         foto.setIcon(icon);
+
+        Estadisticas.setEditable(false);
+        Estadisticas.append("La operación ha tardado " + presentation_controller.getTime() +"milisegundos\n");
+        if (presentation_controller.getAction() == 0) {
+            Estadisticas.append("y el ratio de compresión ha sido de " + presentation_controller.getRatio());
+        }
+
+
+
 
         inicioButton.addActionListener(new ActionListener() {
             @Override

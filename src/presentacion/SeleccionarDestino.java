@@ -33,7 +33,9 @@ public class SeleccionarDestino {
         SELECCIONELACARPETADONDETextArea.setEditable(false);
         SELECCIONELACARPETADONDETextArea.setForeground(Color.black);
 
-        nombreTextField.setVisible(false);
+
+            nombreTextField.setVisible(true);
+            nombreTextField.setText(presentation_controller.getNameNE(presentation_controller.getSourcePath()));
 
         ButtonGroup group = new ButtonGroup();
         group.add(radioButton1);
@@ -77,20 +79,26 @@ public class SeleccionarDestino {
             public void actionPerformed(ActionEvent e) {
                 if (radioButton1.isSelected()) {
                     path = presentation_controller.getSourcePath();
-                    path = path.substring(0, path.length() - 4);
-                    path = path + ".egg";
+
+                    int lastbarra = path.lastIndexOf("\\");
+                    path = path.substring(0, lastbarra);
                     System.out.println(path);
-                    presentation_controller.setOutPath(path);
+                    String archivo = nombreTextField.getText();
+                    archivo = "\\" + archivo + ".egg";
+                    presentation_controller.setOutPath(path + archivo);
                 }
                 else {
-                    path = presentation_controller.getSourcePath();
-                    //if (presentation_controller.get)
-                    path = presentation_controller.getNameNE(path);
+                    //path = presentation_controller.getSourcePath();
+                    path = textField1.getText();
+                    int lastbarra = path.lastIndexOf("\\");
+                    path = path.substring(0, lastbarra);
                     System.out.println(path);
-                    String auxpath = textField1.getText();
-                    presentation_controller.setOutPath(auxpath + "\\" + path + ".egg");
-
+                    String archivo = nombreTextField.getText();
+                    archivo = "\\" + archivo + ".egg";
+                    presentation_controller.setOutPath(path + archivo);
                 }
+
+                presentation_controller.setName(nombreTextField.getText());
 
                 try {
                     presentation_controller.sendInfo();
@@ -139,11 +147,7 @@ public class SeleccionarDestino {
         radioButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (presentation_controller.getAction() == 1) {
-                    //esta descomprimiendo
-                    nombreTextField.setVisible(true);
-                    nombreTextField.setText(presentation_controller.getNameNE(presentation_controller.getSourcePath()));
-                }
+
             }
         });
     }

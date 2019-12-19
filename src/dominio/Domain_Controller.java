@@ -161,6 +161,13 @@ public class Domain_Controller {
         }
     }
 
+    /**
+     * Calcula el algoritmo de compression en dependencia de sus pararmtros
+     * @param in identificador del fichero a comprimir
+     * @param alg el algoritmo con el que se tiene que comprimir
+     * @return Si 0 <= alg <= 3, retorna el algoritmo correspondiente si
+     no retorna el algoritmo mas adecuado para este fichero
+     */
     private int getBestCompressor(int in, int alg) {
         String ext = persistence_controller.getExtension(in);
         if (ext.equals("ppm"))

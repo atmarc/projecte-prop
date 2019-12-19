@@ -1,13 +1,15 @@
-all: Application
+all: General
 
 TT:
 	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/" tests/*.java -d bin/
 
-Application:
-	javac src/*/*.java -d bin/
+General:
+	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/"  src/*/*/*.java -d bin/
+	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/"  src/presentacion/*.java -d bin/
+	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/"  src/Main.java -d bin/presentacion/
 
 run:
-	java -cp "bin/" presentacion.Application
+	java -cp "bin/presentacion/"  Main
 
 run-tests-lzw:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZWTest

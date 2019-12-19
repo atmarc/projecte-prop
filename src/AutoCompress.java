@@ -50,7 +50,7 @@ public class AutoCompress {
                 Domain_Controller domain_controller = new Domain_Controller();
                 domain_controller.setPersistence_controller(persistence_controller);
 
-                domain_controller.compress(inputPath, outputPath, j);
+                domain_controller.compress(inputPath, outputPath, j, false);
             }
         }
     }

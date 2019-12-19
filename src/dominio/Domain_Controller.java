@@ -176,7 +176,7 @@ public class Domain_Controller {
         String ext = persistence_controller.getExtension(in);
         if (ext.equals("ppm"))
             return 3;
-        else if (ext.equals("txt")) {
+        else  {
             if (alg >= 0 && alg <= 2)
                 return alg;
             else {
@@ -190,9 +190,8 @@ public class Domain_Controller {
                 else
                     return 0;
             }
-        } else
-            throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
-    }
+        } 
+   }
 
     /**
      * Calcula la direccion y el nombre de un fichero eliminando la extension
@@ -215,12 +214,14 @@ public class Domain_Controller {
      */
     private void writeFolderMetadata(int id, Hierarchy h) {
         persistence_controller.writeBytes(id, h.toByteArray());
-        if (!h.isFile()) {
-            for (int i : h.getFilesList()) {
-                if (i != h.getRoot()) {
-                    persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
-                    persistence_controller.writeByte(id, (byte) '\n');
-                }
+        int root = h.getRoot();
+        if (!persistence_controller.isFolder(root)) 
+            persistence_controller.writeBytes(id, persistence_controller.getExtension(root).getBytes());
+        persistence_controller.writeByte(id, (byte) '\n');
+        for (int i : h.getFilesList()) {
+            if (i != h.getRoot()) {
+                persistence_controller.writeBytes(id, persistence_controller.getName(i).getBytes());
+                persistence_controller.writeByte(id, (byte) '\n');
             }
         }
     }
@@ -251,8 +252,13 @@ public class Domain_Controller {
         int nrFiles;
         if (headerSize == 0) {
             // Si es un solo fichero el header se acaba aqui
-            nrFiles = 1;
-            int out = persistence_controller.newOutputFile(outputPath, sobrescribir);
+            char c;
+            StringBuilder type = new StringBuilder();
+            while ((c = (char) persistence_controller.readByte(in)) != '\n') type.append(c);
+            int out;
+            if (type.length() != 0)
+                out = persistence_controller.newOutputFile(outputPath + '.' + type.toString(), sobrescribir);
+            else out = persistence_controller.newOutputFile(outputPath, sobrescribir);
             return new int[][]{{0},{out}};
         }
         aux = new byte[2];
@@ -268,11 +274,13 @@ public class Domain_Controller {
         }
         int[] corr = new int[nrFiles];
         int pos = 0;
-
-        corr[pos++] = persistence_controller.newDir(outputPath);
+        char c;
+        StringBuilder type = new StringBuilder();
+        while ((c = (char) persistence_controller.readByte(in)) != '\n') type.append(c);
+        if (type.length() == 0) corr[pos++] = persistence_controller.newDir(outputPath);
+        else corr[pos++] = persistence_controller.newDir(outputPath + '.' + type);
         for (int i = 1; i < nrFiles; ++i) {
             StringBuilder fileName = new StringBuilder();
-            char c;
             while ((c = (char)persistence_controller.readByte(in)) != '\n') fileName.append(c);
             if (res[0][i] == 1) corr[pos++] = persistence_controller.newDir(fileName.toString(), res[1][i]);
             else corr[pos++] = persistence_controller.newOutputFile(fileName.toString(), res[1][i]);
@@ -403,6 +411,7 @@ public class Domain_Controller {
 
     ///////////////////
     // Compression
+
     /**
      * Comprime un fichero con el algoritmo mas adecuado.
      * @pre El fichero in existe y es de
@@ -463,6 +472,7 @@ public class Domain_Controller {
 
     ///////////////////
     // Decompression
+
     public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath, sobrescribir));
@@ -480,11 +490,7 @@ public class Domain_Controller {
             dc.startDecompression(in, id);
             persistence_controller.rmReadLimit(in);
         }
-        try {
-            persistence_controller.closeReader(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        persistence_controller.closeReader(in);
     }
 
     public byte[] longToByteArr(long l) {

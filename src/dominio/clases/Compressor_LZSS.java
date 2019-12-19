@@ -20,7 +20,7 @@ public class Compressor_LZSS extends Compressor {
 
 
     private HashMap<Byte, ArrayList<Integer>> searchB2 = new HashMap<>();
-    private ArrayList<Pair<Integer,Byte>> act = new ArrayList<>();
+    private ArrayList<Pair> act = new ArrayList<>();
 
     /**
      * @pre
@@ -57,7 +57,8 @@ public class Compressor_LZSS extends Compressor {
                 ArrayList<Integer> a = new ArrayList<>();
                 a.add(i);
                 searchB2.put(itemb[i], a);
-                act.add(new Pair(i, itemb[i]));
+                Pair aux = new Pair(i, itemb[i]);
+                act.add(aux);
                 //4501 n
 
             }
@@ -218,7 +219,7 @@ public class Compressor_LZSS extends Compressor {
 
     public void actualitzar(int pos) {
         while (act.size() > 4095) {
-            Pair<Integer, Byte> aux = act.get(0);
+            Pair aux = act.get(0);
             int bor = aux.getL();
             byte Bybor = aux.getR();
             act.remove(0);

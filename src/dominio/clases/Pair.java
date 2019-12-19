@@ -1,6 +1,6 @@
 package dominio.clases;
 
-public class Pair<L,R> {
+public class Pair {
     private Integer l;
     private Byte r;
     public Pair(Integer l, Byte r){

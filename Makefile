@@ -4,12 +4,11 @@ TT:
 	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/" tests/*.java -d bin/
 
 General:
-	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/"  src/*/*/*.java -d bin/
-	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/"  src/presentacion/*.java -d bin/
-	javac -classpath "./lib/junit-4.12.jar:hamcrest-core-1.3.jar:src/"  src/Main.java -d bin/presentacion/
+	javac -cp "src/:./lib/*"  src/*/*/*.java -d bin/
+	javac -cp "src/:./lib/*"  src/Main.java -d bin/
 
 run:
-	java -cp "bin/presentacion/"  Main
+	java -cp "bin/:bin/presentation:src/:./lib/*" -Djavax.accessibility.assistive_technologies=" " Main
 
 run-tests-lzw:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZWTest

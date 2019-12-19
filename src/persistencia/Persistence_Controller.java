@@ -369,5 +369,15 @@ public class Persistence_Controller {
         return res;
     }
 
+    public boolean containsPPM(String path) {
+
+        int[][] aux = makeHierarchy(path);
+        boolean res = false;
+        for (int i = 0; i < readFiles.size(); i++) {
+            res = res || (!isFolder(i) && getExtension(i) == "ppm");
+        }
+        clear();
+        return res;
+    }
 
 }

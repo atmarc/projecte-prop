@@ -1,12 +1,10 @@
-package dominio;
+package dominio.clases;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /*!
  *  \brief     Clase que realiza la decompresión de un texto comprimido mediante el algoritmo LZSS. El comportamiento

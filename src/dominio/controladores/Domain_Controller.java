@@ -1,4 +1,4 @@
-package dominio;
+package dominio.controladores;
 
 import persistencia.Persistence_Controller;
 

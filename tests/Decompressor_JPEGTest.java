@@ -1,4 +1,4 @@
-import dominio.*;
+import dominio.controladores.Decompressor_Controller;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;

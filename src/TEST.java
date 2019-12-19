@@ -1,8 +1,4 @@
-import dominio.Domain_Controller;
-import persistencia.Persistence_Controller;
-import presentacion.Presentation_Controller;
-
-import java.util.Scanner;
+import dominio.controladores.Domain_Controller;
 
 class TEST {
     public static void main(String[] args) throws Exception {

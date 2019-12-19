@@ -1,4 +1,5 @@
-import dominio.*;
+import dominio.controladores.Compressor_Controller;
+import dominio.controladores.Decompressor_Controller;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 

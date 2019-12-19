@@ -1,4 +1,6 @@
-import dominio.*;
+import dominio.controladores.Compressor_Controller;
+import dominio.controladores.Decompressor_Controller;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;

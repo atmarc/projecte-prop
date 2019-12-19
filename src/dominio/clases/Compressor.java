@@ -1,6 +1,6 @@
-package dominio;
+package dominio.clases;
 
-import java.io.IOException;
+import dominio.controladores.Compressor_Controller;
 
 /**
  * Clase con metodos abstractos para implementar un compresor. Contiene una variable que hace referencia a su controlador para poder comunicarse con otras capas.

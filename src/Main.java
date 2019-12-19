@@ -1,8 +1,7 @@
-import dominio.Compressor_Controller;
-import dominio.Decompressor_Controller;
-import dominio.Domain_Controller;
+import dominio.controladores.Compressor_Controller;
+import dominio.controladores.Decompressor_Controller;
+import dominio.controladores.Domain_Controller;
 import persistencia.Persistence_Controller;
-import java.io.*;
 
 public class Main {
 

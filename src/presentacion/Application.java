@@ -1,10 +1,9 @@
 package presentacion;
-import dominio.Domain_Controller;
+import dominio.controladores.Domain_Controller;
 import persistencia.Persistence_Controller;
 
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Application {

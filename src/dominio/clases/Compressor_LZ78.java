@@ -1,4 +1,4 @@
-package dominio;
+package dominio.clases;
 import java.util.ArrayList;
 /*!
  *  \brief     Extension de la clase Compressor mediante el algoritmo LZ-78.

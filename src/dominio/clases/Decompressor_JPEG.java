@@ -1,8 +1,4 @@
-package dominio;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+package dominio.clases;
 import java.util.ArrayList;
 
 /*!

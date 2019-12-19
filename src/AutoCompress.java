@@ -1,9 +1,8 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import dominio.Domain_Controller;
+import dominio.controladores.Domain_Controller;
 import persistencia.Persistence_Controller;
 
 public class AutoCompress {

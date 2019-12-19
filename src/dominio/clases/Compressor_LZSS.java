@@ -1,5 +1,4 @@
-package dominio;
-import java.io.IOException;
+package dominio.clases;
 import java.util.*;
 
 /*!

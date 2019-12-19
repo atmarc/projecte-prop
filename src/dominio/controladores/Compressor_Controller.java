@@ -1,17 +1,19 @@
-package dominio;
+package dominio.controladores;
+import dominio.clases.*;
 
 import java.io.*;
 
+
 /*!
- *  \brief     Clase encargada de comunicar los descompresores con otras capas (presentacion y persistencia). Proporciona metodos de entrada y salida ademas realizar el calculo de las estadisticas.
+ *  \brief     Clase encargada de comunicar los compresores con otras capas (presentacion y persistencia). Proporciona metodos de entrada y salida ademas realizar el calculo de las estadisticas.
  *  \details
  *  \author    Edgar Perez
  */
-public class Decompressor_Controller {
+public class Compressor_Controller {
 
-    public Decompressor decompressor;               ///< Referencia al objeto descompresor
+    private Compressor compressor;                  ///< Referencia al objeto compresor.
     private Domain_Controller domain_controller;    ///< Referencia a la controladora del dominio.
-    private long time;                              ///< Tiempo transcurrido durante la descompresion.
+    private long time;                              ///< Tiempo transcurrido durante la compresion.
     private int inputFile;                          ///< Identificador del archivo original a comprimir.
     private int outputFile;                         ///< Identificador del archivo sobre el que escribir la compresion.
 
@@ -36,86 +38,69 @@ public class Decompressor_Controller {
     }
 
     /**
-     * Constructora que en base al tipo de archivo de comprimido, crea un tipo de descompresor u otro.
-     * @param extension Extension del archivo comprimido sobre el que se desea realizar una descompresion.
+     * Constructora que en base al tipo de algoritmo de compresion escogido, crea un tipo de compresor u otro.
+     * @param alg Entero identificador del tipo de algoritmo que se desea utilizar para comprimir.
      */
-    public Decompressor_Controller(String extension) {
-
-        switch (extension){
-            case "lz78":
-                decompressor = new Decompressor_LZ78();
-                break;
-            case "lzss":
-                decompressor = new Decompressor_LZSS();
-                break;
-            case "lzw":
-                decompressor = new Decompressor_LZW();
-                break;
-            case "jpeg":
-                decompressor = new Decompressor_JPEG();
-                break;
-            default:
-                throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
-        }
-
-        decompressor.setController(this);
-    }
-
-    /**
-     * Constructora que en base al tipo de archivo de comprimido, crea un tipo de descompresor u otro.
-     * @param alg Extension del archivo comprimido sobre el que se desea realizar una descompresion.
-     */
-    public Decompressor_Controller(int alg) {
-
-        switch (alg){
+    public Compressor_Controller(int alg) {
+        switch (alg) {
             case 0:
-                decompressor = new Decompressor_LZ78();
+                compressor = new Compressor_LZ78();
                 break;
             case 1:
-                decompressor = new Decompressor_LZSS();
+                compressor = new Compressor_LZSS();
                 break;
             case 2:
-                decompressor = new Decompressor_LZW();
+                compressor = new Compressor_LZW();
                 break;
             case 3:
-                decompressor = new Decompressor_JPEG();
+                compressor = new Compressor_JPEG();
                 break;
             default:
-                throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch extension)");
+                throw new IllegalArgumentException("Ha habido un error durante la ejecucion (switch alg)");
         }
 
-        decompressor.setController(this);
+        compressor.setController(this);
     }
 
+    public Compressor_Controller(Compressor cmp) {
+        compressor = cmp;
+        compressor.setController(this);
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////   Decompression   //////////////////////////////////////////////////
+    /////////////////////////////////////////////////   Compression   //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Inicia la descompresion del archivo referenciado por el identificador
-     * @param in Identificador del archivo a descomprimir.
+     * Inicia la compresion del archivo referenciado por el path inputPath hacia un nuevo archivo en outputPath
+     * @param in Identificador del archivo a comprimir.
      * @param out Identificador del archivo sobre el que escribir la compresion.
      */
-    public void startDecompression(int in, int out) throws Exception {
+    public void startCompression(int in, int out) throws Exception {
+        startCompression(in, out, (byte) -1);
+    }
+
+    public void startCompression(int in, int out, byte ratio) throws Exception {
 
         setInputFile(in);
         setOutputFile(out);
-        System.out.println("Decompression IN PROGRESS");
+
+        System.out.println("Compression IN PROGRESS");
 
         time = System.currentTimeMillis();
-        decompressor.decompress();
+        if (ratio != -1) compressor.compress(ratio);
+        else compressor.compress();
         time = System.currentTimeMillis() - time;
 
-        // closeReader(); // Perillos
-        closeWriter();
+        domain_controller.closeReader(inputFile);
 
-        System.out.println("Decompression DONE");
+
+        System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
-
+        System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////  Post-Decompression Consultants   /////////////////////////////////////////
+    //////////////////////////////////////////  Post-Compression Consultants   /////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -124,6 +109,13 @@ public class Decompressor_Controller {
      */
     public long getTime() {
         return time;
+    }
+    /**
+     * Getter del ratio de compresion absoluto de la compresion realizada.
+     * @return Ratio de compresion absoluto de la compresion realizada.
+     */
+    public double getCompressionRatio() {
+        return (double) domain_controller.getOutputFileSize(outputFile)/(double) domain_controller.getInputFileSize(inputFile);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +126,7 @@ public class Decompressor_Controller {
      * Lee un byte del fichero origen.
      * @return Entero que contiene el byte leido o -1 si no habia nada que leer.
      */
-    protected int readByte() {
+    public int readByte() {
         return domain_controller.readByte(inputFile);
     }
     /**
@@ -152,13 +144,13 @@ public class Decompressor_Controller {
      * @return Cadena de bytes con todos los bytes del fichero origen.
      * @throws IOException
      */
-    protected byte[] readAllBytes() throws Exception {
+    public byte[] readAllBytes() throws Exception {
         return domain_controller.readAllBytes(inputFile);
     }
     /**
      * Cierra el buffer de lectura.
      */
-    protected void closeReader() {
+    public void closeReader() {
         try {
             domain_controller.closeReader(inputFile);
         } catch (IOException e) {
@@ -168,7 +160,7 @@ public class Decompressor_Controller {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////  Escritura   ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////  Escritura   //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -182,7 +174,7 @@ public class Decompressor_Controller {
      * Escribe una cadena de bytes en el fichero de salida.
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
-    protected void writeBytes(byte[] word) {
+    public void writeBytes(byte[] word) {
         domain_controller.writeBytes(outputFile, word);
     }
     /**
@@ -195,4 +187,5 @@ public class Decompressor_Controller {
             e.printStackTrace();
         }
     }
+
 }

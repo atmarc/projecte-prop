@@ -1,4 +1,4 @@
-import dominio.Compressor_Controller;
+import dominio.controladores.Compressor_Controller;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;

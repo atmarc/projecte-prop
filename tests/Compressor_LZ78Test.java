@@ -1,4 +1,5 @@
-import dominio.*;
+import dominio.clases.Compressor_LZ78;
+import dominio.clases.Tree;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -52,19 +52,19 @@ public class Decompressor_JPEG extends Decompressor {
 
         while (index < valors.size()) {
             Block blockY = new Block(8, 8, "Y", COMPRESS_RATIO);
-            index += readBlock(blockY, valors, index);
+            index += blockY.zigzagInvers(valors, index);
             blockY.inverseQuantizationY();
             blockY.inverseDCT();
             arrayOfBlocksY[bi][bj] = blockY;
 
             Block blockCb = new Block(8, 8, "Cb", COMPRESS_RATIO);
-            index += readBlock(blockCb, valors, index);
+            index += blockCb.zigzagInvers(valors, index);
             blockCb.inverseQuantizationC();
             blockCb.inverseDCT();
             arrayOfBlocksCb[bi][bj] = blockCb;
 
             Block blockCr = new Block(8, 8, "Cr", COMPRESS_RATIO);
-            index += readBlock(blockCr, valors, index);
+            index += blockCr.zigzagInvers(valors, index);
             blockCr.inverseQuantizationC();
             blockCr.inverseDCT();
             arrayOfBlocksCr[bi][bj] = blockCr;
@@ -169,16 +169,4 @@ public class Decompressor_JPEG extends Decompressor {
         }
     }
 
-    /**
-     * Funcion que lee un bloque.
-     * @pre data contiene el contenido del archivo y el parámetro i < data.size().
-     * @post devuelve un bloque con los valores leidos
-     * @param data Array de la que se leen los datos.
-     * @param i Indice del array en el que se empieza a leer.
-     * @param tipus Tipo de bloque que vamos a leer.
-     * @return Devuelve el bloque con todos los valores leidos de data.
-     */
-    private static int readBlock(Block block, ArrayList<Integer> data, int i) {
-        return block.zigzagInvers(data, i);
-    }
 }

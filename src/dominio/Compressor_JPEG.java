@@ -30,12 +30,22 @@ public class Compressor_JPEG extends Compressor {
         return ".jpeg";
     }
 
+    /**
+     * Atributo que representa el nivel de compresión del JPEG
+     */
     private int COMPRESS_RATIO;
 
+    /**
+     * Nueva constructora que setea el nivel de compresión a 5 (50%)
+     */
     public Compressor_JPEG () {
         this.COMPRESS_RATIO = 5;
     }
 
+    /**
+     * Función que llama la función compress(int ratio) de la clase Compressor para cambiar el nivel de compresión
+     * @param ratio
+     */
     public void setCompressRatio(int ratio) {
         this.COMPRESS_RATIO = ratio;
     }

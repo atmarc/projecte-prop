@@ -14,8 +14,10 @@ import static java.lang.Math.*;
  */
 public class Block {
 
+    /**
+     * Valor que es la marca que indica que a partir de aquí empieza a haber solo zeros.
+     */
     static final int beginZeros = 32767;
-    static int countador = 0;
     /**
      * Valores originales del bloque
      */

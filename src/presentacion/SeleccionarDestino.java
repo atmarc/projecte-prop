@@ -79,26 +79,33 @@ public class SeleccionarDestino {
         OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String separador = "\\";
                 if (radioButton1.isSelected()) {
                     path = presentation_controller.getSourcePath();
 
-                    int lastbarra = path.lastIndexOf("\\");
-                    if (lastbarra < 0) lastbarra = path.lastIndexOf("/");
+                    int lastbarra = path.lastIndexOf(separador);
+                    if (lastbarra < 0) {
+                        separador = "/";
+                        lastbarra = path.lastIndexOf(separador);
+                    }
                     path = path.substring(0, lastbarra);
                     System.out.println(path);
                     String archivo = nombreTextField.getText();
-                    archivo = "\\" + archivo + ".egg";
+                    archivo = separador + archivo + ".egg";
                     presentation_controller.setOutPath(path + archivo);
                 }
                 else {
                     //path = presentation_controller.getSourcePath();
                     path = textField1.getText();
-                    int lastbarra = path.lastIndexOf("\\");
-                    if (lastbarra < 0) lastbarra = path.lastIndexOf("/");
+                    int lastbarra = path.lastIndexOf(separador);
+                    if (lastbarra < 0) {
+                        separador = "/";
+                        lastbarra = path.lastIndexOf(separador);
+                    }
                     path = path.substring(0, lastbarra);
                     System.out.println(path);
                     String archivo = nombreTextField.getText();
-                    archivo = "\\" + archivo + ".egg";
+                    archivo = separador + archivo + ".egg";
                     presentation_controller.setOutPath(path + archivo);
                 }
 

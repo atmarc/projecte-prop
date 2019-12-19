@@ -142,15 +142,14 @@ public class Persistence_Controller {
      * @return Retorna el nombre del path sin la extension.
      */
     public String getNameNE(String path) {
-        File file = new File(path);
-        if (file.isDirectory()) return file.getName();
-
-        String name = file.getName();
-        String[] parts = name.split(".");
-        for (String part : parts) {
-            System.out.println(part);
+        String name = new File(path).getName();
+        if (new File(path).isFile()) {
+            int punt = name.lastIndexOf('.');
+            return name.substring(0, punt);
         }
-        return parts[0];
+        else {
+            return name;
+        }
     }
 
     /**

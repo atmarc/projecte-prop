@@ -142,6 +142,7 @@ public class SeleccionarDestino {
                 if (presentation_controller.getAction() == 1) {
                     //esta descomprimiendo
                     nombreTextField.setVisible(true);
+                    nombreTextField.setText(presentation_controller.getNameNE(presentation_controller.getSourcePath()));
                 }
             }
         });

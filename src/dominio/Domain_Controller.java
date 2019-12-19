@@ -116,6 +116,7 @@ public class Domain_Controller {
     ///////////////////////////
     // Metodos auxiliares
 
+
     // Crea la jerarquia llegint "l'arbre d'arxius" en preordre, i després de cada
     // fulla posa un -1
     // El faig en bytes, per tant podrem tenir fins a 2^8 fitxers
@@ -165,11 +166,11 @@ public class Domain_Controller {
     }
 
     /**
-     * Calcula el algoritmo de compression en dependencia de sus pararmtros
+     * Calcula el algoritmo de compression en dependencia del fichero y algoritmo que recibe como parametro.
      * @param in identificador del fichero a comprimir
      * @param alg el algoritmo con el que se tiene que comprimir
-     * @return Si 0 <= alg <= 3, retorna el algoritmo correspondiente si
-     no retorna el algoritmo mas adecuado para este fichero
+     * @return Si la extension es .ppm  entonces retorna el algoritmo 3, si la extension es .txt y 0 <= alg <= 2,
+     retorna el algoritmo correspondiente si no retorna el algoritmo mas adecuado para este fichero
      */
     private int getBestCompressor(int in, int alg) {
         String ext = persistence_controller.getExtension(in);
@@ -193,6 +194,11 @@ public class Domain_Controller {
             throw new IllegalArgumentException("Extension incorrecta, quiere utilizar los algoritmos universales?");
     }
 
+    /**
+     * Calcula la direccion y el nombre de un fichero eliminando la extension
+     * @param file la direccion con el nombre de un fichero
+     * @return la direccion con el nombre del fichero sin la extension
+     */
     // ejemplo: folder1/folder2/fichero.txt --> folder1/folder2/fichero
     private String getPathAndName(String file) {
         if (file == null) throw new IllegalArgumentException("El nombre del fichero es nulo");
@@ -201,6 +207,12 @@ public class Domain_Controller {
         return file.substring(0, i-1);
     }
 
+    /**
+     * Escribe la estructura de una carpeta/fichero en un fichero codificado por id
+     * representado por el identificador id
+     * @param id identificador del fichero
+     * @param h la estructura de la carpeta/fichero
+     */
     private void writeFolderMetadata(int id, Hierarchy h) {
         persistence_controller.writeBytes(id, h.toByteArray());
         if (!h.isFile()) {
@@ -213,6 +225,12 @@ public class Domain_Controller {
         }
     }
 
+    /**
+     * Codifica un compresor
+     * @param compressor
+     * @param i
+     * @return
+     */
     private long encodeMeta(long compressor, long i) {
         long res = 0L;
         // por default esta Compressor_LZ78

@@ -195,22 +195,23 @@ public class Presentation_Controller {
     }
 
     public void sendInfo() throws Exception {
-        switchToLoading();
+        //switchToLoading();
+        System.out.println(OutPath);
         if (action == 0) { //Comprimir
             if (algorithm == 0) {
-                    domain_controller.compress(SourcePath, OutPath, 0);
+                    domain_controller.compress(SourcePath, OutPath + ".egg", 0);
             }
             if (algorithm == 1) {
-                    domain_controller.compress(SourcePath, OutPath, 1);
+                    domain_controller.compress(SourcePath, OutPath + ".egg", 1);
             }
             if (algorithm == 2) {
-                    domain_controller.compress(SourcePath, OutPath, 2);
+                    domain_controller.compress(SourcePath, OutPath + ".egg", 2);
             }
             if (algorithm == 3) { //falta ratio
-                    domain_controller.compress(SourcePath, OutPath, 3);
+                    domain_controller.compress(SourcePath, OutPath + ".egg", 3);
             }
             if (algorithm == 4) {
-                    domain_controller.compress(SourcePath, OutPath);
+                    domain_controller.compress(SourcePath, OutPath + ".egg");
             }
         }
         else { //Descomprimir

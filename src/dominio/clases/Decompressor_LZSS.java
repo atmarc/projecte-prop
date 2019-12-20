@@ -119,6 +119,7 @@ public class Decompressor_LZSS extends Decompressor {
                 j--;
             }
         }
+        controller.writeBytes(result);
     }
 
     public char convert(byte high, byte low) {

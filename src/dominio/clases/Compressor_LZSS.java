@@ -84,9 +84,6 @@ public class Compressor_LZSS extends Compressor {
             }
             else {
                 //mirem la posicio de l'offset per posar el bit a true
-
-                short aux1 = (short) (chr >> 4);
-                aux1 = (short) (aux1 & 0x0FFF);
                 bits[i] = true;
 
                 byte aux2 = (byte) (chr >> 8);

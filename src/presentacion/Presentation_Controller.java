@@ -27,7 +27,6 @@ public class Presentation_Controller {
     private MetodoCompresion metodoCompresion;
     private SeleccionarDestino seleccionarDestino;
     private JPEGselect jpeGselect;
-    private Loading loading;
     private Welcome welcome;
     private End end;
 

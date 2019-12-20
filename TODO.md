@@ -6,9 +6,9 @@
 -[x] Botones para ir atras
 -[x] Cuando el fichero existe no puedes ir atras
 -[x] A vecez los botones son fuera de la visibilidad de la ventana
--[ ] Resolver lo de seleccionar otra direccion 
--[ ] El fichero descomprimido no aparece ???
--[ ] Guardar en otro lugar tal vez anadir el mismo lugar pero con otro nombre
+-[x] Resolver lo de seleccionar otra direccion 
+-[x] El fichero descomprimido no aparece ???
+-[x] Guardar en otro lugar tal vez anadir el mismo lugar pero con otro nombre
 -[ ] Sanejar entrada per a carpetes? (funció bool isFolder(path))
 -[ ] Arreglar docu (coses noves a les classes)
 -[ ] Nous tests

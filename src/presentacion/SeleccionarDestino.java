@@ -38,6 +38,7 @@ public class SeleccionarDestino {
      * guardar el archivo en la misma ubicación en que estaba o bien guardarlo en otra ubicación, en cuyo caso se llamará
      * un filechooser nuevamente; del textField donde el usuario introduce el nombre que desea para el archivo y del checkbox,
      * donde decide si desea sobreEscibir o no. Posteriormente se modifican los atributos pertinentes de el presentation_controller.
+     *
      * @param presentation_controller
      */
     public SeleccionarDestino(Presentation_Controller presentation_controller) {
@@ -113,8 +114,7 @@ public class SeleccionarDestino {
                     path = presentation_controller.getSourcePath();     // path origen
                     int bar = path.lastIndexOf("/");
                     if (bar > 0) path = path.substring(0, bar);
-                }
-                else path = textField1.getText();                        // path personalizado
+                } else path = textField1.getText();                        // path personalizado
 
 
                 presentation_controller.setOutPath(path + "/" + nombreTextField.getText());
@@ -208,6 +208,7 @@ public class SeleccionarDestino {
         nombreTextField.setText("");
         panel3.add(nombreTextField, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         sobreescribirCheckBox = new JCheckBox();
+        sobreescribirCheckBox.setBackground(new Color(-526345));
         sobreescribirCheckBox.setText("Sobreescribir");
         panel3.add(sobreescribirCheckBox, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         seleccionaLaUbicacionDeTextArea = new JTextArea();

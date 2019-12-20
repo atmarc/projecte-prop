@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /*!
  *  \brief      Clase de la vista End, en que se muestran las estadísticas de la compresión o descompresión y se da opción de cerrar o volver a inicio.
  *  \details
@@ -23,6 +24,7 @@ public class End {
 
     /**
      * Creadora de la clase End, donde se definen los action listener de los buttons inicio y close, además de llamar al visualizador de archivos
+     *
      * @param presentation_controller
      */
     public End(Presentation_Controller presentation_controller) {
@@ -50,14 +52,14 @@ public class End {
                 if (presentation_controller.getAction() == 0)
                     presentation_controller.decompress(presentation_controller.getOutPath() + ".egg",
                             "temp/decompressed", true);
-                    presentation_controller.visualizeFile("temp/decompressed.txt");
+                presentation_controller.visualizeFile("temp/decompressed.txt");
                 break;
             case 2: // comp .ppm
                 presentation_controller.visualizeFile(presentation_controller.getSourcePath());
                 if (presentation_controller.getAction() == 0)
                     presentation_controller.decompress(presentation_controller.getOutPath() + ".egg",
                             "temp/decompressed", true);
-                    presentation_controller.visualizeFile("temp/decompressed.ppm");
+                presentation_controller.visualizeFile("temp/decompressed.ppm");
                 break;
             case -1: // decomp .txt or .ppm
                 presentation_controller.visualizeFile(presentation_controller.getOutPath());
@@ -119,10 +121,11 @@ public class End {
         text = new JTextArea();
         text.setBackground(new Color(-526345));
         text.setText("Gracias por usar Egg Compressor! \n\nTu archivo se ha guardado en: \n\n");
-        panel3.add(text, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        panel3.add(text, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         Estadisticas = new JTextArea();
         Estadisticas.setBackground(new Color(-526345));
-        Estadisticas.setText("Estadísticas\n");
+        Estadisticas.setEditable(false);
+        Estadisticas.setText("\nEstadísticas:\n\n");
         panel3.add(Estadisticas, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -133,7 +136,8 @@ public class End {
         foto.setText("");
         panel4.add(foto, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
-        panel5.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 10, 10), -1, -1));
+        panel5.setLayout(new GridLayoutManager(2, 3, new Insets(0, 10, 10, 10), -1, -1));
+        panel5.setBackground(new Color(-526345));
         panel1.add(panel5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel5.add(spacer1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));

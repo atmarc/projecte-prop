@@ -60,7 +60,7 @@ public class Domain_Controller {
     /**
      * Cierra el buffer de lectura que tiene el identificador id .
      */
-    void closeReader(int id) throws IOException {
+    public void closeReader(int id) throws IOException {
         persistence_controller.closeReader(id);
     }
 
@@ -68,7 +68,6 @@ public class Domain_Controller {
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
      *
      * @return Cadena de bytes con todos los bytes del fichero origen.
-     * @throws Exception // TODO : Que excepciones?
      */
     byte[] readAllBytes(int id) throws Exception {
         return persistence_controller.readAllBytes(id);
@@ -237,7 +236,6 @@ public class Domain_Controller {
      * @return una tabla de 2XN donde la primera fila representa si un
      * elemento es carpeta o fichero y la segunda representa para cada elemento cual es su padre, el N es el numero de
      * elementos
-     * @throws Exception
      */
     private int[][] makeHierarchy(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
         Hierarchy h = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
@@ -309,7 +307,7 @@ public class Domain_Controller {
      * @param aux el valor a convertir
      * @return el valor convertido
      */
-    public long toLong(byte[] aux) {
+    private long toLong(byte[] aux) {
         long res = 0, j = aux.length-1;
         for (byte i : aux)
             res |= ((i&0xFF) << (8*j--));
@@ -343,8 +341,8 @@ public class Domain_Controller {
     private static class Hierarchy {
 
         private int root;                   ///< La carpeta/fichero raiz de la jerarquia
-        private int[][] m;                  ///< codificacion alternativa con acceso rapido a los antecesores de un elemento
-        ArrayList<ArrayList<Integer>> rep;  ///< representacion mediante listas de adiacencia de la jerarquia
+        private int[][] m;                  ///< codificacion alternativa con acceso rapido a los antecesores
+        ArrayList<ArrayList<Integer>> rep;  ///< representacion mediante listas de adyacencia de la jerarquia
 
         /**
          * Obtiene todos los identificadores de las carpetas y ficheros de la jerarquia

@@ -6,10 +6,14 @@ TT:
 General:
 	javac -cp "src/:./lib/*"  src/*/*/*.java -d bin/
 	javac -cp "src/:./lib/*"  src/Main.java -d bin/
+    javac -cp "src/:./lib/*"  src/ConsoleMain.java -d bin/
 	javac -cp "src/:./lib/*"  tests/* -d bin/
 
 run:
 	java -cp "bin/:bin/presentation:src/:./lib/*" -Djavax.accessibility.assistive_technologies=" " Main
+
+run-console:
+	java -cp "bin/:bin/presentation:src/:./lib/*" -Djavax.accessibility.assistive_technologies=" " ConsoleMain
 
 run-tests-lzw:
 	java -classpath "lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:bin/" org.junit.runner.JUnitCore Compressor_LZWTest

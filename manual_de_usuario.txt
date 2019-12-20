@@ -1,0 +1,51 @@
+Para compilar el programa, usamos el comando "make". 
+
+Para ejecutar el programa en version GUI, usamos el comando "make run".
+Para ejecutar el programa en version consola, usamos el comando "make run-console".
+
+Intrucciones version GUI:
+
+    Una vez abierta la interficie gráfica, tenemos dos opciones: comprimir y descomprimir.
+
+    - Comprimir:    pulsamos el botón de comprimir y este nos lleva a una pantalla para escoger el archivo o carpeta a
+                    comprimir.Pulsamos el botón de navegación (Browse) y se abre un explorador de archivos.
+
+                    Si queremos un archivo lo seleccionamos y pulsamos abrir. El archivo tiene que ser un .txt o un .ppm.
+                    Si queremos comprimir una carpeta, entramos en la carpeta que queramos y sin seleccionar ningún archivo pulsamos abrir.
+
+                    Una vez seleccionado el archivo/carpeta pulsamos en OK. Si hemos seleccionado un .txt, nos lleva a una
+                    vista donde podemos escoger el algoritmo de compresión que queramos, o podemos pulsar en automático y
+                    selecciona el mejor algoritmo para ese archivo.
+
+                    Si hemos seleccionado un .ppm, nos va a pedir el nivelde compresión que queremos aplicar al algoritmo
+                    JPEG para comprimir. Este nivel va de 1 a 10, siendo 10 el máximo nivel de compresión (5 es el recomendado
+                    por el estándar de JPEG representando el 50% de compresión). Si hemos seleccionado una carpeta, se va a
+                    saltar estas vistas de configuración de algoritmos. Una vez configurados vamos a la vista de selección
+                    de archivo de salida.
+
+                    Hay un radio button que te deja escoger entre guardar-lo en la misma carpeta o seleccionar una carpeta destino.
+                    Si eliges la segunda opción, hay un botón de browse para escoger la carpeta destino navegando o puedes escribirla.
+                    También te pide el nombre del archivo comprimido, que por defecto es el mismo que el de entrada. Hay uncheckbox
+                    que te deja escoger si quieres sobreescribir el archivo en caso de que ya existiera. Una vez escogido, le damos a
+                    DONE y empieza la comprensión. Cuando haya terminado la compresión aparece la vista final, donde te muestra las
+                    estadísticas de compresión. También te da dos opciones, para cerrar el programa o para volver al inicio.
+
+                    Al mismo tiempo, se abre el editor de texto por defecto (o el visualizador de imágenes en caso de .ppm)
+                    donde te muestra el texto/imagen original que has comprimido y un fichero temporal (con nombre decompressed)
+                    de como quedaría si la descomprimieras. En el caso de haber comprimido una carpeta, no se abre ningún visualizador.
+
+
+    - Descomprimir: La descompresión es bastante análoga a la compresión. Primero vamos a la vista de selección de archivos,
+                    donde seguiremos los pasos descritos anteriormente en la compresión y seleccionaremos algún archivo .egg.
+                    Una vez seleccionado el archivo pulsamos OK y nos lleva a la vista de selección de archivo/carpeta de
+                    salida, donde seleccionaremos el archivo de salida de la misma forma que lo hemos echo en la compresión.
+                    Una vez hecho esto, pulsaremos Done, que empezará la descompresión.
+
+                    Al acabar, se abrirá la última vista, donde se mostrará el tiempo que ha tardado la descompresión.
+                    También se abrirá el visualizador por defecto para ver el archivo descomprimido, en caso de que sea
+                    un .ppm o un .txt.
+
+
+Intrucciones version consola:
+
+    El mismo sistema va solcitando la informacion paso a paso. Simplemente es necesario seguir las instrucciones del mismo.

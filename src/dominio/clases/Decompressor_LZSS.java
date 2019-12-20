@@ -22,7 +22,6 @@ import java.util.ArrayList;
  *  \author    Nicolas Camerlynck
  */
 public class Decompressor_LZSS extends Decompressor {
-
     /**
      * @pre
      * @post

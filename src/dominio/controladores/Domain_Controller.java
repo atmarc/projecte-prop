@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Domain_Controller {
 
     private Persistence_Controller persistence_controller;
-    private Presentation_Controller presentation_controller;
+    private Presentation_Controller presentation_controller = null;
     private long time;
     private double comp_size;
     private double orig_size;
@@ -639,7 +639,7 @@ public class Domain_Controller {
         }
 
         // Si solo se ha descomprimido un archivo, lo muestra.
-        if (count == 1) {
+        if (presentation_controller != null && count == 1) {
             presentation_controller.setMode(-1);
             presentation_controller.setOutPath(persistence_controller.getOutPath(0));
         }

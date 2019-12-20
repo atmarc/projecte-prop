@@ -9,6 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*!
+ *  \brief      Clase de la vista End, en que se muerstra un slider para que el usuario pueda seleccionar el ratio de compresión deseado para el lgoritmo JPEG.
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class JPEGselect {
     private JPanel panel1;
     private JSlider slider1;
@@ -16,6 +21,10 @@ public class JPEGselect {
     private JTextArea seleccioneElRadioDeTextArea;
     private JButton Back;
 
+    /**
+     * Creadora de la clase JPEGSelect, en que se definen los action listener del slider y del botón ok y se modifican los valores correspondientes en presentation_controller
+     * @param presentation_controller
+     */
     public JPEGselect(Presentation_Controller presentation_controller) {
 
         panel1.setPreferredSize(new Dimension(700, 400));

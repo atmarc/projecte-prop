@@ -13,6 +13,12 @@ import java.io.FileNotFoundException;
 import java.nio.file.FileAlreadyExistsException;
 import javax.swing.JOptionPane;
 
+/*!
+ *  \brief      Clase de la vista SeleccionarDestino, en que el usuario puede escoger dónde se guardará el archivo comprimido
+ *              o descomprimido, a parte del nombre y si quiere sobre escribir el archivo.
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class SeleccionarDestino {
     private JPanel panel1;
     private JRadioButton radioButton1;
@@ -25,10 +31,16 @@ public class SeleccionarDestino {
     private JButton Back;
     private JTextField nombreTextField;
     private JTextArea seleccionaLaUbicacionDeTextArea;
-
     private String path;
 
-
+    /**
+     * Creadora de la clase SeleccionarDestino, donde se definen los action listener de los radio button, dependiendo si quiere
+     * guardar el archivo en la misma ubicación en que estaba o bien guardarlo en otra ubicación, en cuyo caso se llamará
+     * un filechooser nuevamente; del textField donde el usuario introduce el nombre que desea para el archivo y del checkbox,
+     * donde decide si desea sobreEscibir o no. Posteriormente se modifican los atributos pertinentes de el presentation_controller.
+     *
+     * @param presentation_controller
+     */
     public SeleccionarDestino(Presentation_Controller presentation_controller) {
 
         panel1.setPreferredSize(new Dimension(800, 600));
@@ -102,8 +114,7 @@ public class SeleccionarDestino {
                     path = presentation_controller.getSourcePath();     // path origen
                     int bar = path.lastIndexOf("/");
                     if (bar > 0) path = path.substring(0, bar);
-                }
-                else path = textField1.getText();                        // path personalizado
+                } else path = textField1.getText();                        // path personalizado
 
 
                 presentation_controller.setOutPath(path + "/" + nombreTextField.getText());
@@ -197,6 +208,7 @@ public class SeleccionarDestino {
         nombreTextField.setText("");
         panel3.add(nombreTextField, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         sobreescribirCheckBox = new JCheckBox();
+        sobreescribirCheckBox.setBackground(new Color(-526345));
         sobreescribirCheckBox.setText("Sobreescribir");
         panel3.add(sobreescribirCheckBox, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         seleccionaLaUbicacionDeTextArea = new JTextArea();

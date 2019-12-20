@@ -8,8 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.Normalizer;
 
+/*!
+ *  \brief      Clase de la vista SeleccionarArchivo, donde el usuario tiene un File Chooser para escoger el archivo o carpeta que desea comprimir o descomprir
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class SeleccionarArchivo {
 
     private JPanel panel1;
@@ -20,9 +24,14 @@ public class SeleccionarArchivo {
     private JTextArea EGGCOMPRESSORTextArea;
     private JButton Back;
     private Presentation_Controller presentation_controller;
-
     private String path;
 
+    /**
+     * Creadora de la clase SeleccionarArchivo, en que se define el action listener del botón browse, para mostrar el file chooser
+     * y del text field donde se muestra la ruta seleccionada; con la posterior modificación de los atributos de presentation_controller
+     * pertinentes en el action listener del botón OK.
+     * @param presentation_controller
+     */
     public SeleccionarArchivo(Presentation_Controller presentation_controller) {
 
         panel1.setPreferredSize(new Dimension(800, 600));
@@ -57,7 +66,7 @@ public class SeleccionarArchivo {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (presentation_controller.getAction() == 0) { //estamos comprimiendo
-                    presentation_controller.sendPath(path);
+                    presentation_controller.setSourcePath(path);
                     if (path.endsWith(".txt")) {
                         presentation_controller.setMode(1);
                         presentation_controller.switchToMetodoCompresion();
@@ -78,7 +87,7 @@ public class SeleccionarArchivo {
                     }
                 } else { //estamos descomprimiendo
                     if (path.endsWith(".egg")) {
-                        presentation_controller.sendPath(path);
+                        presentation_controller.setSourcePath(path);
                         presentation_controller.switchToSeleccionarDestino();
                     } else {
                         JOptionPane.showMessageDialog(null, "El fichero a descomprimir tiene que ser un .egg!");

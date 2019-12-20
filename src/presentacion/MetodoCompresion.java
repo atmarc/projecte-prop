@@ -9,6 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*!
+ *  \brief      Clase de la vista MetodoCompresión, donde el usuario puede escoger el método de compresión de txt que quiera, o puede escoger la opción automática, en que escogeremos el mejor algoritmo dependiendo del tamaño del fichero.
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class MetodoCompresion {
     private JPanel panel1;
     private JButton automaticButton;
@@ -19,6 +24,12 @@ public class MetodoCompresion {
     private JButton LZSSButton;
     private JButton Back;
 
+    /**
+     * Creadora de la clase MetodoCompresion, en que se definen los action listener de los botones de los algoritmos y
+     * del botón automático, y después se modifican los atributos de presentation_controller pertinentes.
+     *
+     * @param presentation_controller instancia de presentation controller correspondiente
+     */
     public MetodoCompresion(Presentation_Controller presentation_controller) {
 
         panel1.setPreferredSize(new Dimension(700, 400));
@@ -129,6 +140,7 @@ public class MetodoCompresion {
         panel5.add(LZSSButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new GridLayoutManager(1, 2, new Insets(0, 10, 10, 0), -1, -1));
+        panel6.setBackground(new Color(-526345));
         panel2.add(panel6, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
         Back = new JButton();
         Back.setText("Back");

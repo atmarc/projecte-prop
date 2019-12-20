@@ -30,12 +30,11 @@ public class Presentation_Controller {
     private Welcome welcome;
     private End end;
 
-    private Integer action = 0; // 0 -> Comprimir, 1 -> Descomprimir
+        private Integer action = 0; // 0 -> Comprimir, 1 -> Descomprimir
     private Integer algorithm; // 0 -> LZ78, 1 -> LZSS, 2 -> LZW, 3 -> JPEG, 4 -> Auto (nomes per txt)
     private boolean carpeta = false;
     private String SourcePath;
     private String OutPath;
-    private boolean acabado = true;
     private int JPEGratio = 5;
     private boolean sobreEscribir;
 
@@ -69,14 +68,6 @@ public class Presentation_Controller {
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             }
         });
-    }
-
-    /**
-     *
-     * @param domain_controller
-     */
-    public void setDomain_controller(Domain_Controller domain_controller) {
-        this.domain_controller = domain_controller;
     }
 
     /**
@@ -289,10 +280,6 @@ public class Presentation_Controller {
 
     public String getSourcePath() {
         return SourcePath;
-    }
-
-    public boolean getAcabado() {
-        return acabado;
     }
 
     public String getOutPath() {

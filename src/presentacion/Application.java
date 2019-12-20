@@ -23,7 +23,6 @@ public class Application {
 
         Persistence_Controller persistence_controller = Persistence_Controller.getPersistence_controller();
         Domain_Controller domain_controller = new Domain_Controller();
-
         domain_controller.setPersistence_controller(persistence_controller);
 
         Scanner in = new Scanner(System.in);

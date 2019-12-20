@@ -40,6 +40,9 @@ public class Presentation_Controller {
 
     private int mode; ///< Parametro de control para la visualizacion final. (1 -> compresion de un .txt ||| 2 -> compresion de un ppm |||  -1 -> descompresion txt ||| -2 -> descompresion ppm)
 
+    /**
+     * Creadora de la clase Presentation controller, crea la referencia a donaim controller.
+     */
     public Presentation_Controller () {
         this.domain_controller = new Domain_Controller();
         domain_controller.setPresentation_controller(this);
@@ -193,7 +196,7 @@ public class Presentation_Controller {
     }
 
     /**
-     * Función que llama el método decompress de domain controller
+     * Función que llama el método decompress de domain controller con los parámetros correspondientes
      * @param out
      * @param in
      * @param sobreEscribir
@@ -222,57 +225,6 @@ public class Presentation_Controller {
 //        frame.getContentPane().add(label);
 //    }
 
-    /**
-     *
-     * @return
-     */
-    public ImageIcon getIcon() {
-
-        int random = new Random().nextInt(13);
-        ImageIcon icon;
-
-        switch (random) {
-            default:
-                return icon = new ImageIcon(getClass().getResource("egg/1.gif"));
-
-            case 1:
-                return icon = new ImageIcon(getClass().getResource("egg/2.gif"));
-
-            case 2:
-                return icon = new ImageIcon(getClass().getResource("egg/3.gif"));
-
-            case 3:
-                return icon = new ImageIcon(getClass().getResource("egg/4.gif"));
-
-            case 4:
-                return icon = new ImageIcon(getClass().getResource("egg/5.gif"));
-
-            case 5:
-                return icon = new ImageIcon(getClass().getResource("egg/6.gif"));
-
-            case 6:
-                return icon = new ImageIcon(getClass().getResource("egg/7.gif"));
-
-            case 7:
-                return icon = new ImageIcon(getClass().getResource("egg/8.gif"));
-
-            case 8:
-                return icon = new ImageIcon(getClass().getResource("egg/9.gif"));
-
-            case 9:
-                return icon = new ImageIcon(getClass().getResource("egg/10.gif"));
-
-            case 10:
-                return icon = new ImageIcon(getClass().getResource("egg/11.gif"));
-
-            case 11:
-                return icon = new ImageIcon(getClass().getResource("egg/12.gif"));
-
-            case 12:
-                return icon = new ImageIcon(getClass().getResource("egg/13.gif"));
-
-        }
-    }
 
     public int getAction() {
         return action;

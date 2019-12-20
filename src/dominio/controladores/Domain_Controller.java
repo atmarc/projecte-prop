@@ -6,6 +6,13 @@ import presentacion.Presentation_Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/*!
+ * \biref   Controladora de Dominio, que gestiona todas las operaciones hechas durante la compresión y la descompresión. Está
+ * conectada a la controladora de persistencia i a la de presentación, y se comunica con ellas cuando es necesario.
+ *
+ * \autor  Andrei Mihalache (colaboradores: Marc Amorós, Edgar Perez)
+ */
+
 public class Domain_Controller {
 
     private Persistence_Controller persistence_controller;
@@ -330,6 +337,10 @@ public class Domain_Controller {
         return Math.round(1000*(comp_size/orig_size))/1000.0;
     }
 
+    /**
+     * Borra el archivo con path s
+     * @param s
+     */
     public void deleteFile(String s) {
         persistence_controller.deleteFile(s);
     }
@@ -490,7 +501,7 @@ public class Domain_Controller {
     }
 
     /**
-     * Comprime un fichero con el algoritmo especifico
+         * Comprime un fichero con el algoritmo especifico
      * @pre El fichero <<in>> existe
      * @param in direccion del fichero a comprimir
      * @param sobrescribir sobrescribir o no, si el fichero de salida existe

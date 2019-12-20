@@ -12,7 +12,7 @@ import java.util.Random;
 /*!
  *  \brief      Controladora de la presentación, encargada de gestionar la GUI y el envío de información de entrada a domain controller
  *  \details
- *  \author
+ *  \author Nicolas Camerlynck (colaboradores: Marc Amorós, Edgar Perez)
  */
 
 public class Presentation_Controller {

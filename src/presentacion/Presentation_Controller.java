@@ -5,6 +5,7 @@ import persistencia.Persistence_Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 
@@ -45,14 +46,20 @@ public class Presentation_Controller {
 
     public void initializeInterface() {
         welcome = new Welcome(this);
-
         frame = new JFrame("Egg");
         frame.setContentPane(welcome.getPanel1());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                deleteTemp();
+                super.windowClosing(e);
+            }
+        });
     }
 
     public void setDomain_controller(Domain_Controller domain_controller) {
@@ -208,8 +215,14 @@ public class Presentation_Controller {
         //Comprimir
         if (action == 0) {
             if (carpeta) domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
-            else if (algorithm == 3)  domain_controller.compress(SourcePath, OutPath + ".egg", 3, (byte) JPEGratio, sobreEscribir);
-            else if (algorithm == 4)  domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
+
+            else if (algorithm == 3)  {
+                domain_controller.compress(SourcePath, OutPath + ".egg", 3, (byte) JPEGratio, sobreEscribir);
+            }
+            else if (algorithm == 4) {
+                domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
+            }
+
             else domain_controller.compress(SourcePath, OutPath + ".egg", algorithm, sobreEscribir);
         }
         //Descomprimir
@@ -255,6 +268,7 @@ public class Presentation_Controller {
     }
 
     public void close() {
+        deleteTemp();
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
@@ -282,4 +296,17 @@ public class Presentation_Controller {
         domain_controller.visualiceFile(path);
     }
 
+    public void decompress (String out, String in, boolean sobreEscribir) {
+        try {
+            domain_controller.decompress(out, in, sobreEscribir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteTemp() {
+        System.out.println("Delete temp");
+        domain_controller.deleteFile("temp/decompressed.ppm");
+        domain_controller.deleteFile("temp/decompressed.txt");
+    }
 }

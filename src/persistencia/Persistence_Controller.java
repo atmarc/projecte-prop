@@ -337,7 +337,7 @@ public class Persistence_Controller {
 
     // Carpetas
 
-    private void deleteFile(String path) {
+    public void deleteFile(String path) {
         File file = new File(path);
         if (file.isDirectory()) recursiveDelete(file.listFiles());
         file.delete();

@@ -157,21 +157,14 @@ public class Domain_Controller {
             if (alg >= 0 && alg <= 2)
                     return alg;
             else {
-                // if (size < 100L)
-                //     throw new IllegalArgumentException("FicheroDemasiadoPequeno");
-                if (size <= 50000L)
-                    return 1;
-                else if (size <= 1000000L)
-                    return 2;
-                else
-                    return 0;
+                if (size <= 50000L) return 1;
+                else if (size <= 1000000L) return 2;
+                else return 0;
             }
         }
         else {
-            if (size <= 50000L)
-                return 1;
-            else
-                return 2;
+            if (size <= 50000L) return 1;
+            else return 2;
         }
     }
 
@@ -327,6 +320,10 @@ public class Domain_Controller {
      */
     public double getRatio() {
         return comp_size/orig_size;
+    }
+
+    public void deleteFile(String s) {
+        persistence_controller.deleteFile(s);
     }
 
     /**
@@ -575,7 +572,7 @@ public class Domain_Controller {
             if (bestCompressor == 3 && ratio != -1) cc.startCompression(in, out, ratio);
             else cc.startCompression(id, out);
 
-            time =+ cc.getTime();
+            time += cc.getTime();
 
             long cursor_fi = persistence_controller.getWrittenBytes(out);
             persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor,
@@ -599,15 +596,15 @@ public class Domain_Controller {
     public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
 
         System.out.println(outputPath);
-//        presentation_controller.setMode(-1);
+
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath, sobrescribir));
         int in = H.getRoot();
         ArrayList<Integer> q = H.getLeafs();
         int count = 0;
+        time = 0;
         for (int id : H.getLeafs()) {
             ++count;
-            time = 0;
             byte[] aux = new byte[8];
             persistence_controller.readBytes(in, aux);
 
@@ -620,13 +617,16 @@ public class Domain_Controller {
             Decompressor_Controller dc = new Decompressor_Controller(alg);
             dc.setDomain_controller(this);
             dc.startDecompression(in, id);
-            time =+ dc.getTime();
+            time += dc.getTime();
 
             persistence_controller.rmReadLimit(in);
         }
 
         // Si solo se ha descomprimido un archivo, lo muestra.
-        if (count == 1) presentation_controller.setOutPath(persistence_controller.getOutPath(0));
+        if (count == 1) {
+            presentation_controller.setMode(-1);
+            presentation_controller.setOutPath(persistence_controller.getOutPath(0));
+        }
 
         persistence_controller.closeReader(in);
     }

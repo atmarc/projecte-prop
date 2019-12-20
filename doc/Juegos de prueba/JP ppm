@@ -1,0 +1,70 @@
+**************** JUEGOS DE PRUEBA PARA FICHEROS .PPM *********************
+
+------------------------------- PRUEBA 01 -------------------------------
+
+- Descripcion: .ppm grande
+
+- Objetivos: probar algoritmos de compresion para un .ppm grande (calidad alta)
+
+- Entrada:
+    - Algoritmo:                    JPEG
+    - Calidad:                      1/10
+    - nombre fichero de entrada:    france_wallpaper.ppm
+    - nombre fichero de salida:     france_wallpaper_JPEG
+
+- Salida:
+    Ratio: 0.1264
+    Tiempo: 9646 ms
+
+- Efectos secundarios
+    1- Creacion de un fichero comprimido -> france_wallpaper_JPEG.egg
+    2- Visualizacion del fichero original.
+    3- Visualizacion del fichero comprimido descomprimido.
+
+Descompresion del fichero se lleva a cabo en: 9427 ms de forma satisfactoria.
+
+------------------------------- PRUEBA 02 -------------------------------
+
+- Descripcion: .ppm grande
+
+- Objetivos: probar algoritmos de compresion para un .ppm grande (calidad media)
+
+- Entrada:
+    - Algoritmo:                    JPEG
+    - Calidad:                      5/10
+    - nombre fichero de entrada:    france_wallpaper.ppm
+    - nombre fichero de salida:     france_wallpaper_JPEG
+
+- Salida:
+    Ratio: 0.0580
+    Tiempo: 9239 ms
+
+- Efectos secundarios
+    1- Creacion de un fichero comprimido -> france_wallpaper_JPEG.egg
+    2- Visualizacion del fichero original.
+    3- Visualizacion del fichero comprimido descomprimido.
+
+Descompresion del fichero se lleva a cabo en: 9526 ms de forma satisfactoria.
+
+------------------------------- PRUEBA 03 -------------------------------
+
+- Descripcion: .ppm grande
+
+- Objetivos: probar algoritmos de compresion para un .ppm grande (calidad baja)
+
+- Entrada:
+    - Algoritmo:                    JPEG
+    - Calidad:                      10/10
+    - nombre fichero de entrada:    france_wallpaper.ppm
+    - nombre fichero de salida:     france_wallpaper_JPEG
+
+- Salida:
+    Ratio: 0.0411
+    Tiempo: 9404 ms
+
+- Efectos secundarios
+    1- Creacion de un fichero comprimido -> france_wallpaper_JPEG.egg
+    2- Visualizacion del fichero original.
+    3- Visualizacion del fichero comprimido descomprimido.
+
+Descompresion del fichero se lleva a cabo en: 9195 ms de forma satisfactoria.

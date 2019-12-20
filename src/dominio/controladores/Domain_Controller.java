@@ -319,7 +319,7 @@ public class Domain_Controller {
      * @return
      */
     public double getRatio() {
-        return comp_size/orig_size;
+        return Math.round(1000*(comp_size/orig_size))/1000.0;
     }
 
     public void deleteFile(String s) {

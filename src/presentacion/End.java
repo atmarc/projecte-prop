@@ -31,9 +31,9 @@ public class End {
         foto.setIcon(icon);
 
         Estadisticas.setEditable(false);
-        Estadisticas.append("La operación ha tardado " + presentation_controller.getTime() + "milisegundos\n");
+        Estadisticas.append("La operación ha tardado " + presentation_controller.getTime() + " milisegundos.\n");
         if (presentation_controller.getAction() == 0) {
-            Estadisticas.append("y el ratio de compresión ha sido de " + presentation_controller.getRatio());
+            Estadisticas.append("El ratio de compresión ha sido de " + presentation_controller.getRatio() + ".");
         }
 
         int mode = presentation_controller.getMode();

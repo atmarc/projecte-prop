@@ -58,6 +58,7 @@ public class Presentation_Controller {
             public void windowClosing(WindowEvent e) {
                 deleteTemp();
                 super.windowClosing(e);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             }
         });
     }
@@ -305,7 +306,6 @@ public class Presentation_Controller {
     }
 
     public void deleteTemp() {
-        System.out.println("Delete temp");
         domain_controller.deleteFile("temp/decompressed.ppm");
         domain_controller.deleteFile("temp/decompressed.txt");
     }

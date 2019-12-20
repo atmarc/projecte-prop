@@ -12,7 +12,7 @@
     - nombre fichero de salida:     50MB_78
 
 - Salida:
-    Ratio: 0.446
+    Ratio: 0.4464
     Tiempo: 6842 ms
 
 - Efectos secundarios
@@ -130,4 +130,48 @@ Descompresion del fichero se lleva a cabo en: 15 ms de forma satisfactoria.
     2- Visualizacion del fichero original.
     3- Visualizacion del fichero comprimido descomprimido.
 
-Descompresion del fichero se lleva a cabo en: XXXXX ms de forma satisfactoria.
+Descompresion del fichero se lleva a cabo en: 15 ms de forma satisfactoria.
+
+------------------------------- PRUEBA 07 -------------------------------
+
+- Descripcion: .txt pequeno automatico
+
+- Objetivos: probar algoritmos de compresion para un .txt grande y seleccion automatica
+
+- Entrada:
+    - Algoritmo:                    AUTO
+    - nombre fichero de entrada:    100KB.txt
+    - nombre fichero de salida:     100KB_auto
+
+- Salida:
+    Ratio:  0.5093
+    Tiempo:  39 ms
+
+- Efectos secundarios
+    1- Creacion de un fichero comprimido -> 100KB_auto.egg
+    2- Visualizacion del fichero original.
+    3- Visualizacion del fichero comprimido descomprimido.
+
+Descompresion del fichero se lleva a cabo en: 8 ms de forma satisfactoria.
+
+------------------------------- PRUEBA 08 -------------------------------
+
+- Descripcion: .txt grande automatico
+
+- Objetivos: probar algoritmos de compresion para un .txt grande y seleccion automatica
+
+- Entrada:
+    - Algoritmo:                    AUTO
+    - nombre fichero de entrada:    50MB.txt
+    - nombre fichero de salida:     50MB_auto
+
+- Salida:
+    Ratio:  0.4464
+    Tiempo:  6340 ms
+
+- Efectos secundarios
+    1- Creacion de un fichero comprimido -> 50MB_auto.egg
+    2- Visualizacion del fichero original.
+    3- Visualizacion del fichero comprimido descomprimido.
+
+Descompresion del fichero se lleva a cabo en: 1761 ms de forma satisfactoria.

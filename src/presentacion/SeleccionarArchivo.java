@@ -25,7 +25,7 @@ public class SeleccionarArchivo {
 
     public SeleccionarArchivo(Presentation_Controller presentation_controller) {
 
-        panel1.setPreferredSize(new Dimension(700, 400));
+        panel1.setPreferredSize(new Dimension(800, 600));
 
         System.out.println(presentation_controller.getAction());
 

@@ -6,34 +6,26 @@ seguidos que coinciden.
 
 COMPRESIÓN:
 Leemos byte a byte el fichero txt que se debe comprimir y lo ponemos en
-HashMap para acceder de manera eficiente a cada elemento. (coste de acceso
-logn). Seguidamente lo que haremos es iterar para cada elemento del Hashmap
-mencionado y añadiremos cada elemento en otro HashMap llamado searchB que
-será nuestro searchBuffer, en el que buscaremos coincidencias. Por cada
-elemento en el que iteramos del primer Hashmap, buscaremos en las 4095
-posiciones anteriores a la ultima posicion del searchB, y en caso que
-encontremos coincidencia de al menos 3 elementos seguidos, guardaremos
-en una cola de chars (16bit), 12bits para representar el offset (posicion
-de la coincidencia) y 4 bits para expresar el desplazamiento (por tanto
-puede haber hasta 18 carácteres seguidos que coincidan, si cogemos
-desplazamiento 0 como una coincidencia de 3 elementos, el mínimo). Los
-elementos con los que no encontremos coincidencias los guardaremos en otra
-cola de bytes. Paralelamente, guardaremos valor true en un array de bools si
-hemos encontrado coincidencia para el elemento que iteramos, y false en caso
-contrario. Escribimos en la salida los booleanos en forma de bits agrupados
-de 8 en 8 en bytes, seguidamente los bytes correspondientes a los carácteres
-sin coincidencia y finalmente los chars codificados para representar las
-coincidencias.
+array. Seguidamente iteraremos para cada elemento del array y lo añadiremos
+el diccionario, en el que buscaremos coincidencias. Para cada elemento del
+array, buscaremos las apariciones de la letra que avaluamos en el diccionario
+y miraremos si hay una coincidencia de mas de 3 bytes seguidos. Si es el caso,
+codificaremos en un short, los 12 primeros bits como offset y los 4 últimos
+como desplazamiento. Para cada iteración del bucle, además, guardaremos en
+una lista de booleanos true si hemos encontrado coincidencia, y false si no la
+hemos encontrado. Pondremos los bytes codificados y no codificados en un array
+result y los booleanos los agruparemos en bytes, con un 0 por false y un 1 por
+true. Para escribir en el archivo comprimido, escribiremos los bits agrupados en
+bytes, seguido de un separador acordado con el decompressor, y seguidamente los
+bytes de coincidencia y no coincidencia.
+
 
 DECOMPRESIÓN:
-Leemos byte a byte el fichero txt comprimido, y ponemos en 3 colas distintas
-los valores booleanos, los bytes que representan las no coincidencias y los
-chars que representan las coincidencias. Seguidamente iteraremos para cada
-elemento de la cola de booleanos. Si nos encontramos con un false, querrá
-decir que en esa posición hay un elemento que no coincide y por tanto
-escribiremos en un array de bytes (representando el resultado) el byte
-correspondiente al primer elemento de la cola de no coincidencias. En caso
-que nos encontremos un valor true, querrá decir que en esa posición hay una
-coincidencia, así que descodificaremos el offset y desplazamiento y añadiremos
-al resultado los elementos que coinciden. Para la salida, escribimos el array de
-bytes de resultado byte a byte.
+Leemos byte a byte el fichero txt comprimido, y reconstruimos el array de bits.
+Una vez tengamos el array de bits cogemos el resto de la entrada y lo agrupamos en
+otro array. Crearemos otro array llamado result y iteraremos por cada bit. Si
+encontramos un 0, copiaremos el byte correspondiente en result, si encotramos un
+1, en cambio, cogeremos los dos bytes correspondientes, contruiremos un short y lo
+descodificaremos, sacando así el desplazamiento y offset. Seguidamente cogeremos el
+byte correspondiente de result y lo copiaremos al final de este. Para la salida,
+usaremos el método writeallbytes de decompressor con el array result.

@@ -13,6 +13,12 @@ import java.io.FileNotFoundException;
 import java.nio.file.FileAlreadyExistsException;
 import javax.swing.JOptionPane;
 
+/*!
+ *  \brief      Clase de la vista SeleccionarDestino, en que el usuario puede escoger dónde se guardará el archivo comprimido
+ *              o descomprimido, a parte del nombre y si quiere sobre escribir el archivo.
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class SeleccionarDestino {
     private JPanel panel1;
     private JRadioButton radioButton1;
@@ -25,10 +31,15 @@ public class SeleccionarDestino {
     private JButton Back;
     private JTextField nombreTextField;
     private JTextArea seleccionaLaUbicacionDeTextArea;
-
     private String path;
 
-
+    /**
+     * Creadora de la clase SeleccionarDestino, donde se definen los action listener de los radio button, dependiendo si quiere
+     * guardar el archivo en la misma ubicación en que estaba o bien guardarlo en otra ubicación, en cuyo caso se llamará
+     * un filechooser nuevamente; del textField donde el usuario introduce el nombre que desea para el archivo y del checkbox,
+     * donde decide si desea sobreEscibir o no. Posteriormente se modifican los atributos pertinentes de el presentation_controller.
+     * @param presentation_controller
+     */
     public SeleccionarDestino(Presentation_Controller presentation_controller) {
 
         panel1.setPreferredSize(new Dimension(800, 600));

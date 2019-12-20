@@ -96,7 +96,6 @@ public class Compressor_Controller {
 
         System.out.println("Compression DONE");
         System.out.println("Time: " + this.getTime() + " ms");
-        System.out.printf("Compression ratio: %.2f\n", this.getCompressionRatio());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

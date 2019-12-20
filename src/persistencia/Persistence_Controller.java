@@ -138,6 +138,12 @@ public class Persistence_Controller {
     }
 
     /**
+     * Proporciona el path del fichero de salida referenciado.
+     * @param id Identificador del fichero de escritura
+     * @return Path absoluto del fichero referenciado.
+     */
+    public String getOutPath(int id) {return writeFiles.get(id).getAbsolutePath();}
+    /**
      * Funcion que calcula el nombre sin extension de un path concreto
      * @param path Path del que se quiere obtener el nombre.
      * @return Retorna el nombre del path sin la extension.

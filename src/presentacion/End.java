@@ -39,14 +39,18 @@ public class End {
 
         int mode = presentation_controller.getMode();
         switch (mode) {
-            case 1: // .txt
+            case 1: // comp .txt
                 presentation_controller.visualizeFile(presentation_controller.getSourcePath());
                 // descomprimir el comprimido y mostrarlo
                 break;
-            case 2: // .ppm
+            case 2: // comp .ppm
                 presentation_controller.visualizeFile(presentation_controller.getSourcePath());
                 // descomprimir el comprimido y mostrarlo
                 break;
+            case -1: // decomp .txt or .ppm
+                presentation_controller.visualizeFile(presentation_controller.getOutPath());
+                break;
+
             default:
                 break;
         }

@@ -1,6 +1,7 @@
 package dominio.controladores;
 
 import persistencia.Persistence_Controller;
+import presentacion.Presentation_Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 public class Domain_Controller {
 
     private Persistence_Controller persistence_controller;
+    private Presentation_Controller presentation_controller;
     private long time;
     private double comp_size;
     private double orig_size;
@@ -25,6 +27,14 @@ public class Domain_Controller {
      */
     public void setPersistence_controller(Persistence_Controller persistence_controller) {
         this.persistence_controller = persistence_controller;
+    }
+
+    /**
+     * Setter de la controladora de presentacion
+     * @param pc Controladora de presentacion a settear
+     */
+    public void setPresentation_controller(Presentation_Controller pc) {
+        presentation_controller = pc;
     }
 
     // Lectura
@@ -503,11 +513,16 @@ public class Domain_Controller {
     // Decompression
 
     public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
+
+        System.out.println(outputPath);
+        presentation_controller.setMode(-1);
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath, sobrescribir));
         int in = H.getRoot();
         ArrayList<Integer> q = H.getLeafs();
+        int count = 0;
         for (int id : H.getLeafs()) {
+            ++count;
             time = 0;
             byte[] aux = new byte[8];
             persistence_controller.readBytes(in, aux);
@@ -525,6 +540,10 @@ public class Domain_Controller {
 
             persistence_controller.rmReadLimit(in);
         }
+
+        // Si solo se ha descomprimido un archivo, lo muestra.
+        if (count == 1) presentation_controller.setOutPath(persistence_controller.getOutPath(0));
+
         persistence_controller.closeReader(in);
     }
 

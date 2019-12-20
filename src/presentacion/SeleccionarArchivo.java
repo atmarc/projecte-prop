@@ -78,7 +78,6 @@ public class SeleccionarArchivo {
                     }
                 } else { //estamos descomprimiendo
                     if (path.endsWith(".egg")) {
-                        presentation_controller.setMode(-1);
                         presentation_controller.sendPath(path);
                         presentation_controller.switchToSeleccionarDestino();
                     } else {

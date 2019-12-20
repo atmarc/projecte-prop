@@ -34,10 +34,11 @@ public class Presentation_Controller {
     private int JPEGratio = 5;
     private boolean sobreEscribir;
 
-    private int mode; ///< Parametro de control para la visualizacion final. (1 -> compresion de un .txt ||| 2 -> compresion de un ppm ||| 0 -> compresion de carpetas ||| -1 -> descompresion)
+    private int mode; ///< Parametro de control para la visualizacion final. (1 -> compresion de un .txt ||| 2 -> compresion de un ppm |||  -1 -> descompresion txt ||| -2 -> descompresion ppm)
 
     public Presentation_Controller () {
         this.domain_controller = new Domain_Controller();
+        domain_controller.setPresentation_controller(this);
         Persistence_Controller persistence_controller = Persistence_Controller.getPersistence_controller();
         domain_controller.setPersistence_controller(persistence_controller);
     }

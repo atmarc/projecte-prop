@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /*!
  *  \brief     Controladora de la capa de persistencia, encargada de todos los procesos de entrada y salida.
  *  \details   La comunicacion para los operaciones de entrada y salida con el dominio va ligada siempre a un identificador asociado un fichero de sobre el que se desea leer/escribir. Todos los proceso de lectura y escritura se realizan mediante buffers. Tambien incluye metodos para obtener informacion de archivos y directorios (nombre, tamano, etc.)
- *  \author    Edgar Perez
+ *  \author    Edgar Perez 
  */
 public class Persistence_Controller {
 

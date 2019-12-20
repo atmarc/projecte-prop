@@ -3,6 +3,8 @@ Marc:
         Block, Compressor_JPEG, Decompressor_JPEG, Huffman, Triplet, Compressor_JPEGTest, Decompressor_JPEGTest
 
     Entrega 2:
+         Block, Compressor_JPEG, Decompressor_JPEG, Huffman
+         Participación en: Domain_Controller, Presentation_Controller
 
 
 Nicolas:
@@ -10,13 +12,14 @@ Nicolas:
         Compressor_LZSS, Decompressor_LZSS, Compressor_LZSSTest
 
     Entrega 2:
-
+        Compressor_LZSS, Decompressor_LZSS, Presentation_Controller y todas las classes de presentación
 
 Andrei:
     Entrega 1:
         Compressor_LZW, Decompressor_LZW, Compressor_LZWTest, Decompressor_LZW, DriverCompresorDecompresor
 
     Entrega 2:
+        Domain_Controller, Hierarchy, Compressor_LZW, Decompressor_LZW
 
 
 Edgar:
@@ -26,3 +29,4 @@ Edgar:
 
     Entrega 2:
         Persistence_Controller, OutputFile, InputFile
+        Participación en: Domain_Controller, Presentation_Controller

@@ -3,7 +3,7 @@ package dominio.clases;
 public class Pair {
     private Integer l;
     private Byte r;
-    public Pair(Integer l, Byte r){
+    public Pair(Integer l, Byte r) {
         this.l = l;
         this.r = r;
     }

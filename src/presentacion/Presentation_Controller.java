@@ -208,8 +208,14 @@ public class Presentation_Controller {
         //Comprimir
         if (action == 0) {
             if (carpeta) domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
-            else if (algorithm == 3)  domain_controller.compress(SourcePath, OutPath + ".egg", 3, (byte) JPEGratio, sobreEscribir);
-            else if (algorithm == 4)  domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
+
+            else if (algorithm == 3)  {
+                domain_controller.compress(SourcePath, OutPath + ".egg", 3, (byte) JPEGratio, sobreEscribir);
+            }
+            else if (algorithm == 4) {
+                domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
+            }
+
             else domain_controller.compress(SourcePath, OutPath + ".egg", algorithm, sobreEscribir);
         }
         //Descomprimir
@@ -280,6 +286,14 @@ public class Presentation_Controller {
 
     public void visualizeFile(String path) {
         domain_controller.visualiceFile(path);
+    }
+
+    public void decompress (String out, String in, boolean sobreEscribir) {
+        try {
+            domain_controller.decompress(out, in, sobreEscribir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

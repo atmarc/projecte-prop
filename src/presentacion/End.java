@@ -40,11 +40,17 @@ public class End {
         switch (mode) {
             case 1: // comp .txt
                 presentation_controller.visualizeFile(presentation_controller.getSourcePath());
-                // descomprimir el comprimido y mostrarlo
+                if (presentation_controller.getAction() == 0)
+                    presentation_controller.decompress(presentation_controller.getOutPath() + ".egg",
+                            "temp/decompressed", true);
+                    presentation_controller.visualizeFile("temp/decompressed.txt");
                 break;
             case 2: // comp .ppm
                 presentation_controller.visualizeFile(presentation_controller.getSourcePath());
-                // descomprimir el comprimido y mostrarlo
+                if (presentation_controller.getAction() == 0)
+                    presentation_controller.decompress(presentation_controller.getOutPath() + ".egg",
+                            "temp/decompressed", true);
+                    presentation_controller.visualizeFile("temp/decompressed.ppm");
                 break;
             case -1: // decomp .txt or .ppm
                 presentation_controller.visualizeFile(presentation_controller.getOutPath());

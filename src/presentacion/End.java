@@ -8,7 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/*!
+ *  \brief      Clase de la vista End, en que se muestran las estadísticas de la compresión o descompresión y se da opción de cerrar o volver a inicio.
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class End {
     private JPanel panel1;
     private JLabel foto;
@@ -17,7 +21,10 @@ public class End {
     private JButton cerrarButton;
     private JTextArea Estadisticas;
 
-
+    /**
+     * Creadora de la clase End, donde se definen los action listener de los buttons inicio y close, además de llamar al visualizador de archivos
+     * @param presentation_controller
+     */
     public End(Presentation_Controller presentation_controller) {
 
 

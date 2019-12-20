@@ -9,6 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*!
+ *  \brief      Clase de la vista Welcome, en que se da la bienvenida al usuario y este decide si desea comprimir o descomprimir.
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class Welcome {
     private JPanel panel1;
     private JLabel foto;
@@ -17,6 +22,11 @@ public class Welcome {
     private JButton descomprimirButton;
     private JLabel Gif;
 
+    /**
+     * Creadora de la clase Welcome, en que se definen los action listener de los botones comprimir o descomprimir y se actualizan los
+     * atributos correspondientes de presentation_controller
+     * @param presentation_controller
+     */
     public Welcome(Presentation_Controller presentation_controller) {
         panel1.setPreferredSize(new Dimension(700, 400));
 

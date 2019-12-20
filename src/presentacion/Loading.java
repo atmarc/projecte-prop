@@ -6,6 +6,11 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import javax.swing.*;
 import java.awt.*;
 
+/*!
+ *  \brief
+ *  \details
+ *  \author     Nicolas Camerlynck
+ */
 public class Loading {
     private JPanel panel1;
     private JLabel gifLabel;

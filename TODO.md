@@ -15,4 +15,5 @@
 -[ ] Cambiar grafico algoritmos
 -[ ] Display statistics
 -[ ] Escribir el nombre del archivo o al menos su extension en el fichero comprimido
--[ ] 
+-[ ] Anadir syste.getseparator
+-[ ] Compresion general

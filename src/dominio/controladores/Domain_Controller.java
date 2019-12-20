@@ -49,7 +49,7 @@ public class Domain_Controller {
     /**
      * Lee N bytes del fichero identificado por el numero id en una cadena de bytes que se le pasa por
      * parametro. El N representa la longitud de la cadena que tiene como parametro.
-     * 
+     *
      * @param word Cadena de bytes sobre la que se introducira la lectura.
      * @return Cantidad de bytes leida o -1 si no habia nada que leer.
      */
@@ -66,7 +66,7 @@ public class Domain_Controller {
 
     /**
      * Lee todos los bytes del fichero origen y los guarda en una cadena.
-     * 
+     *
      * @return Cadena de bytes con todos los bytes del fichero origen.
      * @throws Exception // TODO : Que excepciones?
      */
@@ -78,7 +78,7 @@ public class Domain_Controller {
 
     /**
      * Escribe un byte en fichero de salida.
-     * 
+     *
      * @param B Byte que se desea escribir en el fichero de salida.
      */
     void writeByte(int id, byte B) {
@@ -87,7 +87,7 @@ public class Domain_Controller {
 
     /**
      * Escribe una cadena de bytes en el fichero de salida.
-     * 
+     *
      * @param word Cadena de bytes que se desea escribir en el fichero de salida.
      */
     void writeBytes(int id, byte[] word) {
@@ -207,7 +207,7 @@ public class Domain_Controller {
                 else
                     return 0;
             }
-        } 
+        }
    }
 
     /**
@@ -232,7 +232,7 @@ public class Domain_Controller {
     private void writeFolderMetadata(int id, Hierarchy h) {
         persistence_controller.writeBytes(id, h.toByteArray());
         int root = h.getRoot();
-        if (!persistence_controller.isFolder(root)) 
+        if (!persistence_controller.isFolder(root))
             persistence_controller.writeBytes(id, persistence_controller.getExtension(root).getBytes());
         persistence_controller.writeByte(id, (byte) '\n');
         for (int i : h.getFilesList()) {
@@ -515,7 +515,7 @@ public class Domain_Controller {
     public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
 
         System.out.println(outputPath);
-        presentation_controller.setMode(-1);
+//        presentation_controller.setMode(-1);
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath, sobrescribir));
         int in = H.getRoot();

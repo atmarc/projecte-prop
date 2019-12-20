@@ -57,14 +57,14 @@ Descompresion del fichero se lleva a cabo en: 2044 ms de forma satisfactoria.
 
 - Salida:
     Ratio: 0.607
-    Tiempo: 42080 ms
+    Tiempo: 48755 ms
 
 - Efectos secundarios
     1- Creacion de un fichero comprimido -> 50MB_SS.egg
     2- Visualizacion del fichero original.
     3- Visualizacion del fichero comprimido descomprimido.
 
-Descompresion del fichero se lleva a cabo en: XXXXX ms de forma satisfactoria.
+Descompresion del fichero se lleva a cabo en: 1268 ms de forma satisfactoria.
 
 ------------------------------- PRUEBA 04 -------------------------------
 
@@ -122,8 +122,8 @@ Descompresion del fichero se lleva a cabo en: 15 ms de forma satisfactoria.
     - nombre fichero de salida:     100KB_SS
 
 - Salida:
-    Ratio:
-    Tiempo:  ms
+    Ratio:  0.5899
+    Tiempo:  118 ms
 
 - Efectos secundarios
     1- Creacion de un fichero comprimido -> 100KB_SS.egg

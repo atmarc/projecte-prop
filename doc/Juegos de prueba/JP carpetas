@@ -1,0 +1,25 @@
+****************** JUEGOS DE PRUEBA PARA CARPETAS ***********************
+
+------------------------------- PRUEBA 01 -------------------------------
+
+- Descripcion: carpeta multinivel con ppm y txt en su interior
+
+- Objetivos: probar compresion de carpetas con ppm, txt y otras carpetas dentro
+
+- Entrada:
+    - Algoritmo:                    JPEG
+    - Calidad:                      1/10
+    - nombre fichero de entrada:    carpetaMultinivel
+    - nombre fichero de salida:     carpetaMultinivel
+
+- Salida:
+    Ratio: 0.1264
+    Tiempo: 9646 ms
+
+- Efectos secundarios
+    1- Creacion de un fichero comprimido -> carpetaMultinivel.egg
+    2- Visualizacion del fichero original.
+    3- Visualizacion del fichero comprimido descomprimido.
+
+Descompresion del fichero se lleva a cabo en: 9427 ms de forma satisfactoria.
+

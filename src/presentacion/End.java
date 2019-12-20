@@ -23,7 +23,6 @@ public class End {
 
         panel1.setSize(new Dimension(400, 700));
 
-        System.out.println("hola2");
         String path = presentation_controller.getOutPath();
         text.append(path + "\n");
         text.setEditable(false);

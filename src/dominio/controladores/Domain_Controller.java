@@ -157,21 +157,15 @@ public class Domain_Controller {
             if (alg >= 0 && alg <= 2)
                     return alg;
             else {
-                // if (size < 100L)
-                //     throw new IllegalArgumentException("FicheroDemasiadoPequeno");
-                if (size <= 50000L)
-                    return 1;
-                else if (size <= 1000000L)
-                    return 2;
-                else
-                    return 0;
+                return 0;
+                //if (size <= 50000L) return 1;
+                //else if (size <= 1000000L) return 2;
+                //else return 0;
             }
         }
         else {
-            if (size <= 50000L)
-                return 1;
-            else
-                return 2;
+            if (size <= 50000L) return 1;
+            else return 2;
         }
     }
 
@@ -599,7 +593,7 @@ public class Domain_Controller {
     public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
 
         System.out.println(outputPath);
-//        presentation_controller.setMode(-1);
+
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(makeHierarchy(inputPath, outputPath, sobrescribir));
         int in = H.getRoot();
@@ -626,7 +620,10 @@ public class Domain_Controller {
         }
 
         // Si solo se ha descomprimido un archivo, lo muestra.
-        if (count == 1) presentation_controller.setOutPath(persistence_controller.getOutPath(0));
+        if (count == 1) {
+            presentation_controller.setMode(-1);
+            presentation_controller.setOutPath(persistence_controller.getOutPath(0));
+        }
 
         persistence_controller.closeReader(in);
     }

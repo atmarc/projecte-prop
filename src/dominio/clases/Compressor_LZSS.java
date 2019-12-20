@@ -218,7 +218,7 @@ public class Compressor_LZSS extends Compressor {
     }
 
     public void actualitzar(int pos) {
-        while (act.size() > 4095) {
+        while (act.size() > 4094) {
             Pair aux = act.get(0);
             int bor = aux.getL();
             byte Bybor = aux.getR();

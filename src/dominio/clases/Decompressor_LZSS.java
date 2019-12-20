@@ -7,19 +7,18 @@ import java.util.*;
 import java.util.ArrayList;
 
 /*!
- *  \brief     Clase que realiza la decompresión de un texto comprimido mediante el algoritmo LZSS. El comportamiento
- *             consiste en leer byte a byte el texto comprimido y separarlo en 3 partes: la primera son los bytes
- *             que contienen los bits que representan coincidencia (1) o no coincidencia (0). La segunda parte son
- *             los bytes que corresponden a los carácteres con los que no hemos encontrado coincidencia. Y la tercera
- *             son los carácteres codificados con 12 bits de offset y 4 de desplazamiento. Para diferenciar las partes
- *             usamos como separador dos bytes con valor FF. Una vez hayamos recogido las partes y las hayamos puesto
- *             en colas, iteraremos por cada elemento de la cola de booleanos (que corresponde a la primera parte).
- *             Si en la iteración actual encontramos un valor false (0), miraremos el elemento top de la cola de no
- *             coincidencias y la escribiremos en un array de resultado. Si encontramos un valor true (1), miraremos el
- *             elemento top de la cola de coincidencias y descodificaremos el elemento, cogiendo los 12 bits de mas peso
- *             como offset y los 4 de menos peso como desplazamiento, y buscaremos los carácteres correspondientes en el
- *             array de resultado.
- *  \details
+ *  \brief      Extensión de la clase Decompressor mediante el algoritmo LZSS
+ *  \details    Clase que realiza la decompresión de un texto comprimido mediante el algoritmo LZSS. La lectura del fichero comprimido
+ *              consiste en leer byte a byte el texto comprimido y separarlo en 2 partes: la primera son los bytes
+ *              que contienen los bits que representan coincidencia (1) o no coincidencia (0), y la segunda son los bytes
+ *              que representan o bien un carácter no codificado o bien una coincidencia codificada, en que dos bytes
+ *              consecutivos se tienen que interpretar como un short en que los 12 primeros bits representan un offset y los
+ *              4 ultimos como desplazamiento. Sabremos cuando acaba la primera parte y empieza la segunda mediante un separador
+ *              acordado con el compresor. El comportamiento una vez hayamos descodificado los bits, será guardar un subarray
+ *              del texto comprimido a partir de donde acaban los bits hasta el final de este, y iterar para todos los bits.
+ *              Si encontramos un 0, copiaremos en un array result (del mismo tamaño que el de bits) el byte correspondiente,
+ *              ya que significará que ese byte se guardó descodificado. Si encontramos un 1, tendremos que descodificar
+ *              los dos bytes siguientes y copiar los bytes que coinciden de result al final de este.
  *  \author    Nicolas Camerlynck
  */
 public class Decompressor_LZSS extends Decompressor {
@@ -100,13 +99,13 @@ public class Decompressor_LZSS extends Decompressor {
                 itchrs++;
             }
             else {
-                char a = convert(chrs[itchrs], chrs[itchrs + 1]);
+                short a = mergeBytes(chrs[itchrs], chrs[itchrs + 1]);
                 itchrs += 2;
 
-                char offset = (char) (a >> 4);
-                offset = (char) (offset & 0x0FFF);
+                short offset = (short) (a >> 4);
+                offset = (short) (offset & 0x0FFF);
 
-                char d = (char) (a & 0x000F);
+                short d = (short) (a & 0x000F);
 
                 int desp = d + 0;
                 int point = j;
@@ -122,34 +121,23 @@ public class Decompressor_LZSS extends Decompressor {
         controller.writeBytes(result);
     }
 
-    public char convert(byte high, byte low) {
-        char h = (char) high;
-        h = (char) (h << 8);
-        h = (char) (h & 0xFF00);
+    /**
+     * Función que concatena dos bytes y retorna el short correspondiente, siendo el primero la parte alta del short y el
+     * segundo la parte baja.
+     * @param high
+     * @param low
+     * @return Un short en que los primeros 8 bits coinciden con el parámetro high y los ultimos 8 corresponden con el parámetro low
+     */
+    public short mergeBytes(byte high, byte low) {
+        short h = (short) high;
+        h = (short) (h << 8);
+        h = (short) (h & 0xFF00);
 
-        char l = (char) low;
-        l = (char) (l & 0x00FF);
+        short l = (short) low;
+        l = (short) (l & 0x00FF);
 
-        char a = (char) (h | l);
+        short a = (short) (h | l);
         return a;
     }
 
-    public byte[] readAllBytes() {
-        byte[] b = new byte[0];
-        try {
-            b = Files.readAllBytes(Paths.get("testing_files/nicompressed.lzss"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return b;
-    }
-
-    public void writeBytes(byte[] bytes) {
-        Path p = Paths.get("testing_files/nico1.txt");
-        try {
-            Files.write(p, bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

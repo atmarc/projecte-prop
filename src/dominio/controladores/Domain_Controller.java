@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class Domain_Controller {
 
     private Persistence_Controller persistence_controller;
+    private long time;
+    private double comp_size;
+    private double orig_size;
 
     /**
      * Constructora del controlador del dominio
@@ -248,10 +251,12 @@ public class Domain_Controller {
     private int[][] makeHierarchy(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
         Hierarchy h = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = h.getRoot();
+
         // Calcular el tamano del 'folder' header
         byte[] aux = new byte[4];
         persistence_controller.readBytes(in, aux);
         int headerSize = toInt(aux);
+
         // Calcular el numero de ficheros comprmimdos en el fichero de entrada
         int nrFiles;
         if (headerSize == 0) {
@@ -268,6 +273,7 @@ public class Domain_Controller {
         aux = new byte[2];
         persistence_controller.readBytes(in, aux);
         nrFiles = toInt(aux);
+
         // Calcular la estructura de la carpeta que fue comprimida
         int[][] res = new int[2][nrFiles];
         aux = new byte[(int)Math.ceil(nrFiles/8.0)];
@@ -307,6 +313,14 @@ public class Domain_Controller {
         for (byte i : aux)
             res |= ((i&0xFF) << (8*j--));
         return res;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public double getRatio() {
+        return comp_size/orig_size;
     }
 
     private static class Hierarchy {
@@ -373,9 +387,9 @@ public class Domain_Controller {
         ArrayList<Integer> getLeafsAux(int i) {
             ArrayList<Integer> crr = rep.get(i);
             ArrayList<Integer> res = new ArrayList<>();
-            if (crr.isEmpty() && m[0][i] == 0)
+            if (crr.isEmpty() && m[0][i] == 0) {
                 res.add(i);
-            else {
+            } else {
                 for (Integer v : crr) {
                     res.addAll(getLeafsAux(v));
                 }
@@ -452,6 +466,11 @@ public class Domain_Controller {
     }
 
     public void compress(String inputPath, String outputPath, int alg, byte ratio, boolean sobrescribir) throws Exception {
+
+        time = 0;
+        comp_size = 0;
+        orig_size = 0;
+
         persistence_controller.clear();
         Hierarchy H = new Hierarchy(persistence_controller.makeHierarchy(inputPath));
         int in = H.getRoot();
@@ -467,11 +486,17 @@ public class Domain_Controller {
             persistence_controller.writeBytes(out, new byte[8]);
             if (bestCompressor == 3 && ratio != -1) cc.startCompression(in, out, ratio);
             else cc.startCompression(id, out);
+
+            time =+ cc.getTime();
+
             long cursor_fi = persistence_controller.getWrittenBytes(out);
             persistence_controller.modifyLong(out, cursor_ini, encodeMeta(bestCompressor,
             cursor_fi-cursor_ini-8));
         }
         persistence_controller.closeWriter(out);
+
+        orig_size = persistence_controller.getInputFileSize(-1);
+        comp_size = persistence_controller.getOutputFileSize(out);
     }
 
     ///////////////////
@@ -483,15 +508,21 @@ public class Domain_Controller {
         int in = H.getRoot();
         ArrayList<Integer> q = H.getLeafs();
         for (int id : H.getLeafs()) {
+            time = 0;
             byte[] aux = new byte[8];
             persistence_controller.readBytes(in, aux);
+
             int alg = (aux[0] & 0xFF) >>> 6;
             aux[0] &= 0x3F;
             long size = toLong(aux);
+
             persistence_controller.setReadLimit(in, size);
+
             Decompressor_Controller dc = new Decompressor_Controller(alg);
             dc.setDomain_controller(this);
             dc.startDecompression(in, id);
+            time =+ dc.getTime();
+
             persistence_controller.rmReadLimit(in);
         }
         persistence_controller.closeReader(in);
@@ -545,6 +576,14 @@ public class Domain_Controller {
         persistence_controller.writeByte(out, (byte) -1);
 
         writeFiles(out, jerarquia, 0);
+    }
+
+    public void visualiceFile(String path) {
+        try {
+            persistence_controller.visualizeFile(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

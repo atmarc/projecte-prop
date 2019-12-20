@@ -24,7 +24,7 @@ public class OutputFile extends File {
      * @post Se ha creado un fichero nuevo en el path pasado por parametro.
      * @param pathname Path del item asociado al File.
      */
-    public OutputFile(String pathname, boolean sobreescribir) throws FileAlreadyExistsException {
+    public OutputFile(String pathname, boolean sobreescribir) throws IOException {
         super(pathname);
         if (!sobreescribir && (this.isFile())) throw new FileAlreadyExistsException("Este fichero de salida ya existe.");
     }

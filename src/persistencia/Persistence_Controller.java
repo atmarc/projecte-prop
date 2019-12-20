@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.awt.*;
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -50,7 +51,7 @@ public class Persistence_Controller {
      * @param sobreescribir Indica si se debe tener en cuenta si el archivo existe o no.
      * @return Identificador asociado al fichero.
      */
-    public int newOutputFile(String path, boolean sobreescribir) throws FileAlreadyExistsException {
+    public int newOutputFile(String path, boolean sobreescribir) throws IOException {
         if (sobreescribir) deleteFile(path);
         OutputFile aux = new OutputFile(path, sobreescribir);
         writeFiles.add(aux);
@@ -145,9 +146,12 @@ public class Persistence_Controller {
         String name = new File(path).getName();
         if (new File(path).isFile()) {
             int punt = name.lastIndexOf('.');
-            return name.substring(0, punt);
+            String ret = name.substring(0, punt);
+            System.out.println("Este es el nombre del fichero sin extension (en el if): " + ret);
+            return ret;
         }
         else {
+            System.out.println("Este es el nombre del fichero sin extension (en el else): " + name);
             return name;
         }
     }
@@ -167,10 +171,16 @@ public class Persistence_Controller {
     }
     /**
      * Getter del tamano en Bytes de un fichero de lectura.
+     * @param id Identificador del fichero a consulatar. (-1 si se quieren consultar todos).
      * @return Tamano en Bytes del fichero original.
      */
     public long getInputFileSize(int id) {
-        return readFiles.get(id).length();
+        if (id > 0) return readFiles.get(id).length();
+        long total_size = 0;
+        for (InputFile file : readFiles) {
+            if (!file.isDirectory()) total_size += file.length();
+        }
+        return total_size;
     }
     /**
      * Getter del tamano en Bytes del fichero comprimido.
@@ -404,4 +414,15 @@ public class Persistence_Controller {
         return res;
     }
 
+    // Visualizacion
+
+    /**
+     * Ordena la visualizacion de un archivo al visualizador por defecto del SO.
+     * @param path Path del archivo a visualizar
+     * @throws IOException
+     */
+    public void visualizeFile(String path) throws IOException {
+        File file = new File(path);
+        Desktop.getDesktop().open(file);
+    }
 }

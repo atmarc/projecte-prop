@@ -33,7 +33,8 @@ public class Presentation_Controller {
     private boolean acabado = true;
     private int JPEGratio = 5;
     private boolean sobreEscribir;
-    private String name;
+
+    private int mode; ///< Parametro de control para la visualizacion final. (1 -> compresion de un .txt ||| 2 -> compresion de un ppm ||| 0 -> compresion de carpetas ||| -1 -> descompresion)
 
     public Presentation_Controller () {
         this.domain_controller = new Domain_Controller();
@@ -124,9 +125,8 @@ public class Presentation_Controller {
     }
 
     public ImageIcon getIcon() {
-        Random rand = new Random();
-        int upperbound = 13;
-        int random = rand.nextInt(upperbound);
+
+        int random = new Random().nextInt(13);
         ImageIcon icon;
 
         switch (random) {
@@ -202,31 +202,18 @@ public class Presentation_Controller {
     public void sendInfo() throws Exception {
 
         //switchToLoading();
-        System.out.println("outpath is ");
-        System.out.println(OutPath);
-        if (action == 0) { //Comprimir
-            if (carpeta) domain_controller.compress(SourcePath, OutPath, sobreEscribir);
-            else {
-                if (algorithm == 0) {
-                    domain_controller.compress(SourcePath, OutPath, 0, sobreEscribir);
-                }
-                if (algorithm == 1) {
-                    domain_controller.compress(SourcePath, OutPath, 1, sobreEscribir);
-                }
-                if (algorithm == 2) {
-                    domain_controller.compress(SourcePath, OutPath, 2, sobreEscribir);
-                }
-                if (algorithm == 3) { //falta ratio
-                    domain_controller.compress(SourcePath, OutPath, 3, (byte) JPEGratio, sobreEscribir);
-                }
-                if (algorithm == 4) {
-                    domain_controller.compress(SourcePath, OutPath, sobreEscribir);
-                }
-            }
+        System.out.println("El path de salida que llega a sendInfo es: " + OutPath); // DEBUG
+
+        //Comprimir
+        if (action == 0) {
+            if (carpeta) domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
+            else if (algorithm == 3)  domain_controller.compress(SourcePath, OutPath + ".egg", 3, (byte) JPEGratio, sobreEscribir);
+            else if (algorithm == 4)  domain_controller.compress(SourcePath, OutPath + ".egg", sobreEscribir);
+            else domain_controller.compress(SourcePath, OutPath + ".egg", algorithm, sobreEscribir);
         }
-        else { //Descomprimir
-            domain_controller.decompress(SourcePath, OutPath, sobreEscribir);
-        }
+        //Descomprimir
+        else domain_controller.decompress(SourcePath, OutPath, sobreEscribir);
+
         switchToEnd();
     }
 
@@ -274,16 +261,24 @@ public class Presentation_Controller {
         return carpeta;
     }
 
-    public void setName(String a) {
-        name = a;
-    }
-
     public long getTime() {
-        return 0;
+        return domain_controller.getTime();
     }
 
     public double getRatio() {
-        return 0;
+        return domain_controller.getRatio();
+    }
+
+    public void setMode(int m) {
+        mode = m;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void visualizeFile(String path) {
+        domain_controller.visualiceFile(path);
     }
 
 }

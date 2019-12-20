@@ -66,8 +66,6 @@ public class End {
             public void actionPerformed(ActionEvent e) {
                 presentation_controller.setVariables();
                 presentation_controller.switchToWelcome();
-
-
             }
         });
         cerrarButton.addActionListener(new ActionListener() {

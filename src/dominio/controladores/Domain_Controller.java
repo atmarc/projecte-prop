@@ -322,6 +322,10 @@ public class Domain_Controller {
         return comp_size/orig_size;
     }
 
+    public void deleteFile(String s) {
+        persistence_controller.deleteFile(s);
+    }
+
     /**
      *
      */

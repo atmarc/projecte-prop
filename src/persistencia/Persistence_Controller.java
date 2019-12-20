@@ -136,7 +136,6 @@ public class Persistence_Controller {
     public String getName(int id) {
         return readFiles.get(id).getName();
     }
-
     /**
      * Proporciona el path del fichero de salida referenciado.
      * @param id Identificador del fichero de escritura
@@ -161,7 +160,6 @@ public class Persistence_Controller {
             return name;
         }
     }
-
     /**
      * Proporciona la extencion del archivo de lectura identificado por el identificador que recibe por parametro .
      * @param id Identificador del fichero de lectura.
@@ -337,11 +335,22 @@ public class Persistence_Controller {
 
     // Carpetas
 
+    /**
+     * @post El fichero y todo su contenido (si era un directorio) se ha borrado.
+     * Funcion para borrar un archivo dado un path.
+     * @param path Path del archivo a eliminar.
+     */
     public void deleteFile(String path) {
         File file = new File(path);
         if (file.isDirectory()) recursiveDelete(file.listFiles());
         file.delete();
     }
+    /**
+     * Funcion recursiva para borrar todo el contenido de un directorio.
+     * @post Los ficheros y todo su contenido (si eran directorios) se ha borrado.
+     * @param files Lista de archivos a borrar recursivamente.
+     *
+     */
     private void recursiveDelete(File[] files) {
         if (files == null || files.length == 0) return;
         for (File file : files) {
@@ -359,6 +368,11 @@ public class Persistence_Controller {
     public boolean isFolder (int id) {
         return readFiles.get(id).isDirectory();
     }
+    /**
+     * Funcion que dice si un fichero es directorio o no lo es.
+     * @param path Path del archivo a consultar.
+     * @return Retorna true en caso de ser directorio. False en caso contrario.
+     */
     public boolean isFolder(String path) {
         return new File(path).isDirectory();
     }
@@ -369,7 +383,7 @@ public class Persistence_Controller {
      * @param id Identificador del directorio.
      * @return Retorna una lista que contiene los identificadores que referencian a los archivos que contenia el directorio referenciado por el parametro.
      */
-    public ArrayList<Integer> getFilesFromFolder (int id) {
+    private ArrayList<Integer> getFilesFromFolder(int id) {
         File dir = readFiles.get(id);
         ArrayList<Integer> identifiers = new ArrayList<>();
 

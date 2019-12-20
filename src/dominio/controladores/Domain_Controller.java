@@ -215,7 +215,7 @@ public class Domain_Controller {
      * los otros 62 bits representan el tamano del fichero comprimido.
      * @param compressor el tipo de compresor 0 - LZ78, 1 - LZSS, 2 - LZW, 3 - JPEG
      * @param i la longitud del fichero comprimido
-     * @return
+     * @return Un long en el cual los primeros 2 bits representan el algoritmo y los restos el tamano del fichero
      */
     private long encodeMeta(long compressor, long i) {
         long res = 0L;
@@ -227,10 +227,16 @@ public class Domain_Controller {
     }
 
     /**
-     * @param inputPath
-     * @param outputPath
-     * @param sobrescribir
-     * @return
+     * Desde un fichero comprimido lee la cabecera y crea una tabla de 2XN donde la primera fila representa si un
+     * elemento es carpeta o fichero y la segunda representa para cada elemento cual es su padre. Ademas pide a
+     * persistencia que cree todos los ficheros y carpetas de esta jerarquia.
+     * @pre el inputPath es un fichero .egg
+     * @param inputPath la direccion del fichero comprimido
+     * @param outputPath la direccion donde se quiere replicar la jerarquia en carpetas y ficheros
+     * @param sobrescribir si est true  y ja existe esta carpeta en la direccion outputPath la sobrescribe
+     * @return una tabla de 2XN donde la primera fila representa si un
+     * elemento es carpeta o fichero y la segunda representa para cada elemento cual es su padre, el N es el numero de
+     * elementos
      * @throws Exception
      */
     private int[][] makeHierarchy(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
@@ -286,9 +292,10 @@ public class Domain_Controller {
         return res;
     }
 
-    /**
-     * @param aux
-     * @return
+    /** Convierte un array de bytes en un integer.
+     * @pre la dimension de la tabla es <= 4
+     * @param aux el valor a convertir
+     * @return el valor convertido
      */
     private int toInt(byte[] aux) {
         int res = 0, j = aux.length-1;
@@ -297,9 +304,10 @@ public class Domain_Controller {
         return res;
     }
 
-    /**
-     * @param aux
-     * @return
+    /** Convierte una array de bytes en un long.
+     * @pre la dimension de la tabla es <= 8
+     * @param aux el valor a convertir
+     * @return el valor convertido
      */
     public long toLong(byte[] aux) {
         long res = 0, j = aux.length-1;
@@ -309,14 +317,16 @@ public class Domain_Controller {
     }
 
     /**
-     * @return
+     * Obtiene el tiempo de la ultima compresion
+     * @return el tiempo de la ultima compresion
      */
     public long getTime() {
         return time;
     }
 
     /**
-     * @return
+     * Obtiene el ratio de la ultima compresion
+     * @return el ratio de la ultima compresion
      */
     public double getRatio() {
         return Math.round(1000*(comp_size/orig_size))/1000.0;
@@ -327,15 +337,18 @@ public class Domain_Controller {
     }
 
     /**
-     *
+     * Clase que representa una jerarquia de una carpeta/fichero
+     * Si la raiz de la jerarquia es un fichero entonces la jerarquia solo contiene un elemento
      */
     private static class Hierarchy {
-        private int root;
-        private int[][] m;
-        ArrayList<ArrayList<Integer>> rep;
+
+        private int root;                   ///< La carpeta/fichero raiz de la jerarquia
+        private int[][] m;                  ///< codificacion alternativa con acceso rapido a los antecesores de un elemento
+        ArrayList<ArrayList<Integer>> rep;  ///< representacion mediante listas de adiacencia de la jerarquia
 
         /**
-         * @return
+         * Obtiene todos los identificadores de las carpetas y ficheros de la jerarquia
+         * @return una lista con identificadores de todos los ficheros y carpetas
          */
         public ArrayList<Integer> getFilesList() {
             ArrayList<Integer> res = new ArrayList<>();
@@ -345,7 +358,10 @@ public class Domain_Controller {
         }
 
         /**
-         * @param src
+         * Constructora de la clase que crea un objecto a partir de una tabla 2xN, en la cual la primera linea
+         * representa si el elemento con el identificador numero de columna es carpeta o fichero y la segunda
+         * representa el antecesor de este elemento en la jerarquia
+         * @param src la tabla a partir de la cual se crea la jerarquia
          */
         public Hierarchy(int[][] src) {
             m = src;
@@ -363,7 +379,12 @@ public class Domain_Controller {
         }
 
         /**
-         * @return
+         * Codifica una jerarquia en una array de bytes.
+         * Los primeros 4 bytes de la tabla representa la longitud del array en el que se convertira la jerarquia.
+         * Los siguientes 2 representan el numero de elementos en la jerarquia (carpetas y ficheros).
+         * Los siguientes ceil(#elemento/8) bytes representan el tipo de cada elemento de la jerarquia (carpeta o fichero)
+         * Los siguientes #elementos bytes representan el identificador del antecesor de cada elemento en particular
+         * @return la codificacion de la jerarquia
          */
         byte[] toByteArray() {
             int nr = m[0].length;
@@ -396,17 +417,19 @@ public class Domain_Controller {
         }
 
         /**
-         * @return
+         * Obtiene todos los identificadores de los ficheros de la jerarquia
+         * @return una lista con los identificadores de todos los ficheros de la jerarquia
          */
-        ArrayList<Integer> getLeafs() {
+       public ArrayList<Integer> getLeafs() {
             return getLeafsAux(root);
         }
 
         /**
-         * @param i
-         * @return
+         * Funcion auxiliar para obtener todos los identificadores de los ficheros de la jerarquia
+         * @param i el elemento que se analiza ajora para obtener dodos los ficheros dentro de el
+         * @return una lista con todos los identificadores de todos los ficheros en el elemento i
          */
-        ArrayList<Integer> getLeafsAux(int i) {
+        private ArrayList<Integer> getLeafsAux(int i) {
             ArrayList<Integer> crr = rep.get(i);
             ArrayList<Integer> res = new ArrayList<>();
             if (crr.isEmpty() && m[0][i] == 0) {
@@ -420,47 +443,19 @@ public class Domain_Controller {
         }
 
         /**
-         * @return
+         * Obtiene la raiz de la jerarquia
+         * @return la raiz de la jerarquia
          */
         public int getRoot() {
             return root;
         }
 
         /**
-         * @return
+         * Calcula si la raiz de la jerarquia es una carpeta
+         * @return si es true le
          */
         public boolean isFile() {
             return m[0].length == 1;
-        }
-
-        /**
-         * @return
-         */
-        public ArrayList<Integer> getNodes() {
-            return getNodesAux(root);
-        }
-
-        /**
-         * @param i
-         * @return
-         */
-        ArrayList<Integer> getNodesAux(int i) {
-            ArrayList<Integer> crr = rep.get(i);
-            ArrayList<Integer> res = new ArrayList<>();
-            res.add(i);
-            if (!crr.isEmpty()) {
-                for (Integer v : crr) {
-                    res.addAll(getNodesAux(v));
-                }
-            }
-            return res;
-        }
-
-        /**
-         * @param root
-         */
-        public void setRoot(int root) {
-            this.root = root;
         }
 
     }
@@ -470,85 +465,99 @@ public class Domain_Controller {
 
     /**
      * Comprime un fichero con el algoritmo mas adecuado.
-     * @pre El fichero in existe y es de
+     * Si el fichero es PPM el ration de compresion es 5
+     * @pre El fichero <<in>> existe
      * @param in direccion del fichero a comprimir
-     * @throws Exception Ilegal argument exception TODO: <- this
-     * @post En
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
+     * @throws Exception Errores de lectura {@link IOException}
+     * @post En la direccion del fichero original se ha creado un nuevo fichero con la extension ".egg" y
+     * con el mismo nombre que el original que representa el fichero original comprimido
      */
-    public void compress(String in, boolean sobreescribir) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", -1, (byte) -1, sobreescribir);
+    public void compress(String in, boolean sobrescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", -1, (byte) -1, sobrescribir);
     }
 
     /**
-     * @param in
-     * @param ratio
-     * @param sobreescribir
-     * @throws Exception
+     * Comprime un fichero PPM.
+     * @pre El fichero <<in>> existe
+     * @param in direccion del fichero ppm
+     * @param ratio el ratio de la compresion
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
+     * @throws Exception Errores de lectura
+     * @post En la direccion del fichero original se ha creado un nuevo fichero con la extension ".egg" y
+     * con el mismo nombre que el original que representa el fichero original comprimido
      */
-    public void compress(String in, byte ratio, boolean sobreescribir) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", -1, ratio, sobreescribir);
+    public void compress(String in, byte ratio, boolean sobrescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", -1, ratio, sobrescribir);
     }
 
     /**
-     * @param in
-     * @param alg
-     * @param sobreescribir
-     * @throws Exception
+     * Comprime un fichero con el algoritmo especifico
+     * @pre El fichero <<in>> existe
+     * @param in direccion del fichero a comprimir
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
+     * @param alg el algoritmo para la compresion
+     * @post En la direccion del fichero original se ha creado un nuevo fichero con la extension ".egg" y
+     * con el mismo nombre que el original que representa el fichero original comprimido
      */
-    public void compress(String in, int alg, boolean sobreescribir) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", alg, (byte) -1, sobreescribir);
+    public void compress(String in, int alg, boolean sobrescribir) throws Exception {
+        compress(in, getPathAndName(in) + ".egg", alg, (byte) -1, sobrescribir);
     }
 
     /**
-     * @param in
-     * @param alg
-     * @param ratio
-     * @param sobreescribir
-     * @throws Exception
+     * Comprime un fichero con el algoritmo mas adecuado y lo guarda en la direccion y con el nombre <<out>>
+     * Si el fichero es PPM el ration de compresion es 5
+     * @pre El fichero <<in>> existe
+     * @param in direccion del fichero a comprimir
+     * @param out la direccion donde guardar el fichero comprimido y su nombre con la extension ".egg"
+     *            ejemplo: carpeta1/carpeta2/fichero_comprimido.egg
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
+     * @post En la direccion <<out>> se ha creado un nuevo fichero con la extension ".egg" y
      */
-    public void compress(String in, int alg, byte ratio, boolean sobreescribir) throws Exception {
-        compress(in, getPathAndName(in) + ".egg", alg, ratio, sobreescribir);
+    public void compress(String in, String out, boolean sobrescribir) throws Exception {
+        compress(in, out, -1, (byte) -1, sobrescribir);
     }
 
     /**
-     * @param in
-     * @param out
-     * @param sobreescribir
-     * @throws Exception
+     * Comprime un fichero PPM.
+     * @pre El fichero <<in>> existe
+     * @param in direccion del fichero ppm
+     * @param out la direccion donde guardar el fichero comprimido y su nombre con la extension ".egg"
+     *            ejemplo: carpeta1/carpeta2/fichero_comprimido.egg
+     * @param ratio el ratio de la compresion
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
+     * @post En la direccion <<out>> se ha creado un nuevo fichero con la extension ".egg" y
      */
-    public void compress(String in, String out, boolean sobreescribir) throws Exception {
-        compress(in, out, -1, (byte) -1, sobreescribir);
+    public void compress(String in, String out, byte ratio, boolean sobrescribir) throws Exception {
+        compress(in, out, -1, ratio, sobrescribir);
     }
 
     /**
-     * @param in
-     * @param out
-     * @param ratio
-     * @param sobreescribir
-     * @throws Exception
+     * Comprime un fichero con un algoritmo especifico
+     * Si el fichero es PPM el ration de compresion es el por defecto (5)
+     * @pre El fichero <<in>> existe
+     * @param in direccion del fichero a comprimir
+     * @param out la direccion donde guardar el fichero comprimido y su nombre con la extension ".egg"
+     *            ejemplo: carpeta1/carpeta2/fichero_comprimido.egg
+     * @param alg algoritmo para utilizar a la compression
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
      */
-    public void compress(String in, String out, byte ratio, boolean sobreescribir) throws Exception {
-        compress(in, out, -1, ratio, sobreescribir);
+    public void compress(String in, String out, int alg, boolean sobrescribir) throws Exception {
+        compress(in, out, alg, (byte) -1, sobrescribir);
     }
 
     /**
-     * @param in
-     * @param out
-     * @param alg
-     * @param sobreescribir
-     * @throws Exception
-     */
-    public void compress(String in, String out, int alg, boolean sobreescribir) throws Exception {
-        compress(in, out, alg, (byte) -1, sobreescribir);
-    }
-
-    /**
-     * @param inputPath
-     * @param outputPath
-     * @param alg
-     * @param ratio
-     * @param sobrescribir
-     * @throws Exception
+     * Comprime un fichero cualquiera con el algoritmo especifico.
+     * Si el fichero es PPM utiliza el ratio especificado como parametro
+     * @detail La compression empieza con identificar la jerarquia del elemento que se quiere comprimir.
+     * Haberlo identificado, se crea y se escribe la estructura ,la extension del elemento a comprimir y
+     * si es una carpeta, los nombres de cada elemento de esta carpeta.
+     * @param inputPath direccion del fichero a comprimir
+     * @param outputPath la direccion donde guardar el fichero comprimido y su nombre con la extension ".egg"
+     *                   ejemplo: carpeta1/carpeta2/fichero_comprimido.egg
+     * @param alg  algoritmo para utilizar a la compression
+     * @param ratio el ratio de la compresion PPM
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
      */
     public void compress(String inputPath, String outputPath, int alg, byte ratio, boolean sobrescribir) throws Exception {
 
@@ -588,10 +597,17 @@ public class Domain_Controller {
     // Decompression
 
     /**
-     * @param inputPath
-     * @param outputPath
-     * @param sobrescribir
-     * @throws Exception
+     * Descomprime un fichero con la extension ".egg"
+     * @detail La decompression empieza por leer la cabecera del fichero a descomprimir. Haberlo acabado,
+     * se genera la jerarquia del fichero descomprimido, mientras esta generando la jerarquia esta pidiendo
+     * a la capa de datos que replique la jerarquia en carpetas y ficheros (la extension de la raiz de la
+     * jerarquia se halla al leer la cabecera). Despues, para cada elemento de esta jerarquia escribe su
+     * contenido en los ficheros creados.
+     * @param inputPath direccion del fichero a descomprimir
+     * @param outputPath la direccion donde guardar el fichero descomprimido y su nombre sin extension.
+     *                   La extension se halla durante el proceso de decodificacion de la cabecera
+     *                   ejemplo: carpeta1/carpeta2/nuevo_nombre_fichero_descomprimido
+     * @param sobrescribir sobrescribir o no, si el fichero de salida existe
      */
     public void decompress(String inputPath, String outputPath, boolean sobrescribir) throws Exception {
 
@@ -632,36 +648,8 @@ public class Domain_Controller {
     }
 
     /**
-     * @param l
-     * @return
-     */
-    public byte[] longToByteArr(long l) {
-        byte[] arr = new byte[8];
-        for (int i = 0; i < 8; ++i) {
-            arr[i] = (byte) l;
-            l = l >> 8;
-        }
-        return arr;
-    }
-
-    /**
-     * @param b
-     * @return
-     */
-    public long byteArrToLong(byte[] b) {
-        long l = 0;
-        for (int i = 0; i < b.length; ++i) {
-            long num = b[i];
-            if (num < 0) num += 256;
-            long aux = num << 8 * i;
-            l += aux;
-        }
-        return l;
-    }
-
-
-    /**
-     * @param path
+     * Visualiza los ficheros ".txt" y ".ppm"
+     * @param path la direccion del fichero a visualizar
      */
     public void visualiceFile(String path) {
         try {
